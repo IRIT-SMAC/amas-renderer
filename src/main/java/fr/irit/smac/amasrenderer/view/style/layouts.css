@@ -1,0 +1,29 @@
+.pane {
+	-fx-background-color: #BAF2FF;
+}
+
+#leftPane {
+	-fx-border-style: solid;
+	-fx-border-width: 0 2px 0 0;
+}
+
+#topPane {
+	-fx-border-style: solid;
+	-fx-border-width: 0 0 2px 0;
+}
+
+#rightPane {
+	-fx-border-style: solid;
+	-fx-border-width: 0 0 0 2px;
+}
+
+.cornerPane {
+	-fx-border-style: solid;
+	-fx-border-width: 0 0 2px 0;
+}
+
+.title {
+	-fx-fill : blue;
+	-fx-font-size : 20px;
+	-fx-font-weight : bold;
+}
