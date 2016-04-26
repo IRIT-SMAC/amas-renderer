@@ -1,15 +1,13 @@
-package fr.irit.smac.amasrenderer.MouseEventsAdapters;
+package fr.irit.smac.amasrenderer.controller;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import org.graphstream.ui.geom.Point3;
 
-import fr.irit.smac.amasrenderer.controller.ControllerAmasRendering;
-
-public class FocusNodeAdapter extends MouseAdapter {
-    private ControllerAmasRendering controller; 
+public class GraphFocusNodeController extends MouseAdapter {
+    private GraphMainController controller; 
     
-    public void init(ControllerAmasRendering controller) {
+    public void init(GraphMainController controller) {
         this.controller = controller;
         controller.getGraphView().addMouseListener(this);
     }

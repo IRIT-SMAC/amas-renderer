@@ -2,16 +2,19 @@ package fr.irit.smac.amasrenderer.model;
 
 import org.graphstream.graph.implementations.SingleGraph;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class AgentGraph extends SingleGraph {
 	
-	private int currentID;
+	private IntegerProperty currentID;
 	
 	public AgentGraph(String id) {
 		super(id);
-		currentID = 0;
+		currentID = new SimpleIntegerProperty(0);
 	}
 	
-	public int getCurrentID(){
+	public IntegerProperty getCurrentID(){
 		return this.currentID;
 	}
 }

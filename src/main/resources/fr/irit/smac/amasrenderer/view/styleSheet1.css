@@ -1,0 +1,29 @@
+graph {
+     fill-mode: image-scaled-ratio-max;
+ }
+ node {
+    shape: circle;
+    size: 50.0px;
+    fill-mode: image-scaled-ratio-max;
+    text-mode: hidden;
+    z-index: 0.0;
+}
+ edge {
+     shape: line;
+     fill-color: #222;
+     arrow-size: 6.0px, 4.0px;
+     z-index: 0.0;
+ }
+ node:clicked {
+     fill-color: red;
+ }
+ node:selected {
+    shape: circle;
+    size: 25.0px;
+    fill-mode: image-scaled-ratio-max;
+    text-mode: hidden;
+    z-index: 0.0;
+ }
+ edge.selection {
+     fill-color: red;
+ }
