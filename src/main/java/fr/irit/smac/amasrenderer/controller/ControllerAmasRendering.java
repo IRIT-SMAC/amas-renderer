@@ -15,7 +15,6 @@ import fr.irit.smac.amasrenderer.MouseEventsAdapters.NodeEditAdapter;
 import fr.irit.smac.amasrenderer.model.AgentGraph;
 import fr.irit.smac.amasrenderer.model.Const;
 import fr.irit.smac.amasrenderer.model.Stock;
-import fr.irit.smac.amasrenderer.view.StyleSheet;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -32,7 +31,7 @@ public class ControllerAmasRendering {
 	
 	public ControllerAmasRendering() {
 		this.model = new AgentGraph("AMAS Rendering");
-		model.addAttribute("ui.stylesheet", StyleSheet.styleSheet_Stupid);
+		model.addAttribute("ui.stylesheet","url(" + getClass().getResource("../view/styleSheet1.css") + ")");
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		Viewer viewer = new Viewer(this.model, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
 		viewer.enableAutoLayout();
