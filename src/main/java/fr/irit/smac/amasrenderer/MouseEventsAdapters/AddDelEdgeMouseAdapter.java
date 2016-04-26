@@ -4,11 +4,14 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
 
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 
 import fr.irit.smac.amasrenderer.controller.ControllerAmasRendering;
 
-public class AddEdgeMouseAdapter extends MouseAdapter {
+
+
+public class AddDelEdgeMouseAdapter extends MouseAdapter {
 
     private ControllerAmasRendering controller;
     private int currentEdgeId;
@@ -36,9 +39,18 @@ public class AddEdgeMouseAdapter extends MouseAdapter {
             if(SwingUtilities.isRightMouseButton(e)){
                 target = (Node) controller.getGraphView().findNodeOrSpriteAt(e.getX(), e.getY());
                 System.out.println("edgeTarget : "+target);
-                if(target != null)
-                    controller.getModel().addEdge(source+""+target, source.getId(), target.getId(),true);
-                //graph.getViewer().enableAutoLayout();
+                if(target != null){
+                    Edge edge = controller.getModel().getEdge(source.getId()+""+target.getId()); 
+                    // si l'edge n'existe pas encore on le crée
+                    if(edge == null){
+                        controller.getModel().addEdge(source.getId()+""+target.getId(), source.getId(), target.getId(),true);
+                        controller.getModel().getEdge(source.getId()+""+target.getId()).setAttribute("layout.weight", 20);
+                    }
+                    // si il existe on le supprime
+                    else{
+                        controller.getModel().removeEdge(edge);
+                    }
+                }
             }
         }
     }

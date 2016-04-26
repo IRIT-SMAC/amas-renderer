@@ -7,7 +7,8 @@ import org.graphstream.graph.Node;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
-import fr.irit.smac.amasrenderer.MouseEventsAdapters.AddEdgeMouseAdapter;
+import fr.irit.smac.amasrenderer.MouseEventsAdapters.AddDelEdgeMouseAdapter;
+import fr.irit.smac.amasrenderer.MouseEventsAdapters.AddDelNodeMouseAdapter;
 import fr.irit.smac.amasrenderer.MouseEventsAdapters.DefaultMouseAdapter;
 import fr.irit.smac.amasrenderer.MouseEventsAdapters.FocusNodeAdapter;
 import fr.irit.smac.amasrenderer.MouseEventsAdapters.GraphMouseWheelListener;
@@ -32,7 +33,7 @@ public class ControllerAmasRendering {
 	
 	public ControllerAmasRendering() {
 		this.model = new AgentGraph("AMAS Rendering");
-		model.addAttribute("ui.stylesheet", StyleSheet.styleSheet_Stupid);
+		model.addAttribute("ui.stylesheet", StyleSheet.styleSheet1);
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		Viewer viewer = new Viewer(this.model, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
 		viewer.enableAutoLayout();
@@ -95,8 +96,8 @@ public class ControllerAmasRendering {
             if(i >= Const.EDGE_INIT){
                 for (int j = 0; j < Const.EDGE_INIT; j++) {
                     int secondNode = (int)Math.floor((Math.random() * i));
-                    if(model.getEdge(i+" ::: "+firstNode+""+secondNode) == null)
-                        model.addEdge(i+" ::: "+firstNode+""+secondNode,""+firstNode, ""+secondNode, true);
+                    if(model.getEdge(firstNode+""+secondNode) == null)
+                        model.addEdge(firstNode+""+secondNode,""+firstNode, ""+secondNode, true);
                     else
                         j--;
                 }
@@ -126,9 +127,10 @@ public class ControllerAmasRendering {
         for (MouseListener mouseListener : ml) {
             graphView.removeMouseListener(mouseListener);
         }
-        //view.addMouseListener(new GraphMouseAdapter(ag));
+        //view.addMouseListener(new AddDelNodeMouseAdapter(ag));
         new GraphMouseWheelListener().init(this);
-        new AddEdgeMouseAdapter().init(this);
+        new AddDelNodeMouseAdapter().init(this);
+        new AddDelEdgeMouseAdapter().init(this);
         new NodeEditAdapter().init(this);   
         new FocusNodeAdapter().init(this);
         new DefaultMouseAdapter().init(this);
