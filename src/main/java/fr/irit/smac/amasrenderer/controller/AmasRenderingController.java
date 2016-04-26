@@ -7,11 +7,6 @@ import org.graphstream.graph.Node;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
-import fr.irit.smac.amasrenderer.MouseEventsAdapters.AddEdgeMouseAdapter;
-import fr.irit.smac.amasrenderer.MouseEventsAdapters.DefaultMouseAdapter;
-import fr.irit.smac.amasrenderer.MouseEventsAdapters.FocusNodeAdapter;
-import fr.irit.smac.amasrenderer.MouseEventsAdapters.GraphMouseWheelListener;
-import fr.irit.smac.amasrenderer.MouseEventsAdapters.NodeEditAdapter;
 import fr.irit.smac.amasrenderer.model.AgentGraph;
 import fr.irit.smac.amasrenderer.model.Const;
 import fr.irit.smac.amasrenderer.model.Stock;
@@ -19,7 +14,7 @@ import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
-public class ControllerAmasRendering {
+public class AmasRenderingController {
 	
 	private AgentGraph model;
 	private ViewPanel graphView;
@@ -29,7 +24,7 @@ public class ControllerAmasRendering {
 	@FXML
 	private SwingNode graphNode;
 	
-	public ControllerAmasRendering() {
+	public AmasRenderingController() {
 		this.model = new AgentGraph("AMAS Rendering");
 		model.addAttribute("ui.stylesheet","url(" + getClass().getResource("../view/styleSheet1.css") + ")");
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
@@ -126,11 +121,11 @@ public class ControllerAmasRendering {
             graphView.removeMouseListener(mouseListener);
         }
         //view.addMouseListener(new GraphMouseAdapter(ag));
-        new GraphMouseWheelListener().init(this);
-        new AddEdgeMouseAdapter().init(this);
-        new NodeEditAdapter().init(this);   
-        new FocusNodeAdapter().init(this);
-        new DefaultMouseAdapter().init(this);
+        new GraphMouseWheelController().init(this);
+        new AddEdgeMouseController().init(this);
+        new NodeEditController().init(this);   
+        new FocusNodeController().init(this);
+        new DefaultMouseController().init(this);
         
     }
 }

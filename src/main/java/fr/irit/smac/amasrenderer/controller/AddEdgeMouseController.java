@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.MouseEventsAdapters;
+package fr.irit.smac.amasrenderer.controller;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -6,17 +6,15 @@ import javax.swing.SwingUtilities;
 
 import org.graphstream.graph.Node;
 
-import fr.irit.smac.amasrenderer.controller.ControllerAmasRendering;
+public class AddEdgeMouseController extends MouseAdapter {
 
-public class AddEdgeMouseAdapter extends MouseAdapter {
-
-    private ControllerAmasRendering controller;
+    private AmasRenderingController controller;
     private int currentEdgeId;
     
     private Node source = null;
     private Node target = null;
     
-    public void init(ControllerAmasRendering controller) {
+    public void init(AmasRenderingController controller) {
         this.controller = controller;
         this.currentEdgeId = controller.getModel().getEdgeCount() + 1;
         controller.getGraphView().addMouseListener(this);

@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.MouseEventsAdapters;
+package fr.irit.smac.amasrenderer.controller;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -8,15 +8,13 @@ import org.graphstream.graph.Node;
 import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 
-import fr.irit.smac.amasrenderer.controller.ControllerAmasRendering;
-
-public class NodeEditAdapter extends MouseAdapter {
-    private ControllerAmasRendering controller;
+public class NodeEditController extends MouseAdapter {
+    private AmasRenderingController controller;
     private Point3 clicCoord;
     
     
     
-    public void init(ControllerAmasRendering controller) {
+    public void init(AmasRenderingController controller) {
         this.controller = controller;
         controller.getGraphView().addMouseListener(this);
     }

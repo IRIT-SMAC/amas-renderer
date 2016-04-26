@@ -1,6 +1,6 @@
 package fr.irit.smac.amasrenderer;
 	
-import fr.irit.smac.amasrenderer.controller.ControllerAmasRendering;
+import fr.irit.smac.amasrenderer.controller.AmasRenderingController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,13 +10,13 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     
-    private ControllerAmasRendering controller;
+    private AmasRenderingController controller;
     
     @Override
     public void start(Stage primaryStage) throws Exception {
         
         FXMLLoader loader = new FXMLLoader();
-        loader.setController(new ControllerAmasRendering());
+        loader.setController(new AmasRenderingController());
         Parent root = loader.load(getClass().getResource("view/amasRenderer.fxml").openStream());
         root.getStylesheets().add(getClass().getResource("view/layouts.css").getPath());
         primaryStage.setScene(new Scene(root));

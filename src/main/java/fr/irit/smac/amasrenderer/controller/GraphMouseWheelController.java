@@ -1,16 +1,14 @@
-package fr.irit.smac.amasrenderer.MouseEventsAdapters;
+package fr.irit.smac.amasrenderer.controller;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import org.graphstream.ui.geom.Point3;
 
-import fr.irit.smac.amasrenderer.controller.ControllerAmasRendering;
-
-public class GraphMouseWheelListener implements MouseWheelListener {
+public class GraphMouseWheelController implements MouseWheelListener {
     
-    private ControllerAmasRendering controller;
+    private AmasRenderingController controller;
     
-    public void init(ControllerAmasRendering controller) {
+    public void init(AmasRenderingController controller) {
         this.controller = controller;
         controller.getGraphView().addMouseWheelListener(this);
     }

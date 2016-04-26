@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.MouseEventsAdapters;
+package fr.irit.smac.amasrenderer.controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -6,14 +6,12 @@ import java.util.Iterator;
 
 import org.graphstream.graph.Node;
 
-import fr.irit.smac.amasrenderer.controller.ControllerAmasRendering;
+public class GraphMouseController extends MouseAdapter{
 
-public class GraphMouseAdapter extends MouseAdapter{
-
-    ControllerAmasRendering controller;
+    AmasRenderingController controller;
     private int currentAgentID;
     
-    public GraphMouseAdapter(ControllerAmasRendering controller){
+    public GraphMouseController(AmasRenderingController controller){
         this.controller = controller;
         this.currentAgentID = 0;
     }

@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.MouseEventsAdapters;
+package fr.irit.smac.amasrenderer.controller;
 /*
  * Copyright 2006 - 2015
  *     Stefan Balev     <stefan.balev@graphstream-project.org>
@@ -42,10 +42,9 @@ import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.view.View;
 
-import fr.irit.smac.amasrenderer.controller.ControllerAmasRendering;
 import fr.irit.smac.amasrenderer.model.AgentGraph;
 
-public class DefaultMouseAdapter extends MouseAdapter
+public class DefaultMouseController extends MouseAdapter
 {
     // Attribute
 
@@ -61,7 +60,7 @@ public class DefaultMouseAdapter extends MouseAdapter
 
     // Construction
 
-    public void init(ControllerAmasRendering controller) {
+    public void init(AmasRenderingController controller) {
         this.view = controller.getGraphView();
         this.graph = controller.getModel();
         view.addMouseListener(this);

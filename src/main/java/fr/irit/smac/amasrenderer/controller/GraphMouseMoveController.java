@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.MouseEventsAdapters;
+package fr.irit.smac.amasrenderer.controller;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -6,11 +6,9 @@ import javax.swing.SwingUtilities;
 
 import org.graphstream.ui.geom.Point3;
 
-import fr.irit.smac.amasrenderer.controller.ControllerAmasRendering;
+public class GraphMouseMoveController extends MouseAdapter{
 
-public class GraphMouseMoveAdapter extends MouseAdapter{
-
-    private ControllerAmasRendering controller;
+    private AmasRenderingController controller;
     private Point3 source;
     private Point3 target;
     private Point3 center;
@@ -26,7 +24,7 @@ public class GraphMouseMoveAdapter extends MouseAdapter{
     
     
     
-    public GraphMouseMoveAdapter(ControllerAmasRendering controller){
+    public GraphMouseMoveController(AmasRenderingController controller){
         this.controller = controller;
     }
     
