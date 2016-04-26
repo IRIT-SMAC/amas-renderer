@@ -4,10 +4,10 @@ import java.awt.event.MouseEvent;
 
 import org.graphstream.ui.geom.Point3;
 
-public class FocusNodeController extends MouseAdapter {
-    private AmasRenderingController controller; 
+public class GraphFocusNodeController extends MouseAdapter {
+    private GraphMainController controller; 
     
-    public void init(AmasRenderingController controller) {
+    public void init(GraphMainController controller) {
         this.controller = controller;
         controller.getGraphView().addMouseListener(this);
     }

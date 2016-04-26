@@ -5,10 +5,11 @@ import java.awt.event.MouseEvent;
 import javax.swing.SwingUtilities;
 
 import org.graphstream.ui.geom.Point3;
+import org.graphstream.ui.swingViewer.ViewPanel;
 
 public class GraphMouseMoveController extends MouseAdapter{
 
-    private AmasRenderingController controller;
+    private ViewPanel graphView;
     private Point3 source;
     private Point3 target;
     private Point3 center;
@@ -24,14 +25,14 @@ public class GraphMouseMoveController extends MouseAdapter{
     
     
     
-    public GraphMouseMoveController(AmasRenderingController controller){
-        this.controller = controller;
+    public GraphMouseMoveController(ViewPanel graphView){
+        this.graphView = graphView;
     }
     
     @Override
     public void mousePressed(MouseEvent e) {
         if(SwingUtilities.isLeftMouseButton(e) && ! e.isShiftDown()){
-            source = controller.getGraphView().getCamera().transformPxToGu(e.getPoint().getX(), e.getPoint().getY());
+            source = graphView.getCamera().transformPxToGu(e.getPoint().getX(), e.getPoint().getY());
             xSource = source.x;
             ySource = source.y;
             System.out.println("test: "+xSource +':'+ySource);
@@ -50,7 +51,7 @@ public class GraphMouseMoveController extends MouseAdapter{
     */
     void panGraph(MouseEvent e){
         if(SwingUtilities.isLeftMouseButton(e) && ! e.isShiftDown()){
-            target = controller.getGraphView().getCamera().transformPxToGu(e.getX(), e.getY());
+            target = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
             System.out.println("target: "+target);
             System.out.println("source: "+source);
             difference = new Point3();
@@ -58,17 +59,17 @@ public class GraphMouseMoveController extends MouseAdapter{
             difference.y = source.y - target.y;
             difference.z = source.z - target.z;
             System.out.println("Difference: "+difference);
-            center = controller.getGraphView().getCamera().getViewCenter();
+            center = graphView.getCamera().getViewCenter();
             center.x += difference.x;
             center.y += difference.y;
             center.z += difference.z;
-            controller.getGraphView().getCamera().setViewCenter(center.x, center.y, center.z);
+            graphView.getCamera().setViewCenter(center.x, center.y, center.z);
         }
     }
     
     void panGraph2(MouseEvent e){
         if(SwingUtilities.isLeftMouseButton(e) && ! e.isShiftDown()){
-            target = controller.getGraphView().getCamera().transformPxToGu(e.getX(), e.getY());
+            target = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
             xTarget = target.x;
             yTarget = target.y;
             System.out.println("target: "+xTarget+" : "+yTarget);
@@ -76,11 +77,11 @@ public class GraphMouseMoveController extends MouseAdapter{
             xDiff = xSource - xTarget;
             yDiff = ySource - yTarget;
             System.out.println("Difference: "+xDiff+" : "+yDiff);
-            center = controller.getGraphView().getCamera().getViewCenter();
+            center = graphView.getCamera().getViewCenter();
             /*center.x += difference.x;
             center.y += difference.y;
             center.z += difference.z;*/
-            controller.getGraphView().getCamera().setViewCenter(xDiff, yDiff, 0);
+            graphView.getCamera().setViewCenter(xDiff, yDiff, 0);
             
         }
     }

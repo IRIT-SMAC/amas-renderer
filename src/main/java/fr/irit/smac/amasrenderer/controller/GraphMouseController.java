@@ -8,10 +8,10 @@ import org.graphstream.graph.Node;
 
 public class GraphMouseController extends MouseAdapter{
 
-    AmasRenderingController controller;
+    GraphMainController controller;
     private int currentAgentID;
     
-    public GraphMouseController(AmasRenderingController controller){
+    public GraphMouseController(GraphMainController controller){
         this.controller = controller;
         this.currentAgentID = 0;
     }
