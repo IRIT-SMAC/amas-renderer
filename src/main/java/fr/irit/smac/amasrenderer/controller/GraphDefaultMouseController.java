@@ -33,6 +33,7 @@ public class GraphDefaultMouseController extends MouseAdapter
         this.graph = graph;
         view.addMouseListener(this);
         view.addMouseMotionListener(this);
+        view.addMouseListener(this);
     }
     
     

@@ -2,11 +2,7 @@ package fr.irit.smac.amasrenderer;
 
 import java.io.IOException;
 
-import org.graphstream.ui.swingViewer.ViewPanel;
-
 import fr.irit.smac.amasrenderer.controller.GraphMainController;
-import fr.irit.smac.amasrenderer.controller.GraphMouseWheelController;
-import fr.irit.smac.amasrenderer.controller.GraphNodeEditController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

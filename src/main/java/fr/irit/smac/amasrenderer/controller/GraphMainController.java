@@ -120,15 +120,12 @@ public class GraphMainController implements Initializable {
         }
 
         GraphMouseWheelController graphMouseWheelController = new GraphMouseWheelController();
-        graphView.addMouseWheelListener(graphMouseWheelController);
         graphMouseWheelController.init(graphView);
 
         GraphAddEdgeMouseController addEdgeMouseController = new GraphAddEdgeMouseController();
-        graphView.addMouseListener(addEdgeMouseController);
         addEdgeMouseController.init(graphView, this.getModel());
 
         GraphDefaultMouseController defaultMouseController = new GraphDefaultMouseController();
-        graphView.addMouseListener(defaultMouseController);
         defaultMouseController.init(this.getGraphView(), this.getModel());
 
     }

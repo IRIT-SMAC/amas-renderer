@@ -12,6 +12,7 @@ public class GraphMouseWheelController implements MouseWheelListener {
 
     public void init(ViewPanel graphView) {
         this.graphView = graphView;
+        graphView.addMouseWheelListener(this);
     }
 
     @Override
