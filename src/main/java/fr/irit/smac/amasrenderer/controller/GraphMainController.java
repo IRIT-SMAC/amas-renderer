@@ -18,24 +18,35 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * The Class GraphMainController.
+ */
 public class GraphMainController implements Initializable {
 
     private AgentGraph model;
+    
     private ViewPanel  graphView;
-
+    
     @FXML
     private SwingNode graphNode;
-
+    
     @FXML
-    private AnchorPane         nodeEdit;
+    private AnchorPane nodeEdit;
+    
     @FXML
     private GraphNodeEditController nodeEditController;
-
-    private GraphMouseWheelController graphMouseWheelController;
-    private GraphDefaultMouseController defaultMouseController;
-    private GraphAddDelEdgeMouseController graphAddDelEdgeMouseController;
-    private GraphMouseController graphAddDelNodeMouseController;
     
+    private GraphMouseWheelController graphMouseWheelController;
+    
+    private GraphDefaultMouseController defaultMouseController;
+
+    private GraphAddDelEdgeMouseController graphAddDelEdgeMouseController;
+    
+    private GraphAddDelNodeMouseController graphAddDelNodeMouseController;
+    
+    /**
+     * Instantiates a new graph main controller.
+     */
     public GraphMainController() {
         this.model = new AgentGraph("AMAS Rendering");
         model.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../view/styleSheet2.css") + ")");
@@ -52,36 +63,69 @@ public class GraphMainController implements Initializable {
 
     }
 
+    /**
+     * Draws a graph of agents
+     */
     public void drawGraph() {
         this.graphNode.setContent(this.graphView);
     }
 
 
 
+    /**
+     * DEPRECATED
+     * Adds an agent to the graph
+     * 
+     * Prefer using GraphAddDelNodeMouseController to add agents (alt + left click)
+     */
     @FXML
     public void addAgent() {
         model.addNode("" + model.getNodeCount() + 1);
     }
 
+    /**
+     * DEPRECATED
+     * Graph mouse clicked.
+     * Calls 
+     */
     @FXML
     public void graphMouseClicked() {
         // model.ajouterAgent();
     }
 
+    /**
+     * Gets the graph view.
+     *
+     * @return the graph view
+     */
     public ViewPanel getGraphView() {
         return graphView;
     }
 
+    /**
+     * Gets the model. (the AgentGraph)
+     *
+     * @return the model
+     */
     public AgentGraph getModel() {
         return model;
     }
     
+    /**
+     * Sets the model. (the AgentGraph)
+     *
+     * @param model the new model
+     */
     public void setModel(AgentGraph model) {
         this.model = model;
     }
 
+    /**
+     * Initialize the graph.
+     * Creates Const.NODE_INIT nodes with each Const.EDGE_INIT edge going from them to other nodes
+     * For testing purposes 
+     */
     private void initGraph() {
-        // construit le graphe de test(arbre), avec Const.NODE_INIT nodes
         model.addNode("0");
         for (Integer i = 1; i < Const.NODE_INIT; i++) {
             int firstNode = i;
@@ -89,25 +133,30 @@ public class GraphMainController implements Initializable {
             if (i >= Const.EDGE_INIT) {
                 for (int j = 0; j < Const.EDGE_INIT; j++) {
                     int secondNode = (int) Math.floor((Math.random() * i));
-                    if (model.getEdge(i + " ::: " + firstNode + "" + secondNode) == null)
-                        model.addEdge(i + " ::: " + firstNode + "" + secondNode, "" + firstNode, "" + secondNode, true);
+                    if (model.getEdge(firstNode + "" + secondNode) == null)
+                        model.addEdge(firstNode + "" + secondNode, "" + firstNode, "" + secondNode, true);
                     else
                         j--;
                 }
             }
 
         }
-        // modifie le layout
+        // modify the layout 
+        //sets edge lenght
         for (Edge edge : model.getEachEdge()) {
             edge.setAttribute("layout.weight", 20);
         }
+        //sets the node repulsion
         for (Node node : model) {
             node.setAttribute("layout.weight", 300);
-            // set la forme de stoquage des noeuds
+            // sets the Stock class to store agent info
             node.setAttribute("ui.stocked-info", new Stock());
         }
     }
 
+    /**
+     * Inits the sub controllers. (all Listeners)
+     */
     private void initSubControllers() {
         MouseMotionListener[] mml = graphView.getMouseMotionListeners();
         for (MouseMotionListener mouseMotionListener : mml) {
@@ -124,16 +173,19 @@ public class GraphMainController implements Initializable {
         graphMouseWheelController.init(graphView);
 
         defaultMouseController = new GraphDefaultMouseController();
-        defaultMouseController.init(this.getGraphView(), this.getModel());
+        defaultMouseController.init(graphView, model);
         
         graphAddDelEdgeMouseController = new GraphAddDelEdgeMouseController();
         graphAddDelEdgeMouseController.init(graphView, model);
         
-        graphAddDelNodeMouseController = new GraphMouseController();
+        graphAddDelNodeMouseController = new GraphAddDelNodeMouseController();
         graphAddDelNodeMouseController.init(graphView, model);
 
     }
 
+    /* (non-Javadoc)
+     * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
