@@ -9,7 +9,7 @@ import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.layout.HBox
 
-class IHMSpec extends GuiSpecification{
+class IHMTest extends GuiSpecification{
 
     /** This is an example of using TestFX **/
     
