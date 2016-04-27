@@ -10,8 +10,8 @@ import org.graphstream.graph.Node;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentGraph;
-import fr.irit.smac.amasrenderer.model.Const;
 import fr.irit.smac.amasrenderer.model.Stock;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;

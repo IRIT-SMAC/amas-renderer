@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.model;
+package fr.irit.smac.amasrenderer;
 
 public class Const {
     
@@ -17,4 +17,8 @@ public class Const {
             "Dont look at that node, its not worth it",
             "ERMHERGHERD ! Why did you click me?!"
         };
+    
+    private Const() {
+        
+    }
 }
