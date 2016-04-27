@@ -4,7 +4,7 @@ import org.junit.Test
 
 import spock.lang.Specification
 
-class MainTest extends Specification {
+class MainSpec extends Specification {
 
     def 'this test is useless'() {
         
