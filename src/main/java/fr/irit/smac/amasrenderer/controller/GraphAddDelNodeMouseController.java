@@ -12,12 +12,26 @@ import org.graphstream.ui.swingViewer.ViewPanel;
 import fr.irit.smac.amasrenderer.model.AgentGraph;
 import fr.irit.smac.amasrenderer.model.Stock;
 
-public class GraphMouseController extends MouseAdapter{
+/**
+ * The Class GraphAddDelNodeMouseController.
+ * This controller controls addition and deletion of nodes on the graph "model"
+ * Creation and deletion are used by alt+click on an empty space to create one
+ * and on a node to delete it and all connected edges
+ */
+public class GraphAddDelNodeMouseController extends MouseAdapter{
 
     private ViewPanel  graphView;
+    
     private int        currentNodeId;
+
     private AgentGraph model;
 
+    /**
+     * Initialize the controller, and adds it to the graph.
+     *
+     * @param graphView the graph view
+     * @param model the model
+     */
     public void init(ViewPanel graphView, AgentGraph model) {
         this.graphView = graphView;
         this.model = model;
@@ -25,11 +39,16 @@ public class GraphMouseController extends MouseAdapter{
         graphView.addMouseListener(this);
     }
     
+    /**
+     * On mouse alt+click, if there is no node at mouse location creates a node at mouse location
+     * else deletes the node at mouse location
+     * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+     */
     @Override
     public void mouseClicked(MouseEvent e){
         if(e.isAltDown()){
             Node n = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-            //si on clic dans le vide on crée un noeud
+            //if clicked on empty space, create a node
             if(n == null){
                 String curId = Integer.toString(currentNodeId++);
                 Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
@@ -39,7 +58,7 @@ public class GraphMouseController extends MouseAdapter{
                 model.getNode(curId).setAttribute("layout.weight", 300);
                 
             }
-            //sinon on supprime le noeud
+            //else delete the node and all connected edges
             else{
                 Iterable<Edge> edges = n.getEachEdge();
                 if(edges != null){
