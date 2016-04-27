@@ -1,5 +1,7 @@
 package fr.irit.smac.amasrenderer.model;
 
+import fr.irit.smac.amasrenderer.Const;
+
 public class Stock {
     private String descr;
     private int rank;
