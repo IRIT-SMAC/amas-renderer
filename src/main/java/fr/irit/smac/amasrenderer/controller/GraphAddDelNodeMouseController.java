@@ -13,6 +13,7 @@ import org.graphstream.ui.swingViewer.ViewPanel;
 
 import fr.irit.smac.amasrenderer.model.AgentGraph;
 import fr.irit.smac.amasrenderer.model.Stock;
+import fr.irit.smac.amasrenderer.service.GraphService;
 
 /**
  * The Class GraphAddDelNodeMouseController.
@@ -22,11 +23,11 @@ import fr.irit.smac.amasrenderer.model.Stock;
  */
 public class GraphAddDelNodeMouseController extends MouseAdapter{
 
+    private GraphService graphNodeService;
+
     private ViewPanel  graphView;
     
     private int        currentNodeId;
-
-    private AgentGraph model;
     
     private boolean buttonAddAgent;
     private boolean buttonDelAgent;
@@ -37,10 +38,10 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
      * @param graphView the graph view
      * @param model the model
      */
-    public void init(ViewPanel graphView, AgentGraph model) {
+    public void init(ViewPanel graphView, GraphService graphNodeService) {
+        this.graphNodeService = graphNodeService;
         this.graphView = graphView;
-        this.model = model;
-        this.currentNodeId = model.getNodeCount() + 1;
+        this.currentNodeId = graphNodeService.getModel().getNodeCount() + 1;
         graphView.addMouseListener(this);
         buttonAddAgent= buttonDelAgent = false;
     }
@@ -62,7 +63,7 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
         //if there is a node on clic location
         //and user does ctrl+right-click XOR he does left click and the del agen button is pressed
         else if((n != null)&&((SwingUtilities.isRightMouseButton(e) && e.isControlDown())^(SwingUtilities.isLeftMouseButton(e) && buttonDelAgent))){
-            removeNode(n);
+            this.graphNodeService.removeNode(n);
         }
     }
     
@@ -70,24 +71,6 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
         String curId = Integer.toString(currentNodeId++);
         Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
         
-        this.addNode(curId, clicLoc.x, clicLoc.y);
-    }
-   
-    public void addNode(String id, double x, double y) {
-        model.addNode(id);
-        model.getNode(id).changeAttribute("xyz", x, y );
-        model.getNode(id).setAttribute("ui.stocked-info", new Stock());
-        model.getNode(id).setAttribute("layout.weight", 300);
-        System.out.println("nodeAdded");
-    }
-    
-    public void removeNode(Node n) {
-        Iterable<Edge> edges = n.getEachEdge();
-        if (edges != null) {
-            for (Edge edge : edges) {
-                model.removeEdge(edge.getId());
-            }
-        }
-        model.removeNode(n.getId());
+        this.graphNodeService.addNode(curId, clicLoc.x, clicLoc.y);
     }
 }
