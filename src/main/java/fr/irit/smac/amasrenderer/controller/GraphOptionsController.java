@@ -4,6 +4,9 @@ import javafx.fxml.FXML;
 
 public class GraphOptionsController {
 	
+	
+	
+	
 	@FXML
 	public void clickGenerer(){
 		System.out.println("win");
@@ -28,5 +31,7 @@ public class GraphOptionsController {
 	public void clickSupprimerLien(){
 		System.out.println("win");
 	}
+	
+	
 	
 }
