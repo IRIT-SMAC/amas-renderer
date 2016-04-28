@@ -62,31 +62,32 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
         //if there is a node on clic location
         //and user does ctrl+right-click XOR he does left click and the del agen button is pressed
         else if((n != null)&&((SwingUtilities.isRightMouseButton(e) && e.isControlDown())^(SwingUtilities.isLeftMouseButton(e) && buttonDelAgent))){
-            deleteNode(n);
+            removeNode(n);
         }
     }
     
     private void createNode(MouseEvent e){
         String curId = Integer.toString(currentNodeId++);
         Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
-        model.addNode(curId);
-        model.getNode(curId).changeAttribute("xyz", clicLoc.x, clicLoc.y );
-        model.getNode(curId).setAttribute("ui.stocked-info", new Stock());
-        model.getNode(curId).setAttribute("layout.weight", 300);
+        
+        this.addNode(curId, clicLoc.x, clicLoc.y);
+    }
+   
+    public void addNode(String id, double x, double y) {
+        model.addNode(id);
+        model.getNode(id).changeAttribute("xyz", x, y );
+        model.getNode(id).setAttribute("ui.stocked-info", new Stock());
+        model.getNode(id).setAttribute("layout.weight", 300);
+        System.out.println("nodeAdded");
     }
     
-    private void deleteNode(Node n){
+    public void removeNode(Node n) {
         Iterable<Edge> edges = n.getEachEdge();
-        if(edges != null){
-            for(Edge edge: edges){
+        if (edges != null) {
+            for (Edge edge : edges) {
                 model.removeEdge(edge.getId());
             }
         }
         model.removeNode(n.getId());
     }
-    
-    
-    
-    
-    
 }

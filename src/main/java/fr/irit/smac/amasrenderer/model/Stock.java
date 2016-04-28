@@ -12,9 +12,17 @@ public class Stock {
         rank = (int) Math.floor(Math.random() * 9);
     }
 
+    public String getDescr() {
+        return descr;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
     @Override
     public String toString() {
         return "\n---Description: " + descr +
-            "\n---Rank: n°" + rank;
+            "\n---Rank: nï¿½" + rank;
     }
 }
