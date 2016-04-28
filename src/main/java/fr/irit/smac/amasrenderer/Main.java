@@ -4,10 +4,12 @@ import java.io.IOException;
 
 import fr.irit.smac.amasrenderer.controller.GraphMainController;
 import javafx.application.Application;
+import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -37,6 +39,10 @@ public class Main extends Application {
         FXMLLoader loaderGraphAgents = new FXMLLoader();
         loaderGraphAgents.setLocation(Main.class.getResource("view/GraphAgents.fxml"));
         AnchorPane root = (AnchorPane) loaderGraphAgents.load();
+        SwingNode swingNode = new SwingNode();
+        swingNode.setId("graphNode");
+        StackPane stackPaneGraphNode = (StackPane) root.lookup("#stackPaneGraphNode");
+        stackPaneGraphNode.getChildren().add(swingNode);
         GraphMainController controller = loaderGraphAgents.getController();
         controller.drawGraph();
         rootLayout.setCenter(root);
