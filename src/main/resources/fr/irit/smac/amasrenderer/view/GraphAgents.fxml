@@ -15,11 +15,8 @@
 				<VBox layoutX="8.0" prefHeight="121.0" prefWidth="322.0">
 
 				</VBox>
-      				<StackPane layoutY="140.0" prefHeight="477.0" prefWidth="516.0">
-      					<children>
-      						<SwingNode fx:id="graphNode" onMouseClicked="#graphMouseClicked" />
-      					</children>
-      				</StackPane>
+      			<StackPane fx:id="stackPaneGraphNode" layoutY="140.0" prefHeight="477.0" prefWidth="516.0">
+      			</StackPane>
 			</children>
 		</AnchorPane>
 		<AnchorPane layoutX="534.0" prefHeight="617.0" prefWidth="354.0">
