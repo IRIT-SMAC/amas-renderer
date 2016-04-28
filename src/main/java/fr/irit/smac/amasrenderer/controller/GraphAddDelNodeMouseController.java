@@ -56,6 +56,7 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
                 model.getNode(curId).changeAttribute("xyz", clicLoc.x, clicLoc.y );
                 model.getNode(curId).setAttribute("ui.stocked-info", new Stock());
                 model.getNode(curId).setAttribute("layout.weight", 300);
+                System.out.println("nodeAdded");
                 
             }
             //else delete the node and all connected edges
