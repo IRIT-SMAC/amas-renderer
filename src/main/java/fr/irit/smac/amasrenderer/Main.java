@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -20,6 +21,7 @@ public class Main extends Application {
         this.initRootLayout();
         this.initGraphAgents();
         this.initServices();
+        this.initOptions();
 
         primaryStage.setScene(new Scene(rootLayout));
         primaryStage.show();
@@ -30,6 +32,13 @@ public class Main extends Application {
         FXMLLoader loaderRootLayout = new FXMLLoader();
         loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"));
         this.rootLayout = (BorderPane) loaderRootLayout.load();
+    }
+    
+    private void initOptions() throws IOException {
+    	FXMLLoader loaderGraphAgents = new FXMLLoader();
+        loaderGraphAgents.setLocation(Main.class.getResource("view/optionsLayout.fxml"));
+        HBox root = (HBox) loaderGraphAgents.load();  
+        rootLayout.setBottom(root);
     }
     
     private void initGraphAgents() throws IOException {
