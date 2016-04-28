@@ -20,7 +20,7 @@ import javafx.scene.control.TextArea;
 public class GraphNodeEditController extends MouseAdapter{
     
     private ViewPanel graphView;
-
+    
     /** The attribute synthesis. (for display) */
     @FXML
     private TextArea attributes_synthesis;
@@ -51,10 +51,7 @@ public class GraphNodeEditController extends MouseAdapter{
                     Node node = (Node) elt;
                     nodeSyntesis += "=========================================\n"
                         + "Node clicked: " + node.getId() + "\n"
-                        + "Informations:\n"
-                        + "--Attribute count: " + node.getAttributeCount() + "\n"
-                        + "--Edges In: " + node.getEnteringEdgeSet().size() + "\n"
-                        + "--Edges Out: " + node.getOutDegree() + "\n";
+                        + "Informations:\n";
 
                     for (String attr : node.getEachAttributeKey()) {
                         if (attr != "xyz") {

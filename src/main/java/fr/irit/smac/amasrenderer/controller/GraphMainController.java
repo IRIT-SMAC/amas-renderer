@@ -172,8 +172,9 @@ public class GraphMainController implements Initializable {
         graphMouseWheelController = new GraphMouseWheelController();
         graphMouseWheelController.init(graphView);
 
-        defaultMouseController = new GraphDefaultMouseController();
-        defaultMouseController.init(graphView, model);
+        //TODO update that controller to make it match the other functions
+        //defaultMouseController = new GraphDefaultMouseController();
+        //defaultMouseController.init(graphView, model);
         
         graphAddDelEdgeMouseController = new GraphAddDelEdgeMouseController();
         graphAddDelEdgeMouseController.init(graphView, model);
