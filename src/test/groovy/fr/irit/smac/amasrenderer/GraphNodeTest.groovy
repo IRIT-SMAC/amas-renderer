@@ -1,91 +1,45 @@
 package fr.irit.smac.amasrenderer
 
+import org.graphstream.graph.implementations.SingleNode
+import org.graphstream.ui.swingViewer.ViewPanel
+import org.graphstream.ui.view.Viewer
 
-import java.io.IOException
+import spock.lang.Shared
+import spock.lang.Specification
+import fr.irit.smac.amasrenderer.controller.GraphAddDelNodeMouseController
+import fr.irit.smac.amasrenderer.model.AgentGraph
 
-import fr.irit.smac.amasrenderer.controller.GraphMainController
-import javafx.embed.swing.SwingNode
-import javafx.fxml.FXMLLoader
-import javafx.scene.input.KeyCode
-import javafx.scene.layout.AnchorPane
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.StackPane
+class GraphNodeTest extends Specification{
 
-class GraphNodeTest extends GuiSpecification{
+    @Shared GraphAddDelNodeMouseController controller
+    @Shared AgentGraph model
+    
+    def setupSpec() {
 
-    def setup() {
-        setupStage { stage ->
-
-            BorderPane rootLayout = initRootLayout()
-            AnchorPane root = initGraphAgents()
-            rootLayout.setCenter(root)
-            return rootLayout
-        }
-
-        sleep(1000) //time for the graph to be initialized
+        model = new AgentGraph("AMAS Rendering")
+        Viewer viewer = new Viewer(model, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD)
+        viewer.enableAutoLayout()
+        ViewPanel graphView = viewer.addDefaultView(false)
+        controller = new GraphAddDelNodeMouseController()
+        controller.model = model
     }
 
-    private BorderPane initRootLayout() throws IOException {
-
-        FXMLLoader loaderRootLayout = new FXMLLoader()
-        loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
-        return (BorderPane) loaderRootLayout.load()
-    }
-
-    private AnchorPane initGraphAgents() throws IOException {
-
-        FXMLLoader loaderGraphAgents = new FXMLLoader()
-        loaderGraphAgents.setLocation(Main.class.getResource("view/GraphAgents.fxml"))
-        AnchorPane root = (AnchorPane) loaderGraphAgents.load()
-        SwingNode swingNode = new SwingNode()
-        swingNode.setId("graphNode")
-        StackPane stackPaneGraphNode = (StackPane) root.lookup("#stackPaneGraphNode")
-        stackPaneGraphNode.getChildren().add(swingNode)
-        GraphMainController controller = loaderGraphAgents.getController()
-        controller.drawGraph()
-        return root
-    }
-
-    def "check if an agent is added by clicking on the corresponding button"() {
+    def 'check if an agent is added and removed'() {
 
         when:
-        fx.clickOn("#addAgent")
+        controller.addNode("agent1",5.0,10.0)
 
         then:
-        false
-        //Verifier dans le modele qu'un agent a ete ajoute
-    }
-
-    def "check if an agent is added by doing the corresponding shortcut"() {
-
+        SingleNode node = model.getNode("agent1")
+        node.getId()
+        node.getAttribute("xyz") == [5.0, 10.0]
+        node.getAttribute("layout.weight") == 300
+        
         when:
-        println "addition of an agent - shortcut"
-        //changer ALT par SHIFT
-        fx.press(KeyCode.ALT).clickOn("#graphNode").release(KeyCode.ALT)
-
+        controller.removeNode(node)
+        
         then:
-        false
-        //Verifier dans le modele qu'un agent a ete ajoute
-    }
-
-    def "check if an agent is removed by clicking on the corresponding button"() {
-
-        when:
-        //fx.clickOn("#deleteAgent")
-        println "deletion of an agent - button"
-
-        then:
-        false
-        //Verifier dans le modele qu'un agent a ete supprime
-    }
-
-    def "check if an agent is removed by doing the corresponding shortcut"() {
-
-        when:
-        println "deletion of an agent - shortcut"
-
-        then:
-        false
-        //Verifier dans le modele qu'un agent a ete supprime
+        model.getNode("agent1") == null
+        
     }
 }

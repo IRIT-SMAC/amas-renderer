@@ -52,28 +52,30 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
             if(n == null){
                 String curId = Integer.toString(currentNodeId++);
                 Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
-                model.addNode(curId);
-                model.getNode(curId).changeAttribute("xyz", clicLoc.x, clicLoc.y );
-                model.getNode(curId).setAttribute("ui.stocked-info", new Stock());
-                model.getNode(curId).setAttribute("layout.weight", 300);
-                System.out.println("nodeAdded");
-                
+                this.addNode(curId,clicLoc.x, clicLoc.y);
             }
             //else delete the node and all connected edges
             else{
-                Iterable<Edge> edges = n.getEachEdge();
-                if(edges != null){
-                    for(Edge edge: edges){
-                        model.removeEdge(edge.getId());
-                    }
-                }
-                model.removeNode(n.getId());
+                removeNode(n);
             }
         }
     }
     
+    public void addNode(String id, double x, double y) {
+        model.addNode(id);
+        model.getNode(id).changeAttribute("xyz", x, y );
+        model.getNode(id).setAttribute("ui.stocked-info", new Stock());
+        model.getNode(id).setAttribute("layout.weight", 300);
+        System.out.println("nodeAdded");
+    }
     
-    
-    
-    
+    public void removeNode(Node n) {
+        Iterable<Edge> edges = n.getEachEdge();
+        if (edges != null) {
+            for (Edge edge : edges) {
+                model.removeEdge(edge.getId());
+            }
+        }
+        model.removeNode(n.getId());
+    }
 }
