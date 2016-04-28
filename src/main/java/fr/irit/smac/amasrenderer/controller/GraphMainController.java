@@ -17,6 +17,7 @@ import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 
 /**
  * The Class GraphMainController.
@@ -28,7 +29,7 @@ public class GraphMainController implements Initializable {
     private ViewPanel  graphView;
     
     @FXML
-    private SwingNode graphNode;
+    private StackPane stackPaneGraphNode;
     
     @FXML
     private AnchorPane nodeEdit;
@@ -55,8 +56,10 @@ public class GraphMainController implements Initializable {
         viewer.enableAutoLayout();
         this.graphView = viewer.addDefaultView(false);
 
-        initGraph();
-        initSubControllers();
+        this.initGraph();
+        this.initSubControllers();
+
+        
 
         // attributes_synthesis.setText("No nodes are actually selected, click
         // on a node");
@@ -67,7 +70,7 @@ public class GraphMainController implements Initializable {
      * Draws a graph of agents
      */
     public void drawGraph() {
-        this.graphNode.setContent(this.graphView);
+        ((SwingNode) this.stackPaneGraphNode.lookup("#graphNode")).setContent(this.graphView);
     }
 
 
