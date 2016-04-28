@@ -191,8 +191,7 @@ public class GraphMainController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        nodeEditController.init(graphView);
-        graphView.addMouseListener(nodeEditController);
+        //nodeEditController.init(graphView);
+        //graphView.addMouseListener(nodeEditController);
     }
 }
