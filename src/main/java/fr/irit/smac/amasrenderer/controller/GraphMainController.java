@@ -165,7 +165,7 @@ public class GraphMainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.graphNodeService = GraphService.getInstance();
+        /*this.graphNodeService = GraphService.getInstance();
         this.graphNodeService.createAgentGraph();
 
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
@@ -176,6 +176,6 @@ public class GraphMainController implements Initializable {
         this.initGraph();
         this.initSubControllers();
         nodeEditController.init(graphView);
-        graphView.addMouseListener(nodeEditController);
+        graphView.addMouseListener(nodeEditController);*/
     }
 }
