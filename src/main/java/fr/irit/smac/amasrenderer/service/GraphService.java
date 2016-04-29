@@ -22,7 +22,7 @@ public class GraphService {
     public void createAgentGraph() {
 
         this.model = new AgentGraph("AMAS Rendering");
-        this.model.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../view/styleSheet2.css") + ")");
+        this.model.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../view/TheTrueStyleSheet.css") + ")");
     }
 
     public void addNode(String id, double x, double y) {
@@ -48,5 +48,9 @@ public class GraphService {
     public AgentGraph getModel() {
 
         return this.model;
+    }
+    
+    public void setModel(AgentGraph model) {
+        this.model = model;
     }
 }
