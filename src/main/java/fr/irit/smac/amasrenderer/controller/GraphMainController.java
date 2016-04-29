@@ -17,6 +17,8 @@ import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
@@ -25,9 +27,24 @@ import javafx.scene.layout.StackPane;
  */
 public class GraphMainController implements Initializable {
 
-    private GraphService graphNodeService;
+    private GraphService graphNodeService = GraphService.getInstance();
     
     private ViewPanel  graphView;
+    
+    @FXML
+    ToggleGroup toggroup;
+    
+    @FXML
+    private ToggleButton buttonAddAgent;
+    
+    @FXML
+    private ToggleButton buttonDelAgent;
+    
+    @FXML
+    private ToggleButton buttonAddEdge;
+    
+    @FXML
+    private ToggleButton buttonDelEdge;
     
     @FXML
     private StackPane stackPaneGraphNode;
@@ -42,24 +59,25 @@ public class GraphMainController implements Initializable {
     
     private GraphDefaultMouseController defaultMouseController;
 
-    private GraphAddDelEdgeMouseController graphAddDelEdgeMouseController;
+    protected GraphAddDelEdgeMouseController graphAddDelEdgeMouseController;
     
-    private GraphAddDelNodeMouseController graphAddDelNodeMouseController;
+    protected GraphAddDelNodeMouseController graphAddDelNodeMouseController;
     
     /**
      * Instantiates a new graph main controller.
      */
     public GraphMainController() {
-        graphNodeService.setModel( new AgentGraph("AMAS Rendering"));
-        getModel().addAttribute("ui.stylesheet", "url(" + getClass().getResource("../view/TheTrueStyleSheet.css") + ")");
+        graphNodeService.createAgentGraph();
+        getModel().addAttribute("ui.stylesheet", "url(" + getClass().getResource("../view/styleSheet1.css") + ")");
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         Viewer viewer = new Viewer(getModel(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         viewer.enableAutoLayout();
         this.graphView = viewer.addDefaultView(false);
-
+        
         this.initGraph();
         this.initSubControllers();
 
+       
         
 
         // attributes_synthesis.setText("No nodes are actually selected, click
@@ -87,6 +105,60 @@ public class GraphMainController implements Initializable {
         this.graphNodeService.getModel().addNode("" + this.graphNodeService.getModel().getNodeCount() + 1);
     }
 
+    @FXML
+    public void clickButton(){
+        toggleButton(toggroup);
+    }
+    
+    private void toggleButton(ToggleGroup toggroup){
+        ToggleButton curButton = (ToggleButton)toggroup.getSelectedToggle();
+        if(curButton != null){
+            System.out.println(curButton.getId());
+            switch(curButton.getId()){
+                case "buttonAddAgent":
+                    System.out.println("addagent clicked");
+                    graphAddDelNodeMouseController.setButtonAddAgent(true);
+                    graphAddDelNodeMouseController.setButtonDelAgent(false);
+                    graphAddDelEdgeMouseController.setButtonAddEdge(false);
+                    graphAddDelEdgeMouseController.setButtonDelEdge(false);
+                    break;
+                case "buttonDelAgent":
+                    System.out.println("la ou il faut pas");
+                    graphAddDelNodeMouseController.setButtonAddAgent(false);
+                    graphAddDelNodeMouseController.setButtonDelAgent(true);
+                    graphAddDelEdgeMouseController.setButtonAddEdge(false);
+                    graphAddDelEdgeMouseController.setButtonDelEdge(false);
+                    break;
+                case "buttonAddEdge":
+
+                    System.out.println("la ou il faut pas");
+                    graphAddDelNodeMouseController.setButtonAddAgent(false);
+                    graphAddDelNodeMouseController.setButtonDelAgent(false);
+                    graphAddDelEdgeMouseController.setButtonAddEdge(true);
+                    graphAddDelEdgeMouseController.setButtonDelEdge(false);
+                    break;
+                case "buttonDelEdge":
+
+                    System.out.println("la ou il faut pas");
+                    graphAddDelNodeMouseController.setButtonAddAgent(false);
+                    graphAddDelNodeMouseController.setButtonDelAgent(false);
+                    graphAddDelEdgeMouseController.setButtonAddEdge(false);
+                    graphAddDelEdgeMouseController.setButtonDelEdge(true);
+                    break;
+                
+                    
+            }
+        }
+        else {
+
+            System.out.println("la ou il faut pas");
+                graphAddDelNodeMouseController.setButtonAddAgent(false);
+                graphAddDelNodeMouseController.setButtonDelAgent(false);
+                graphAddDelEdgeMouseController.setButtonAddEdge(false);
+                graphAddDelEdgeMouseController.setButtonDelEdge(false);
+        }
+    }
+    
     /**
      * DEPRECATED
      * Graph mouse clicked.
@@ -115,6 +187,9 @@ public class GraphMainController implements Initializable {
         return this.graphNodeService.getModel();
     }
 
+    
+    
+    
     /**
      * Initialize the graph.
      * Creates Const.NODE_INIT nodes with each Const.EDGE_INIT edge going from them to other nodes
@@ -173,8 +248,8 @@ public class GraphMainController implements Initializable {
         graphMouseWheelController.init(graphView);
 
         //TODO update that controller to make it match the other functions
-        //defaultMouseController = new GraphDefaultMouseController();
-        //defaultMouseController.init(graphView, model);
+        defaultMouseController = new GraphDefaultMouseController();
+        defaultMouseController.init(graphView, getModel());
         
         graphAddDelEdgeMouseController = new GraphAddDelEdgeMouseController();
         graphAddDelEdgeMouseController.init(graphView, this.graphNodeService);
@@ -200,7 +275,7 @@ public class GraphMainController implements Initializable {
 
         this.initGraph();
         this.initSubControllers();
-        nodeEditController.init(graphView);
-        graphView.addMouseListener(nodeEditController);
+        //nodeEditController.init(graphView);
+        //graphView.addMouseListener(nodeEditController);
     }
 }

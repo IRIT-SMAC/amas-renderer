@@ -82,13 +82,21 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
             }
             else if((edge == null) && ((SwingUtilities.isLeftMouseButton(e) && (e.isShiftDown() || buttonAddEdge )))){
                 model.addEdge(source.getId()+""+target.getId(), source.getId(), target.getId(),true);
-                model.getEdge(source.getId()+""+target.getId()).setAttribute("layout.weight", 20);
+                model.getEdge(source.getId()+""+target.getId()).setAttribute("layout.weight", 200);
             }
             source.addAttribute("ui.selected");
             source.removeAttribute("ui.selected");
             source = null;
             
         }
+    }
+    
+    public void setButtonAddEdge(boolean buttonAddEdge) {
+        this.buttonAddEdge = buttonAddEdge;
+    }
+    
+    public void setButtonDelEdge(boolean buttonDelEdge) {
+        this.buttonDelEdge = buttonDelEdge;
     }
     
         

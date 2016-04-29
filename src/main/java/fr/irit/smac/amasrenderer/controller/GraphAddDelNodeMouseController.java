@@ -43,7 +43,6 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
         this.graphView = graphView;
         this.currentNodeId = graphNodeService.getModel().getNodeCount() + 1;
         graphView.addMouseListener(this);
-        buttonAddAgent= buttonDelAgent = false;
     }
     
     /**
@@ -55,6 +54,9 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
     public void mouseClicked(MouseEvent e){
         Node n = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         //if clicked on empty space, create a node
+        System.out.println("but add agent: "+this.buttonAddAgent);
+        System.out.println("but del agent: "+buttonDelAgent);
+        
         if(n == null && SwingUtilities.isLeftMouseButton(e) && (e.isControlDown() || buttonAddAgent)){
            createNode(e);
         }
@@ -95,6 +97,15 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
             }
         }
         getModel().removeNode(n.getId());
-        
+    }
+    
+    public void setButtonAddAgent(boolean buttonAddAgent) {
+        System.out.println("butadagent set to "+ buttonAddAgent);
+        this.buttonAddAgent = buttonAddAgent;
+        System.out.println("butAddAgent in addDelNode has been set to " +this.buttonAddAgent);
+    }
+    
+    public void setButtonDelAgent(boolean buttonDelAgent) {
+        this.buttonDelAgent = buttonDelAgent;
     }
 }

@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -38,7 +39,7 @@ public class Main extends Application {
         
         FXMLLoader loaderGraphAgents = new FXMLLoader();
         loaderGraphAgents.setLocation(Main.class.getResource("view/GraphAgents.fxml"));
-        AnchorPane root = (AnchorPane) loaderGraphAgents.load();
+        BorderPane root = (BorderPane) loaderGraphAgents.load();
         SwingNode swingNode = new SwingNode();
         swingNode.setId("graphNode");
         StackPane stackPaneGraphNode = (StackPane) root.lookup("#stackPaneGraphNode");
@@ -52,7 +53,7 @@ public class Main extends Application {
         
         FXMLLoader loaderServices = new FXMLLoader();
         loaderServices.setLocation(Main.class.getResource("view/Services.fxml"));
-        AnchorPane root3 = (AnchorPane) loaderServices.load();
+        VBox root3 = (VBox) loaderServices.load();
         rootLayout.setLeft(root3);
     }
 

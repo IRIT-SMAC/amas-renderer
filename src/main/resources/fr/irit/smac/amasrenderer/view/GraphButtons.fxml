@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.GraphMainController">
+   <fx:define>
+   		<ToggleGroup fx:id="toggroup"></ToggleGroup>
+   </fx:define>
+   <children>
+      <ToggleButton toggleGroup="$toggroup" fx:id="buttonAddAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#clickButton" text="Ajouter un agent" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+         <font>
+            <Font name="OpenSymbol" size="18.0" />
+         </font>
+         <HBox.margin>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </HBox.margin>
+      </ToggleButton>
+      <ToggleButton toggleGroup="$toggroup" fx:id="buttonDelAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#clickButton" text="Supprimer un agent" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+         <font>
+            <Font name="OpenSymbol" size="18.0" />
+         </font>
+         <HBox.margin>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </HBox.margin>
+      </ToggleButton>
+      <ToggleButton toggleGroup="$toggroup" fx:id="buttonAddEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#clickButton" text="Ajouter un lien" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+         <font>
+            <Font name="OpenSymbol" size="18.0" />
+         </font>
+         <HBox.margin>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </HBox.margin>
+      </ToggleButton>
+      <ToggleButton toggleGroup="$toggroup" fx:id="buttonDelEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#clickButton" text="Supprimer un lien" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+         <font>
+            <Font name="OpenSymbol" size="18.0" />
+         </font>
+         <HBox.margin>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </HBox.margin>
+      </ToggleButton>
+   </children>
+</HBox>
