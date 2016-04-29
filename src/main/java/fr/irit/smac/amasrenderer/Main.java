@@ -7,7 +7,6 @@ import javafx.application.Application;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -23,7 +22,7 @@ public class Main extends Application {
         this.initRootLayout();
         this.initGraphAgents();
         this.initServices();
-
+        
         primaryStage.setScene(new Scene(rootLayout));
         primaryStage.show();
     }
@@ -34,6 +33,7 @@ public class Main extends Application {
         loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"));
         this.rootLayout = (BorderPane) loaderRootLayout.load();
     }
+    
     
     private void initGraphAgents() throws IOException {
         
@@ -56,6 +56,7 @@ public class Main extends Application {
         VBox root3 = (VBox) loaderServices.load();
         rootLayout.setLeft(root3);
     }
+
 
     public static void main(String[] args) {
         launch(args);

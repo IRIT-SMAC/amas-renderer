@@ -12,7 +12,7 @@
    </fx:define>
    <children>
       <ToggleButton toggleGroup="$toggroup" fx:id="buttonAddAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#clickButton" text="Ajouter un agent" textAlignment="CENTER" HBox.hgrow="ALWAYS">
-         <font>
+         <font> 
             <Font name="OpenSymbol" size="18.0" />
          </font>
          <HBox.margin>

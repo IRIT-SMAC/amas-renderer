@@ -277,5 +277,7 @@ public class GraphMainController implements Initializable {
         this.initSubControllers();
         //nodeEditController.init(graphView);
         //graphView.addMouseListener(nodeEditController);
+        /*nodeEditController.init(graphView);
+        graphView.addMouseListener(nodeEditController);*/
     }
 }
