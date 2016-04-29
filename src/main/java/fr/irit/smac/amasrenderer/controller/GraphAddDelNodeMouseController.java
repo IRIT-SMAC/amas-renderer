@@ -70,6 +70,7 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
         String curId = Integer.toString(currentNodeId++);
         Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
         model.addNode(curId);
+        model.getNode(curId).setAttribute("ui.label", "Ag"+curId);
         model.getNode(curId).changeAttribute("xyz", clicLoc.x, clicLoc.y );
         model.getNode(curId).setAttribute("ui.stocked-info", new Stock());
         model.getNode(curId).setAttribute("layout.weight", 300);

@@ -50,7 +50,7 @@ public class GraphMainController implements Initializable {
      */
     public GraphMainController() {
         this.model = new AgentGraph("AMAS Rendering");
-        model.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../view/styleSheet2.css") + ")");
+        model.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../view/TheTrueStyleSheet.css") + ")");
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         Viewer viewer = new Viewer(this.model, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         viewer.enableAutoLayout();
@@ -129,10 +129,14 @@ public class GraphMainController implements Initializable {
      * For testing purposes 
      */
     private void initGraph() {
+        model.addAttribute("ui.quality");
+        model.addAttribute("ui.antialias");
         model.addNode("0");
+        model.getNode("0").setAttribute("ui.label", "Ag0");
         for (Integer i = 1; i < Const.NODE_INIT; i++) {
             int firstNode = i;
             model.addNode("" + firstNode);
+            model.getNode(""+firstNode).setAttribute("ui.label", "Ag"+firstNode );
             if (i >= Const.EDGE_INIT) {
                 for (int j = 0; j < Const.EDGE_INIT; j++) {
                     int secondNode = (int) Math.floor((Math.random() * i));
