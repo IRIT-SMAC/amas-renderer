@@ -10,6 +10,7 @@ import org.graphstream.graph.Node;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
 import fr.irit.smac.amasrenderer.model.AgentGraph;
+import fr.irit.smac.amasrenderer.service.GraphService;
 
 /**
  * The Class GraphAddDelEdgeMouseController_Old.
@@ -18,10 +19,9 @@ import fr.irit.smac.amasrenderer.model.AgentGraph;
  */
 public class GraphAddDelEdgeMouseController extends MouseAdapter {
 
+    private GraphService graphNodeService;
     private ViewPanel  graphView;
     
-    private AgentGraph model;
-
     private Node source = null;
     
     private Node target = null;
@@ -35,9 +35,9 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
      * @param graphView the graph view
      * @param model the model (AgentGraph)
      */
-    public void init(ViewPanel graphView, AgentGraph model) {
+    public void init(ViewPanel graphView, GraphService graphNodeService) {
+        this.graphNodeService = graphNodeService;
         this.graphView = graphView;
-        this.model = model;
         graphView.addMouseListener(this);
         buttonAddEdge = buttonDelEdge = false;
     }
@@ -74,6 +74,8 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
     private void secondClick(MouseEvent e){
         target = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if(target != null){
+            
+            AgentGraph model = this.graphNodeService.getModel();
             Edge edge = model.getEdge(source.getId()+""+target.getId());
             if((edge != null) && (!e.isControlDown()) && ((e.isShiftDown() && SwingUtilities.isRightMouseButton(e))^(SwingUtilities.isLeftMouseButton(e) && buttonDelEdge))){
                 model.removeEdge(edge);

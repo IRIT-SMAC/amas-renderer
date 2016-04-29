@@ -139,6 +139,7 @@ public class GraphDefaultMouseController extends MouseAdapter
      * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
      */
     public void mousePressed(MouseEvent event) {
+        System.out.println("mouse pressed");
         if(SwingUtilities.isLeftMouseButton(event)){
             curElement = view.findNodeOrSpriteAt(event.getX(), event.getY());
     

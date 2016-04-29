@@ -11,7 +11,7 @@ import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.StackPane
 
-class GraphNodeTest extends GuiSpecification{
+class GraphTest extends GuiSpecification{
 
     def setup() {
         setupStage { stage ->
@@ -87,5 +87,45 @@ class GraphNodeTest extends GuiSpecification{
         then:
         false
         //Verifier dans le modele qu'un agent a ete supprime
+    }
+
+    def "check if an edge is added by clicking on the corresponding button"() {
+
+        when:
+        println "link added with button"
+
+        then:
+        false
+        //Verifier dans le modele qu'un agent a ete ajoute
+    }
+
+    def "check if an edge is added by doing the correspoonding shortcut"() {
+
+        when:
+        println "link added with shortcut"
+
+        then:
+        false
+        //Verifier dans le modele qu'un agent a ete ajoute
+    }
+
+    def "check if an edge is remove by clicking on the corresponding button"() {
+
+        when:
+        println "link removed with button"
+
+        then:
+        false
+        //Verifier dans le modele qu'un agent a ete ajoute
+    }
+
+    def "check if an edge is remove by doing the correspoonding shortcut"() {
+
+        when:
+        println "link removed with shortcut"
+
+        then:
+        false
+        //Verifier dans le modele qu'un agent a ete ajoute
     }
 }
