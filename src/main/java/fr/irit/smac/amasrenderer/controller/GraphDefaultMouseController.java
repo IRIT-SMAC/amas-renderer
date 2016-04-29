@@ -135,52 +135,52 @@ public class GraphDefaultMouseController extends MouseAdapter
     /**
      * On mousePress gets the node at the left click location, if there is a node sets it as curElement to be dragged
      * trough mouseButtonPressOnElement
-     * Else it means the user wants to create a selection box trough mouseButtonPress
+     * COMMENTED: Else it means the user wants to create a selection box trough mouseButtonPress
      * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
      */
     public void mousePressed(MouseEvent event) {
-        System.out.println("mouse pressed");
-        if(SwingUtilities.isLeftMouseButton(event)){
+        if(SwingUtilities.isLeftMouseButton(event) && event.isAltDown()){
             curElement = view.findNodeOrSpriteAt(event.getX(), event.getY());
     
             if (curElement != null) {
+                mouseButtonPress(event);
                 mouseButtonPressOnElement(curElement, event);
-            } else {
+            }/* else {
                 x1 = event.getX();
                 y1 = event.getY();
                 mouseButtonPress(event);
                 view.beginSelectionAt(x1, y1);
-            }
+            }*/
         }        
     }
 
     /** 
      * if a node was selected at the click, then moves it at mouse location
-     * else expand the selection to the mouse location
+     * COMMENTED: else expand the selection to the mouse location
      * @see java.awt.event.MouseAdapter#mouseDragged(java.awt.event.MouseEvent)
      */
     public void mouseDragged(MouseEvent event) {
-        if(SwingUtilities.isLeftMouseButton(event)){
+        if(SwingUtilities.isLeftMouseButton(event) && event.isAltDown()){
             if (curElement != null) {
                 elementMoving(curElement, event);
-            } else {
+            }/* else {
                 view.selectionGrowsAt(event.getX(), event.getY());
-            }
+            }*/
         }
     }
 
     /**
      * if we were dragging a node, releases that node, and sets curElement to null
-     * else get the selection end ( mouse location ) and ask the graph all the nodes in that selection
+     * COMMENTED: else get the selection end ( mouse location ) and ask the graph all the nodes in that selection
      * it then marks all thoses nodes as selected and ends the selection
      * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
      */
     public void mouseReleased(MouseEvent event) {
-        if(SwingUtilities.isLeftMouseButton(event)){
+        if(SwingUtilities.isLeftMouseButton(event) && event.isAltDown()){
             if (curElement != null) {
                 mouseButtonReleaseOffElement(curElement, event);
                 curElement = null;
-            } else {
+            }/* else {
                 float x2 = event.getX();
                 float y2 = event.getY();
                 float t;
@@ -198,7 +198,7 @@ public class GraphDefaultMouseController extends MouseAdapter
     
                 mouseButtonRelease(event, view.allNodesOrSpritesIn(x1, y1, x2, y2));
                 view.endSelectionAt(x2, y2);
-            }
+            }*/
         }
     }
 
