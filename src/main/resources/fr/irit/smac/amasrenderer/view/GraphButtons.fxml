@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
-<?import java.net.URL?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox id="containerButtonGraph" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="101.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.GraphMainController">
+<HBox id="containerButtonGraph" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="101.0" stylesheets="@graphButtonsStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.GraphMainController">
    <fx:define>
    		<ToggleGroup fx:id="toggroup" />
    </fx:define>
@@ -40,8 +39,4 @@
          </styleClass>
       </ToggleButton>
    </children>
-   <stylesheets>
-      <URL value="@layout.css" />
-      <URL value="@graphButtonsStyle.css" />
-   </stylesheets>
 </HBox>
