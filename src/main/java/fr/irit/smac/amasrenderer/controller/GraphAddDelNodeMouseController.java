@@ -29,8 +29,8 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
     
     private int        currentNodeId;
     
-    private boolean buttonAddAgent;
-    private boolean buttonDelAgent;
+    private static boolean buttonAddAgent;
+    private static boolean buttonDelAgent;
 
     /**
      * Initialize the controller, and adds it to the graph.
