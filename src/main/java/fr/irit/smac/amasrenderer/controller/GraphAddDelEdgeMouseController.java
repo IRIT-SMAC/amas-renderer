@@ -26,8 +26,8 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
     
     private Node target = null;
     
-    private boolean buttonAddEdge;
-    private boolean buttonDelEdge;
+    private static boolean buttonAddEdge;
+    private static boolean buttonDelEdge;
 
     /**
      * Initialize the controller, and adds it to the graph.
