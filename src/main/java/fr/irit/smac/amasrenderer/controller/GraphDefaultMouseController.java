@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
 
-import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.swingViewer.ViewPanel;
@@ -17,12 +16,19 @@ import fr.irit.smac.amasrenderer.model.AgentGraph;
  * Implements the default operation of graphstream
  * Thoses include dragging a node and making a selection box
  */
-public class GraphDefaultMouseController extends MouseAdapter
-{
+public class GraphDefaultMouseController extends MouseAdapter {
 
+    /** The view. */
     protected ViewPanel view;
 
+    /** The graph. */
     protected AgentGraph graph;
+    
+    /** The cur element. */
+    protected GraphicElement curElement;
+
+    /** The y1. */
+    protected float x1, y1;
 
     /**
      * Initialize the controller, and adds it to the graph.
@@ -40,7 +46,7 @@ public class GraphDefaultMouseController extends MouseAdapter
     
     
     /**
-     * Used to "unplug" this controller from the graph
+     * Used to "unplug" this controller from the graph.
      */
     public void release() {
         view.removeMouseListener(this);
@@ -59,9 +65,13 @@ public class GraphDefaultMouseController extends MouseAdapter
         //if shift is down, then it means the user wants to select more nodes, so don't unselect
         if (!event.isShiftDown()) {
             for (Node node : graph) {
-                node.addAttribute("ui.selected"); // nonsense line, but don't always work without it
-                //if (node.hasAttribute("ui.selected"))
+                System.out.println("node: "+node);
+                node.addAttribute("ui.selected"); 
+                // nonsense line, but don't always work without it
                 node.removeAttribute("ui.selected");
+                node.addAttribute("ui.clicked"); 
+                // nonsense line, but don't always work without it
+                node.removeAttribute("ui.clicked");
             }
         }
     }
@@ -69,14 +79,13 @@ public class GraphDefaultMouseController extends MouseAdapter
     /**
      * Tags all the elements in the selection area as selected on Mouse button release.
      *
-     * @param event the event
      * @param elementsInArea the elements in area (meant to be called by mouseReleased)
      */
-    protected void mouseButtonRelease(MouseEvent event,
-            Iterable<GraphicElement> elementsInArea) {
+    protected void mouseButtonRelease(Iterable<GraphicElement> elementsInArea) {
         for (GraphicElement element : elementsInArea) {
-            if (!element.hasAttribute("ui.selected"))
+            if (!element.hasAttribute("ui.selected")) {
                 element.addAttribute("ui.selected");
+            }
         }
     }
 
@@ -89,7 +98,7 @@ public class GraphDefaultMouseController extends MouseAdapter
     protected void mouseButtonPressOnElement(GraphicElement element,
             MouseEvent event) {
         view.freezeElement(element, true);
-        if (event.getButton() == 3) {
+        if (SwingUtilities.isRightMouseButton(event)) {
             element.addAttribute("ui.selected");
         } else {
             element.addAttribute("ui.clicked");
@@ -98,7 +107,7 @@ public class GraphDefaultMouseController extends MouseAdapter
 
     /**
      * To be called by mouseDragged
-     * moves the element to the location of the mouse at each call
+     * moves the element to the location of the mouse at each call.
      *
      * @param element the element
      * @param event the event
@@ -116,16 +125,17 @@ public class GraphDefaultMouseController extends MouseAdapter
     protected void mouseButtonReleaseOffElement(GraphicElement element,
             MouseEvent event) {
         view.freezeElement(element, false);
-        if (event.getButton() != 3) {
+        if (SwingUtilities.isRightMouseButton(event)) {
             element.removeAttribute("ui.clicked");
         }
     }
 
-    protected GraphicElement curElement;
 
-    protected float x1, y1;
 
-    /* (non-Javadoc)
+    /**
+     * Mouse clicked.
+     *
+     * @param event the Mouse Event
      * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
      */
     public void mouseClicked(MouseEvent event) {
@@ -135,7 +145,9 @@ public class GraphDefaultMouseController extends MouseAdapter
     /**
      * On mousePress gets the node at the left click location, if there is a node sets it as curElement to be dragged
      * trough mouseButtonPressOnElement
-     * COMMENTED: Else it means the user wants to create a selection box trough mouseButtonPress
+     * COMMENTED: Else it means the user wants to create a selection box trough mouseButtonPress.
+     *
+     * @param event the Mouse Event
      * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
      */
     public void mousePressed(MouseEvent event) {
@@ -154,9 +166,12 @@ public class GraphDefaultMouseController extends MouseAdapter
         }        
     }
 
-    /** 
+    /**
+     *  
      * if a node was selected at the click, then moves it at mouse location
-     * COMMENTED: else expand the selection to the mouse location
+     * COMMENTED: else expand the selection to the mouse location.
+     *
+     * @param event the Mouse Event
      * @see java.awt.event.MouseAdapter#mouseDragged(java.awt.event.MouseEvent)
      */
     public void mouseDragged(MouseEvent event) {
@@ -172,7 +187,9 @@ public class GraphDefaultMouseController extends MouseAdapter
     /**
      * if we were dragging a node, releases that node, and sets curElement to null
      * COMMENTED: else get the selection end ( mouse location ) and ask the graph all the nodes in that selection
-     * it then marks all thoses nodes as selected and ends the selection
+     * it then marks all thoses nodes as selected and ends the selection.
+     *
+     * @param event the Mouse Event
      * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
      */
     public void mouseReleased(MouseEvent event) {
@@ -200,25 +217,5 @@ public class GraphDefaultMouseController extends MouseAdapter
                 view.endSelectionAt(x2, y2);
             }*/
         }
-    }
-
-    /* (non-Javadoc)
-     * @see java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
-     */
-    public void mouseEntered(MouseEvent event) {
-        // NOP
-    }
-
-    /* (non-Javadoc)
-     * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
-     */
-    public void mouseExited(MouseEvent event) {
-        // NOP
-    }
-
-    /* (non-Javadoc)
-     * @see java.awt.event.MouseAdapter#mouseMoved(java.awt.event.MouseEvent)
-     */
-    public void mouseMoved(MouseEvent e) {
     }
 }

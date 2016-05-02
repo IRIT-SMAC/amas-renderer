@@ -2,36 +2,55 @@ package fr.irit.smac.amasrenderer.controller;
 
 import javafx.fxml.FXML;
 
+//TODO Auto-generated Javadoc and i dont know what this class is for | by michael
+/**
+ * The Class GraphOptionsController.
+ */
 public class GraphOptionsController {
-	
-	
-	
-	
-	@FXML
-	public void clickGenerer(){
-		System.out.println("win");
-	}
-	
-	@FXML
-	public void clickAjouterAgent(){
-		System.out.println("win");
-	}
-	
-	@FXML
-	public void clickSupprimerAgent(){
-		System.out.println("win");
-	}
-	
-	@FXML
-	public void clickAjouterLien(){
-		System.out.println("win");
-	}
-	
-	@FXML
-	public void clickSupprimerLien(){
-		System.out.println("win");
-	}
-	
-	
-	
+
+
+
+
+    /**
+     * Click generer.
+     */
+    @FXML
+    public void clickGenerer(){
+        //NOP
+    }
+
+    /**
+     * Click ajouter agent.
+     */
+    @FXML
+    public void clickAjouterAgent(){
+        //NOP
+    }
+
+    /**
+     * Click supprimer agent.
+     */
+    @FXML
+    public void clickSupprimerAgent(){
+        //NOP
+    }
+    
+    /**
+     * Click ajouter lien.
+     */
+    @FXML
+    public void clickAjouterLien(){
+        //NOP
+    }
+
+    /**
+     * Click supprimer lien.
+     */
+    @FXML
+    public void clickSupprimerLien(){
+        //NOP
+    }
+    
+
+
 }

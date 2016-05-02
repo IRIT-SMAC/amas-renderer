@@ -1,5 +1,6 @@
 package fr.irit.smac.amasrenderer
 
+import org.graphstream.graph.Edge
 import org.graphstream.graph.implementations.SingleNode
 
 import spock.lang.Shared
@@ -8,16 +9,31 @@ import fr.irit.smac.amasrenderer.controller.GraphAddDelNodeMouseController
 import fr.irit.smac.amasrenderer.model.AgentGraph
 import fr.irit.smac.amasrenderer.service.GraphService
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GraphServiceTest.
+ */
 class GraphServiceTest extends Specification{
 
+    /** The graph node service. */
     @Shared GraphService graphNodeService
     
+    /**
+     * Setup spec.
+     *
+     * @return the java.lang. object
+     */
     def setupSpec() {
 
         graphNodeService = new GraphService()
         graphNodeService.createAgentGraph()
     }
 
+    /**
+     * Check if an agent is added and removed.
+     *
+     * @return the object
+     */
     def 'check if an agent is added and removed'() {
 
         when:        
@@ -36,7 +52,24 @@ class GraphServiceTest extends Specification{
         graphNodeService.getModel().getNode("agent1") == null
     }
     
+    /**
+     * Check if an edge is added and removed.
+     *
+     * @return the object
+     */
     def 'check if an edge is added and removed'() {
+        when:
+        graphNodeService.addNode("agent1",5.0,10.0)
+        graphNodeService.addNode("agent2",10.0,5.0)
+        graphNodeService.getModel().addEdge("agent1-agent2","agent1","agent2")
+
+        then:
+        graphNodeService.getModel().getEdge("agent1-agent2") != null
         
+        when:
+        graphNodeService.getModel().removeEdge("agent1-agent2")
+        
+        then:
+        graphNodeService.getModel().getEdge("agent1-agent2") == null
     }
 }

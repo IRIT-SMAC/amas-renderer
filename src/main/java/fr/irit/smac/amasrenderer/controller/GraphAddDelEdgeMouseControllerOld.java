@@ -9,21 +9,27 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentGraph;
 
 /**
- * The Class GraphAddDelEdgeMouseController_Old.
+ * The Class GraphAddDelEdgeMouseControllerOld.
  * This controller controls addition and deletion of edges on the graph "model"
  * Creation and deletion are used by right-click dragging from one node to an other
+ * DEPRECATED USE THE NEW ONE: GraphAddDelEdgeMouseController
  */
-public class GraphAddDelEdgeMouseController_Old extends MouseAdapter {
+public class GraphAddDelEdgeMouseControllerOld extends MouseAdapter {
 
+    /** The graph view. */
     private ViewPanel  graphView;
     
+    /** The model. */
     private AgentGraph model;
 
+    /** The source. */
     private Node source = null;
     
+    /** The target. */
     private Node target = null;
 
     /**
@@ -39,14 +45,15 @@ public class GraphAddDelEdgeMouseController_Old extends MouseAdapter {
     }
 
     /**
-     * Gets the node on which the right mouse button was pressed and sets it as source(to prepare for mouseReleased)
+     * Gets the node on which the right mouse button was pressed and sets it as source(to prepare for mouseReleased).
+     *
+     * @param e the e
      * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
      */
     @Override
     public void mousePressed(MouseEvent e) {
         if(SwingUtilities.isRightMouseButton(e)){
             source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-            System.out.println("edgeSource : "+source);
         }
     }
     
@@ -54,25 +61,23 @@ public class GraphAddDelEdgeMouseController_Old extends MouseAdapter {
      * Gets the node on which the right click was released and sets it as target, if source or target is null does nothing
      * Else if no edge exists between theses nodes, creates one.
      * If an edge exists, deletes it.
+     *
+     * @param e the e
      * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(source != null){
-            if(SwingUtilities.isRightMouseButton(e)){
-                target = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-                System.out.println("edgeTarget : "+target);
-                if(target != null){
-                    Edge edge = model.getEdge(source.getId()+""+target.getId()); 
-                    // if the edge doesn't exist , creates it
-                    if(edge == null){
-                        model.addEdge(source.getId()+""+target.getId(), source.getId(), target.getId(),true);
-                        model.getEdge(source.getId()+""+target.getId()).setAttribute("layout.weight", 20);
-                    }
+        if(source != null && SwingUtilities.isRightMouseButton(e)){
+            target = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+            if(target != null){
+                Edge edge = model.getEdge(source.getId()+""+target.getId()); 
+                // if the edge doesn't exist , creates it
+                if(edge == null){
+                    model.addEdge(source.getId()+""+target.getId(), source.getId(), target.getId(),true);
+                    model.getEdge(source.getId()+""+target.getId()).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_EDGE);
+                } else {
                     // else deletes it
-                    else{
-                        model.removeEdge(edge);
-                    }
+                    model.removeEdge(edge);
                 }
             }
         }

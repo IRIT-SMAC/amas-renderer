@@ -2,15 +2,14 @@ package fr.irit.smac.amasrenderer.controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Iterator;
 
 import javax.swing.SwingUtilities;
 
-import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentGraph;
 import fr.irit.smac.amasrenderer.model.Stock;
 import fr.irit.smac.amasrenderer.service.GraphService;
@@ -23,20 +22,26 @@ import fr.irit.smac.amasrenderer.service.GraphService;
  */
 public class GraphAddDelNodeMouseController extends MouseAdapter{
 
+    /** The graph node service. */
     private GraphService graphNodeService;
 
+    /** The graph view. */
     private ViewPanel  graphView;
     
+    /** The current node id. */
     private int        currentNodeId;
     
+    /** The button add agent. */
     private static boolean buttonAddAgent;
+    
+    /** The button del agent. */
     private static boolean buttonDelAgent;
 
     /**
      * Initialize the controller, and adds it to the graph.
      *
      * @param graphView the graph view
-     * @param model the model
+     * @param graphNodeService the graph node service
      */
     public void init(ViewPanel graphView, GraphService graphNodeService) {
         this.graphNodeService = graphNodeService;
@@ -47,24 +52,22 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
     
     /**
      * On mouse alt+click, if there is no node at mouse location creates a node at mouse location
-     * else deletes the node at mouse location
+     * else deletes the node at mouse location.
+     *
+     * @param e the e
      * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
      */
     @Override
     public void mouseClicked(MouseEvent e){
         Node n = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         //if clicked on empty space, create a node
-        System.out.println("but add agent: "+this.buttonAddAgent);
-        System.out.println("but del agent: "+buttonDelAgent);
-        
         if(n == null && SwingUtilities.isLeftMouseButton(e) && (e.isControlDown() || buttonAddAgent)){
-           createNode(e);
-        }
-        //else on right click deletes the node and all connected edges
-        //explanation of the if:
-        //if there is a node on clic location
-        //and user does ctrl+right-click XOR he does left click and the del agen button is pressed
-        else if((n != null)&&((SwingUtilities.isRightMouseButton(e) && e.isControlDown())^(SwingUtilities.isLeftMouseButton(e) && buttonDelAgent))){
+            createNode(e);
+        } else if((n != null)&&((SwingUtilities.isRightMouseButton(e) && e.isControlDown())^(SwingUtilities.isLeftMouseButton(e) && buttonDelAgent))) {
+            //else on right click deletes the node and all connected edges
+            //explanation of the if:
+            //if there is a node on clic location
+            //and user does ctrl+right-click XOR he does left click and the del agen button is pressed
             this.graphNodeService.removeNode(n);
         }
     }
@@ -79,6 +82,11 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
         return this.graphNodeService.getModel();
     }
     
+    /**
+     * Creates the node.
+     *
+     * @param e the e
+     */
     private void createNode(MouseEvent e){
         String curId = Integer.toString(currentNodeId++);
         Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
@@ -86,25 +94,23 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
         getModel().getNode(curId).setAttribute("ui.label", "Ag"+curId);
         getModel().getNode(curId).changeAttribute("xyz", clicLoc.x, clicLoc.y );
         getModel().getNode(curId).setAttribute("ui.stocked-info", new Stock());
-        getModel().getNode(curId).setAttribute("layout.weight", 300);
+        getModel().getNode(curId).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
     }
     
-    private void deleteNode(Node n){
-        Iterable<Edge> edges = n.getEachEdge();
-        if(edges != null){
-            for(Edge edge: edges){
-                getModel().removeEdge(edge.getId());
-            }
-        }
-        getModel().removeNode(n.getId());
-    }
-    
+    /**
+     * Sets the button add agent.
+     *
+     * @param buttonAddAgent the new button add agent
+     */
     public void setButtonAddAgent(boolean buttonAddAgent) {
-        System.out.println("butadagent set to "+ buttonAddAgent);
         this.buttonAddAgent = buttonAddAgent;
-        System.out.println("butAddAgent in addDelNode has been set to " +this.buttonAddAgent);
     }
     
+    /**
+     * Sets the button del agent.
+     *
+     * @param buttonDelAgent the new button del agent
+     */
     public void setButtonDelAgent(boolean buttonDelAgent) {
         this.buttonDelAgent = buttonDelAgent;
     }
