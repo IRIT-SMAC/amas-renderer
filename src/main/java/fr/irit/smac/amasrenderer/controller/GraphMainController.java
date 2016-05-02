@@ -10,6 +10,8 @@ import org.graphstream.graph.Node;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
+import com.sun.javafx.tk.Toolkit;
+
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentGraph;
 import fr.irit.smac.amasrenderer.model.Stock;
@@ -208,8 +210,10 @@ public class GraphMainController implements Initializable {
             if (i >= Const.EDGE_INIT) {
                 for (int j = 0; j < Const.EDGE_INIT; j++) {
                     int secondNode = (int) Math.floor((Math.random() * i));
-                    if (model.getEdge(firstNode + "" + secondNode) == null)
-                        model.addEdge(firstNode + "" + secondNode, "" + firstNode, "" + secondNode, true);
+                    if (model.getEdge(firstNode + "" + secondNode) == null){
+                            model.addEdge(firstNode + "" + secondNode, "" + firstNode, "" + secondNode, true);
+                            model.getEdge(firstNode + "" + secondNode).setAttribute("layout.weight", 200);
+                        }
                     else
                         j--;
                 }
@@ -235,7 +239,6 @@ public class GraphMainController implements Initializable {
     private void initSubControllers() {
         MouseMotionListener[] mml = graphView.getMouseMotionListeners();
         for (MouseMotionListener mouseMotionListener : mml) {
-            System.out.println(mouseMotionListener.toString());
             graphView.removeMouseMotionListener(mouseMotionListener);
         }
 

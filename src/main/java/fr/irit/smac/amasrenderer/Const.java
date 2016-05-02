@@ -2,7 +2,7 @@ package fr.irit.smac.amasrenderer;
 
 public class Const {
     
-    public final static int NODE_INIT = 100; 
+    public final static int NODE_INIT = 40; 
     public final static int EDGE_INIT = 1; 
     
     public static final String[] BASE_DESCR = {
