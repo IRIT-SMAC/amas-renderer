@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import fr.irit.smac.amasrenderer.controller.GraphMainController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -33,6 +34,10 @@ public class Main extends Application {
         this.initServices();
         
         primaryStage.setScene(new Scene(rootLayout));
+        primaryStage.setOnCloseRequest(event -> {
+				Platform.exit();	
+				System.exit(0);
+		});
         primaryStage.show();
     }
 
