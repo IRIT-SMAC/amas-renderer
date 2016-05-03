@@ -9,13 +9,11 @@ import fr.irit.smac.amasrenderer.controller.GraphAddDelNodeMouseController
 import fr.irit.smac.amasrenderer.model.AgentGraph
 import fr.irit.smac.amasrenderer.service.GraphService
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GraphServiceTest.
  */
 class GraphServiceTest extends Specification{
 
-    /** The graph node service. */
     @Shared GraphService graphNodeService
     
     /**
@@ -43,7 +41,7 @@ class GraphServiceTest extends Specification{
         SingleNode node = graphNodeService.getModel().getNode("agent1")
         node.getId()
         node.getAttribute("xyz") == [5.0, 10.0]
-        node.getAttribute("layout.weight") == 300
+        node.getAttribute("layout.weight") == Const.LAYOUT_WEIGHT_NODE
         
         when:
         graphNodeService.removeNode(node)
