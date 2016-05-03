@@ -21,21 +21,22 @@ import javafx.scene.control.ToggleButton;
 public class GraphAddDelEdgeMouseController extends MouseAdapter {
 
     private GraphService graphNodeService;
+    
     private ViewPanel  graphView;
     
     private Node source = null;
     
     private Node target = null;
     
-
     private ToggleButton buttonAddEdge;
+    
     private ToggleButton buttonDelEdge;
     
     /**
      * Initialize the controller, and adds it to the graph.
      *
      * @param graphView the graph view
-     * @param model the model (AgentGraph)
+     * @param graphNodeService the graph node service
      */
     public void init(ViewPanel graphView, GraphService graphNodeService) {
         this.graphNodeService = graphNodeService;
@@ -43,6 +44,9 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
         graphView.addMouseListener(this);
     }
     
+    /* (non-Javadoc)
+     * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+     */
     // the headache function
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -59,6 +63,11 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
         
     }
     
+    /**
+     * Handle the first click
+     *
+     * @param e the e
+     */
     //this first click sets the source var, and cleans the target var
     private void firstClick(MouseEvent e){
         source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
@@ -71,6 +80,11 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
     }
     
     //this second click gets the target var , if it is valid , checks how the used clicked on that node, and tries to add an edge (if addEdgeButton or shift + left click )
+    /**
+     * Handle the second click
+     *
+     * @param e the e
+     */
     // or tries to delete it (if user did shift + right click or delEdgeButton + left click )
     private void secondClick(MouseEvent e){
         target = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
@@ -92,10 +106,20 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
         }
     }
     
+    /**
+     * Sets the button AddEdge from the parent controller
+     *
+     * @param buttonAddEdge the new button add edge
+     */
     public void setButtonAddEdge(ToggleButton buttonAddEdge) {
         this.buttonAddEdge = buttonAddEdge;
     }
     
+    /**
+     * Sets the button DelEdge from the parent controller
+     *
+     * @param buttonDelEdge the new button del edge
+     */
     public void setButtonDelEdge(ToggleButton buttonDelEdge) {
         this.buttonDelEdge = buttonDelEdge;
     }
