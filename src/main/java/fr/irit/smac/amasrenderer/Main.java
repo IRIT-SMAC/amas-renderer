@@ -12,10 +12,19 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+//TODO verifier que ce que j'ai marqué est bon, ne connaissans pas cette classe ( michael )
+/**
+ * The Class Main.
+ * Launch the program
+ */
 public class Main extends Application {
 
+    /** The root layout. */
     BorderPane rootLayout;
     
+    /* (non-Javadoc)
+     * @see javafx.application.Application#start(javafx.stage.Stage)
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -27,6 +36,11 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Inits the root layout.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     private void initRootLayout() throws IOException {
         
         FXMLLoader loaderRootLayout = new FXMLLoader();
@@ -35,6 +49,11 @@ public class Main extends Application {
     }
     
     
+    /**
+     * Inits the graph agents.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     private void initGraphAgents() throws IOException {
         
         FXMLLoader loaderGraphAgents = new FXMLLoader();
@@ -49,6 +68,11 @@ public class Main extends Application {
         rootLayout.setCenter(root);
     }
 
+    /**
+     * Inits the services.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     private void initServices() throws IOException {
         
         FXMLLoader loaderServices = new FXMLLoader();
@@ -58,6 +82,11 @@ public class Main extends Application {
     }
 
 
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }

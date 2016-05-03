@@ -1,10 +1,27 @@
 package fr.irit.smac.amasrenderer;
 
-public class Const {
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Const.
+ * Contains all the constants
+ */
+public final class Const {
     
     public final static int NODE_INIT = 0; 
-    public final static int EDGE_INIT = 0; 
     
+    public final static int EDGE_INIT = 0; 
+ 
+    public static final int LAYOUT_WEIGHT_NODE = 1; 
+    
+    public static final int LAYOUT_WEIGHT_EDGE = 1; 
+    
+    public static final double SCALE_UNZOOM_RATIO = 0.8;
+    
+    public static final double SCALE_ZOOM_RATIO = 1.2;
+    
+    public static final double TRANSLATE_ZOOM_RATIO = 0.2;
+
+    /** The Constant BASE_DESCR. , for test purposes*/
     public static final String[] BASE_DESCR = {
             "Thats a beautiful node",
             "That node is not an edge",
@@ -18,7 +35,10 @@ public class Const {
             "ERMHERGHERD ! Why did you click me?!"
         };
     
-    private Const() {
+/**
+ * Instantiates a new const (just to hide the constructor).
+ */
+    private Const(){
         
     }
 }

@@ -14,7 +14,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+// TODO: Do something with this class
+/**
+ * The Class ServicesController.
+ * it exists but nobody knows why, kind of like patrick sebastien
+ */
 public class ServicesController {
+
 
 	@FXML
 	private ListView<String> listService;
@@ -63,5 +69,4 @@ public class ServicesController {
 		Stage stage = (Stage) buttonCancel.getScene().getWindow();
 		stage.close();
 	}
-
 }

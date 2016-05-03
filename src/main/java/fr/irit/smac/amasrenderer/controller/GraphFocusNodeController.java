@@ -12,6 +12,7 @@ import org.graphstream.ui.geom.Point3;
  */
 public class GraphFocusNodeController extends MouseAdapter {
     
+    /** The controller. */
     private GraphMainController controller; 
     
     /**
@@ -25,7 +26,9 @@ public class GraphFocusNodeController extends MouseAdapter {
     }
     
     /**
-     * gets the clic location and if shift is pressed sets that point as the center of the camera 
+     * gets the clic location and if shift is pressed sets that point as the center of the camera .
+     *
+     * @param e the e
      * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
      */
     @Override

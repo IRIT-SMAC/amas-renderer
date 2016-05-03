@@ -4,39 +4,22 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
 
-<HBox id="containerButtonGraph" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="101.0" stylesheets="@graphButtonsStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.GraphMainController">
-   <fx:define>
-   		<ToggleGroup fx:id="toggroup" />
-   </fx:define>
-   <children>
-      <ToggleButton fx:id="buttonAddAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#clickButton" styleClass="buttonGraph" text="Ajouter un agent" textAlignment="CENTER" HBox.hgrow="ALWAYS">
-         <font>
-            <Font name="OpenSymbol" size="18.0" />
-         </font>
+<HBox id="containerButtonGraph" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="101.0" stylesheets="@graphButtonsStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.GraphAddDelController">
+	<fx:define>
+		<ToggleGroup fx:id="toggroup" />
+	</fx:define>
+	<children>
+		<ToggleButton fx:id="buttonAddAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="buttonGraph" text="Ajouter un agent" textAlignment="CENTER" HBox.hgrow="ALWAYS">
          <toggleGroup>
             <ToggleGroup fx:id="toggroup" />
-         </toggleGroup>
-      </ToggleButton>
-      <ToggleButton fx:id="buttonDelAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#clickButton" styleClass="buttonGraph" text="Supprimer un agent" textAlignment="CENTER" toggleGroup="$toggroup" HBox.hgrow="ALWAYS">
-         <font>
-            <Font name="OpenSymbol" size="18.0" />
-         </font>
-      </ToggleButton>
-      <ToggleButton fx:id="buttonAddEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#clickButton" styleClass="buttonGraph" text="Ajouter un lien" textAlignment="CENTER" toggleGroup="$toggroup" HBox.hgrow="ALWAYS">
-         <font>
-            <Font name="OpenSymbol" size="18.0" />
-         </font>
-      </ToggleButton>
-      <ToggleButton fx:id="buttonDelEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#clickButton" text="Supprimer un lien" textAlignment="CENTER" toggleGroup="$toggroup" HBox.hgrow="ALWAYS">
-         <font>
-            <Font name="OpenSymbol" size="18.0" />
-         </font>
+         </toggleGroup></ToggleButton>
+		<ToggleButton fx:id="buttonDelAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="buttonGraph" text="Supprimer un agent" textAlignment="CENTER" toggleGroup="$toggroup" HBox.hgrow="ALWAYS" />
+		<ToggleButton fx:id="buttonAddEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="buttonGraph" text="Ajouter un lien" textAlignment="CENTER" toggleGroup="$toggroup" HBox.hgrow="ALWAYS" />
+		<ToggleButton fx:id="buttonDelEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Supprimer un lien" textAlignment="CENTER" toggleGroup="$toggroup" HBox.hgrow="ALWAYS">
          <styleClass>
             <String fx:value="buttonGraph" />
             <String fx:value="lastButtonGraph" />
-         </styleClass>
-      </ToggleButton>
-   </children>
+         </styleClass></ToggleButton>
+	</children>
 </HBox>
