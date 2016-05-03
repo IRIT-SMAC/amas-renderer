@@ -2,13 +2,14 @@ package fr.irit.smac.amasrenderer.service;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
+import org.graphstream.ui.geom.Point2;
 
 import fr.irit.smac.amasrenderer.model.AgentGraph;
 import fr.irit.smac.amasrenderer.model.Stock;
 
 public class GraphService {
 
-    private AgentGraph          model;
+    private AgentGraph model;
     private static GraphService instance = new GraphService();
 
     private GraphService() {
@@ -31,7 +32,7 @@ public class GraphService {
         model.getNode(id).changeAttribute("xyz", x, y);
         model.getNode(id).setAttribute("ui.stocked-info", new Stock());
         model.getNode(id).setAttribute("layout.weight", 300);
-        System.out.println("nodeAdded");
+
     }
 
     public void removeNode(Node n) {
@@ -46,11 +47,11 @@ public class GraphService {
     }
 
     public AgentGraph getModel() {
-
         return this.model;
     }
     
     public void setModel(AgentGraph model) {
         this.model = model;
     }
+    
 }

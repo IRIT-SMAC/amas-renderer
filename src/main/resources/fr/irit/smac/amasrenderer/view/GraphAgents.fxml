@@ -4,19 +4,27 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.GraphMainController">
-   <center>
-    		<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="650.0" prefWidth="824.0" style="-fx-background-color: #707070;">
-    			<children>
-    				<StackPane fx:id="stackPaneGraphNode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="650.0" prefWidth="1024.0" style="-fx-background-color: #707070;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-    			</StackPane>
-    			</children>
-    		</AnchorPane>
-   </center>
-   <bottom>
-   		<fx:include source="GraphButtons.fxml" />
-   </bottom>
-   <top>
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="fr.irit.smac.amasrenderer.controller.GraphMainController">
+	<center>
+		<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+			prefHeight="650.0" prefWidth="824.0" style="-fx-background-color: #707070;">
+			<children>
+				<StackPane fx:id="stackPaneGraphNode" maxHeight="1.7976931348623157E308"
+					maxWidth="1.7976931348623157E308" prefHeight="650.0" prefWidth="1024.0"
+					style="-fx-background-color: #707070;" AnchorPane.bottomAnchor="0.0"
+					AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+					AnchorPane.topAnchor="0.0">
+				</StackPane>
+			</children>
+		</AnchorPane>
+	</center>
+	<bottom>
+		<fx:include source="GraphButtons.fxml" />
+	</bottom>
+	<top>
 		<fx:include source="GraphInfos.fxml" />
-   </top>
+	</top>
+
 </BorderPane>

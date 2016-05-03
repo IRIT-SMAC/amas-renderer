@@ -53,9 +53,6 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
     @Override
     public void mouseClicked(MouseEvent e){
         Node n = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-        //if clicked on empty space, create a node
-        System.out.println("but add agent: "+this.buttonAddAgent);
-        System.out.println("but del agent: "+buttonDelAgent);
         
         if(n == null && SwingUtilities.isLeftMouseButton(e) && (e.isControlDown() || buttonAddAgent)){
            createNode(e);
@@ -82,9 +79,13 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
     private void createNode(MouseEvent e){
         String curId = Integer.toString(currentNodeId++);
         Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
+        System.out.println(e.getX());
+        System.out.println(e.getY());
+        
+        System.out.println(clicLoc);
         getModel().addNode(curId);
         getModel().getNode(curId).setAttribute("ui.label", "Ag"+curId);
-        getModel().getNode(curId).changeAttribute("xyz", clicLoc.x, clicLoc.y );
+        getModel().getNode(curId).changeAttribute("xy", clicLoc.x, clicLoc.y );
         getModel().getNode(curId).setAttribute("ui.stocked-info", new Stock());
         getModel().getNode(curId).setAttribute("layout.weight", 300);
     }
@@ -101,11 +102,11 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
     
     public void setButtonAddAgent(boolean buttonAddAgent) {
         System.out.println("butadagent set to "+ buttonAddAgent);
-        this.buttonAddAgent = buttonAddAgent;
-        System.out.println("butAddAgent in addDelNode has been set to " +this.buttonAddAgent);
+        GraphAddDelNodeMouseController.buttonAddAgent = buttonAddAgent;
+        System.out.println("butAddAgent in addDelNode has been set to " +GraphAddDelNodeMouseController.buttonAddAgent);
     }
     
     public void setButtonDelAgent(boolean buttonDelAgent) {
-        this.buttonDelAgent = buttonDelAgent;
+        GraphAddDelNodeMouseController.buttonDelAgent = buttonDelAgent;
     }
 }
