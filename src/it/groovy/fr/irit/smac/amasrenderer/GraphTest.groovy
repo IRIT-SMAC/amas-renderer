@@ -8,10 +8,7 @@ import javafx.scene.input.MouseButton
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.StackPane
 
-import org.graphstream.ui.geom.Point3
-import org.graphstream.ui.graphicGraph.GraphicElement
 import org.graphstream.ui.swingViewer.ViewPanel
-import org.graphstream.ui.view.Camera
 
 import spock.lang.Shared
 import fr.irit.smac.amasrenderer.controller.GraphMainController
@@ -104,7 +101,7 @@ class GraphTest extends GuiSpecification{
 		def model = graphService.getModel()
 
 		when:
-		println "deletion of an agent - button"
+		println "deletion of an agent - toggle button + click"
 		fx.press(KeyCode.CONTROL).clickOn(graphId).release(KeyCode.CONTROL)
 		fx.clickOn("#buttonDelAgent").clickOn(graphId)
 
@@ -134,7 +131,7 @@ class GraphTest extends GuiSpecification{
 
 
 		when:
-		println "addition of a link - button"
+		println "addition of a link - toggle button + click"
 
 		fx.press(KeyCode.CONTROL)
 				.clickOn(graphId)
@@ -179,7 +176,7 @@ class GraphTest extends GuiSpecification{
 	def "check if an edge is remove by clicking on the corresponding button"() {
 
 		when:
-		println "link removed with button"
+		println "link removed with toggle button + click"
 		fx.press(KeyCode.CONTROL)
 				.clickOn(graphId)
 				.moveBy(0,-50)
@@ -207,7 +204,7 @@ class GraphTest extends GuiSpecification{
 	def "check if an edge is remove by doing the correspoonding shortcut"() {
 
 		when:
-		println "link removed with button"
+		println "link removed with toggle button + click"
 		fx.press(KeyCode.CONTROL)
 				.clickOn(graphId)
 				.moveBy(0,-50)
