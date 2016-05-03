@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
+import org.graphstream.ui.geom.Point2;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
@@ -33,7 +34,8 @@ public class GraphMainController implements Initializable {
     /** The graph view. */
     private ViewPanel  graphView;
     
-    /** The toggroup. */
+    private Viewer viewer;
+    
     @FXML
     ToggleGroup toggroup;
     
@@ -84,14 +86,17 @@ public class GraphMainController implements Initializable {
         graphNodeService.createAgentGraph();
         getModel().addAttribute("ui.stylesheet", "url(" + getClass().getResource("../view/styleSheet1.css") + ")");
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-        Viewer viewer = new Viewer(getModel(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+        viewer = new Viewer(getModel(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         viewer.enableAutoLayout();
         this.graphView = viewer.addDefaultView(false);
-        
         this.initGraph();
         this.initSubControllers();
     }
 
+    public Viewer getViewer() {
+    	return this.viewer;
+    }
+    
     /**
      * Draws he graph in the container.
      */
@@ -194,9 +199,9 @@ public class GraphMainController implements Initializable {
         getModel().addAttribute("layout.quality",4);
         getModel().addAttribute("ui.antialias");
         AgentGraph model = this.graphNodeService.getModel();
-        model.addNode("0");
-        model.getNode("0").setAttribute("ui.label", "Ag0");
-        for (Integer i = 1; i < Const.NODE_INIT; i++) {
+        /*model.addNode("0");
+        model.getNode("0").setAttribute("ui.label", "Ag0");*/
+        for (Integer i = 0; i < Const.NODE_INIT; i++) {
             int firstNode = i;
             model.addNode("" + firstNode);
             model.getNode(""+firstNode).setAttribute("ui.label", "Ag"+firstNode );
@@ -269,4 +274,5 @@ public class GraphMainController implements Initializable {
         this.initGraph();
         this.initSubControllers();
     }
+
 }
