@@ -11,6 +11,7 @@ import org.graphstream.ui.swingViewer.ViewPanel;
 
 import fr.irit.smac.amasrenderer.model.AgentGraph;
 import fr.irit.smac.amasrenderer.service.GraphService;
+import javafx.scene.control.ToggleButton;
 
 /**
  * The Class GraphAddDelEdgeMouseController_Old.
@@ -26,9 +27,10 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
     
     private Node target = null;
     
-    private static boolean buttonAddEdge;
-    private static boolean buttonDelEdge;
 
+    private ToggleButton buttonAddEdge;
+    private ToggleButton buttonDelEdge;
+    
     /**
      * Initialize the controller, and adds it to the graph.
      *
@@ -39,7 +41,6 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
         this.graphNodeService = graphNodeService;
         this.graphView = graphView;
         graphView.addMouseListener(this);
-        buttonAddEdge = buttonDelEdge = false;
     }
     
     // the headache function
@@ -48,11 +49,11 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
         //if explanation:
         //if source = null --> its the first click
         //and one of the edge button is pressed or shift is down, and control is not down
-        if((source == null) && (e.isShiftDown() || (buttonAddEdge ^ buttonDelEdge)) && (! e.isControlDown())){
+        if((source == null) && (e.isShiftDown() || (this.buttonAddEdge.isSelected() ^ this.buttonDelEdge.isSelected())) && (! e.isControlDown())){
             firstClick(e);
         }
         //same but source not null so its the second click
-        else if((source != null) && (e.isShiftDown() || (buttonAddEdge ^ buttonDelEdge)) && (! e.isControlDown())){
+        else if((source != null) && (e.isShiftDown() || (this.buttonAddEdge.isSelected() ^ this.buttonDelEdge.isSelected())) && (! e.isControlDown())){
             secondClick(e);
         }
         
@@ -77,10 +78,10 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
             
             AgentGraph model = this.graphNodeService.getModel();
             Edge edge = model.getEdge(source.getId()+""+target.getId());
-            if((edge != null) && (!e.isControlDown()) && ((e.isShiftDown() && SwingUtilities.isRightMouseButton(e))^(SwingUtilities.isLeftMouseButton(e) && buttonDelEdge))){
+            if((edge != null) && (!e.isControlDown()) && ((e.isShiftDown() && SwingUtilities.isRightMouseButton(e))^(SwingUtilities.isLeftMouseButton(e) && this.buttonDelEdge.isSelected()))){
                 model.removeEdge(edge);
             }
-            else if((edge == null) && ((SwingUtilities.isLeftMouseButton(e) && (e.isShiftDown() || buttonAddEdge )))){
+            else if((edge == null) && ((SwingUtilities.isLeftMouseButton(e) && (e.isShiftDown() || this.buttonAddEdge.isSelected() )))){
                 model.addEdge(source.getId()+""+target.getId(), source.getId(), target.getId(),true);
                 model.getEdge(source.getId()+""+target.getId()).setAttribute("layout.weight", 200);
             }
@@ -91,13 +92,11 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
         }
     }
     
-    public void setButtonAddEdge(boolean buttonAddEdge) {
+    public void setButtonAddEdge(ToggleButton buttonAddEdge) {
         this.buttonAddEdge = buttonAddEdge;
     }
     
-    public void setButtonDelEdge(boolean buttonDelEdge) {
+    public void setButtonDelEdge(ToggleButton buttonDelEdge) {
         this.buttonDelEdge = buttonDelEdge;
     }
-    
-        
 }

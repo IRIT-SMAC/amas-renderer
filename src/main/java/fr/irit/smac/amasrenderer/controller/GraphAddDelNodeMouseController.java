@@ -2,7 +2,6 @@ package fr.irit.smac.amasrenderer.controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Iterator;
 
 import javax.swing.SwingUtilities;
 
@@ -14,6 +13,7 @@ import org.graphstream.ui.swingViewer.ViewPanel;
 import fr.irit.smac.amasrenderer.model.AgentGraph;
 import fr.irit.smac.amasrenderer.model.Stock;
 import fr.irit.smac.amasrenderer.service.GraphService;
+import javafx.scene.control.ToggleButton;
 
 /**
  * The Class GraphAddDelNodeMouseController.
@@ -26,11 +26,12 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
     private GraphService graphNodeService;
 
     private ViewPanel  graphView;
-    
+
     private int        currentNodeId;
     
-    private static boolean buttonAddAgent;
-    private static boolean buttonDelAgent;
+    private ToggleButton buttonAddAgent;
+    
+    private ToggleButton buttonDelAgent;
 
     /**
      * Initialize the controller, and adds it to the graph.
@@ -54,17 +55,15 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
     public void mouseClicked(MouseEvent e){
         Node n = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         //if clicked on empty space, create a node
-        System.out.println("but add agent: "+this.buttonAddAgent);
-        System.out.println("but del agent: "+buttonDelAgent);
         
-        if(n == null && SwingUtilities.isLeftMouseButton(e) && (e.isControlDown() || buttonAddAgent)){
+        if(n == null && SwingUtilities.isLeftMouseButton(e) && (e.isControlDown() || buttonAddAgent.isSelected())){
            createNode(e);
         }
         //else on right click deletes the node and all connected edges
         //explanation of the if:
         //if there is a node on clic location
         //and user does ctrl+right-click XOR he does left click and the del agen button is pressed
-        else if((n != null)&&((SwingUtilities.isRightMouseButton(e) && e.isControlDown())^(SwingUtilities.isLeftMouseButton(e) && buttonDelAgent))){
+        else if((n != null)&&((SwingUtilities.isRightMouseButton(e) && e.isControlDown())^(SwingUtilities.isLeftMouseButton(e) && this.buttonDelAgent.isSelected()))){
             this.graphNodeService.removeNode(n);
         }
     }
@@ -99,13 +98,12 @@ public class GraphAddDelNodeMouseController extends MouseAdapter{
         getModel().removeNode(n.getId());
     }
     
-    public void setButtonAddAgent(boolean buttonAddAgent) {
-        System.out.println("butadagent set to "+ buttonAddAgent);
+    public void setButtonAddAgent(ToggleButton buttonAddAgent) {
         this.buttonAddAgent = buttonAddAgent;
-        System.out.println("butAddAgent in addDelNode has been set to " +this.buttonAddAgent);
     }
     
-    public void setButtonDelAgent(boolean buttonDelAgent) {
+    public void setButtonDelAgent(ToggleButton buttonDelAgent) {
         this.buttonDelAgent = buttonDelAgent;
     }
+    
 }

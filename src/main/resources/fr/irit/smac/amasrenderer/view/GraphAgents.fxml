@@ -14,7 +14,7 @@
     		</AnchorPane>
    </center>
    <bottom>
-   		<fx:include source="GraphButtons.fxml" />
+   		<fx:include fx:id="graphAddDel" source="GraphButtons.fxml" />
    </bottom>
    <top>
 		<fx:include source="GraphInfos.fxml" />
