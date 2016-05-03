@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.TreeModifyController">
+   <center>
+      <TreeView fx:id="tree" prefHeight="396.0" prefWidth="498.0" BorderPane.alignment="CENTER" />
+   </center>
+   <left>
+      <VBox maxHeight="-Infinity" prefHeight="200.0" prefWidth="172.0" spacing="30.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#addAttribute" prefHeight="31.0" prefWidth="140.0" text="Add Attribute" />
+            <Button mnemonicParsing="false" onAction="#modifyAttribute" prefHeight="31.0" prefWidth="138.0" text="Modify Attribute" />
+            <Button mnemonicParsing="false" onAction="#deleteAttribute" prefHeight="31.0" prefWidth="141.0" text="Delete Attribute" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+   </left>
+</BorderPane>

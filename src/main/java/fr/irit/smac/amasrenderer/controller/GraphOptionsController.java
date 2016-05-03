@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 public class GraphOptionsController {
 
 
-
+    
 
     /**
      * Click generer.

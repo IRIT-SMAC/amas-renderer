@@ -5,8 +5,6 @@ import java.awt.event.MouseMotionListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.graphstream.graph.Edge;
-import org.graphstream.graph.Node;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
@@ -21,6 +19,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 /**
  * The Class GraphMainController.
@@ -33,6 +32,7 @@ public class GraphMainController implements Initializable {
     /** The graph view. */
     private ViewPanel  graphView;
     
+    private Stage dialogStage;
     /** The toggroup. */
     @FXML
     ToggleGroup toggroup;
@@ -62,7 +62,6 @@ public class GraphMainController implements Initializable {
     private AnchorPane nodeEdit;
     
     /** The node edit controller. */
-    @FXML
     private GraphNodeEditController nodeEditController;
     
     /** The graph mouse wheel controller. */
@@ -81,15 +80,7 @@ public class GraphMainController implements Initializable {
      * Instantiates a new graph main controller.
      */
     public GraphMainController() {
-        graphNodeService.createAgentGraph();
-        getModel().addAttribute("ui.stylesheet", "url(" + getClass().getResource("../view/styleSheet1.css") + ")");
-        System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-        Viewer viewer = new Viewer(getModel(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-        viewer.enableAutoLayout();
-        this.graphView = viewer.addDefaultView(false);
-        
-        this.initGraph();
-        this.initSubControllers();
+ 
     }
 
     /**
@@ -110,6 +101,11 @@ public class GraphMainController implements Initializable {
     @FXML
     public void addAgent() {
         this.graphNodeService.getModel().addNode("" + this.graphNodeService.getModel().getNodeCount() + 1);
+    }
+    
+    public void setDialogStage(Stage dialogStage){
+        System.out.println("test"+dialogStage);
+        this.dialogStage = dialogStage;
     }
 
     /**
@@ -189,17 +185,20 @@ public class GraphMainController implements Initializable {
      * For testing purposes 
      */
     private void initGraph() {
-
         getModel().addAttribute("ui.quality");
         getModel().addAttribute("layout.quality",4);
         getModel().addAttribute("ui.antialias");
         AgentGraph model = this.graphNodeService.getModel();
         model.addNode("0");
         model.getNode("0").setAttribute("ui.label", "Ag0");
+        Stock s = new Stock();
+        s.init();
+        model.getNode("0").setAttribute("ui.stocked-info", new Stock());
         for (Integer i = 1; i < Const.NODE_INIT; i++) {
             int firstNode = i;
             model.addNode("" + firstNode);
             model.getNode(""+firstNode).setAttribute("ui.label", "Ag"+firstNode );
+            model.getNode(""+firstNode).setAttribute("ui.stocked-info", new Stock());
             int j = 0;
             while(i >= Const.EDGE_INIT && j < Const.EDGE_INIT){
                 int secondNode = (int) Math.floor(Math.random() * i);
@@ -211,7 +210,7 @@ public class GraphMainController implements Initializable {
             }
 
         }
-        // modify the layout 
+        /*// modify the layout 
         //sets edge lenght
         for (Edge edge : model.getEachEdge()) {
             edge.setAttribute("layout.weight", Const.LAYOUT_WEIGHT_EDGE);
@@ -220,14 +219,16 @@ public class GraphMainController implements Initializable {
         for (Node node : model) {
             node.setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
             // sets the Stock class to store agent info
+            Stock stock = new Stock();
+            stock.init();
             node.setAttribute("ui.stocked-info", new Stock());
-        }
+        }*/
     }
 
     /**
      * Inits the sub controllers. (all Listeners)
      */
-    private void initSubControllers() {
+    public void initSubControllers() {
         MouseMotionListener[] mml = graphView.getMouseMotionListeners();
         for (MouseMotionListener mouseMotionListener : mml) {
             graphView.removeMouseMotionListener(mouseMotionListener);
@@ -250,6 +251,8 @@ public class GraphMainController implements Initializable {
         graphAddDelNodeMouseController = new GraphAddDelNodeMouseController();
         graphAddDelNodeMouseController.init(graphView, this.graphNodeService);
 
+        nodeEditController = new GraphNodeEditController();
+        nodeEditController.init(graphView, dialogStage);
     }
 
     /* (non-Javadoc)
@@ -257,7 +260,7 @@ public class GraphMainController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        
         this.graphNodeService = GraphService.getInstance();
         this.graphNodeService.createAgentGraph();
 
@@ -267,6 +270,5 @@ public class GraphMainController implements Initializable {
         this.graphView = viewer.addDefaultView(false);
 
         this.initGraph();
-        this.initSubControllers();
     }
 }

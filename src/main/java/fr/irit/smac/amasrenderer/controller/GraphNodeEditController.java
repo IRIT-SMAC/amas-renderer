@@ -9,8 +9,15 @@ import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
+import fr.irit.smac.amasrenderer.model.Stock;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * The Class GraphNodeEditController.
@@ -20,18 +27,29 @@ public class GraphNodeEditController extends MouseAdapter{
     
     /** The graph view. */
     private ViewPanel graphView;
+    private Stage dialogStage;
+//    @FXML
+//    private TreeView<String> tree;
     
-    /** The attribute synthesis. (for display) */
-    @FXML
-    private TextArea attributes_synthesis;
+    public GraphNodeEditController() {
+        
+    }
     
     /**
      * Inits the controller.
      *
      * @param graphView the graph view
      */
-    public void init(ViewPanel graphView) {
+    public void init(ViewPanel graphView, Stage dialogStage) {
         this.graphView = graphView;
+        this.graphView.addMouseListener(this);
+        this.dialogStage = dialogStage;
+        System.out.println(dialogStage);
+
+    }
+    
+    public void setDialogStage(Stage dialogStage){
+        this.dialogStage = dialogStage;
     }
     
     //TODO modify method to return the stock class
@@ -40,7 +58,7 @@ public class GraphNodeEditController extends MouseAdapter{
      * 
      * On mouse press, if there is a node on clic location gets that node and ( for now ) return a string with node information in it
      * displays it in a text area.
-     *
+     * 
      * @param e the e
      * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
      */
@@ -49,44 +67,17 @@ public class GraphNodeEditController extends MouseAdapter{
         if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 1) {
             GraphicElement elt = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
             if (elt != null && elt instanceof Node) {
-                String nodeSyntesis = "";
                 Node node = (Node) elt;
-                nodeSyntesis += "=========================================\n"
-                    + "Node clicked: " + node.getId() + "\n"
-                    + "Informations:\n";
-
-                for (String attr : node.getEachAttributeKey()) {
-                    nodeSyntesis += "--" + attr + ": " + node.getAttribute(attr).toString() + "\n";
-                }
-                nodeSyntesis += "=========================================\n";
-                this.setAttributes_synthesis(nodeSyntesis);
+                Stock s = node.getAttribute("ui.stocked-info");
+                
+                Platform.runLater(new Runnable() {
+                    @Override public void run() {
+                        dialogStage.showAndWait();
+                           
+                    }
+                });
             }
         }
     }
-    
-    /**
-     * Ajouter attribut.
-     */
-    @FXML
-    public void ajouterAttribut(){
-        //Nothing
-    }
-    
-    /**
-     * Sets the attributes_synthesis. text area
-     *
-     * @param text the new attributes_synthesis
-     */
-    public void setAttributes_synthesis(String text) {
-        attributes_synthesis.setText(text);
-    }
-    
-    /**
-     * Gets the attributes_synthesis. text area
-     *
-     * @return the attributes_synthesis
-     */
-    public String getAttributes_synthesis() {
-        return attributes_synthesis.getText();
-    }
+
 }

@@ -65,7 +65,6 @@ public class GraphDefaultMouseController extends MouseAdapter {
         //if shift is down, then it means the user wants to select more nodes, so don't unselect
         if (!event.isShiftDown()) {
             for (Node node : graph) {
-                System.out.println("node: "+node);
                 node.addAttribute("ui.selected"); 
                 // nonsense line, but don't always work without it
                 node.removeAttribute("ui.selected");
@@ -153,7 +152,6 @@ public class GraphDefaultMouseController extends MouseAdapter {
     public void mousePressed(MouseEvent event) {
         if(SwingUtilities.isLeftMouseButton(event) && event.isAltDown()){
             curElement = view.findNodeOrSpriteAt(event.getX(), event.getY());
-    
             if (curElement != null) {
                 mouseButtonPress(event);
                 mouseButtonPressOnElement(curElement, event);

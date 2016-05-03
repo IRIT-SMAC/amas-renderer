@@ -10,7 +10,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 //TODO verifier que ce que j'ai marqué est bon, ne connaissans pas cette classe ( michael )
 /**
@@ -22,12 +24,14 @@ public class Main extends Application {
     /** The root layout. */
     BorderPane rootLayout;
     
+    private Stage primaryStage;
+    
     /* (non-Javadoc)
      * @see javafx.application.Application#start(javafx.stage.Stage)
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        this.primaryStage = primaryStage;
         this.initRootLayout();
         this.initGraphAgents();
         this.initServices();
@@ -64,8 +68,24 @@ public class Main extends Application {
         StackPane stackPaneGraphNode = (StackPane) root.lookup("#stackPaneGraphNode");
         stackPaneGraphNode.getChildren().add(swingNode);
         GraphMainController controller = loaderGraphAgents.getController();
-        controller.drawGraph();
         rootLayout.setCenter(root);
+        controller.drawGraph();
+
+        FXMLLoader loaderServices = new FXMLLoader();
+        loaderServices.setLocation(Main.class.getResource("view/GraphAttributes.fxml"));
+        BorderPane root3 = loaderServices.load();
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Jeu du yoté...Couleurs...");
+        //fenetre modale, obligation de quitter pour revenir a la fenetre principale
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene miniScene = new Scene(root3);
+        dialogStage.setScene(miniScene);
+        dialogStage.initStyle(StageStyle.UNDECORATED);
+        controller.setDialogStage(dialogStage); 
+        controller.initSubControllers();
+
+
     }
 
     /**
@@ -80,6 +100,7 @@ public class Main extends Application {
         VBox root3 = (VBox) loaderServices.load();
         rootLayout.setLeft(root3);
     }
+    
 
 
     /**
