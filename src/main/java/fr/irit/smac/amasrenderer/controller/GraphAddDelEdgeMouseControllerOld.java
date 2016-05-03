@@ -20,16 +20,12 @@ import fr.irit.smac.amasrenderer.model.AgentGraph;
  */
 public class GraphAddDelEdgeMouseControllerOld extends MouseAdapter {
 
-    /** The graph view. */
     private ViewPanel  graphView;
     
-    /** The model. */
     private AgentGraph model;
 
-    /** The source. */
     private Node source = null;
     
-    /** The target. */
     private Node target = null;
 
     /**
