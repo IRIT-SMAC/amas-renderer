@@ -12,7 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-//TODO verifier que ce que j'ai marqué est bon, ne connaissans pas cette classe ( michael )
+//TODO verifier que ce que j'ai marquï¿½ est bon, ne connaissans pas cette classe ( michael )
 /**
  * The Class Main.
  * Launch the program
@@ -79,6 +79,7 @@ public class Main extends Application {
         loaderServices.setLocation(Main.class.getResource("view/Services.fxml"));
         VBox root3 = (VBox) loaderServices.load();
         rootLayout.setLeft(root3);
+        
     }
 
 
