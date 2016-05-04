@@ -9,9 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * The Class ServicesController.
@@ -44,11 +45,13 @@ public class ServicesController {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/ServiceDialog.fxml"));
 		loader.setController(new ServiceDialogController(listServices));
-		VBox root = (VBox) loader.load();
+		Pane root = (Pane) loader.load();
 
 		stage.initModality(Modality.WINDOW_MODAL);
+		stage.initStyle(StageStyle.TRANSPARENT);
 		stage.initOwner(buttonAddService.getScene().getWindow());
-		stage.setScene(new Scene(root));
+		Scene myScene = new Scene(root);
+		stage.setScene(myScene);
 		stage.showAndWait();
 
 	}
