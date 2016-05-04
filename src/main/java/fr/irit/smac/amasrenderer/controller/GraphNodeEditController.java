@@ -23,7 +23,7 @@ public class GraphNodeEditController extends MouseAdapter{
     
     /** The attribute synthesis. (for display) */
     @FXML
-    private TextArea attributes_synthesis;
+    private TextArea attributeSynthesis;
     
     /**
      * Inits the controller.
@@ -59,7 +59,7 @@ public class GraphNodeEditController extends MouseAdapter{
                     nodeSyntesis += "--" + attr + ": " + node.getAttribute(attr).toString() + "\n";
                 }
                 nodeSyntesis += "=========================================\n";
-                this.setAttributes_synthesis(nodeSyntesis);
+                this.setAttributesSynthesis(nodeSyntesis);
             }
         }
     }
@@ -73,20 +73,20 @@ public class GraphNodeEditController extends MouseAdapter{
     }
     
     /**
-     * Sets the attributes_synthesis. text area
+     * Sets the attributeSynthesis. text area
      *
-     * @param text the new attributes_synthesis
+     * @param text the new attributeSynthesis
      */
-    public void setAttributes_synthesis(String text) {
-        attributes_synthesis.setText(text);
+    public void setAttributesSynthesis(String text) {
+        attributeSynthesis.setText(text);
     }
     
     /**
-     * Gets the attributes_synthesis. text area
+     * Gets the attributeSynthesis. text area
      *
-     * @return the attributes_synthesis
+     * @return the attributeSynthesis
      */
-    public String getAttributes_synthesis() {
-        return attributes_synthesis.getText();
+    public String getAttributesSynthesis() {
+        return attributeSynthesis.getText();
     }
 }

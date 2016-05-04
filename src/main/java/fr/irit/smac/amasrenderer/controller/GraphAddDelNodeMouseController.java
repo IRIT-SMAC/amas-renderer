@@ -68,14 +68,14 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
         // if clicked on empty space, create a node
         if (n == null && SwingUtilities.isLeftMouseButton(e) && (e.isControlDown() || buttonAddAgent.isSelected())) {
             createNode(e);
-        }
-        // else on right click deletes the node and all connected edges
-        // explanation of the if:
-        // if there is a node on clic location
-        // and user does ctrl+right-click XOR he does left click and the del
-        // agen button is pressed
-        else if ((n != null) && ((SwingUtilities.isRightMouseButton(e) && e.isControlDown())
+        }else if ((n != null) && ((SwingUtilities.isRightMouseButton(e) && e.isControlDown())
             ^ (SwingUtilities.isLeftMouseButton(e) && this.buttonDelAgent.isSelected()))) {
+
+            // else on right click deletes the node and all connected edges
+            // explanation of the if:
+            // if there is a node on clic location
+            // and user does ctrl+right-click XOR he does left click and the del
+            // agen button is pressed
             this.graphNodeService.removeNode(n);
         }
     }

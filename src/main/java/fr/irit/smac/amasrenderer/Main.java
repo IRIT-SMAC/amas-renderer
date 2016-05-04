@@ -35,9 +35,9 @@ public class Main extends Application {
         
         primaryStage.setScene(new Scene(rootLayout));
         primaryStage.setOnCloseRequest(event -> {
-				Platform.exit();	
-				System.exit(0);
-		});
+                Platform.exit();    
+                System.exit(0);
+        });
         primaryStage.show();
     }
 

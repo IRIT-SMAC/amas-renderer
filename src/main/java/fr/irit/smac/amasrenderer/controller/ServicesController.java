@@ -15,42 +15,40 @@ import javafx.stage.Stage;
 
 /**
  * The Class ServicesController.
- * it exists but nobody knows why, kind of like patrick sebastien
+ * This controller handles the service part of the main UI 
  */
 public class ServicesController {
 
-	@FXML
-	private Button buttonAddService;
+    /** The button in the main UI */
+    @FXML
+    private Button buttonAddService;
+    
+    /** The service list of the infrastructure */
+    @FXML
+    private ListView<Label> listServices;
 
-	@FXML
-	private Button buttonCancel;
+    /** The popup form */
+    private Stage form;
+    
 
-	@FXML
-	private Button buttonConfirm;
-	
-	@FXML
-	private ListView<Label> listServices;
+    /** Click on buttonAddService handler */
+    @FXML
+    public void addService() throws IOException {
+        
+        form = new Stage();
+        form.setTitle("Ajouter un service");
+        form.setResizable(false);
 
-	private Stage stage;
-	
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("view/ServiceDialog.fxml"));
+        loader.setController(new ServiceDialogController(listServices));
+        VBox root = (VBox) loader.load();
 
-	@FXML
-	public void addService() throws IOException {
-		
-		stage = new Stage();
-		stage.setTitle("Ajouter un service");
-		stage.setResizable(false);
+        form.initModality(Modality.WINDOW_MODAL);
+        form.initOwner(buttonAddService.getScene().getWindow());
+        form.setScene(new Scene(root));
+        form.showAndWait();
 
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("view/ServiceDialog.fxml"));
-		loader.setController(new ServiceDialogController(listServices));
-		VBox root = (VBox) loader.load();
-
-		stage.initModality(Modality.WINDOW_MODAL);
-		stage.initOwner(buttonAddService.getScene().getWindow());
-		stage.setScene(new Scene(root));
-		stage.showAndWait();
-
-	}
+    }
 
 }

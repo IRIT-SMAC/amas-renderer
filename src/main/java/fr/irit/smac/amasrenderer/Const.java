@@ -1,15 +1,16 @@
 package fr.irit.smac.amasrenderer;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Const.
+ * The Class Const
  * Contains all the constants
  */
 public final class Const {
     
-    public final static int NODE_INIT = 0; 
+    public static final int NODE_INIT = 0; 
     
-    public final static int EDGE_INIT = 0; 
+    public static final int EDGE_INIT = 0;
+    
+    public static final int LAYOUT_QUALITY = 4;
  
     public static final int LAYOUT_WEIGHT_NODE = 1; 
     
@@ -20,6 +21,8 @@ public final class Const {
     public static final double SCALE_ZOOM_RATIO = 1.2;
     
     public static final double TRANSLATE_ZOOM_RATIO = 0.2;
+    
+    public static final int FONT_SIZE = 18;
 
     /** The Constant BASE_DESCR. , for test purposes*/
     public static final String[] BASE_DESCR = {
