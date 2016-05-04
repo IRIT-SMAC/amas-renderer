@@ -14,7 +14,7 @@
    <children>
       <VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #CCCCCC;" text="INFRASTRUCTURE" textFill="WHITE">
+            <Label alignment="CENTER" maxHeight="100.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #CCCCCC;" text="INFRASTRUCTURE" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font name="OpenSymbol" size="20.0" />
                </font>
@@ -32,12 +32,12 @@
       </VBox>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="900.0" prefWidth="382.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="50.0" style="-fx-background-color: #CCCCCC;" styleClass="title" text="SERVICES" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="100.0" style="-fx-background-color: #CCCCCC;" styleClass="title" text="SERVICES" textFill="WHITE">
                <font>
                   <Font name="OpenSymbol" size="20.0" />
                </font>
             </Label>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addService" prefHeight="50.0" style="-fx-background-color: #FFFFFF;" text="Ajouter service" VBox.vgrow="ALWAYS">
+            <Button fx:id="buttonAddService" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#addService" prefHeight="50.0" style="-fx-background-color: #FFFFFF;" text="Ajouter service" VBox.vgrow="ALWAYS">
                <font>
                   <Font name="OpenSymbol" size="20.0" />
                </font>
@@ -45,7 +45,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <ListView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="753.0" prefWidth="200.0" style="-fx-background-color: #F8F8F8;" VBox.vgrow="ALWAYS" />
+            <ListView fx:id="listServices" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="753.0" prefWidth="200.0" style="-fx-background-color: #F8F8F8;" VBox.vgrow="ALWAYS" />
             <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" prefHeight="100.0" style="-fx-background-color: red;" text="Générer" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font name="OpenSymbol" size="20.0" />
