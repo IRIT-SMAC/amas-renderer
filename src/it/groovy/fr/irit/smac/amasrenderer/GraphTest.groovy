@@ -4,15 +4,12 @@ package fr.irit.smac.amasrenderer
 import javafx.embed.swing.SwingNode
 import javafx.fxml.FXMLLoader
 import javafx.scene.input.KeyCode
-import javafx.scene.input.MouseButton
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.StackPane
 
-import org.graphstream.ui.geom.Point3
-import org.graphstream.ui.graphicGraph.GraphicElement
 import org.graphstream.ui.swingViewer.ViewPanel
-import org.graphstream.ui.view.Camera
 
+import spock.lang.IgnoreIf
 import spock.lang.Shared
 import fr.irit.smac.amasrenderer.controller.GraphMainController
 import fr.irit.smac.amasrenderer.service.GraphService
@@ -97,6 +94,7 @@ class GraphTest extends GuiSpecification{
         model.getNodeCount() == (nbNoeud+1)
     }
 
+    @IgnoreIf({System.getenv("TRAVIS") != null})
     def "check if an agent is removed by clicking on the corresponding button"() {
 
         given:
@@ -111,6 +109,7 @@ class GraphTest extends GuiSpecification{
         model.getNodeCount() == 0
     }
 
+    @IgnoreIf({System.getenv("TRAVIS") != null})
     def "check if an agent is removed by doing the corresponding shortcut"() {
 
         given:
@@ -126,6 +125,7 @@ class GraphTest extends GuiSpecification{
         model.getNodeCount() == 0
     }
 
+    @IgnoreIf({System.getenv("TRAVIS") != null})
     def "check if an edge is added by clicking on the corresponding button"() {
 
         given:
@@ -149,6 +149,7 @@ class GraphTest extends GuiSpecification{
         graphService.getModel().getEdgeCount() == nbEdge+1
     }
 
+    @IgnoreIf({System.getenv("TRAVIS") != null})
     def "check if an edge is added by doing the correspoonding shortcut"() {
 
         given:
@@ -175,6 +176,7 @@ class GraphTest extends GuiSpecification{
         graphService.getModel().getEdgeCount() == nbEdge+1 && graphService.getModel().getNodeCount() == 2
     }
 
+    @IgnoreIf({System.getenv("TRAVIS") != null})
     def "check if an edge is remove by clicking on the corresponding button"() {
 
         when:
@@ -206,6 +208,7 @@ class GraphTest extends GuiSpecification{
         graphService.getModel().getEdgeCount() == 0 && graphService.getModel().getNodeCount() == 2
     }
 
+    @IgnoreIf({System.getenv("TRAVIS") != null})
     def "check if an edge is remove by doing the correspoonding shortcut"() {
 
         when:
