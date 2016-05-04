@@ -15,8 +15,6 @@ import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -26,65 +24,45 @@ import javafx.stage.Stage;
  */
 public class GraphMainController implements Initializable {
 
-    /** The graph node service. */
     private GraphService graphNodeService = GraphService.getInstance();
-    
-    private TreeModifyController treeModifyController;
-    
-    /** The graph view. */
-    private ViewPanel  graphView;
-    
+
+    private ViewPanel graphView;
+
+    private Viewer viewer;
+
     private Stage dialogStage;
-    /** The toggroup. */
-    @FXML
-    ToggleGroup toggroup;
     
-    /** The button add agent. */
-    @FXML
-    private ToggleButton buttonAddAgent;
+   
     
-    /** The button del agent. */
-    @FXML
-    private ToggleButton buttonDelAgent;
-    
-    /** The button add edge. */
-    @FXML
-    private ToggleButton buttonAddEdge;
-    
-    /** The button del edge. */
-    @FXML
-    private ToggleButton buttonDelEdge;
-    
-    /** The stack pane graph node. */
     @FXML
     private StackPane stackPaneGraphNode;
-    
-    /** The node edit. */
+
     @FXML
     private AnchorPane nodeEdit;
-    
-    /** The node edit controller. */
+
+    @FXML
     private GraphNodeEditController nodeEditController;
-    
-    /** The graph mouse wheel controller. */
+
+    @FXML
+    private GraphAddDelController graphAddDelController;
+
     private GraphMouseWheelController graphMouseWheelController;
-    
-    /** The default mouse controller. */
+
     private GraphDefaultMouseController defaultMouseController;
 
-    /** The graph add del edge mouse controller. */
-    protected GraphAddDelEdgeMouseController graphAddDelEdgeMouseController;
-    
-    /** The graph add del node mouse controller. */
-    protected GraphAddDelNodeMouseController graphAddDelNodeMouseController;
-    
+    private TreeModifyController treeModifyController;
+
     /**
      * Instantiates a new graph main controller.
      */
     public GraphMainController() {
- 
+        
     }
 
+    public Viewer getViewer() {
+    	return this.viewer;
+    }
+    
     /**
      * Draws he graph in the container.
      */
@@ -92,11 +70,8 @@ public class GraphMainController implements Initializable {
         ((SwingNode) this.stackPaneGraphNode.lookup("#graphNode")).setContent(this.graphView);
     }
 
-
-
     /**
-     * DEPRECATED
-     * Adds an agent to the graph
+     * DEPRECATED Adds an agent to the graph
      * 
      * Prefer using GraphAddDelNodeMouseController to add agents (alt + left click).
      */
@@ -113,51 +88,12 @@ public class GraphMainController implements Initializable {
     public void setTreeModifyController(TreeModifyController treeModifyController) {
         this.treeModifyController = treeModifyController;
     }
-
-    /**
-     * function controlling the effect of the buttons ( on press ) depending on which button is pressed.
-     */
-    @FXML
-    public void clickButton(){
-        toggleButton(toggroup);
-    }
     
-    /**
-     * sets the boolean in the controllers depending on the state of the button group
-     *
-     * @param toggroup the toggroup
-     */
-    private void toggleButton(ToggleGroup toggroup){
-        ToggleButton curButton = (ToggleButton)toggroup.getSelectedToggle();
-        graphAddDelNodeMouseController.setButtonAddAgent(false);
-        graphAddDelNodeMouseController.setButtonDelAgent(false);
-        graphAddDelEdgeMouseController.setButtonAddEdge(false);
-        graphAddDelEdgeMouseController.setButtonDelEdge(false);
-        if(curButton != null){
-            switch(curButton.getId()){
-                case "buttonAddAgent":
-                    graphAddDelNodeMouseController.setButtonAddAgent(true);
-                    break;
-                case "buttonDelAgent":
-                    graphAddDelNodeMouseController.setButtonDelAgent(true);
-                    break;
-                case "buttonAddEdge":
-                    graphAddDelEdgeMouseController.setButtonAddEdge(true);
-                    break;
-                case "buttonDelEdge":
-                    graphAddDelEdgeMouseController.setButtonDelEdge(true);
-                    break;
-                default:
-                    //Do Nothing
-                    break;
-            }
-        }
-    }
     
     /**
      * DEPRECATED
      * Graph mouse clicked.
-     *  
+     * DEPRECATED Graph mouse clicked. Calls
      */
     @FXML
     public void graphMouseClicked() {
@@ -182,25 +118,18 @@ public class GraphMainController implements Initializable {
         return this.graphNodeService.getModel();
     }
 
-    
-    
-    
     /**
-     * Initialize the graph.
-     * Creates Const.NODE_INIT nodes with each Const.EDGE_INIT edge going from them to other nodes
-     * For testing purposes 
+     * Initialize the graph. Creates Const.NODE_INIT nodes with each
+     * Const.EDGE_INIT edge going from them to other nodes For testing purposes
      */
     private void initGraph() {
         getModel().addAttribute("ui.quality");
         getModel().addAttribute("layout.quality",4);
         getModel().addAttribute("ui.antialias");
         AgentGraph model = this.graphNodeService.getModel();
-        model.addNode("0");
-        model.getNode("0").setAttribute("ui.label", "Ag0");
-        Stock s = new Stock();
-        s.init();
-        model.getNode("0").setAttribute("ui.stocked-info", new Stock());
-        for (Integer i = 1; i < Const.NODE_INIT; i++) {
+        /*model.addNode("0");
+        model.getNode("0").setAttribute("ui.label", "Ag0");*/
+        for (Integer i = 0; i < Const.NODE_INIT; i++) {
             int firstNode = i;
             model.addNode("" + firstNode);
             model.getNode(""+firstNode).setAttribute("ui.label", "Ag"+firstNode );
@@ -216,19 +145,6 @@ public class GraphMainController implements Initializable {
             }
 
         }
-        /*// modify the layout 
-        //sets edge lenght
-        for (Edge edge : model.getEachEdge()) {
-            edge.setAttribute("layout.weight", Const.LAYOUT_WEIGHT_EDGE);
-        }
-        //sets the node repulsion
-        for (Node node : model) {
-            node.setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
-            // sets the Stock class to store agent info
-            Stock stock = new Stock();
-            stock.init();
-            node.setAttribute("ui.stocked-info", new Stock());
-        }*/
     }
 
     /**
@@ -250,18 +166,17 @@ public class GraphMainController implements Initializable {
 
         defaultMouseController = new GraphDefaultMouseController();
         defaultMouseController.init(graphView, getModel());
-        
-        graphAddDelEdgeMouseController = new GraphAddDelEdgeMouseController();
-        graphAddDelEdgeMouseController.init(graphView, this.graphNodeService);
-        
-        graphAddDelNodeMouseController = new GraphAddDelNodeMouseController();
-        graphAddDelNodeMouseController.init(graphView, this.graphNodeService);
+
         nodeEditController = new GraphNodeEditController();
         nodeEditController.init(graphView, dialogStage, treeModifyController);
+
     }
 
-    /* (non-Javadoc)
-     * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javafx.fxml.Initializable#initialize(java.net.URL,
+     * java.util.ResourceBundle)
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -275,5 +190,13 @@ public class GraphMainController implements Initializable {
         this.graphView = viewer.addDefaultView(false);
 
         this.initGraph();
+
+        this.initSubControllers();
+
+        graphAddDelController.init(graphView, graphNodeService);
+
+        // nodeEditController.init(graphView);
+        // graphView.addMouseListener(nodeEditController);
     }
+
 }

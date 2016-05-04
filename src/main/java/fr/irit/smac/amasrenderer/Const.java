@@ -7,27 +7,18 @@ package fr.irit.smac.amasrenderer;
  */
 public final class Const {
     
+    public final static int NODE_INIT = 0; 
     
+    public final static int EDGE_INIT = 0; 
+ 
+    public static final int LAYOUT_WEIGHT_NODE = 1; 
     
-    /** The Constant NODE_INIT. */
-    public static final int NODE_INIT = 40; 
-    
-    /** The Constant EDGE_INIT. */
-    public static final int EDGE_INIT = 1; 
-    
-    /** The Constant LAYOUT_WEIGHT_NODE. */
-    public static final int LAYOUT_WEIGHT_NODE = 30; 
-    
-    /** The Constant LAYOUT_WEIGHT_EDGE. */
     public static final int LAYOUT_WEIGHT_EDGE = 1; 
     
-    /** The Constant SCALE_UNZOOM_RATIO. */
     public static final double SCALE_UNZOOM_RATIO = 0.8;
     
-    /** The Constant SCALE_ZOOM_RATIO. */
     public static final double SCALE_ZOOM_RATIO = 1.2;
     
-    /** The Constant TRANSLATE_ZOOM_RATIO. */
     public static final double TRANSLATE_ZOOM_RATIO = 0.2;
 
     /** The Constant BASE_DESCR. , for test purposes*/
