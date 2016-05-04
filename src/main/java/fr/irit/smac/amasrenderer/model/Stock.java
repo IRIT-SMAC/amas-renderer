@@ -71,6 +71,10 @@ public class Stock {
         return root;
     }
     
+    public void setRoot(TreeItem<String> root){
+        this.root = root; 
+    }
+    
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */

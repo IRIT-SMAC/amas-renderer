@@ -29,6 +29,8 @@ public class GraphMainController implements Initializable {
     /** The graph node service. */
     private GraphService graphNodeService = GraphService.getInstance();
     
+    private TreeModifyController treeModifyController;
+    
     /** The graph view. */
     private ViewPanel  graphView;
     
@@ -106,6 +108,10 @@ public class GraphMainController implements Initializable {
     public void setDialogStage(Stage dialogStage){
         System.out.println("test"+dialogStage);
         this.dialogStage = dialogStage;
+    }
+    
+    public void setTreeModifyController(TreeModifyController treeModifyController) {
+        this.treeModifyController = treeModifyController;
     }
 
     /**
@@ -250,9 +256,8 @@ public class GraphMainController implements Initializable {
         
         graphAddDelNodeMouseController = new GraphAddDelNodeMouseController();
         graphAddDelNodeMouseController.init(graphView, this.graphNodeService);
-
         nodeEditController = new GraphNodeEditController();
-        nodeEditController.init(graphView, dialogStage);
+        nodeEditController.init(graphView, dialogStage, treeModifyController);
     }
 
     /* (non-Javadoc)

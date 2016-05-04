@@ -27,6 +27,7 @@ public class GraphNodeEditController extends MouseAdapter{
     
     /** The graph view. */
     private ViewPanel graphView;
+    private TreeModifyController treeModifyController;
     private Stage dialogStage;
 //    @FXML
 //    private TreeView<String> tree;
@@ -40,8 +41,9 @@ public class GraphNodeEditController extends MouseAdapter{
      *
      * @param graphView the graph view
      */
-    public void init(ViewPanel graphView, Stage dialogStage) {
+    public void init(ViewPanel graphView, Stage dialogStage, TreeModifyController treeModifyController) {
         this.graphView = graphView;
+        this.treeModifyController = treeModifyController;
         this.graphView.addMouseListener(this);
         this.dialogStage = dialogStage;
         System.out.println(dialogStage);
@@ -72,8 +74,9 @@ public class GraphNodeEditController extends MouseAdapter{
                 
                 Platform.runLater(new Runnable() {
                     @Override public void run() {
+                        treeModifyController.setStock(s);
+                        treeModifyController.setStage(dialogStage);
                         dialogStage.showAndWait();
-                           
                     }
                 });
             }

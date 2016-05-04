@@ -3,6 +3,7 @@ package fr.irit.smac.amasrenderer;
 import java.io.IOException;
 
 import fr.irit.smac.amasrenderer.controller.GraphMainController;
+import fr.irit.smac.amasrenderer.controller.TreeModifyController;
 import javafx.application.Application;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
@@ -74,14 +75,19 @@ public class Main extends Application {
         FXMLLoader loaderServices = new FXMLLoader();
         loaderServices.setLocation(Main.class.getResource("view/GraphAttributes.fxml"));
         BorderPane root3 = loaderServices.load();
+        TreeModifyController treeModifyController = loaderServices.getController();
+        controller.setTreeModifyController(treeModifyController);
+
         Stage dialogStage = new Stage();
-        dialogStage.setTitle("Jeu du yoté...Couleurs...");
+        dialogStage.setTitle("Modification d'attribut");
         //fenetre modale, obligation de quitter pour revenir a la fenetre principale
         dialogStage.initModality(Modality.WINDOW_MODAL);
         dialogStage.initOwner(primaryStage);
         Scene miniScene = new Scene(root3);
         dialogStage.setScene(miniScene);
-        dialogStage.initStyle(StageStyle.UNDECORATED);
+        dialogStage.initStyle(StageStyle.UNIFIED);
+        dialogStage.setMinHeight(380);
+        dialogStage.setMinWidth(440);
         controller.setDialogStage(dialogStage); 
         controller.initSubControllers();
 
