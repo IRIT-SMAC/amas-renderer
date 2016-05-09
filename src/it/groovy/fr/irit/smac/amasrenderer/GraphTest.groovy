@@ -45,29 +45,6 @@ class GraphTest extends GuiSpecification{
 
     }
 
-    private BorderPane initRootLayout() throws IOException {
-
-        FXMLLoader loaderRootLayout = new FXMLLoader()
-        loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
-        return (BorderPane) loaderRootLayout.load()
-    }
-
-
-    private BorderPane initGraphAgents() throws IOException {
-
-        FXMLLoader loaderGraphAgents = new FXMLLoader()
-        loaderGraphAgents.setLocation(Main.class.getResource("view/GraphAgents.fxml"))
-        BorderPane root = (BorderPane) loaderGraphAgents.load()
-        swingNode = new SwingNode()
-        swingNode.setId("graphNode")
-        StackPane stackPaneGraphNode = (StackPane) root.lookup("#stackPaneGraphNode")
-        stackPaneGraphNode.getChildren().add(swingNode)
-        GraphMainController controller = loaderGraphAgents.getController()
-        controller.drawGraph()
-        graphView = controller.getGraphView()
-        return root
-    }
-
     def "check if an agent is added by clicking on the corresponding button"() {
 
 

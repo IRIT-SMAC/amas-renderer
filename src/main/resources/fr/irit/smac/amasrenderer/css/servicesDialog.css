@@ -1,3 +1,8 @@
+.root {
+	-fx-font-size: 16pt;
+    -fx-font-family: "OpenSymbol";
+}
+
 .buttonDialog {
 	-fx-background-color:#FFFFFF;
 	-fx-background-radius: 5.0px;
@@ -27,8 +32,7 @@
 }
 
 .invalidField {
-	-fx-font-size: 16px;
-	-fx-font-family: OpenSymbol;
+	-fx-font-size: 12pt;
 	-fx-fill: #CA2723;
 }
 
