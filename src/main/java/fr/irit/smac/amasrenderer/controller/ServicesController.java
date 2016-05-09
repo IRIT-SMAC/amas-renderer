@@ -7,50 +7,57 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 /**
  * The Class ServicesController.
- * it exists but nobody knows why, kind of like patrick sebastien
  */
 public class ServicesController {
 
-	@FXML
-	private Button buttonAddService;
+    @FXML
+    private Button buttonAddService;
 
-	@FXML
-	private Button buttonCancel;
+    @FXML
+    private ListView<Label> listServices;
 
-	@FXML
-	private Button buttonConfirm;
-	
-	@FXML
-	private ListView<Label> listServices;
+    private Stage stage;
 
-	private Stage stage;
-	
+    @FXML
+    public void addService() throws IOException {
 
-	@FXML
-	public void addService() throws IOException {
-		
-		stage = new Stage();
-		stage.setTitle("Ajouter un service");
-		stage.setResizable(false);
+        stage = new Stage();
+        stage.setTitle("Ajouter un service");
+        stage.setResizable(false);
 
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("view/ServiceDialog.fxml"));
-		loader.setController(new ServiceDialogController(listServices));
-		VBox root = (VBox) loader.load();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("view/ServiceDialog.fxml"));
+        DialogPane root = (DialogPane) loader.load();
+        ServiceDialogController serviceDialogController = loader.getController();
+        serviceDialogController.setList(listServices);
+        
+        stage.initModality(Modality.WINDOW_MODAL);
+        Window window = buttonAddService.getScene().getWindow();
+        stage.initOwner(buttonAddService.getScene().getWindow());
+        stage.initStyle(StageStyle.UNDECORATED);
 
-		stage.initModality(Modality.WINDOW_MODAL);
-		stage.initOwner(buttonAddService.getScene().getWindow());
-		stage.setScene(new Scene(root));
-		stage.showAndWait();
+        Scene myScene = new Scene(root);
 
-	}
+        double x = window.getX() + (window.getWidth() - root.getPrefWidth()) / 2;
+        double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
+        stage.setX(x);
+        stage.setY(y);
+
+        stage.setScene(myScene);
+        
+        stage.showAndWait();
+
+    }
 
 }

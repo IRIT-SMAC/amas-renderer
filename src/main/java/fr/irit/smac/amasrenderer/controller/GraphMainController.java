@@ -29,8 +29,6 @@ public class GraphMainController implements Initializable {
 
     private Viewer viewer;
     
-   
-    
     @FXML
     private StackPane stackPaneGraphNode;
 
@@ -51,7 +49,7 @@ public class GraphMainController implements Initializable {
      * Instantiates a new graph main controller.
      */
     public GraphMainController() {
-        
+
     }
     /**
      * gets the viewer
@@ -65,7 +63,6 @@ public class GraphMainController implements Initializable {
      * Draws he graph in the container.
      */
     public void drawGraph() {
-        System.out.println("salut in main controller");
         ((SwingNode) this.stackPaneGraphNode.lookup("#graphNode")).setContent(this.graphView);
     }
 
@@ -150,20 +147,15 @@ public class GraphMainController implements Initializable {
         for (MouseListener mouseListener : ml) {
             graphView.removeMouseListener(mouseListener);
         }
-//
+
         graphMouseWheelController = new GraphMouseWheelController();
         graphMouseWheelController.init(graphView);
-//
+
         defaultMouseController = new GraphDefaultMouseController();
         defaultMouseController.init(graphView, getModel());
         graphAddDelController.init(graphView, graphNodeService);
 
         nodeEditController = new GraphNodeEditController();
-        System.out.println("***");
-        System.out.println(stackPaneGraphNode);
-        System.out.println(stackPaneGraphNode.getScene());
-        System.out.println(stackPaneGraphNode.getScene().getWindow());
-
         nodeEditController.init(graphView, stackPaneGraphNode.getScene().getWindow());
 
     }
@@ -186,6 +178,14 @@ public class GraphMainController implements Initializable {
         this.graphView = viewer.addDefaultView(false);
 
         this.initGraph();
+
+        graphAddDelController.init(graphView, graphNodeService);
+        
+        SwingNode swingNode = new SwingNode();
+        swingNode.setId("graphNode");
+        stackPaneGraphNode.getChildren().add(swingNode);
+        this.drawGraph();
+        
     }
 
 }

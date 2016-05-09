@@ -1,16 +1,19 @@
 package fr.irit.smac.amasrenderer.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class ServiceDialogController {
+public class ServiceDialogController implements Initializable {
 
 	private ListView<Label> serviceList;
 
@@ -23,13 +26,12 @@ public class ServiceDialogController {
 	@FXML
 	private TextField textfieldService;
 
-	public ServiceDialogController(ListView<Label> list){
-		this.serviceList = list;
-	}
-
+	@FXML
+	private Text invalidField;
 
 	@FXML
 	public void clickConfirm(){
+	    
 		if(textfieldService.getText() != null 
 				&& !textfieldService.getText().trim().isEmpty()
 				&& !textfieldService.getText().trim().contains(" ")){
@@ -50,11 +52,9 @@ public class ServiceDialogController {
 			((Stage) buttonConfirm.getScene().getWindow()).close();
 		}
 		else{
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Information");
-			alert.setHeaderText(null);
-			alert.setContentText("Champs vide ou nom invalide");
-			alert.showAndWait();
+
+		    invalidField.setVisible(true);
+	        
 		}
 	}
 
@@ -62,4 +62,15 @@ public class ServiceDialogController {
 	public void clickCancel(){
 		((Stage) buttonCancel.getScene().getWindow()).close();
 	}
+
+    public void setList(ListView<Label> list) {
+        this.serviceList = list;
+        
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        
+        invalidField.setVisible(false);
+    }
 }
