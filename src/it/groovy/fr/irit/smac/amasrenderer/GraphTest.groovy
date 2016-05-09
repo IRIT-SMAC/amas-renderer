@@ -3,6 +3,7 @@ package fr.irit.smac.amasrenderer
 
 import javafx.embed.swing.SwingNode
 import javafx.fxml.FXMLLoader
+import javafx.scene.control.TreeView
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.StackPane
@@ -12,6 +13,8 @@ import org.graphstream.ui.swingViewer.ViewPanel
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import fr.irit.smac.amasrenderer.controller.GraphMainController
+import fr.irit.smac.amasrenderer.controller.GraphNodeEditController;
+import fr.irit.smac.amasrenderer.controller.TreeModifyController;
 import fr.irit.smac.amasrenderer.service.GraphService
 
 class GraphTest extends GuiSpecification{
@@ -26,22 +29,31 @@ class GraphTest extends GuiSpecification{
     SwingNode swingNode
 
     @Shared
+    BorderPane rootLayout;
+
+    
+    GraphMainController controller;
+    
+    @Shared
     String graphId = "#graphNode"
 
     def setup() {
         setupStage { stage ->
 
-            BorderPane rootLayout = initRootLayout()
+            rootLayout = initRootLayout()
             BorderPane root = initGraphAgents()
             rootLayout.setCenter(root)
             return rootLayout
         }
-
+        controller.initSubControllers();
+        
         sleep(1000) //time for the graph to be initialized
         graphService = GraphService.getInstance()
-
+        
     }
-
+    
+   
+    
     private BorderPane initRootLayout() throws IOException {
 
         FXMLLoader loaderRootLayout = new FXMLLoader()
@@ -52,16 +64,18 @@ class GraphTest extends GuiSpecification{
 
     private BorderPane initGraphAgents() throws IOException {
 
-        FXMLLoader loaderGraphAgents = new FXMLLoader()
-        loaderGraphAgents.setLocation(Main.class.getResource("view/GraphAgents.fxml"))
-        BorderPane root = (BorderPane) loaderGraphAgents.load()
-        swingNode = new SwingNode()
-        swingNode.setId("graphNode")
-        StackPane stackPaneGraphNode = (StackPane) root.lookup("#stackPaneGraphNode")
-        stackPaneGraphNode.getChildren().add(swingNode)
-        GraphMainController controller = loaderGraphAgents.getController()
-        controller.drawGraph()
-        graphView = controller.getGraphView()
+        FXMLLoader loaderGraphAgents = new FXMLLoader();
+        loaderGraphAgents.setLocation(Main.class.getResource("view/GraphAgents.fxml"));
+        BorderPane root = (BorderPane) loaderGraphAgents.load();
+        SwingNode swingNode = new SwingNode();
+        swingNode.setId("graphNode");
+        StackPane stackPaneGraphNode = (StackPane) root.lookup("#stackPaneGraphNode");
+        stackPaneGraphNode.getChildren().add(swingNode);
+        controller = loaderGraphAgents.getController();
+        graphView = controller.getGraphView();
+        controller.drawGraph();
+
+
         return root
     }
 
@@ -236,5 +250,80 @@ class GraphTest extends GuiSpecification{
 
         then:
         graphService.getModel().getEdgeCount() == 0
+    }
+    
+    @IgnoreIf({System.getenv("TRAVIS") != null})
+    def "check if adding an attribute works with alt+rightClick"() {
+
+        when:
+        println "attribute added"
+        fx.press(KeyCode.CONTROL)
+                        .clickOn(graphId)
+                        .release(KeyCode.CONTROL)
+                        .press(KeyCode.ALT)
+                        .rightClickOn()
+                        .release(KeyCode.ALT)
+                        .clickOn("#addValue")
+                        .write("VictoryDance")
+                        TreeView<String> tree = GraphNodeEditController.getRoot3().lookup("#tree");
+                        tree.getRoot().getChildren().clear()
+                        tree.getSelectionModel().select(0);
+        fx.clickOn("#addButton")
+                        .clickOn("#confButton")
+                        
+        then:
+        println "succeeded";
+        println "victoryDance"
+        graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getChildren()[0].getValue() == "VictoryDance"
+                        
+        
+    }
+    @IgnoreIf({System.getenv("TRAVIS") != null})
+    def "check if modifying an attribute works with alt+rightClick"() {
+
+        when:
+        println "attribute modified"
+        fx.press(KeyCode.CONTROL)
+                        .clickOn(graphId)
+                        .release(KeyCode.CONTROL)
+                        .press(KeyCode.ALT)
+                        .rightClickOn()
+                        .release(KeyCode.ALT)
+                        .clickOn("#modifyValue")
+                        .write("MuchAttributeVerySucceeded\\o/");
+                        TreeView<String> tree = GraphNodeEditController.getRoot3().lookup("#tree");
+                        tree.getSelectionModel().select(tree.getRoot());
+                        
+        fx.clickOn("#modButton")
+                        .clickOn("#confButton")
+                        
+        then:
+        graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getValue() == "MuchAttributeVerySucceeded\\o/"
+                        
+        
+    }
+    
+    @IgnoreIf({System.getenv("TRAVIS") != null})
+    def "check if deleting an attribute works with alt+rightClick"() {
+
+        when:
+        println "attribute deleted"
+        fx.press(KeyCode.CONTROL)
+                        .clickOn(graphId)
+                        .release(KeyCode.CONTROL)
+                        .press(KeyCode.ALT)
+                        .rightClickOn()
+                        .release(KeyCode.ALT);
+                        TreeView<String> tree = GraphNodeEditController.getRoot3().lookup("#tree");
+                        tree.getSelectionModel().select(tree.getRoot().getChildren()[0]);
+                        //TODO trouver comment cliquer sur un noeud(pas root), ET get l'arbre pour faire un setSelected ...
+        int itemCount = tree.getRoot().getChildren().size()            
+        fx.clickOn("#delButton")
+                        .clickOn("#confButton")
+                        
+        then:
+        graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getChildren().size() == (itemCount-1)
+                        
+        
     }
 }

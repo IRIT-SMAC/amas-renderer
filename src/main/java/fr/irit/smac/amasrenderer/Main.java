@@ -3,6 +3,7 @@ package fr.irit.smac.amasrenderer;
 import java.io.IOException;
 
 import fr.irit.smac.amasrenderer.controller.GraphMainController;
+import fr.irit.smac.amasrenderer.controller.TreeModifyController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
@@ -11,7 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 //TODO verifier que ce que j'ai marqu� est bon, ne connaissans pas cette classe ( michael )
 /**
@@ -22,18 +25,22 @@ public class Main extends Application {
 
     /** The root layout. */
     BorderPane rootLayout;
+    private GraphMainController graphMainController;
+    private Stage primaryStage;
     
     /* (non-Javadoc)
      * @see javafx.application.Application#start(javafx.stage.Stage)
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        this.primaryStage = primaryStage;
         this.initRootLayout();
         this.initGraphAgents();
         this.initServices();
         
         primaryStage.setScene(new Scene(rootLayout));
+        graphMainController.initSubControllers();        
+
         primaryStage.setOnCloseRequest(event -> {
 				Platform.exit();	
 				System.exit(0);
@@ -68,9 +75,14 @@ public class Main extends Application {
         swingNode.setId("graphNode");
         StackPane stackPaneGraphNode = (StackPane) root.lookup("#stackPaneGraphNode");
         stackPaneGraphNode.getChildren().add(swingNode);
-        GraphMainController controller = loaderGraphAgents.getController();
-        controller.drawGraph();
+        
+        graphMainController = loaderGraphAgents.getController();
         rootLayout.setCenter(root);
+        graphMainController.drawGraph();
+
+        
+        System.out.println("heyyyyyyy" + stackPaneGraphNode.getScene());
+
     }
 
     /**
@@ -86,6 +98,7 @@ public class Main extends Application {
         rootLayout.setLeft(root3);
         
     }
+    
 
 
     /**
