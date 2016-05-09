@@ -25,3 +25,9 @@
 .title {
 	-fx-font-size: 20px;
 }
+
+.invalidField {
+	-fx-font-size: 16px;
+	-fx-font-family: OpenSymbol;
+	-fx-fill: #CA2723;
+}

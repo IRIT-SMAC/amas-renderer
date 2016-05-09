@@ -1,6 +1,6 @@
 package fr.irit.smac.amasrenderer.controller;
 
-import java.io.IOException;import javax.jws.soap.SOAPBinding.Style;
+import java.io.IOException;
 
 import fr.irit.smac.amasrenderer.Main;
 import javafx.fxml.FXML;
@@ -10,26 +10,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
 /**
- * The Class ServicesController. it exists but nobody knows why, kind of like
- * patrick sebastien
+ * The Class ServicesController.
  */
 public class ServicesController {
 
     @FXML
     private Button buttonAddService;
-
-    @FXML
-    private Button buttonCancel;
-
-    @FXML
-    private Button buttonConfirm;
 
     @FXML
     private ListView<Label> listServices;
@@ -45,9 +38,13 @@ public class ServicesController {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/ServiceDialog.fxml"));
-        loader.setController(new ServiceDialogController(listServices));
         DialogPane root = (DialogPane) loader.load();
+        ServiceDialogController serviceDialogController = loader.getController();
+        serviceDialogController.setList(listServices);
 
+        Text text = (Text) root.lookup("#invalidField");
+        text.setVisible(false);
+        
         stage.initModality(Modality.WINDOW_MODAL);
         Window window = buttonAddService.getScene().getWindow();
         stage.initOwner(buttonAddService.getScene().getWindow());
