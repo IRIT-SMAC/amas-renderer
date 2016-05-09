@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
-import org.graphstream.ui.geom.Point2;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
@@ -186,6 +185,11 @@ public class GraphMainController implements Initializable {
         this.initSubControllers();
 
         graphAddDelController.init(graphView, graphNodeService);
+        
+        SwingNode swingNode = new SwingNode();
+        swingNode.setId("graphNode");
+        stackPaneGraphNode.getChildren().add(swingNode);
+        this.drawGraph();
     }
 
 }

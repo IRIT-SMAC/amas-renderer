@@ -12,6 +12,7 @@ import org.graphstream.ui.swingViewer.ViewPanel
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import fr.irit.smac.amasrenderer.controller.GraphMainController
+import fr.irit.smac.amasrenderer.controller.MainController
 import fr.irit.smac.amasrenderer.service.GraphService
 
 class GraphTest extends GuiSpecification{
@@ -31,9 +32,11 @@ class GraphTest extends GuiSpecification{
     def setup() {
         setupStage { stage ->
 
-            BorderPane rootLayout = initRootLayout()
-            BorderPane root = initGraphAgents()
-            rootLayout.setCenter(root)
+            FXMLLoader loaderRootLayout = new FXMLLoader()
+            loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
+            BorderPane rootLayout = (BorderPane) loaderRootLayout.load()
+            MainController mainController = loaderRootLayout.getController()
+            graphView = mainController.getGraphMainController().getGraphView()
             return rootLayout
         }
 
