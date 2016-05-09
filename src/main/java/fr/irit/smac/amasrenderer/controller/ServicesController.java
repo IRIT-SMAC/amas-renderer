@@ -41,9 +41,6 @@ public class ServicesController {
         DialogPane root = (DialogPane) loader.load();
         ServiceDialogController serviceDialogController = loader.getController();
         serviceDialogController.setList(listServices);
-
-        Text text = (Text) root.lookup("#invalidField");
-        text.setVisible(false);
         
         stage.initModality(Modality.WINDOW_MODAL);
         Window window = buttonAddService.getScene().getWindow();

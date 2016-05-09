@@ -1,6 +1,10 @@
 package fr.irit.smac.amasrenderer.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -9,7 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class ServiceDialogController {
+public class ServiceDialogController implements Initializable {
 
 	private ListView<Label> serviceList;
 
@@ -27,6 +31,7 @@ public class ServiceDialogController {
 
 	@FXML
 	public void clickConfirm(){
+	    
 		if(textfieldService.getText() != null 
 				&& !textfieldService.getText().trim().isEmpty()
 				&& !textfieldService.getText().trim().contains(" ")){
@@ -61,5 +66,11 @@ public class ServiceDialogController {
     public void setList(ListView<Label> list) {
         this.serviceList = list;
         
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        
+        invalidField.setVisible(false);
     }
 }
