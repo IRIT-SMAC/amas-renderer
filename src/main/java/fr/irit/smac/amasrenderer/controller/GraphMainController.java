@@ -52,20 +52,6 @@ public class GraphMainController implements Initializable {
      * Instantiates a new graph main controller.
      */
     public GraphMainController() {
-        graphNodeService.createAgentGraph();
-        getModel().addAttribute("ui.stylesheet", "url(" + getClass().getResource("../view/styleSheet1.css") + ")");
-        System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-        viewer = new Viewer(getModel(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-        viewer.enableAutoLayout();
-        this.graphView = viewer.addDefaultView(false);
-        this.initGraph();
-        this.initSubControllers();
-
-        this.initGraph();
-        this.initSubControllers();
-
-        // attributes_synthesis.setText("No nodes are actually selected, click
-        // on a node");
     }
 
     public Viewer getViewer() {

@@ -32,13 +32,15 @@ public class Main extends Application {
         this.initRootLayout();
         this.initGraphAgents();
         this.initServices();
-        
         primaryStage.setScene(new Scene(rootLayout));
         primaryStage.setOnCloseRequest(event -> {
 				Platform.exit();	
 				System.exit(0);
 		});
+        primaryStage.setMaximized(true);
         primaryStage.show();
+        System.out.println(primaryStage.getHeight());
+
     }
 
     /**

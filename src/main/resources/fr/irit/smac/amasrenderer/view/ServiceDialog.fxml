@@ -5,44 +5,26 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
 
-<Pane prefHeight="999.0" prefWidth="1600.0" style="-fx-background-color: rgba(0,0,0,0.5);" stylesheets="@dialogButtonsStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <DialogPane layoutX="548.0" layoutY="347.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="504.0">
-          <header>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0">
-               <children>
-            		<Label alignment="CENTER" maxHeight="100.0" maxWidth="1.7976931348623157E308" prefHeight="65.0" prefWidth="504.0" style="-fx-background-color: #CA2723;" styleClass="title" text="Ajouter un service" textFill="WHITE">
-            			<font>
-            				<Font name="OpenSymbol" size="20.0" />
-            			</font>
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="504.0" stylesheets="@dialogButtonsStyle.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+    <header>
+      <AnchorPane prefHeight="200.0">
+         <children>
+      		<Label alignment="CENTER" maxHeight="100.0" maxWidth="1.7976931348623157E308" prefHeight="65.0" prefWidth="504.0" style="-fx-background-color: #CA2723;" styleClass="title" text="Ajouter un service" textFill="WHITE">
             		</Label>
-      				<TextField fx:id="textfieldService" alignment="CENTER" layoutX="66.0" layoutY="125.0" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="361.0" promptText="Renseignez un nom" styleClass="input">
-                     <font>
-                        <Font name="Open Sans" size="16.0" />
-                     </font>
+				<TextField fx:id="textfieldService" alignment="CENTER" layoutX="66.0" layoutY="125.0" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="361.0" promptText="Renseignez un nom" styleClass="input">
       				</TextField>
-               </children>
-            </AnchorPane>
-          </header>
-          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="114.0" prefWidth="504.0">
-               <children>
-            				<Button fx:id="buttonCancel" cancelButton="true" layoutX="13.0" layoutY="43.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickCancel" prefHeight="50.0" prefWidth="180.0" styleClass="buttonDialog" text="Annuler" textOverrun="CLIP">
-            					<font>
-            						<Font name="OpenSymbol" size="15.0" />
-            					</font>
+         </children>
+      </AnchorPane>
+    </header>
+    <content>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="114.0" prefWidth="504.0">
+         <children>
+      				<Button fx:id="buttonCancel" cancelButton="true" layoutX="13.0" layoutY="43.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickCancel" prefHeight="50.0" prefWidth="180.0" styleClass="buttonDialog" text="Annuler" textOverrun="CLIP">
             				</Button>
-            				<Button fx:id="buttonConfirm" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="312.0" layoutY="43.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickConfirm" prefHeight="50.0" prefWidth="180.0" styleClass="buttonDialogOk" text="Confirmer" textAlignment="CENTER" textFill="WHITE">
-            					<font>
-            						<Font name="OpenSymbol" size="15.0" />
-            					</font>
+      				<Button fx:id="buttonConfirm" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="312.0" layoutY="43.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickConfirm" prefHeight="50.0" prefWidth="180.0" styleClass="buttonDialogOk" text="Confirmer" textAlignment="CENTER" textFill="WHITE">
             				</Button>
-               </children>
-            </AnchorPane>
-          </content>
-      </DialogPane>
-   </children>
-</Pane>
+         </children>
+      </AnchorPane>
+    </content>
+</DialogPane>
