@@ -17,7 +17,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 /**
  * The Class GraphMainController.
@@ -29,8 +28,6 @@ public class GraphMainController implements Initializable {
     private ViewPanel graphView;
 
     private Viewer viewer;
-
-    private Stage dialogStage;
     
    
     
@@ -50,15 +47,16 @@ public class GraphMainController implements Initializable {
 
     private GraphDefaultMouseController defaultMouseController;
 
-    private TreeModifyController treeModifyController;
-
     /**
      * Instantiates a new graph main controller.
      */
     public GraphMainController() {
         
     }
-
+    /**
+     * gets the viewer
+     * @return the viewer
+     */
     public Viewer getViewer() {
     	return this.viewer;
     }
@@ -67,6 +65,7 @@ public class GraphMainController implements Initializable {
      * Draws he graph in the container.
      */
     public void drawGraph() {
+        System.out.println("salut in main controller");
         ((SwingNode) this.stackPaneGraphNode.lookup("#graphNode")).setContent(this.graphView);
     }
 
@@ -78,15 +77,6 @@ public class GraphMainController implements Initializable {
     @FXML
     public void addAgent() {
         this.graphNodeService.getModel().addNode("" + this.graphNodeService.getModel().getNodeCount() + 1);
-    }
-    
-    public void setDialogStage(Stage dialogStage){
-        System.out.println("test"+dialogStage);
-        this.dialogStage = dialogStage;
-    }
-    
-    public void setTreeModifyController(TreeModifyController treeModifyController) {
-        this.treeModifyController = treeModifyController;
     }
     
     
@@ -160,15 +150,21 @@ public class GraphMainController implements Initializable {
         for (MouseListener mouseListener : ml) {
             graphView.removeMouseListener(mouseListener);
         }
-
+//
         graphMouseWheelController = new GraphMouseWheelController();
         graphMouseWheelController.init(graphView);
-
+//
         defaultMouseController = new GraphDefaultMouseController();
         defaultMouseController.init(graphView, getModel());
+        graphAddDelController.init(graphView, graphNodeService);
 
         nodeEditController = new GraphNodeEditController();
-        nodeEditController.init(graphView, dialogStage, treeModifyController);
+        System.out.println("***");
+        System.out.println(stackPaneGraphNode);
+        System.out.println(stackPaneGraphNode.getScene());
+        System.out.println(stackPaneGraphNode.getScene().getWindow());
+
+        nodeEditController.init(graphView, stackPaneGraphNode.getScene().getWindow());
 
     }
 
@@ -190,13 +186,6 @@ public class GraphMainController implements Initializable {
         this.graphView = viewer.addDefaultView(false);
 
         this.initGraph();
-
-        this.initSubControllers();
-
-        graphAddDelController.init(graphView, graphNodeService);
-
-        // nodeEditController.init(graphView);
-        // graphView.addMouseListener(nodeEditController);
     }
 
 }

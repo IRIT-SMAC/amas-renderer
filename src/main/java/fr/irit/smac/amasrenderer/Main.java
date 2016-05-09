@@ -25,7 +25,7 @@ public class Main extends Application {
 
     /** The root layout. */
     BorderPane rootLayout;
-    
+    private GraphMainController graphMainController;
     private Stage primaryStage;
     
     /* (non-Javadoc)
@@ -39,6 +39,8 @@ public class Main extends Application {
         this.initServices();
         
         primaryStage.setScene(new Scene(rootLayout));
+        graphMainController.initSubControllers();        
+
         primaryStage.setOnCloseRequest(event -> {
 				Platform.exit();	
 				System.exit(0);
@@ -73,29 +75,13 @@ public class Main extends Application {
         swingNode.setId("graphNode");
         StackPane stackPaneGraphNode = (StackPane) root.lookup("#stackPaneGraphNode");
         stackPaneGraphNode.getChildren().add(swingNode);
-        GraphMainController controller = loaderGraphAgents.getController();
+        
+        graphMainController = loaderGraphAgents.getController();
         rootLayout.setCenter(root);
-        controller.drawGraph();
+        graphMainController.drawGraph();
 
-        FXMLLoader loaderServices = new FXMLLoader();
-        loaderServices.setLocation(Main.class.getResource("view/GraphAttributes.fxml"));
-        BorderPane root3 = loaderServices.load();
-        TreeModifyController treeModifyController = loaderServices.getController();
-        controller.setTreeModifyController(treeModifyController);
-
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Modification d'attribut");
-        //fenetre modale, obligation de quitter pour revenir a la fenetre principale
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        dialogStage.initOwner(primaryStage);
-        Scene miniScene = new Scene(root3);
-        dialogStage.setScene(miniScene);
-        dialogStage.initStyle(StageStyle.UNIFIED);
-        dialogStage.setMinHeight(380);
-        dialogStage.setMinWidth(440);
-        controller.setDialogStage(dialogStage); 
-        controller.initSubControllers();
-
+        
+        System.out.println("heyyyyyyy" + stackPaneGraphNode.getScene());
 
     }
 

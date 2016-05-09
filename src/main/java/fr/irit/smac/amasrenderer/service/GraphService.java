@@ -23,7 +23,7 @@ public class GraphService {
      * to hide the constructor, use getInstance to initiate it
      */
     private GraphService() {
-
+        
     }
 
     /**
