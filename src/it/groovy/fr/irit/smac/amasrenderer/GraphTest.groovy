@@ -1,6 +1,7 @@
 package fr.irit.smac.amasrenderer
 
 
+import java.lang.invoke.MethodHandleImpl.BindCaller.T
 import javafx.embed.swing.SwingNode
 import javafx.fxml.FXMLLoader
 import javafx.scene.control.TreeView
@@ -231,30 +232,37 @@ class GraphTest extends GuiSpecification{
 
     def "check if adding an attribute works with alt+rightClick"() {
 
-        when:
-        println "attribute added"
+        given:
         fx.press(KeyCode.CONTROL)
         .clickOn(graphId)
         .release(KeyCode.CONTROL)
-        .press(KeyCode.ALT)
-        .rightClickOn()
+        
+        Object<T> tree = graphService.getModel().getNode(0).getAttribute("ui.stocked-info")
+        int nbChildren = tree.getRoot().getChildren().size() 
+        
+        when:
+        fx.press(KeyCode.ALT)
+        .rightClickOn(graphId)
         .release(KeyCode.ALT)
-        .clickOn("#addValue")
-        .write("VictoryDance")
-        TreeView<String> tree = GraphNodeEditController.getRoot3().lookup("#tree")
-        tree.getRoot().getChildren().clear()
-        tree.getSelectionModel().select(0)
-        fx.clickOn("#addButton")
+        .clickOn("#tree")
+        .doubleClickOn("#tree")
+        .moveBy(-200,-140)
+        .doubleClickOn()
+        .rightClickOn()
+        .clickOn("#addAttributeItem")
         .clickOn("#confButton")
-
+        
         then:
-        println "succeeded"
-        println "victoryDance"
-        graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getChildren()[0].getValue() == "VictoryDance"
+        tree.getRoot().getChildren().size() == nbChildren + 1
     }
 
     def "check if modifying an attribute works with alt+rightClick"() {
 
+        given:
+        fx.press(KeyCode.CONTROL)
+        .clickOn(graphId)
+        .release(KeyCode.CONTROL)
+                
         when:
         println "attribute modified"
         fx.press(KeyCode.CONTROL)
@@ -263,38 +271,45 @@ class GraphTest extends GuiSpecification{
         .press(KeyCode.ALT)
         .rightClickOn()
         .release(KeyCode.ALT)
-        .clickOn("#modifyValue")
-        .write("MuchAttributeVerySucceeded\\o/")
-        TreeView<String> tree = GraphNodeEditController.getRoot3().lookup("#tree")
-        tree.getSelectionModel().select(tree.getRoot())
-
-        fx.clickOn("#modButton")
+        .clickOn("#tree")
+        .doubleClickOn("#tree")
+        .moveBy(-200,-140)
+        .rightClickOn()
+        .clickOn("#renameAttributeItem")
+        .type(KeyCode.E)
+        .type(KeyCode.ENTER)
         .clickOn("#confButton")
 
         then:
-        graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getValue() == "MuchAttributeVerySucceeded\\o/"
+        String value = graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getValue()
+        value == "e" || value == "E"
     }
 
     def "check if deleting an attribute works with alt+rightClick"() {
 
-        when:
-        println "attribute deleted"
+        given:
         fx.press(KeyCode.CONTROL)
         .clickOn(graphId)
         .release(KeyCode.CONTROL)
-        .press(KeyCode.ALT)
-        .rightClickOn()
+        
+        Object<T> tree = graphService.getModel().getNode(0).getAttribute("ui.stocked-info")
+        int nbChildren = tree.getRoot().getChildren().size()
+                
+        when:
+        fx.press(KeyCode.ALT)
+        .rightClickOn(graphId)
         .release(KeyCode.ALT)
-        TreeView<String> tree = GraphNodeEditController.getRoot3().lookup("#tree")
-        tree.getSelectionModel().select(tree.getRoot().getChildren()[0])
-        //TODO trouver comment cliquer sur un noeud(pas root), ET get l'arbre pour faire un setSelected ...
-        int itemCount = tree.getRoot().getChildren().size()
-        fx.clickOn("#delButton")
+        .clickOn("#tree")
+        .doubleClickOn("#tree")
+        .moveBy(-200,-140)
+        .doubleClickOn()
+        .moveBy(0,40)
+        .rightClickOn()
+        .clickOn("#removeAttributeItem")
         .clickOn("#confButton")
-
+        
         then:
-        graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getChildren().size() == (itemCount-1)
-
+        tree.getRoot().getChildren().size() == nbChildren - 1
 
     }
 }

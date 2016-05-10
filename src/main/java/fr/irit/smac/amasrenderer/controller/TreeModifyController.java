@@ -119,7 +119,9 @@ public class TreeModifyController implements Initializable {
         public RenameMenuTreeCell() {
             super(new DefaultStringConverter());
 
+            menu.setId("treeAttributeItem");
             MenuItem renameItem = new MenuItem("Renommer");
+            renameItem.setId("renameAttributeItem");
             menu.getItems().add(renameItem);
             renameItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -130,15 +132,18 @@ public class TreeModifyController implements Initializable {
 
             MenuItem addItem = new MenuItem("Ajouter");
             menu.getItems().add(addItem);
+            addItem.setId("addAttributeItem");
             addItem.setOnAction(new EventHandler() {
                 public void handle(Event t) {
                     TreeItem newItem = new TreeItem<String>("Nouvel attribut");
                     getTreeItem().getChildren().add(newItem);
+                   
                 }
             });
 
             MenuItem removeItem = new MenuItem("Supprimer");
             menu.getItems().add(removeItem);
+            removeItem.setId("removeAttributeItem");
             removeItem.setOnAction(new EventHandler() {
                 public void handle(Event t) {
                     getTreeItem().getParent().getChildren().remove(getTreeItem());
