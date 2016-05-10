@@ -26,7 +26,7 @@ public class GraphMainController implements Initializable {
     private ViewPanel graphView;
 
     private Viewer viewer;
-
+    
     @FXML
     private StackPane stackPaneGraphNode;
 
@@ -51,14 +51,30 @@ public class GraphMainController implements Initializable {
     }
 
     /**
-     * @return the viewer of the graph
+     * gets the viewer
+     * @return the viewer
      */
-	public Viewer getViewer() {
-        return this.viewer;
+    public Viewer getViewer() {
+    	return this.viewer;
     }
+    
 
     /**
      * Draws he graph in the container.
+     * DEPRECATED Adds an agent to the graph
+     * 
+     * Prefer using GraphAddDelNodeMouseController to add agents (alt + left click).
+     */
+    @FXML
+    public void addAgent() {
+        this.graphNodeService.getModel().addNode("" + this.graphNodeService.getModel().getNodeCount() + 1);
+    }
+    
+    
+    /**
+     * DEPRECATED
+     * Graph mouse clicked.
+     * DEPRECATED Graph mouse clicked. Calls
      */
     public void drawGraph() {
         ((SwingNode) this.stackPaneGraphNode.lookup("#graphNode")).setContent(this.graphView);
@@ -83,9 +99,19 @@ public class GraphMainController implements Initializable {
     }
 
     /**
+     * Initialize the graph. Creates Const.NODE_INIT nodes with each
+     * Const.EDGE_INIT edge going from them to other nodes For testing purposes
+     */
+    private void initGraph() {
+        getModel().addAttribute("ui.quality");
+        getModel().addAttribute("layout.quality",4);
+        getModel().addAttribute("ui.antialias");
+    }
+
+    /**
      * Inits the sub controllers. (all Listeners)
      */
-    private void initSubControllers() {
+    public void initSubControllers() {
         MouseMotionListener[] mml = graphView.getMouseMotionListeners();
         for (MouseMotionListener mouseMotionListener : mml) {
             graphView.removeMouseMotionListener(mouseMotionListener);
@@ -101,6 +127,10 @@ public class GraphMainController implements Initializable {
 
         defaultMouseController = new GraphDefaultMouseController();
         defaultMouseController.init(graphView, getModel());
+        graphAddDelController.init(graphView, graphNodeService);
+
+        nodeEditController = new GraphNodeEditController();
+        nodeEditController.init(graphView, stackPaneGraphNode.getScene().getWindow());
 
     }
 
@@ -112,7 +142,7 @@ public class GraphMainController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        
         this.graphNodeService = GraphService.getInstance();
         this.graphNodeService.createAgentGraph();
 
@@ -121,10 +151,14 @@ public class GraphMainController implements Initializable {
         viewer.enableAutoLayout();
         this.graphView = viewer.addDefaultView(false);
 
-        this.initSubControllers();
+        this.initGraph();
 
         graphAddDelController.init(graphView, graphNodeService);
-
+        
+        SwingNode swingNode = new SwingNode();
+        swingNode.setId("graphNode");
+        stackPaneGraphNode.getChildren().add(swingNode);
+        this.drawGraph();
     }
 
 }

@@ -32,6 +32,7 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
     private ToggleButton buttonAddAgent;
 
     private ToggleButton buttonDelAgent;
+    
 
     /**
      * Initialize the controller, and adds it to the graph.

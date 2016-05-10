@@ -66,7 +66,7 @@ public class GraphDefaultMouseController extends MouseAdapter {
         // so don't unselect
         if (!event.isShiftDown()) {
             for (Node node : graph) {
-                node.addAttribute("ui.selected");
+                node.addAttribute("ui.selected"); 
                 // nonsense line, but don't always work without it
                 node.removeAttribute("ui.selected");
                 node.addAttribute("ui.clicked");
@@ -163,13 +163,11 @@ public class GraphDefaultMouseController extends MouseAdapter {
         if (SwingUtilities.isLeftMouseButton(event) && event.isAltDown()
                 && view.findNodeOrSpriteAt(event.getX(), event.getY()) != null) {
             curElement = view.findNodeOrSpriteAt(event.getX(), event.getY());
-            mouseButtonPress(event);
-            mouseButtonPressOnElement(curElement, event);
-        }
-            /*
-             * else { x1 = event.getX(); y1 = event.getY();
-             * mouseButtonPress(event); view.beginSelectionAt(x1, y1); }
-             */
+            if (curElement != null) {
+                mouseButtonPress(event);
+                mouseButtonPressOnElement(curElement, event);
+            }
+        }        
     }
 
     /**

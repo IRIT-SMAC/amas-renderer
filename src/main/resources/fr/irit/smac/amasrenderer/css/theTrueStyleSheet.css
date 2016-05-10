@@ -7,7 +7,7 @@ graph {
 node {
      size: 40px;
      fill-mode: gradient-diagonal2;
-     fill-color: #BF0000, #0A0000;
+     fill-color: #BF0000;
      stroke-mode: plain;
      stroke-color: #FFFFFF;
      stroke-width: 2px;
@@ -26,10 +26,10 @@ node {
      size: 3px;
  }
  node:clicked {
-     fill-color: #FF0000, #BF0000;
+     fill-color: #FF0000;
  	 stroke-color: #E6E6E6;
  }
   node:selected {
-     fill-color: #FF0000, #BF0000;
+     fill-color: #FF0000;
  	 stroke-color: #E6E6E6;
  }
