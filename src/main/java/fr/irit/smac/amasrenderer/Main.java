@@ -1,7 +1,10 @@
 package fr.irit.smac.amasrenderer;
 
+import java.util.logging.Logger;
+
 import fr.irit.smac.amasrenderer.controller.GraphMainController;
 import fr.irit.smac.amasrenderer.controller.MainController;
+import fr.irit.smac.amasrenderer.controller.MenuBarController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +25,8 @@ public class Main extends Application {
     private GraphMainController graphMainController;
     private Stage primaryStage;
     
+	public static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
+    
     /** The main stage of the application */
     private static Stage mainStage;
     
@@ -40,9 +45,12 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(rootLayout));
         
         MainController mainController = loaderRootLayout.getController();
-        mainController.getGraphMainController().initSubControllers();
-        
-        primaryStage.setOnCloseRequest(event -> Platform.exit());
+        GraphMainController graphMainController = mainController.getGraphMainController();
+        graphMainController.initSubControllers();
+        primaryStage.setOnCloseRequest(event -> {
+        	Platform.exit();
+        	System.exit(0);
+        });
         primaryStage.show();
         
         Main.mainStage = primaryStage;

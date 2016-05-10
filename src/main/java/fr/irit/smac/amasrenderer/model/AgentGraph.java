@@ -50,4 +50,8 @@ public class AgentGraph extends SingleGraph {
     public Map<String, Object> getGraphMap() {
         return graphMap;
     }
+
+	public void setGraphMap(Map<String, Object> graphMap) {
+		this.graphMap = graphMap;
+	}
 }

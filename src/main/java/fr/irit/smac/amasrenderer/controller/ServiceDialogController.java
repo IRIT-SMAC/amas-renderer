@@ -1,6 +1,8 @@
 package fr.irit.smac.amasrenderer.controller;
 
 import fr.irit.smac.amasrenderer.Const;
+import fr.irit.smac.amasrenderer.service.ServiceService;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -30,9 +32,6 @@ public class ServiceDialogController implements Initializable {
     @FXML
     private TextField textfieldService;
 
-    /** The instance of the list in which we add the new service */
-    private ListView<Label> serviceList;
-
     /**
      * @param list
      *            The instance of the list in which we add the new service
@@ -40,7 +39,6 @@ public class ServiceDialogController implements Initializable {
     public ServiceDialogController() {
     	
     }
-
 
 	@FXML
 	private Text invalidField;
@@ -60,14 +58,14 @@ public class ServiceDialogController implements Initializable {
             
             boolean found = false;
 
-            for (Label item : serviceList.getItems()) {
+            for (Label item : ServiceService.getInstance().getListServices()) {
                 if (item.getText().equals(nouveauService.getText())){
                     found = true;
                 }
             }
 
             if(!found){
-                this.serviceList.getItems().add(nouveauService);
+                ServiceService.getInstance().getListServices().add(nouveauService);
             }
 
             ((Stage) buttonConfirm.getScene().getWindow()).close();
@@ -85,14 +83,9 @@ public class ServiceDialogController implements Initializable {
         ((Stage) buttonCancel.getScene().getWindow()).close();
 	}
 
-    public void setList(ListView<Label> list) {
-        this.serviceList = list;
-        
-    }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        
+    public void initialize(URL location, ResourceBundle resources) {  
         invalidField.setVisible(false);
     }
 }
