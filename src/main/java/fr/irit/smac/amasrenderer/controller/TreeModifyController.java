@@ -29,23 +29,19 @@ import javafx.util.converter.DefaultStringConverter;
  */
 public class TreeModifyController implements Initializable {
 
-    /** The confirm button. */
     @FXML
     private Button confButton;
 
-    /** The cancel button. */
     @FXML
     private Button cancButton;
 
-    /** The attribute tree. */
     @FXML
     private TreeView<String> tree;
 
-
-    /** The stock var of the clicked node. */
+    private TreeItem<String> oldTree;
+    
     private Stock stock;
 
-    /** The dialog stage. */
     private Stage dialogStage;
 
     /**
@@ -67,6 +63,8 @@ public class TreeModifyController implements Initializable {
     public void setStock(Stock s) {
         stock = s;
         tree.setRoot(deepcopy(s.getRoot()));
+        this.oldTree = new TreeItem<>();
+        this.oldTree = deepcopy(tree.getRoot());
     }
 
     /**
@@ -84,7 +82,7 @@ public class TreeModifyController implements Initializable {
     @FXML
     public void cancelButton() {
         dialogStage.close();
-
+        this.tree.setRoot(deepcopy(oldTree));
     }
 
     /**
