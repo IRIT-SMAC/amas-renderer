@@ -2,6 +2,9 @@ package fr.irit.smac.amasrenderer.service;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
+
+import com.fasterxml.jackson.core.JsonParser;
+
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentGraph;
 import fr.irit.smac.amasrenderer.model.Stock;
@@ -39,7 +42,6 @@ public class GraphService {
      * Creates and initialise the agent graph.
      */
     public void createAgentGraph() {
-
         this.model = new AgentGraph("AMAS Rendering");
         this.model.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../view/TheTrueStyleSheet.css") + ")");
     }
@@ -52,13 +54,45 @@ public class GraphService {
      * @param y the y location of the node
      */
     public void addNode(String id, double x, double y) {
-
         model.addNode(id);
         model.getNode(id).changeAttribute("xyz", x, y);
         model.getNode(id).setAttribute("ui.stocked-info", new Stock());
         model.getNode(id).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
     }
 
+    /**
+     * Adds a node.
+     *
+     * @param id the id of the node
+     */
+    public void addNode(String id) {
+        model.addNode(id);
+        model.getNode(id).setAttribute("ui.stocked-info", new Stock());
+        model.getNode(id).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
+        model.getNode(id).setAttribute("ui.label", id);
+    }
+    
+    /**
+     * Add a directed edge from the source to the target
+     * @param source
+     * @param target
+     */
+    public void addEdge(String source, String target) {
+        model.addEdge(source+target, source, target, true);
+        model.getEdge(source+target).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_EDGE);
+    }
+    
+    /**
+     * Add or update an attribute on a node
+     * @param id the node id
+     * @param attribute
+     * @param value
+     */
+    public void setNodeAttribute(String id, String attribute, Object value){
+        Node node = model.getNode(id);
+        node.setAttribute(attribute, value);
+    }
+    
     /**
      * Removes a node.
      *
@@ -81,7 +115,6 @@ public class GraphService {
      * @return the model
      */
     public AgentGraph getModel() {
-
         return this.model;
     }
     
@@ -93,4 +126,10 @@ public class GraphService {
     public void setModel(AgentGraph model) {
         this.model = model;
     }
+
+	public void createAgentGraphFromJson() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

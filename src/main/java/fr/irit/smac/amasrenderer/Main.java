@@ -13,7 +13,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-//TODO verifier que ce que j'ai marqu� est bon, ne connaissans pas cette classe ( michael )
 /**
  * The Class Main.
  * Launch the program
@@ -22,6 +21,11 @@ public class Main extends Application {
 
     /** The root layout. */
     BorderPane rootLayout;
+    
+    /** The main stage of the application */
+    private static Stage mainStage;
+    
+    /**
     
     /* (non-Javadoc)
      * @see javafx.application.Application#start(javafx.stage.Stage)
@@ -34,11 +38,10 @@ public class Main extends Application {
         this.initServices();
         
         primaryStage.setScene(new Scene(rootLayout));
-        primaryStage.setOnCloseRequest(event -> {
-                Platform.exit();    
-                System.exit(0);
-        });
+        primaryStage.setOnCloseRequest(event -> Platform.exit());
         primaryStage.show();
+        
+        Main.mainStage = primaryStage;
     }
 
     /**
@@ -51,6 +54,10 @@ public class Main extends Application {
         FXMLLoader loaderRootLayout = new FXMLLoader();
         loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"));
         this.rootLayout = (BorderPane) loaderRootLayout.load();
+        FXMLLoader loaderMenuBar = new FXMLLoader();
+        loaderMenuBar.setLocation(Main.class.getResource("view/MenuBar.fxml"));
+        rootLayout.setTop(loaderMenuBar.load());
+        
     }
     
     
@@ -85,6 +92,10 @@ public class Main extends Application {
         VBox root3 = (VBox) loaderServices.load();
         rootLayout.setLeft(root3);
         
+    }
+    
+    public static Stage getMainStage() {
+        return mainStage;
     }
 
 

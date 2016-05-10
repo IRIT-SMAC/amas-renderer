@@ -1,9 +1,12 @@
 package fr.irit.smac.amasrenderer.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.graphstream.graph.implementations.SingleGraph;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 /**
  * The Class AgentGraph. 
@@ -11,8 +14,16 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public class AgentGraph extends SingleGraph {
     
-    private IntegerProperty currentID;
-
+    private Map<String, Object> graphMap = new HashMap<String, Object>();
+    
+    
+    /**
+     * Constuctor for Jackson parser
+     */
+    public AgentGraph(){
+        super("man lol");
+    }
+    
     /**
      * Instantiates a new agent graph.
      *
@@ -20,15 +31,23 @@ public class AgentGraph extends SingleGraph {
      */
     public AgentGraph(String id) {
         super(id);
-        currentID = new SimpleIntegerProperty(0);
     }
 
-    /**
-     * Gets the current id.
-     *
-     * @return the current id
-     */
-    public IntegerProperty getCurrentID(){
-        return this.currentID;
+    @JsonAnyGetter
+    public Map<String, Object> any() {
+     return graphMap;
+    }
+
+     @JsonAnySetter
+    public void set(String name, Object value) {
+     graphMap.put(name, value);
+    }
+    
+     /**
+      * 
+      * @return the graph map
+      */
+    public Map<String, Object> getGraphMap() {
+        return graphMap;
     }
 }

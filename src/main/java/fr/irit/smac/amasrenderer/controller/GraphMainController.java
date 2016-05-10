@@ -5,14 +5,10 @@ import java.awt.event.MouseMotionListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.graphstream.graph.Edge;
-import org.graphstream.graph.Node;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
-import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentGraph;
-import fr.irit.smac.amasrenderer.model.Stock;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
@@ -51,23 +47,13 @@ public class GraphMainController implements Initializable {
      * Instantiates a new graph main controller.
      */
     public GraphMainController() {
-        graphNodeService.createAgentGraph();
-        getModel().addAttribute("ui.stylesheet", "url(" + getClass().getResource("../view/styleSheet1.css") + ")");
-        System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-        viewer = new Viewer(getModel(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-        viewer.enableAutoLayout();
-        this.graphView = viewer.addDefaultView(false);
-        this.initGraph();
-        this.initSubControllers();
 
-        this.initGraph();
-        this.initSubControllers();
-
-        // attributes_synthesis.setText("No nodes are actually selected, click
-        // on a node");
     }
 
-    public Viewer getViewer() {
+    /**
+     * @return the viewer of the graph
+     */
+	public Viewer getViewer() {
         return this.viewer;
     }
 
@@ -76,25 +62,6 @@ public class GraphMainController implements Initializable {
      */
     public void drawGraph() {
         ((SwingNode) this.stackPaneGraphNode.lookup("#graphNode")).setContent(this.graphView);
-    }
-
-    /**
-     * DEPRECATED Adds an agent to the graph
-     * 
-     * Prefer using GraphAddDelNodeMouseController to add agents (alt + left
-     * click).
-     */
-    @FXML
-    public void addAgent() {
-        this.graphNodeService.getModel().addNode("" + this.graphNodeService.getModel().getNodeCount() + 1);
-    }
-
-    /**
-     * DEPRECATED Graph mouse clicked. DEPRECATED Graph mouse clicked. Calls
-     */
-    @FXML
-    public void graphMouseClicked() {
-        // TODO delete this function
     }
 
     /**
@@ -113,48 +80,6 @@ public class GraphMainController implements Initializable {
      */
     public AgentGraph getModel() {
         return this.graphNodeService.getModel();
-    }
-
-    /**
-     * Initialize the graph. Creates Const.NODE_INIT nodes with each
-     * Const.EDGE_INIT edge going from them to other nodes For testing purposes
-     */
-    private void initGraph() {
-
-        getModel().addAttribute("ui.quality");
-        getModel().addAttribute("layout.quality", Const.LAYOUT_QUALITY);
-        getModel().addAttribute("ui.antialias");
-        AgentGraph model = this.graphNodeService.getModel();
-        /*
-         * model.addNode("0"); model.getNode("0").setAttribute("ui.label",
-         * "Ag0");
-         */
-        for (Integer i = 0; i < Const.NODE_INIT; i++) {
-            int firstNode = i;
-            model.addNode("" + firstNode);
-            model.getNode("" + firstNode).setAttribute("ui.label", "Ag" + firstNode);
-            int j = 0;
-            while (i >= Const.EDGE_INIT && j < Const.EDGE_INIT) {
-                int secondNode = (int) Math.floor(Math.random() * i);
-                if (model.getEdge(firstNode + "" + secondNode) == null) {
-                    model.addEdge(firstNode + "" + secondNode, "" + firstNode, "" + secondNode, true);
-                    model.getEdge(firstNode + "" + secondNode).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_EDGE);
-                    j++;
-                }
-            }
-
-        }
-        // modify the layout
-        // sets edge lenght
-        for (Edge edge : model.getEachEdge()) {
-            edge.setAttribute("layout.weight", Const.LAYOUT_WEIGHT_EDGE);
-        }
-        // sets the node repulsion
-        for (Node node : model) {
-            node.setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
-            // sets the Stock class to store agent info
-            node.setAttribute("ui.stocked-info", new Stock());
-        }
     }
 
     /**
@@ -196,13 +121,10 @@ public class GraphMainController implements Initializable {
         viewer.enableAutoLayout();
         this.graphView = viewer.addDefaultView(false);
 
-        this.initGraph();
         this.initSubControllers();
 
         graphAddDelController.init(graphView, graphNodeService);
 
-        // nodeEditController.init(graphView);
-        // graphView.addMouseListener(nodeEditController);
     }
 
 }

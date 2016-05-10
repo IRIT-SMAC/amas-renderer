@@ -6,9 +6,9 @@ package fr.irit.smac.amasrenderer;
  */
 public final class Const {
     
-    public static final int NODE_INIT = 0; 
+    public static final int NODE_INIT = 3; 
     
-    public static final int EDGE_INIT = 0;
+    public static final int EDGE_INIT = 4;
     
     public static final int LAYOUT_QUALITY = 4;
  
