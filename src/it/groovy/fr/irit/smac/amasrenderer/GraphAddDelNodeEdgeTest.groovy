@@ -24,7 +24,7 @@ import fr.irit.smac.amasrenderer.service.GraphService
 @IgnoreIf({
     System.getenv("TRAVIS") != null
 })
-class GraphTest extends GuiSpecification{
+class GraphAddDelNodeEdgeTest extends GuiSpecification{
 
     @Shared
     GraphService graphService
@@ -33,15 +33,12 @@ class GraphTest extends GuiSpecification{
     ViewPanel graphView
 
     @Shared
-    SwingNode swingNode
-
-    @Shared
     BorderPane rootLayout
-
-    GraphMainController graphMainController
 
     @Shared
     String graphId = "#graphNode"
+    
+    GraphMainController graphMainController
 
     def setup() {
         setupStage {
@@ -228,88 +225,5 @@ class GraphTest extends GuiSpecification{
 
         then:
         graphService.getModel().getEdgeCount() == 0
-    }
-
-    def "check if adding an attribute works with alt+rightClick"() {
-
-        given:
-        fx.press(KeyCode.CONTROL)
-        .clickOn(graphId)
-        .release(KeyCode.CONTROL)
-        
-        Object<T> tree = graphService.getModel().getNode(0).getAttribute("ui.stocked-info")
-        int nbChildren = tree.getRoot().getChildren().size() 
-        
-        when:
-        fx.press(KeyCode.ALT)
-        .rightClickOn(graphId)
-        .release(KeyCode.ALT)
-        .clickOn("#tree")
-        .doubleClickOn("#tree")
-        .moveBy(-200,-140)
-        .doubleClickOn()
-        .rightClickOn()
-        .clickOn("#addAttributeItem")
-        .clickOn("#confButton")
-        
-        then:
-        tree.getRoot().getChildren().size() == nbChildren + 1
-    }
-
-    def "check if modifying an attribute works with alt+rightClick"() {
-
-        given:
-        fx.press(KeyCode.CONTROL)
-        .clickOn(graphId)
-        .release(KeyCode.CONTROL)
-                
-        when:
-        println "attribute modified"
-        fx.press(KeyCode.CONTROL)
-        .clickOn(graphId)
-        .release(KeyCode.CONTROL)
-        .press(KeyCode.ALT)
-        .rightClickOn()
-        .release(KeyCode.ALT)
-        .clickOn("#tree")
-        .doubleClickOn("#tree")
-        .moveBy(-200,-140)
-        .rightClickOn()
-        .clickOn("#renameAttributeItem")
-        .type(KeyCode.E)
-        .type(KeyCode.ENTER)
-        .clickOn("#confButton")
-
-        then:
-        String value = graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getValue()
-        value == "e" || value == "E"
-    }
-
-    def "check if deleting an attribute works with alt+rightClick"() {
-
-        given:
-        fx.press(KeyCode.CONTROL)
-        .clickOn(graphId)
-        .release(KeyCode.CONTROL)
-        
-        Object<T> tree = graphService.getModel().getNode(0).getAttribute("ui.stocked-info")
-        int nbChildren = tree.getRoot().getChildren().size()
-                
-        when:
-        fx.press(KeyCode.ALT)
-        .rightClickOn(graphId)
-        .release(KeyCode.ALT)
-        .clickOn("#tree")
-        .doubleClickOn("#tree")
-        .moveBy(-200,-140)
-        .doubleClickOn()
-        .moveBy(0,40)
-        .rightClickOn()
-        .clickOn("#removeAttributeItem")
-        .clickOn("#confButton")
-        
-        then:
-        tree.getRoot().getChildren().size() == nbChildren - 1
-
     }
 }
