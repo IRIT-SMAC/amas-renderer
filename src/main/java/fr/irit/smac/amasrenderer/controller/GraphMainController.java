@@ -150,10 +150,11 @@ public class GraphMainController implements Initializable {
 
         graphMouseWheelController = new GraphMouseWheelController();
         graphMouseWheelController.init(graphView);
+        
+        graphAddDelController.init(graphView, graphNodeService);
 
         defaultMouseController = new GraphDefaultMouseController();
-        defaultMouseController.init(graphView, getModel());
-        graphAddDelController.init(graphView, graphNodeService);
+        defaultMouseController.init(graphView, getModel(),graphAddDelController.getTogGroup());
 
         nodeEditController = new GraphNodeEditController();
         nodeEditController.init(graphView, stackPaneGraphNode.getScene().getWindow());

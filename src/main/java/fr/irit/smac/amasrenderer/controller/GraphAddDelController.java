@@ -1,13 +1,12 @@
 package fr.irit.smac.amasrenderer.controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import org.graphstream.ui.swingViewer.ViewPanel;
 
 import fr.irit.smac.amasrenderer.service.GraphService;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 
@@ -35,7 +34,7 @@ public class GraphAddDelController {
     private GraphAddDelEdgeMouseController graphAddDelEdgeMouseController;
 
     private GraphAddDelNodeMouseController graphAddDelNodeMouseController;
-
+    
     /**
      * Inits the subcontrollers GraphAddDelEdgeMouseController and
      * GraphAddDelMouseController.
@@ -55,5 +54,11 @@ public class GraphAddDelController {
         graphAddDelNodeMouseController.setButtonAddAgent(this.buttonAddAgent);
         graphAddDelNodeMouseController.setButtonDelAgent(this.buttonDelAgent);
         graphAddDelNodeMouseController.init(graphView, graphNodeService);
+       
+        
+    }
+    
+    public ToggleGroup getTogGroup() {
+        return toggroup;
     }
 }
