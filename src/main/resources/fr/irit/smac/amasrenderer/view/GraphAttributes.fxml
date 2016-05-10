@@ -1,60 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" minHeight="320.0" minWidth="419.0" prefHeight="391.0" prefWidth="419.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.TreeModifyController">
-   <left>
-      <BorderPane BorderPane.alignment="CENTER">
-         <center>
-            <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" prefHeight="199.0" prefWidth="172.0" spacing="30.0">
-               <children>
-                  <VBox prefHeight="61.0" prefWidth="132.0">
-                     <children>
-                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#addAttribute" prefHeight="31.0" prefWidth="140.0" text="Add Attribute" />
-                        <TextField fx:id="addValue" />
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="59.0" prefWidth="132.0">
-                     <children>
-                        <Button fx:id="modButton" mnemonicParsing="false" onAction="#modifyAttribute" prefHeight="31.0" prefWidth="138.0" text="Modify Attribute" />
-                        <TextField fx:id="modifyValue" />
-                     </children>
-                  </VBox>
-                  <Button fx:id="delButton" mnemonicParsing="false" onAction="#deleteAttribute" prefHeight="31.0" prefWidth="141.0" text="Delete Attribute" />
-               </children>
-               <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </padding>
-            </VBox>
-         </center>
-         <bottom>
-            <VBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="172.0" BorderPane.alignment="CENTER" />
-         </bottom>
-      </BorderPane>
-   </left>
+
+<BorderPane stylesheets="@../css/dialog.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.TreeModifyController">
+   <top>
+      <Label prefHeight="42.0" prefWidth="630.0" styleClass="title" text="Attributs de l'agent" BorderPane.alignment="CENTER" />
+   </top>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <TreeView fx:id="tree" editable="true" prefHeight="396.0" prefWidth="498.0" />
-            <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="248.0" spacing="40.0">
-               <children>
-                  <Button fx:id="confButton" mnemonicParsing="false" onAction="#confirmButton" prefHeight="31.0" prefWidth="147.0" text="Confirm" />
-                  <Button fx:id="cancButton" mnemonicParsing="false" onAction="#cancelButton" prefHeight="31.0" prefWidth="159.0" text="Cancel" />
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </padding>
-            </HBox>
-         </children>
-      </VBox>
+      <TreeView fx:id="tree" editable="true" focusTraversable="false" prefHeight="303.0" prefWidth="31.0" BorderPane.alignment="CENTER" />
    </center>
+   <bottom>
+      <AnchorPane prefHeight="69.0" prefWidth="630.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="confButton" layoutX="439.0" layoutY="10.0" mnemonicParsing="false" onAction="#confirmButton" prefHeight="33.0" prefWidth="106.0" text="Confirmer">
+               <styleClass>
+                  <String fx:value="buttonDialogOk" />
+                  <String fx:value="buttonDialog" />
+               </styleClass>
+            </Button>
+            <Button fx:id="cancButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="33.0" prefWidth="99.0" styleClass="buttonDialog" text="Annuler" />
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>

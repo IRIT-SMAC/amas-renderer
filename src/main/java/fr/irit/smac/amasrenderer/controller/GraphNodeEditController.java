@@ -104,7 +104,7 @@ public class GraphNodeEditController extends MouseAdapter{
                         dialogStage.initOwner(window);
                         Scene miniScene = new Scene(root3);
                         dialogStage.setScene(miniScene);
-                        dialogStage.initStyle(StageStyle.UNIFIED);
+                        dialogStage.initStyle(StageStyle.UNDECORATED);
                         dialogStage.setMinHeight(380);
                         dialogStage.setMinWidth(440);
 
