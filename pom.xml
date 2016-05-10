@@ -15,7 +15,6 @@
 		<spock-core-version>1.0-groovy-2.4</spock-core-version>
 		<cglib-nodep-version>3.2.1</cglib-nodep-version>
 		<gmavenplus-plugin-version>1.5</gmavenplus-plugin-version>
-		<coveralls-maven-plugin-version>4.1.0</coveralls-maven-plugin-version>
 		<jacoco-maven-plugin-version>0.7.6.201602180812</jacoco-maven-plugin-version>
 		<build-helper-maven-plugin-version>1.10</build-helper-maven-plugin-version>
 	</properties>
@@ -136,12 +135,6 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-			<!-- Coveralls -->
-			<plugin>
-				<groupId>org.eluder.coveralls</groupId>
-				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>${coveralls-maven-plugin-version}</version>
 			</plugin>
 			<!-- Mandatory plugins for using Spock -->
 			<plugin>
