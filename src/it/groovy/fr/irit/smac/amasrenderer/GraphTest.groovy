@@ -20,6 +20,9 @@ import fr.irit.smac.amasrenderer.controller.MainController
 
 import fr.irit.smac.amasrenderer.service.GraphService
 
+@IgnoreIf({
+    System.getenv("TRAVIS") != null
+})
 class GraphTest extends GuiSpecification{
 
     @Shared
@@ -87,9 +90,7 @@ class GraphTest extends GuiSpecification{
         model.getNodeCount() == (nbNoeud+1)
     }
 
-    @IgnoreIf({
-        System.getenv("TRAVIS") != null
-    })
+
     def "check if an agent is removed by clicking on the corresponding button"() {
 
         given:
@@ -104,9 +105,6 @@ class GraphTest extends GuiSpecification{
         model.getNodeCount() == 0
     }
 
-    @IgnoreIf({
-        System.getenv("TRAVIS") != null
-    })
     def "check if an agent is removed by doing the corresponding shortcut"() {
 
         given:
@@ -122,9 +120,6 @@ class GraphTest extends GuiSpecification{
         model.getNodeCount() == 0
     }
 
-    @IgnoreIf({
-        System.getenv("TRAVIS") != null
-    })
     def "check if an edge is added by clicking on the corresponding button"() {
 
         given:
@@ -148,9 +143,6 @@ class GraphTest extends GuiSpecification{
         graphService.getModel().getEdgeCount() == nbEdge+1
     }
 
-    @IgnoreIf({
-        System.getenv("TRAVIS") != null
-    })
     def "check if an edge is added by doing the correspoonding shortcut"() {
 
         given:
@@ -177,9 +169,6 @@ class GraphTest extends GuiSpecification{
         graphService.getModel().getEdgeCount() == nbEdge+1 && graphService.getModel().getNodeCount() == 2
     }
 
-    @IgnoreIf({
-        System.getenv("TRAVIS") != null
-    })
     def "check if an edge is remove by clicking on the corresponding button"() {
 
         when:
@@ -211,9 +200,6 @@ class GraphTest extends GuiSpecification{
         graphService.getModel().getEdgeCount() == 0 && graphService.getModel().getNodeCount() == 2
     }
 
-    @IgnoreIf({
-        System.getenv("TRAVIS") != null
-    })
     def "check if an edge is remove by doing the correspoonding shortcut"() {
 
         when:
@@ -243,9 +229,6 @@ class GraphTest extends GuiSpecification{
         graphService.getModel().getEdgeCount() == 0
     }
 
-    @IgnoreIf({
-        System.getenv("TRAVIS") != null
-    })
     def "check if adding an attribute works with alt+rightClick"() {
 
         when:
@@ -269,9 +252,7 @@ class GraphTest extends GuiSpecification{
         println "victoryDance"
         graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getChildren()[0].getValue() == "VictoryDance"
     }
-    @IgnoreIf({
-        System.getenv("TRAVIS") != null
-    })
+
     def "check if modifying an attribute works with alt+rightClick"() {
 
         when:
@@ -294,9 +275,6 @@ class GraphTest extends GuiSpecification{
         graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getValue() == "MuchAttributeVerySucceeded\\o/"
     }
 
-    @IgnoreIf({
-        System.getenv("TRAVIS") != null
-    })
     def "check if deleting an attribute works with alt+rightClick"() {
 
         when:
