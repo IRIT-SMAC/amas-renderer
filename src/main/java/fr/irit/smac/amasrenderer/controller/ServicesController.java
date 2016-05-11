@@ -2,8 +2,10 @@ package fr.irit.smac.amasrenderer.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ServiceService;
@@ -14,11 +16,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -75,8 +76,27 @@ public class ServicesController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-    	ServiceService.getInstance().setListServices(listServices.getItems());		
+    	
+		ArrayList<String> list = new ArrayList<>();
+    	for (Label label: listServices.getItems()) {
+    		list.add(label.getText());
+    	}
+    	
+    	ServiceService.getInstance().setListServices(FXCollections.observableArrayList(list));	
+
     	InfrastructureService.getInstance().setLabelInfrastructures(infrastructureLabel);
+    	
+		ServiceService.getInstance().getListServices().addListener(new ListChangeListener<String>(){
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
+				String newItem = ServiceService.getInstance().getListServices().get(ServiceService.getInstance().getListServices().size() - 1);
+		        Label nouveauService = new Label(newItem);
+		        nouveauService.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
+		        listServices.getItems().add(nouveauService);
+			}
+		});
+    	
+    	
 	}
 
 }

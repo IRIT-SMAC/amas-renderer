@@ -65,6 +65,7 @@ public class MenuBarController {
 	@FXML
 	public void clickMenuFermer() {
 		Platform.exit();
+    	System.exit(0);
 	}
 
 	/**

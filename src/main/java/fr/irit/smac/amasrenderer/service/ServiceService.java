@@ -20,11 +20,11 @@ public class ServiceService {
 		return instance;
 	}
 
-	public ObservableList<Label> getListServices() {
+	public ObservableList<String> getListServices() {
 		return this.model.getServices();
 	}
 
-	public void setListServices(ObservableList<Label> items) {
+	public void setListServices(ObservableList<String> items) {
 
 		this.model.setServices(items); 
 	}

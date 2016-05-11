@@ -23,7 +23,7 @@ class GraphServiceTest extends Specification{
      */
     def setupSpec() {
 
-        graphNodeService = new GraphService()
+        graphNodeService = GraphService.getInstance()
         graphNodeService.createAgentGraph()
     }
 

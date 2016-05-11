@@ -58,14 +58,14 @@ public class ServiceDialogController implements Initializable {
             
             boolean found = false;
 
-            for (Label item : ServiceService.getInstance().getListServices()) {
-                if (item.getText().equals(nouveauService.getText())){
+            for (String item : ServiceService.getInstance().getListServices()) {
+                if (item.equals(nouveauService.getText())){
                     found = true;
                 }
             }
 
             if(!found){
-                ServiceService.getInstance().getListServices().add(nouveauService);
+                ServiceService.getInstance().getListServices().add(nouveauService.getText());
             }
 
             ((Stage) buttonConfirm.getScene().getWindow()).close();
