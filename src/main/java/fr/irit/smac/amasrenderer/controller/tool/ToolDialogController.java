@@ -1,6 +1,7 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Const;
@@ -9,7 +10,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -30,6 +33,8 @@ public class ToolDialogController implements Initializable {
     /** The new service textfield */
     @FXML
     private TextField textfieldTool;
+    
+    private HashMap<Label,TreeItem<String>> map;
 
     /**
      * @param list
@@ -65,6 +70,7 @@ public class ToolDialogController implements Initializable {
 
             if (!found) {
                 ToolService.getInstance().getTools().add(newTool.getText());
+                System.out.println(this.map);
             }
 
             ((Stage) buttonConfirm.getScene().getWindow()).close();
@@ -72,6 +78,8 @@ public class ToolDialogController implements Initializable {
 		    invalidField.setVisible(true);
 
         }
+		
+		
     }
 
     /**
@@ -81,10 +89,16 @@ public class ToolDialogController implements Initializable {
     public void clickCancel() {
         ((Stage) buttonCancel.getScene().getWindow()).close();
 	}
+    
+    public void setAttributeMap(HashMap<Label,TreeItem<String>> map){
+        this.map = map;
+    }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {  
         invalidField.setVisible(false);
+        
+        
     }
 }

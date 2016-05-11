@@ -63,7 +63,7 @@ public class GraphService {
     public void addNode(String id, double x, double y) {
         model.addNode(id);
         model.getNode(id).changeAttribute("xyz", x, y);
-        model.getNode(id).setAttribute("ui.stocked-info", new Stock());
+        model.getNode(id).setAttribute("ui.stocked-info", new Stock(id));
         model.getNode(id).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
     }
 
@@ -75,7 +75,7 @@ public class GraphService {
      */
     public void addNode(String id) {
         model.addNode(id);
-        model.getNode(id).setAttribute("ui.stocked-info", new Stock());
+        model.getNode(id).setAttribute("ui.stocked-info", new Stock(id));
         model.getNode(id).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
         model.getNode(id).setAttribute("ui.label", id);
     }

@@ -49,6 +49,7 @@ public class GraphNodeEditController extends MouseAdapter{
      * Inits the controller.
      *
      * @param graphView the graph view
+     * @param window the parent window
      */
     public void init(ViewPanel graphView, Window window) {
         this.graphView = graphView;
@@ -115,9 +116,13 @@ public class GraphNodeEditController extends MouseAdapter{
                         
                         treeModifyController.setStage(dialogStage);
                         treeModifyController.setStock(s);
+                        treeModifyController.setNode(node);
+                        
                         dialogStage.showAndWait();
                     }
+                    
                 });
+                
             }
         }
     }
