@@ -4,7 +4,6 @@ import java.util.Map;
 
 import fr.irit.smac.amasrenderer.model.Tool;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Label;
 
 public class ToolService {
 
@@ -20,12 +19,11 @@ public class ToolService {
 		return instance;
 	}
 
-	public ObservableList<Label> getTools() {
-		return this.model.getServices();
+	public ObservableList<String> getTools() {
+		return this.model.getTools();
 	}
 
-	public void setTools(ObservableList<Label> items) {
-
+	public void setTools(ObservableList<String> items) {
 		this.model.setTools(items); 
 	}
 	

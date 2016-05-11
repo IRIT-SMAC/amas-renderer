@@ -139,7 +139,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         graphService.getModel().getEdgeCount() == nbEdge+1
     }
 
-    def "check if an edge is added by doing the correspoonding shortcut"() {
+    def "check if an edge is added by doing the corresponding shortcut"() {
 
         given:
         def nbEdge = graphService.getModel().getEdgeCount()
@@ -165,7 +165,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         graphService.getModel().getEdgeCount() == nbEdge+1 && graphService.getModel().getNodeCount() == 2
     }
 
-    def "check if an edge is remove by clicking on the corresponding button"() {
+    def "check if an edge is removed by clicking on the corresponding button"() {
 
         when:
         println "link removed with button"
@@ -196,7 +196,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         graphService.getModel().getEdgeCount() == 0 && graphService.getModel().getNodeCount() == 2
     }
 
-    def "check if an edge is remove by doing the correspoonding shortcut"() {
+    def "check if an edge is removed by doing the corresponding shortcut"() {
 
         when:
         println "link removed with button"

@@ -1,25 +1,20 @@
 package fr.irit.smac.amasrenderer.model;
 
-import fr.irit.smac.amasrenderer.Const;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Label;
-import javafx.scene.text.Font;
 
 public class Tool {
 
-	private ObservableList<Label> tools;
+	private ObservableList<String> tools;
 
-	public ObservableList<Label> getServices() {
+	public ObservableList<String> getTools() {
 		return tools;
 	}
 	
-	public void setTools(ObservableList<Label> items) {
+	public void setTools(ObservableList<String> items) {
 		this.tools = items;
 	}
 	
-	public void addTool(String nom){
-        Label nouveauService = new Label(nom);
-        nouveauService.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
-		this.tools.add(nouveauService);
+	public void addTool(String name){
+		this.tools.add(name);
 	}
 }

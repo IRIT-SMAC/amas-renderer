@@ -23,10 +23,10 @@ class GraphInitializationTest extends Specification{
      */
     def setupSpec() {
 
-        graphNodeService = GraphService.getInstance()
-        InputStream json = ClassLoader.getSystemResourceAsStream("./graph.json")
-		ObjectMapper mapper = new ObjectMapper()
-		mapper.readValue(json,AgentGraph.class)
+//        graphNodeService = GraphService.getInstance()
+//        InputStream json = ClassLoader.getSystemResourceAsStream("./graph.json")
+//		ObjectMapper mapper = new ObjectMapper()
+//		mapper.readValue(json,AgentGraph.class)
     }
 	
 	def 'check if the model is correctly created from a loaded json file'() {

@@ -52,19 +52,19 @@ public class ToolDialogController implements Initializable {
 				&& !textfieldTool.getText().trim().isEmpty()
 				&& !textfieldTool.getText().trim().contains(" ")){
 
-            Label nouveauService = new Label(textfieldTool.getText().trim());
-            nouveauService.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
+            Label newTool = new Label(textfieldTool.getText().trim());
+            newTool.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
             
             boolean found = false;
 
-            for (Label item : ToolService.getInstance().getTools()) {
-                if (item.getText().equals(nouveauService.getText())){
+            for (String item : ToolService.getInstance().getTools()) {
+                if (item.equals(newTool.getText())) {
                     found = true;
                 }
             }
 
-            if(!found){
-                ToolService.getInstance().getTools().add(nouveauService);
+            if (!found) {
+                ToolService.getInstance().getTools().add(newTool.getText());
             }
 
             ((Stage) buttonConfirm.getScene().getWindow()).close();
