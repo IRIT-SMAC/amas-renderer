@@ -61,9 +61,7 @@ class GraphNodeAttributeTest extends GuiSpecification{
                 int nbChildren = tree.getRoot().getChildren().size()
                 
                 when:
-                fx.press(KeyCode.ALT)
-                .rightClickOn(graphId)
-                .release(KeyCode.ALT)
+                fx.rightClickOn(graphId)
                 .clickOn("#tree")
                 .doubleClickOn("#tree")
                 .moveBy(-200,-140)
@@ -84,13 +82,7 @@ class GraphNodeAttributeTest extends GuiSpecification{
                 .release(KeyCode.CONTROL)
                         
                 when:
-                println "attribute modified"
-                fx.press(KeyCode.CONTROL)
-                .clickOn(graphId)
-                .release(KeyCode.CONTROL)
-                .press(KeyCode.ALT)
-                .rightClickOn()
-                .release(KeyCode.ALT)
+                fx.rightClickOn()
                 .clickOn("#tree")
                 .doubleClickOn("#tree")
                 .moveBy(-200,-140)
@@ -116,9 +108,7 @@ class GraphNodeAttributeTest extends GuiSpecification{
                 int nbChildren = tree.getRoot().getChildren().size()
                         
                 when:
-                fx.press(KeyCode.ALT)
-                .rightClickOn(graphId)
-                .release(KeyCode.ALT)
+                fx.rightClickOn(graphId)
                 .clickOn("#tree")
                 .doubleClickOn("#tree")
                 .moveBy(-200,-140)

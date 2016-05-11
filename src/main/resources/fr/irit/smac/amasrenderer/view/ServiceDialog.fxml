@@ -13,7 +13,7 @@
     <header>
       <AnchorPane prefHeight="200.0">
          <children>
-      		<Label alignment="CENTER" maxHeight="100.0" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="504.0" style="-fx-background-color: ;" styleClass="title" text="Ajouter un service" textFill="WHITE">
+      		<Label alignment="CENTER" maxHeight="100.0" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="504.0" styleClass="title" text="Ajouter un service" textFill="WHITE">
             		</Label>
 				<TextField fx:id="textfieldService" alignment="CENTER" layoutX="66.0" layoutY="125.0" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="361.0" promptText="Renseignez un nom" styleClass="input">
                <font>

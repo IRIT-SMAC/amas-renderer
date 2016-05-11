@@ -17,6 +17,7 @@
 		<gmavenplus-plugin-version>1.5</gmavenplus-plugin-version>
 		<jacoco-maven-plugin-version>0.7.6.201602180812</jacoco-maven-plugin-version>
 		<build-helper-maven-plugin-version>1.10</build-helper-maven-plugin-version>
+		<jackson.version>2.7.3</jackson.version>
 	</properties>
 
 	<repositories>
@@ -85,6 +86,21 @@
 			<artifactId>testfx-junit</artifactId>
 			<version>4.0.1-alpha</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.7.3</version>
 		</dependency>
 	</dependencies>
 

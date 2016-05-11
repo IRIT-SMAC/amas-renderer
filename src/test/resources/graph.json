@@ -1,0 +1,144 @@
+{
+  "className":"fr.irit.smac.amasfactory.impl.BasicInfrastructure",
+  "agentHandlerService":{
+    "className":"fr.irit.smac.amasfactory.service.agenthandler.impl.BasicAgentHandler",
+    "agentMap":{
+      "ag1":{
+        "className":"fr.irit.smac.amasfactory.factoryclientdemo.DemoAgent",
+        "id":"ag1",
+        "knowledge":{
+          "className":"fr.irit.smac.amasfactory.agent.impl.SimpleKnowledge",
+          "id":"ag1",
+          "targets":["ag2","ag3","ag6","ag9"]
+        },
+        "message":"Hello agents"
+      },
+      "ag2":{
+        "className":"fr.irit.smac.amasfactory.factoryclientdemo.DemoAgent",
+        "id":"ag2",
+        "knowledge":{
+          "className":"fr.irit.smac.amasfactory.agent.impl.SimpleKnowledge",
+          "id":"ag2",
+          "targets":["ag5","ag10","ag6","ag1"]
+        },
+        "message":"Hello infratrouctour"
+      },
+      "ag3":{
+        "className":"fr.irit.smac.amasfactory.factoryclientdemo.DemoAgent",
+        "id":"ag3",
+        "knowledge":{
+          "className":"fr.irit.smac.amasfactory.agent.impl.SimpleKnowledge",
+          "id":"ag3",
+          "targets":["ag2","ag3","ag10","ag7"]
+        },
+        "message":"Hello infratrouctour"
+      },
+      "ag4":{
+        "className":"fr.irit.smac.amasfactory.factoryclientdemo.DemoAgent",
+        "id":"ag4",
+        "knowledge":{
+          "className":"fr.irit.smac.amasfactory.agent.impl.SimpleKnowledge",
+          "id":"ag4",
+          "targets":["ag3","ag4","ag12"]
+        },
+        "message":"Hello infratrouctour"
+      },
+      "ag5":{
+        "className":"fr.irit.smac.amasfactory.factoryclientdemo.DemoAgent",
+        "id":"ag5",
+        "knowledge":{
+          "className":"fr.irit.smac.amasfactory.agent.impl.SimpleKnowledge",
+          "id":"ag5",
+          "targets":["ag1","ag4","ag7","ag10"]
+        },
+        "message":"Hello infratrouctour"
+      },
+      "ag6":{
+        "className":"fr.irit.smac.amasfactory.factoryclientdemo.DemoAgent",
+        "id":"ag6",
+        "knowledge":{
+          "className":"fr.irit.smac.amasfactory.agent.impl.SimpleKnowledge",
+          "id":"ag6",
+          "targets":["ag2","ag3","ag4","ag5"]
+        },
+        "message":"Hello infratrouctour"
+      },
+      "ag7":{
+        "className":"fr.irit.smac.amasfactory.factoryclientdemo.DemoAgent",
+        "id":"ag7",
+        "knowledge":{
+          "className":"fr.irit.smac.amasfactory.agent.impl.SimpleKnowledge",
+          "id":"ag7",
+          "targets":["ag5","ag7","ag8","ag9"]
+        },
+        "message":"Hello infratrouctour"
+      },
+      "ag8":{
+        "className":"fr.irit.smac.amasfactory.factoryclientdemo.DemoAgent",
+        "id":"ag8",
+        "knowledge":{
+          "className":"fr.irit.smac.amasfactory.agent.impl.SimpleKnowledge",
+          "id":"ag8",
+          "targets":["ag1","ag3","ag6","ag12"]
+        },
+        "message":"Hello infratrouctour"
+      },
+      "ag9":{
+        "className":"fr.irit.smac.amasfactory.factoryclientdemo.DemoAgent",
+        "id":"ag9",
+        "knowledge":{
+          "className":"fr.irit.smac.amasfactory.agent.impl.SimpleKnowledge",
+          "id":"ag9",
+          "targets":["ag1","ag5","ag6","ag9"]
+        },
+        "message":"Hello infratrouctour"
+      },
+      "ag10":{
+        "className":"fr.irit.smac.amasfactory.factoryclientdemo.DemoAgent",
+        "id":"ag10",
+        "knowledge":{
+          "className":"fr.irit.smac.amasfactory.agent.impl.SimpleKnowledge",
+          "id":"ag10",
+          "targets":["ag1","ag2","ag3","ag4"]
+        },
+        "message":"Hello infratrouctour"
+      },
+      "ag11":{
+        "className":"fr.irit.smac.amasfactory.factoryclientdemo.DemoAgent",
+        "id":"ag11",
+        "knowledge":{
+          "className":"fr.irit.smac.amasfactory.agent.impl.SimpleKnowledge",
+          "id":"ag11",
+          "targets":["ag8","ag9","ag10","ag11"]
+        },
+        "message":"Hello infratrouctour"
+      },
+      "ag12":{
+        "className":"fr.irit.smac.amasfactory.factoryclientdemo.DemoAgent",
+        "id":"ag12",
+        "knowledge":{
+          "className":"fr.irit.smac.amasfactory.agent.impl.SimpleKnowledge",
+          "id":"ag12",
+          "targets":["ag1","ag4","ag6","ag12"]
+        },
+        "message":"Hello infratrouctour"
+      }
+
+    }
+
+  },
+  "messagingService":{
+    "className":"fr.irit.smac.amasfactory.service.messaging.impl.MessagingService",
+    "messageClassName":"fr.irit.smac.amasfactory.factoryclientdemo.DemoMessage"
+  },
+  "executionService":{
+    "className":"fr.irit.smac.amasfactory.service.execution.impl.TwoStepAgExecutionService",
+    "nbThreads":8
+  },
+  "loggingService":{
+    "className":"fr.irit.smac.amasfactory.service.logging.impl.AgentLogLoggingService"
+  },
+  "hazelcastService":{
+    "className":"fr.irit.smac.amasfactory.service.datasharing.impl.HazelcastSharingService"
+  }
+}

@@ -8,9 +8,7 @@ import java.util.ResourceBundle;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
-import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentGraph;
-import fr.irit.smac.amasrenderer.model.Stock;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
@@ -51,6 +49,7 @@ public class GraphMainController implements Initializable {
     public GraphMainController() {
 
     }
+
     /**
      * gets the viewer
      * @return the viewer
@@ -59,14 +58,9 @@ public class GraphMainController implements Initializable {
     	return this.viewer;
     }
     
-    /**
-     * Draws he graph in the container.
-     */
-    public void drawGraph() {
-        ((SwingNode) this.stackPaneGraphNode.lookup("#graphNode")).setContent(this.graphView);
-    }
 
     /**
+     * Draws he graph in the container.
      * DEPRECATED Adds an agent to the graph
      * 
      * Prefer using GraphAddDelNodeMouseController to add agents (alt + left click).
@@ -82,9 +76,8 @@ public class GraphMainController implements Initializable {
      * Graph mouse clicked.
      * DEPRECATED Graph mouse clicked. Calls
      */
-    @FXML
-    public void graphMouseClicked() {
-        //TODO delete this function
+    public void drawGraph() {
+        ((SwingNode) this.stackPaneGraphNode.lookup("#graphNode")).setContent(this.graphView);
     }
 
     /**
@@ -113,25 +106,6 @@ public class GraphMainController implements Initializable {
         getModel().addAttribute("ui.quality");
         getModel().addAttribute("layout.quality",4);
         getModel().addAttribute("ui.antialias");
-        AgentGraph model = this.graphNodeService.getModel();
-        /*model.addNode("0");
-        model.getNode("0").setAttribute("ui.label", "Ag0");*/
-        for (Integer i = 0; i < Const.NODE_INIT; i++) {
-            int firstNode = i;
-            model.addNode("" + firstNode);
-            model.getNode(""+firstNode).setAttribute("ui.label", "Ag"+firstNode );
-            model.getNode(""+firstNode).setAttribute("ui.stocked-info", new Stock());
-            int j = 0;
-            while(i >= Const.EDGE_INIT && j < Const.EDGE_INIT){
-                int secondNode = (int) Math.floor(Math.random() * i);
-                if (model.getEdge(firstNode + "" + secondNode) == null){
-                    model.addEdge(firstNode + "" + secondNode, "" + firstNode, "" + secondNode, true);
-                    model.getEdge(firstNode + "" + secondNode).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_EDGE);
-                    j++;
-                }
-            }
-
-        }
     }
 
     /**
@@ -174,7 +148,7 @@ public class GraphMainController implements Initializable {
         this.graphNodeService.createAgentGraph();
 
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-        Viewer viewer = new Viewer(this.graphNodeService.getModel(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+        viewer = new Viewer(this.graphNodeService.getModel(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         viewer.enableAutoLayout();
         this.graphView = viewer.addDefaultView(false);
 
@@ -186,7 +160,6 @@ public class GraphMainController implements Initializable {
         swingNode.setId("graphNode");
         stackPaneGraphNode.getChildren().add(swingNode);
         this.drawGraph();
-        
     }
 
 }
