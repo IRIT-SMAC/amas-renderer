@@ -65,7 +65,6 @@ class GraphNodeAttributeTest extends GuiSpecification{
                         .doubleClickOn("#tree")
                         //TODO : y depends on the height of the window
                         .moveBy(-200,-160)
-                        .doubleClickOn()
                         .rightClickOn()
                         .clickOn("#addAttributeItem")
                         .clickOn("#confButton")
@@ -103,20 +102,24 @@ class GraphNodeAttributeTest extends GuiSpecification{
         fx.press(KeyCode.CONTROL)
                         .clickOn(graphId)
                         .release(KeyCode.CONTROL)
-
-        Object<T> tree = graphService.getModel().getNode(0).getAttribute("ui.stocked-info")
-        int nbChildren = tree.getRoot().getChildren().size()
-
-        when:
-        fx.rightClickOn(graphId)
+                        .rightClickOn(graphId)
                         .clickOn("#tree")
                         .doubleClickOn("#tree")
+                        .moveBy(-200,-160)
+                        .rightClickOn()
+                        .clickOn("#addAttributeItem")
+                        
+        int nbChildren = 1
+
+        when:
+        fx.clickOn("#tree")
                         .moveBy(-340,-130)
                         .rightClickOn()
                         .clickOn("#removeAttributeItem")
                         .clickOn("#confButton")
 
         then:
+        Object<T> tree = graphService.getModel().getNode(0).getAttribute("ui.stocked-info")
         tree.getRoot().getChildren().size() == nbChildren - 1
     }
 }
