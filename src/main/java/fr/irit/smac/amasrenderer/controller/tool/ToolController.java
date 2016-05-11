@@ -1,10 +1,16 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
@@ -25,6 +31,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -45,10 +52,15 @@ public class ToolController implements Initializable {
     @FXML
     private Label infrastructureLabel;
 
+    @FXML
+    private Button generateButton;
+    
     private Stage stage;
     private static BorderPane root3;
     private HashMap<Label,TreeItem<String>> attributeMap = new HashMap<Label, TreeItem<String>>();
+    private static final Logger LOGGER = Logger.getLogger(ToolController.class.getName());
 
+    
     public ToolController() {
     	
    	}
@@ -130,6 +142,27 @@ public class ToolController implements Initializable {
         stage.showAndWait();
     }
 
+    @FXML
+    public void generateJsonFile(){
+        File file = new FileChooser().showSaveDialog(generateButton.getScene().getWindow());
+        
+        List<String> lines = new ArrayList<String>();
+        
+        createLines(lines);
+        
+        try {
+            Files.write(file.toPath(), lines, Charset.forName("UTF-8"));
+        } catch (IOException e) {
+            LOGGER.log(Level.INFO, "Couldn't create the file" , e);
+        }
+        
+    }
+
+    private void createLines(List<String> lines) {
+      lines.add("{");
+      lines.add("\t\"classname\":\""+InfrastructureService.getInstance().getInfrastructure().get(0)+"\"}");
+    }
+    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
     	
@@ -140,20 +173,28 @@ public class ToolController implements Initializable {
     	
     	ToolService.getInstance().setTools(FXCollections.observableArrayList(list));	
 
-    	InfrastructureService.getInstance().setLabelInfrastructures(infrastructureLabel);
-    	
-		ToolService.getInstance().getTools().addListener(new ListChangeListener<String>(){
-			@Override
-			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
-				String newTool = ToolService.getInstance().getTools().get(ToolService.getInstance().getTools().size() - 1);
-		        Label newToolLabel = new Label(newTool);
-		        newToolLabel.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
+        ToolService.getInstance().getTools().addListener(new ListChangeListener<String>(){
+            @Override
+            public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
+                String newTool = ToolService.getInstance().getTools().get(ToolService.getInstance().getTools().size() - 1);
+                Label newToolLabel = new Label(newTool);
+                newToolLabel.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
                 attributeMap.put(newToolLabel, new TreeItem<String>(newToolLabel.getText()));
-		        listTool.getItems().add(newToolLabel);
-			}
-		});
+                listTool.getItems().add(newToolLabel);
+            }
+        });
+        
+        InfrastructureService.getInstance().setInfrastructure(FXCollections.observableArrayList(new ArrayList<>()));
     	
-    	
+        InfrastructureService.getInstance().getInfrastructure().addListener(new ListChangeListener<String>(){
+
+            @Override
+            public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
+                String nouvelleInfrastructure =  InfrastructureService.getInstance().getInfrastructure().get(0);
+                infrastructureLabel.setText(nouvelleInfrastructure);
+            }
+
+        });
 	}
 
 }
