@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.controller;
+package fr.irit.smac.amasrenderer.controller.graph;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

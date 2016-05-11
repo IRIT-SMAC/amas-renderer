@@ -11,8 +11,8 @@ import org.graphstream.ui.swingViewer.ViewPanel
 
 import spock.lang.IgnoreIf
 import spock.lang.Shared
-import fr.irit.smac.amasrenderer.controller.GraphMainController
 import fr.irit.smac.amasrenderer.controller.MainController
+import fr.irit.smac.amasrenderer.controller.graph.GraphMainController;
 import fr.irit.smac.amasrenderer.service.GraphService
 
 @IgnoreIf({

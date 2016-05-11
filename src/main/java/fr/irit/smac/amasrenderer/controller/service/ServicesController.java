@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.controller;
+package fr.irit.smac.amasrenderer.controller.service;
 
 import java.io.IOException;
 import java.net.URL;

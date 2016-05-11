@@ -2,9 +2,9 @@ package fr.irit.smac.amasrenderer;
 
 import java.util.logging.Logger;
 
-import fr.irit.smac.amasrenderer.controller.GraphMainController;
 import fr.irit.smac.amasrenderer.controller.MainController;
-import fr.irit.smac.amasrenderer.controller.MenuBarController;
+import fr.irit.smac.amasrenderer.controller.graph.GraphMainController;
+import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

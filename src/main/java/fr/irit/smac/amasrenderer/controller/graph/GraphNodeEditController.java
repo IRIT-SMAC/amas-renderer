@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.controller;
+package fr.irit.smac.amasrenderer.controller.graph;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,6 +11,7 @@ import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
 import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.controller.attribute.TreeModifyController;
 import fr.irit.smac.amasrenderer.model.Stock;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

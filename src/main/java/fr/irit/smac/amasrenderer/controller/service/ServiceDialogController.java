@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.controller;
+package fr.irit.smac.amasrenderer.controller.service;
 
 import java.net.URL;
 import java.util.ResourceBundle;

@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.controller;
+package fr.irit.smac.amasrenderer.controller.menu;
 
 import java.io.File;
 import java.io.IOException;

@@ -3,6 +3,9 @@ package fr.irit.smac.amasrenderer.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import fr.irit.smac.amasrenderer.controller.graph.GraphMainController;
+import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
+import fr.irit.smac.amasrenderer.controller.service.ServicesController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
