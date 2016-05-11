@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.BorderPane?>
 
 
-<BorderPane stylesheets="@../css/dialog.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.TreeModifyController">
+<BorderPane stylesheets="@../css/dialog.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.ServiceModifyController">
    <top>
-      <Label prefHeight="42.0" prefWidth="630.0" styleClass="title" text="Attributs de l'agent" BorderPane.alignment="CENTER" />
+      <Label prefHeight="42.0" prefWidth="630.0" styleClass="title" text="Attributs du Service" BorderPane.alignment="CENTER" />
    </top>
    <center>
       <TreeView fx:id="tree" editable="true" focusTraversable="false" prefHeight="303.0" prefWidth="31.0" BorderPane.alignment="CENTER" />

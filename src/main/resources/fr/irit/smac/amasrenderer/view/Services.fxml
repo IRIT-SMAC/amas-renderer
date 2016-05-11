@@ -6,11 +6,10 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.control.Tooltip?>
-
 
 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.ServicesController">
    <children>
@@ -47,10 +46,10 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <ListView fx:id="listServices" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="753.0" prefWidth="200.0" style="-fx-background-color: #F8F8F8;" VBox.vgrow="ALWAYS" />
+            <ListView fx:id="listServices" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="753.0" prefWidth="200.0" style="-fx-background-color: #F8F8F8;" VBox.vgrow="ALWAYS" onMouseClicked="#handleMouseClick"/>
             <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" prefHeight="70.0" style="-fx-background-color: #CA2723;" text="Générer" textFill="WHITE" VBox.vgrow="ALWAYS">
             <tooltip>
-         		<Tooltip text="Genere le json du graphe actuel"/>
+         		<Tooltip text="Genere le json du graphe actuel" />
          	</tooltip>
                <font>
                   <Font name="OpenSymbol" size="20.0" />

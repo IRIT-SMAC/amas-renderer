@@ -1,6 +1,7 @@
 package fr.irit.smac.amasrenderer
 
 
+import java.lang.invoke.MethodHandleImpl.BindCaller.T
 import javafx.embed.swing.SwingNode
 import javafx.fxml.FXMLLoader
 import javafx.scene.control.TreeView
@@ -23,7 +24,7 @@ import fr.irit.smac.amasrenderer.service.GraphService
 @IgnoreIf({
     System.getenv("TRAVIS") != null
 })
-class GraphTest extends GuiSpecification{
+class GraphAddDelNodeEdgeTest extends GuiSpecification{
 
     @Shared
     GraphService graphService
@@ -32,15 +33,12 @@ class GraphTest extends GuiSpecification{
     ViewPanel graphView
 
     @Shared
-    SwingNode swingNode
-
-    @Shared
     BorderPane rootLayout
-
-    GraphMainController graphMainController
 
     @Shared
     String graphId = "#graphNode"
+    
+    GraphMainController graphMainController
 
     def setup() {
         setupStage {
@@ -227,74 +225,5 @@ class GraphTest extends GuiSpecification{
 
         then:
         graphService.getModel().getEdgeCount() == 0
-    }
-
-    def "check if adding an attribute works with alt+rightClick"() {
-
-        when:
-        println "attribute added"
-        fx.press(KeyCode.CONTROL)
-        .clickOn(graphId)
-        .release(KeyCode.CONTROL)
-        .press(KeyCode.ALT)
-        .rightClickOn()
-        .release(KeyCode.ALT)
-        .clickOn("#addValue")
-        .write("VictoryDance")
-        TreeView<String> tree = GraphNodeEditController.getRoot3().lookup("#tree")
-        tree.getRoot().getChildren().clear()
-        tree.getSelectionModel().select(0)
-        fx.clickOn("#addButton")
-        .clickOn("#confButton")
-
-        then:
-        println "succeeded"
-        println "victoryDance"
-        graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getChildren()[0].getValue() == "VictoryDance"
-    }
-
-    def "check if modifying an attribute works with alt+rightClick"() {
-
-        when:
-        println "attribute modified"
-        fx.press(KeyCode.CONTROL)
-        .clickOn(graphId)
-        .release(KeyCode.CONTROL)
-        .press(KeyCode.ALT)
-        .rightClickOn()
-        .release(KeyCode.ALT)
-        .clickOn("#modifyValue")
-        .write("MuchAttributeVerySucceeded\\o/")
-        TreeView<String> tree = GraphNodeEditController.getRoot3().lookup("#tree")
-        tree.getSelectionModel().select(tree.getRoot())
-
-        fx.clickOn("#modButton")
-        .clickOn("#confButton")
-
-        then:
-        graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getValue() == "MuchAttributeVerySucceeded\\o/"
-    }
-
-    def "check if deleting an attribute works with alt+rightClick"() {
-
-        when:
-        println "attribute deleted"
-        fx.press(KeyCode.CONTROL)
-        .clickOn(graphId)
-        .release(KeyCode.CONTROL)
-        .press(KeyCode.ALT)
-        .rightClickOn()
-        .release(KeyCode.ALT)
-        TreeView<String> tree = GraphNodeEditController.getRoot3().lookup("#tree")
-        tree.getSelectionModel().select(tree.getRoot().getChildren()[0])
-        //TODO trouver comment cliquer sur un noeud(pas root), ET get l'arbre pour faire un setSelected ...
-        int itemCount = tree.getRoot().getChildren().size()
-        fx.clickOn("#delButton")
-        .clickOn("#confButton")
-
-        then:
-        graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getChildren().size() == (itemCount-1)
-
-
     }
 }

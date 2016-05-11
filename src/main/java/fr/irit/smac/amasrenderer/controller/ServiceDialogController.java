@@ -1,6 +1,7 @@
 package fr.irit.smac.amasrenderer.controller;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -9,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -16,6 +18,8 @@ import javafx.stage.Stage;
 public class ServiceDialogController implements Initializable {
 
 	private ListView<Label> serviceList;
+	
+	private HashMap<Label,TreeItem<String>> map;
 
 	@FXML
 	private Button buttonConfirm;
@@ -48,6 +52,8 @@ public class ServiceDialogController implements Initializable {
 
 			if(!found)
 				this.serviceList.getItems().add(nouveauService);
+			    this.map.put(nouveauService, new TreeItem<String>(nouveauService.getText()));
+			    System.out.println("heyyyy"+nouveauService);
 
 			((Stage) buttonConfirm.getScene().getWindow()).close();
 		}
@@ -65,7 +71,10 @@ public class ServiceDialogController implements Initializable {
 
     public void setList(ListView<Label> list) {
         this.serviceList = list;
-        
+    }
+    
+    public void setAttributeMap(HashMap<Label,TreeItem<String>> map){
+        this.map = map;
     }
 
     @Override

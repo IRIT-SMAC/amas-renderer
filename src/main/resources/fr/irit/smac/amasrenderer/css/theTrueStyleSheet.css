@@ -18,7 +18,7 @@ node {
      text-alignment: under;
      z-index: 1;
  }
- node.long{
+ node.long {
  	text-alignment: under;
  }
  edge {
