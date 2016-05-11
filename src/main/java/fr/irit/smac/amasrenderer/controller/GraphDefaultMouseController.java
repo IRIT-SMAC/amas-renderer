@@ -10,6 +10,10 @@ import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
 import fr.irit.smac.amasrenderer.model.AgentGraph;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 
 /**
  * The Class GraphDefaultMouseController.
@@ -29,6 +33,11 @@ public class GraphDefaultMouseController extends MouseAdapter {
 
     /** The y1. */
     protected float x1, y1;
+    
+    /*toggle group of the buttons*/
+    private ToggleGroup toggroup;
+    
+    /**/
 
     /**
      * Initialize the controller, and adds it to the graph.
@@ -36,14 +45,18 @@ public class GraphDefaultMouseController extends MouseAdapter {
      * @param view the view
      * @param graph the graph
      */
-    public void init(ViewPanel view, AgentGraph graph) {
+    public void init(ViewPanel view, AgentGraph graph, ToggleGroup toggroup) {
         this.view = view;
         this.graph = graph;
         view.addMouseListener(this);
         view.addMouseMotionListener(this);
+        this.toggroup = toggroup;
     }
     
     
+    private boolean isButtonSelected(){
+        return (toggroup.getSelectedToggle() != null);
+    }
     
     /**
      * Used to "unplug" this controller from the graph.
@@ -150,7 +163,7 @@ public class GraphDefaultMouseController extends MouseAdapter {
      * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
      */
     public void mousePressed(MouseEvent event) {
-        if(SwingUtilities.isLeftMouseButton(event) && event.isAltDown()){
+        if(SwingUtilities.isLeftMouseButton(event) && !isButtonSelected() && ! event.isControlDown() && ! event.isShiftDown()){
             curElement = view.findNodeOrSpriteAt(event.getX(), event.getY());
             if (curElement != null) {
                 mouseButtonPress(event);
@@ -173,7 +186,7 @@ public class GraphDefaultMouseController extends MouseAdapter {
      * @see java.awt.event.MouseAdapter#mouseDragged(java.awt.event.MouseEvent)
      */
     public void mouseDragged(MouseEvent event) {
-        if(SwingUtilities.isLeftMouseButton(event) && event.isAltDown()){
+        if(SwingUtilities.isLeftMouseButton(event) && !isButtonSelected() && ! event.isControlDown() && ! event.isShiftDown()){
             if (curElement != null) {
                 elementMoving(curElement, event);
             }/* else {
@@ -191,7 +204,7 @@ public class GraphDefaultMouseController extends MouseAdapter {
      * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
      */
     public void mouseReleased(MouseEvent event) {
-        if(SwingUtilities.isLeftMouseButton(event) && event.isAltDown()){
+        if(SwingUtilities.isLeftMouseButton(event) && !isButtonSelected() && ! event.isControlDown() && ! event.isShiftDown()){
             if (curElement != null) {
                 mouseButtonReleaseOffElement(curElement, event);
                 curElement = null;

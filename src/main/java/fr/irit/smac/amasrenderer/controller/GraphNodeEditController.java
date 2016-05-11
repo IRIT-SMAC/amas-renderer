@@ -75,7 +75,7 @@ public class GraphNodeEditController extends MouseAdapter{
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        if (SwingUtilities.isRightMouseButton(e) && e.isAltDown()) {
+        if (SwingUtilities.isRightMouseButton(e) && !e.isShiftDown() && !e.isControlDown()) {
             GraphicElement elt = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
             if (elt != null && elt instanceof Node) {
                 Node node = (Node) elt;
