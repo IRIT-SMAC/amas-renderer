@@ -16,10 +16,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -39,6 +37,9 @@ public class GraphNodeEditController extends MouseAdapter{
     /*the modal window, in static for test purposes*/
     private static BorderPane root3;
     
+    /** The attribute synthesis. (for display) */
+    @FXML
+    private TextArea attributeSynthesis;
     
     public GraphNodeEditController() {
         
@@ -107,16 +108,15 @@ public class GraphNodeEditController extends MouseAdapter{
                         dialogStage.initStyle(StageStyle.UNDECORATED);
                         dialogStage.setMinHeight(380);
                         dialogStage.setMinWidth(440);
-
                         treeModifyController.setStage(dialogStage);
                         treeModifyController.setStock(s);
-                        
                         dialogStage.showAndWait();
                     }
                 });
             }
         }
     }
+    
     private void setupDialogStage(){
         
     }

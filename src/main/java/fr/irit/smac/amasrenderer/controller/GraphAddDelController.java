@@ -3,10 +3,7 @@ package fr.irit.smac.amasrenderer.controller;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
 import fr.irit.smac.amasrenderer.service.GraphService;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 
@@ -15,7 +12,7 @@ import javafx.scene.control.ToggleGroup;
  * This controller handles the buttons of the graph
  */
 public class GraphAddDelController {
-
+    
     @FXML
     ToggleGroup toggroup;
 

@@ -32,6 +32,7 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
     private ToggleButton buttonAddAgent;
 
     private ToggleButton buttonDelAgent;
+    
 
     /**
      * Initialize the controller, and adds it to the graph.
@@ -68,14 +69,14 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
         // if clicked on empty space, create a node
         if (n == null && SwingUtilities.isLeftMouseButton(e) && (e.isControlDown() || buttonAddAgent.isSelected())) {
             createNode(e);
-        }
-        // else on right click deletes the node and all connected edges
-        // explanation of the if:
-        // if there is a node on clic location
-        // and user does ctrl+right-click XOR he does left click and the del
-        // agen button is pressed
-        else if ((n != null) && ((SwingUtilities.isRightMouseButton(e) && e.isControlDown())
+        }else if ((n != null) && ((SwingUtilities.isRightMouseButton(e) && e.isControlDown())
             ^ (SwingUtilities.isLeftMouseButton(e) && this.buttonDelAgent.isSelected()))) {
+
+            // else on right click deletes the node and all connected edges
+            // explanation of the if:
+            // if there is a node on clic location
+            // and user does ctrl+right-click XOR he does left click and the del
+            // agen button is pressed
             this.graphNodeService.removeNode(n);
         }
     }
@@ -99,7 +100,7 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
         String curId = Integer.toString(currentNodeId++);
         Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
         getModel().addNode(curId);
-        getModel().getNode(curId).setAttribute("ui.label", "Ag" + curId);
+        getModel().getNode(curId).setAttribute("ui.label", "ag" + curId);
         getModel().getNode(curId).changeAttribute("xy", clicLoc.x, clicLoc.y);
         getModel().getNode(curId).setAttribute("ui.stocked-info", new Stock());
         getModel().getNode(curId).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);

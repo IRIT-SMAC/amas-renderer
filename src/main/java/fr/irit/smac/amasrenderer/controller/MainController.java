@@ -14,7 +14,10 @@ public class MainController implements Initializable {
     @FXML
     private ServicesController servicesController;
     
-    @Override
+    @FXML
+    private MenuBarController menuBarController;
+
+	@Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
@@ -27,4 +30,7 @@ public class MainController implements Initializable {
         return servicesController;
     }
 
+    public MenuBarController getMenuBarController() {
+		return menuBarController;
+	}
 }
