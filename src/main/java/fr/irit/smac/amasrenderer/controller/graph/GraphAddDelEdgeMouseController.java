@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.controller;
+package fr.irit.smac.amasrenderer.controller.graph;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -65,11 +65,10 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
         if ((source == null) && (e.isShiftDown() || (this.buttonAddEdge.isSelected() ^ this.buttonDelEdge.isSelected()))
             && (!e.isControlDown())) {
             firstClick(e);
-        }
-        // same but source not null so its the second click
-        else if ((source != null)
+        }else if ((source != null)
             && (e.isShiftDown() || (this.buttonAddEdge.isSelected() ^ this.buttonDelEdge.isSelected()))
             && (!e.isControlDown())) {
+            // same but source not null so its the second click
             secondClick(e);
         }
 
@@ -109,9 +108,8 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
 
             if ((edge != null) && removeEdgeClickRequirement(e)) {
                 model.removeEdge(edge);
-            }
-            else if ((edge == null)
-                && ((SwingUtilities.isLeftMouseButton(e) && (e.isShiftDown() || this.buttonAddEdge.isSelected())))) {
+            } else if ((edge == null)
+                && (SwingUtilities.isLeftMouseButton(e) && (e.isShiftDown() || this.buttonAddEdge.isSelected()))) {
                 model.addEdge(source.getId() + "" + target.getId(), source.getId(), target.getId(), true);
                 model.getEdge(source.getId() + "" + target.getId()).setAttribute("layout.weight",
                     Const.LAYOUT_WEIGHT_EDGE);

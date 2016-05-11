@@ -1,9 +1,10 @@
-package fr.irit.smac.amasrenderer.controller;
+package fr.irit.smac.amasrenderer.controller.attribute;
 
+import org.graphstream.graph.Node;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import fr.irit.smac.amasrenderer.model.Stock;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -11,8 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
@@ -26,7 +25,7 @@ import javafx.util.converter.DefaultStringConverter;
  * The Class TreeModifyController. Manage the modal window opening to modify
  * attributes
  */
-public class ServiceModifyController implements Initializable {
+public class TreeModifyController implements Initializable {
 
     @FXML
     private Button confButton;
@@ -37,20 +36,17 @@ public class ServiceModifyController implements Initializable {
     @FXML
     private TreeView<String> tree;
 
-    private TreeItem<String> value;
+    private TreeItem<String> oldTree;
 
-    private HashMap<Label,TreeItem<String>> attributeMap = new HashMap<Label, TreeItem<String>>();
-    
+    private Stock stock;
+
     private Stage dialogStage;
     
-    private Label key;
-    
-    private ListView<Label> list;
-    
-    private Label baseRootName;
+    /**the node being modified*/
+    private Node node;
     
     /**the new agent name*/
-    private String newServiceName = null;
+    private String newAgentName = null;
     
     /**
      * Sets the stage.
@@ -65,35 +61,38 @@ public class ServiceModifyController implements Initializable {
      * sets the node to be modified
      * @param node the node to modify
      */
-    public void setKey(Label label) {
-        this.key = label;
+    public void setNode(Node node) {
+        this.node = node;
     }
     
-    public void setAttributeMap(HashMap<Label, TreeItem<String>> attributeMap) {
-        this.attributeMap = attributeMap;
+    /**
+     * Sets the stock.
+     *
+     * @param s
+     *            the new stock
+     */
+    public void setStock(Stock s) {
+        stock = s;
+        tree.setRoot(deepcopy(s.getRoot()));
+        this.oldTree = new TreeItem<>();
+        this.oldTree = deepcopy(tree.getRoot());
+        tree.getRoot().setExpanded(true);
     }
-    
-    public void init(HashMap<Label, TreeItem<String>> attributeMap,ListView<Label> list){
-        setAttributeMap(attributeMap);
-        setKey(list.getSelectionModel().getSelectedItem());
-        this.list = list;
-        tree.setRoot(deepcopy(attributeMap.get(key)));
-        baseRootName = key;
-    }
-    
 
     /**
      * Confirm button. sets the new tree as the node tree, and exit this window
      */
     public void confirmButton() {
-        value = (tree.getRoot());
-        attributeMap.put(key, value);
-        newServiceName = tree.getRoot().getValue();
-        if(newServiceName != baseRootName.getText()){
-            list.getItems().remove(key);
-            key.setText(newServiceName);
-            list.getItems().add(key);
-            attributeMap.put(key,attributeMap.remove(baseRootName));
+        stock.setRoot(tree.getRoot());
+        if(newAgentName != null){
+            /*if(newAgentName.length()>3){
+                //newAgentName = newAgentName.substring(0, 3);
+                node.setAttribute("ui.class", "long");
+                System.out.println("fuck graphstream");
+            } else {
+                node.removeAttribute("ui.class");
+            }*/
+            node.setAttribute("ui.label", newAgentName);
         }
         dialogStage.close();
     }
@@ -104,6 +103,7 @@ public class ServiceModifyController implements Initializable {
     @FXML
     public void cancelButton() {
         dialogStage.close();
+        this.tree.setRoot(deepcopy(oldTree));
     }
 
     /**
@@ -126,20 +126,23 @@ public class ServiceModifyController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.tree.setEditable(true);
+
         tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
             @Override
             public TreeCell<String> call(TreeView<String> p) {
-                return new ServiceRenameMenuTreeCell();
+                return new MenuAttributeTreeCell();
             }
         });
+       
     }
 
-    private static class ServiceRenameMenuTreeCell extends TextFieldTreeCell<String> {
+    private static class MenuAttributeTreeCell extends TextFieldTreeCell<String> {
         private ContextMenu menu = new ContextMenu();
 
-        public ServiceRenameMenuTreeCell() {
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+        public MenuAttributeTreeCell() {
             super(new DefaultStringConverter());
-
+            
             menu.setId("treeAttributeItem");
             MenuItem renameItem = new MenuItem("Renommer");
             renameItem.setId("renameAttributeItem");
@@ -148,7 +151,6 @@ public class ServiceModifyController implements Initializable {
                 @Override
                 public void handle(ActionEvent arg0) {
                     startEdit();
-                    
                 }
             });
 
@@ -159,7 +161,7 @@ public class ServiceModifyController implements Initializable {
                 public void handle(Event t) {
                     TreeItem newItem = new TreeItem<String>("Nouvel attribut");
                     getTreeItem().getChildren().add(newItem);
-                   
+
                 }
             });
 
@@ -170,13 +172,14 @@ public class ServiceModifyController implements Initializable {
                 public void handle(Event t) {
                     getTreeItem().getParent().getChildren().remove(getTreeItem());
                 }
-            });
+            }); 
         }
 
         @Override
         public void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
-            if (!isEditing()) {
+
+            if (!empty && !isEditing()) {
                 setContextMenu(menu);
             }
         }

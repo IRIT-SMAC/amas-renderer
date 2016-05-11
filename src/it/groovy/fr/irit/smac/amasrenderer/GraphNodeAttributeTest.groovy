@@ -11,8 +11,8 @@ import org.graphstream.ui.swingViewer.ViewPanel
 
 import spock.lang.IgnoreIf
 import spock.lang.Shared
-import fr.irit.smac.amasrenderer.controller.GraphMainController
 import fr.irit.smac.amasrenderer.controller.MainController
+import fr.irit.smac.amasrenderer.controller.graph.GraphMainController
 import fr.irit.smac.amasrenderer.service.GraphService
 
 @IgnoreIf({
@@ -30,10 +30,9 @@ class GraphNodeAttributeTest extends GuiSpecification{
     String graphId = "#graphNode"
 
     GraphMainController graphMainController
-    
+
     def setup() {
-        setupStage {
-            stage ->
+        setupStage { stage ->
 
             FXMLLoader loaderRootLayout = new FXMLLoader()
             loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
@@ -49,88 +48,78 @@ class GraphNodeAttributeTest extends GuiSpecification{
         graphService = GraphService.getInstance()
 
     }
-    
-    def "check if adding an attribute works with alt+rightClick"() {
-        
-                given:
-                fx.press(KeyCode.CONTROL)
-                .clickOn(graphId)
-                .release(KeyCode.CONTROL)
-                
-                Object<T> tree = graphService.getModel().getNode(0).getAttribute("ui.stocked-info")
-                int nbChildren = tree.getRoot().getChildren().size()
-                
-                when:
-                fx.press(KeyCode.ALT)
-                .rightClickOn(graphId)
-                .release(KeyCode.ALT)
-                .clickOn("#tree")
-                .doubleClickOn("#tree")
-                .moveBy(-200,-140)
-                .doubleClickOn()
-                .rightClickOn()
-                .clickOn("#addAttributeItem")
-                .clickOn("#confButton")
-                
-                then:
-                tree.getRoot().getChildren().size() == nbChildren + 1
-            }
-        
-            def "check if modifying an attribute works with alt+rightClick"() {
-        
-                given:
-                fx.press(KeyCode.CONTROL)
-                .clickOn(graphId)
-                .release(KeyCode.CONTROL)
-                        
-                when:
-                println "attribute modified"
-                fx.press(KeyCode.CONTROL)
-                .clickOn(graphId)
-                .release(KeyCode.CONTROL)
-                .press(KeyCode.ALT)
-                .rightClickOn()
-                .release(KeyCode.ALT)
-                .clickOn("#tree")
-                .doubleClickOn("#tree")
-                .moveBy(-200,-140)
-                .rightClickOn()
-                .clickOn("#renameAttributeItem")
-                .type(KeyCode.E)
-                .type(KeyCode.ENTER)
-                .clickOn("#confButton")
-        
-                then:
-                String value = graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getValue()
-                value == "e" || value == "E"
-            }
-        
-            def "check if deleting an attribute works with alt+rightClick"() {
-        
-                given:
-                fx.press(KeyCode.CONTROL)
-                .clickOn(graphId)
-                .release(KeyCode.CONTROL)
-                
-                Object<T> tree = graphService.getModel().getNode(0).getAttribute("ui.stocked-info")
-                int nbChildren = tree.getRoot().getChildren().size()
-                        
-                when:
-                fx.press(KeyCode.ALT)
-                .rightClickOn(graphId)
-                .release(KeyCode.ALT)
-                .clickOn("#tree")
-                .doubleClickOn("#tree")
-                .moveBy(-200,-140)
-                .doubleClickOn()
-                .moveBy(0,40)
-                .rightClickOn()
-                .clickOn("#removeAttributeItem")
-                .clickOn("#confButton")
-                
-                then:
-                tree.getRoot().getChildren().size() == nbChildren - 1
-        
-            }
 
+    def "check if adding an attribute works with alt+rightClick"() {
+
+        given:
+        fx.press(KeyCode.CONTROL)
+                        .clickOn(graphId)
+                        .release(KeyCode.CONTROL)
+
+        Object<T> tree = graphService.getModel().getNode(0).getAttribute("ui.stocked-info")
+        int nbChildren = tree.getRoot().getChildren().size()
+
+        when:
+        fx.rightClickOn(graphId)
+                        .clickOn("#tree")
+                        .doubleClickOn("#tree")
+                        //TODO : y depends on the height of the window
+                        .moveBy(-200,-160)
+                        .rightClickOn()
+                        .clickOn("#addAttributeItem")
+                        .clickOn("#confButton")
+
+        then:
+        tree.getRoot().getChildren().size() == nbChildren + 1
+    }
+
+    def "check if modifying an attribute works with alt+rightClick"() {
+
+        given:
+        fx.press(KeyCode.CONTROL)
+                        .clickOn(graphId)
+                        .release(KeyCode.CONTROL)
+
+        when:
+        fx.rightClickOn()
+                        .clickOn("#tree")
+                        .doubleClickOn("#tree")
+                        .moveBy(-200,-160)
+                        .rightClickOn()
+                        .clickOn("#renameAttributeItem")
+                        .type(KeyCode.E)
+                        .type(KeyCode.ENTER)
+                        .clickOn("#confButton")
+
+        then:
+        String value = graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getValue()
+        value == "e" || value == "E"
+    }
+
+    def "check if deleting an attribute works with alt+rightClick"() {
+
+        given:
+        fx.press(KeyCode.CONTROL)
+                        .clickOn(graphId)
+                        .release(KeyCode.CONTROL)
+                        .rightClickOn(graphId)
+                        .clickOn("#tree")
+                        .doubleClickOn("#tree")
+                        .moveBy(-200,-160)
+                        .rightClickOn()
+                        .clickOn("#addAttributeItem")
+                        
+        int nbChildren = 1
+
+        when:
+        fx.clickOn("#tree")
+                        .moveBy(-340,-130)
+                        .rightClickOn()
+                        .clickOn("#removeAttributeItem")
+                        .clickOn("#confButton")
+
+        then:
+        Object<T> tree = graphService.getModel().getNode(0).getAttribute("ui.stocked-info")
+        tree.getRoot().getChildren().size() == nbChildren - 1
+    }
 }

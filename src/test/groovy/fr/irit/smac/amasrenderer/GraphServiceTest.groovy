@@ -5,7 +5,7 @@ import org.graphstream.graph.implementations.SingleNode
 
 import spock.lang.Shared
 import spock.lang.Specification
-import fr.irit.smac.amasrenderer.controller.GraphAddDelNodeMouseController
+import fr.irit.smac.amasrenderer.controller.graph.GraphAddDelNodeMouseController;
 import fr.irit.smac.amasrenderer.model.AgentGraph
 import fr.irit.smac.amasrenderer.service.GraphService
 
@@ -23,7 +23,7 @@ class GraphServiceTest extends Specification{
      */
     def setupSpec() {
 
-        graphNodeService = new GraphService()
+        graphNodeService = GraphService.getInstance()
         graphNodeService.createAgentGraph()
     }
 
