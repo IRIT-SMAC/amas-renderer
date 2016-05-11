@@ -1,15 +1,14 @@
 package fr.irit.smac.amasrenderer.controller;
 
-import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.service.ServiceService;
-
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import fr.irit.smac.amasrenderer.Const;
+import fr.irit.smac.amasrenderer.service.ServiceService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;

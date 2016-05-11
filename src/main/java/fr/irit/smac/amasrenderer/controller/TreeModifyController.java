@@ -9,16 +9,13 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
@@ -39,7 +36,7 @@ public class TreeModifyController implements Initializable {
     private TreeView<String> tree;
 
     private TreeItem<String> oldTree;
-    
+
     private Stock stock;
 
     private Stage dialogStage;
@@ -65,6 +62,7 @@ public class TreeModifyController implements Initializable {
         tree.setRoot(deepcopy(s.getRoot()));
         this.oldTree = new TreeItem<>();
         this.oldTree = deepcopy(tree.getRoot());
+        tree.getRoot().setExpanded(true);
     }
 
     /**
@@ -105,20 +103,23 @@ public class TreeModifyController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.tree.setEditable(true);
+
         tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
             @Override
             public TreeCell<String> call(TreeView<String> p) {
                 return new RenameMenuTreeCell();
             }
         });
+       
     }
 
     private static class RenameMenuTreeCell extends TextFieldTreeCell<String> {
         private ContextMenu menu = new ContextMenu();
 
+        @SuppressWarnings({ "rawtypes", "unchecked" })
         public RenameMenuTreeCell() {
             super(new DefaultStringConverter());
-
+            
             menu.setId("treeAttributeItem");
             MenuItem renameItem = new MenuItem("Renommer");
             renameItem.setId("renameAttributeItem");
@@ -137,7 +138,7 @@ public class TreeModifyController implements Initializable {
                 public void handle(Event t) {
                     TreeItem newItem = new TreeItem<String>("Nouvel attribut");
                     getTreeItem().getChildren().add(newItem);
-                   
+
                 }
             });
 
@@ -148,14 +149,14 @@ public class TreeModifyController implements Initializable {
                 public void handle(Event t) {
                     getTreeItem().getParent().getChildren().remove(getTreeItem());
                 }
-            });
+            }); 
         }
 
         @Override
         public void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
 
-            if (!isEditing()) {
+            if (!empty && !isEditing()) {
                 setContextMenu(menu);
             }
         }
