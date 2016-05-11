@@ -15,8 +15,11 @@ node {
      text-style: bold;
      text-size: 12;
      text-color: #FFFFFF;
-     text-alignment: center;
+     text-alignment: under;
      z-index: 1;
+ }
+ node.long{
+ 	text-alignment: under;
  }
  edge {
      shape: line;

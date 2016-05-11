@@ -147,7 +147,7 @@ public class GraphMainController implements Initializable {
         for (MouseListener mouseListener : ml) {
             graphView.removeMouseListener(mouseListener);
         }
-
+        
         graphMouseWheelController = new GraphMouseWheelController();
         graphMouseWheelController.init(graphView);
         
@@ -158,6 +158,8 @@ public class GraphMainController implements Initializable {
 
         nodeEditController = new GraphNodeEditController();
         nodeEditController.init(graphView, stackPaneGraphNode.getScene().getWindow());
+        
+        
 
     }
 

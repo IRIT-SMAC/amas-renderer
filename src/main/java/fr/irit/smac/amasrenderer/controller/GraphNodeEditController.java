@@ -110,10 +110,14 @@ public class GraphNodeEditController extends MouseAdapter{
 
                         treeModifyController.setStage(dialogStage);
                         treeModifyController.setStock(s);
+                        treeModifyController.setNode(node);
+                        
                         
                         dialogStage.showAndWait();
                     }
+                    
                 });
+                
             }
         }
     }

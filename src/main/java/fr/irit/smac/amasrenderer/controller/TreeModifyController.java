@@ -1,5 +1,7 @@
 package fr.irit.smac.amasrenderer.controller;
 
+import org.graphstream.graph.Node;
+
 import fr.irit.smac.amasrenderer.model.Stock;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -53,7 +55,13 @@ public class TreeModifyController {
     
     /** The dialog stage. */
     private Stage dialogStage;
-
+    
+    /**the node being modified*/
+    private Node node;
+    
+    /**the new agent name*/
+    private String newAgentName = null;
+    
     /**
      * Sets the stage.
      *
@@ -62,7 +70,14 @@ public class TreeModifyController {
     public void setStage(Stage stage){
         dialogStage = stage;
     }
-    
+    /**
+     * sets the node to be modified
+     * @param node the node to modify
+     */
+    public void setNode(Node node) {
+        this.node = node;
+    }
+     
     /**
      * Gets the delete button.
      *
@@ -81,6 +96,8 @@ public class TreeModifyController {
         stock = s;
         tree.setRoot(deepcopy(s.getRoot()));
     }
+    
+    
     
     /**
      * Adds the attribute.
@@ -121,6 +138,9 @@ public class TreeModifyController {
         String text = modifyValue.getText();
         if(itemGet != null && text != null && text.length() > 0){
             itemGet.setValue(text);
+            if(itemGet.equals(tree.getRoot())){
+                newAgentName = text;
+            }
         } else {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Modify Error");
@@ -170,6 +190,16 @@ public class TreeModifyController {
     @FXML
     public void confirmButton(){
         stock.setRoot(tree.getRoot());
+        if(newAgentName != null){
+            /*if(newAgentName.length()>3){
+                //newAgentName = newAgentName.substring(0, 3);
+                node.setAttribute("ui.class", "long");
+                System.out.println("fuck graphstream");
+            } else {
+                node.removeAttribute("ui.class");
+            }*/
+            node.setAttribute("ui.label", newAgentName);
+        }
         dialogStage.close();
     }
     
@@ -181,6 +211,13 @@ public class TreeModifyController {
     public void cancelButton(){
         dialogStage.close();
         
+    }
+    
+    public void changeLabel(Stock s, String text, TreeItem<String> itemGet){
+        if(text.length()>3 && itemGet.equals(tree.getRoot())){
+            text = text.substring(0, 3);
+        }
+        node.setAttribute("ui.label", text);
     }
     
     /**
