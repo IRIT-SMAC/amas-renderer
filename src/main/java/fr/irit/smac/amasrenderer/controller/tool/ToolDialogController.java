@@ -1,10 +1,10 @@
-package fr.irit.smac.amasrenderer.controller.service;
+package fr.irit.smac.amasrenderer.controller.tool;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.service.ServiceService;
+import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 /**
  * The Class ServiceDialogController This controller manages the popup form
  */
-public class ServiceDialogController implements Initializable {
+public class ToolDialogController implements Initializable {
 
     /** The confirm button */
     @FXML
@@ -29,13 +29,13 @@ public class ServiceDialogController implements Initializable {
 
     /** The new service textfield */
     @FXML
-    private TextField textfieldService;
+    private TextField textfieldTool;
 
     /**
      * @param list
      *            The instance of the list in which we add the new service
      */
-    public ServiceDialogController() {
+    public ToolDialogController() {
     	
     }
 
@@ -48,23 +48,23 @@ public class ServiceDialogController implements Initializable {
 	@FXML
 	public void clickConfirm(){
 	    
-		if(textfieldService.getText() != null 
-				&& !textfieldService.getText().trim().isEmpty()
-				&& !textfieldService.getText().trim().contains(" ")){
+		if(textfieldTool.getText() != null 
+				&& !textfieldTool.getText().trim().isEmpty()
+				&& !textfieldTool.getText().trim().contains(" ")){
 
-            Label nouveauService = new Label(textfieldService.getText().trim());
+            Label nouveauService = new Label(textfieldTool.getText().trim());
             nouveauService.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
             
             boolean found = false;
 
-            for (Label item : ServiceService.getInstance().getListServices()) {
+            for (Label item : ToolService.getInstance().getTools()) {
                 if (item.getText().equals(nouveauService.getText())){
                     found = true;
                 }
             }
 
             if(!found){
-                ServiceService.getInstance().getListServices().add(nouveauService);
+                ToolService.getInstance().getTools().add(nouveauService);
             }
 
             ((Stage) buttonConfirm.getScene().getWindow()).close();

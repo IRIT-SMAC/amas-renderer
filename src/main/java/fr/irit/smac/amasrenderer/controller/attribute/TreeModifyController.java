@@ -107,17 +107,17 @@ public class TreeModifyController implements Initializable {
         tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
             @Override
             public TreeCell<String> call(TreeView<String> p) {
-                return new RenameMenuTreeCell();
+                return new MenuAttributeTreeCell();
             }
         });
        
     }
 
-    private static class RenameMenuTreeCell extends TextFieldTreeCell<String> {
+    private static class MenuAttributeTreeCell extends TextFieldTreeCell<String> {
         private ContextMenu menu = new ContextMenu();
 
         @SuppressWarnings({ "rawtypes", "unchecked" })
-        public RenameMenuTreeCell() {
+        public MenuAttributeTreeCell() {
             super(new DefaultStringConverter());
             
             menu.setId("treeAttributeItem");

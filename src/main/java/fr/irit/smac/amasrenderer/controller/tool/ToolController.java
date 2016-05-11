@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.controller.service;
+package fr.irit.smac.amasrenderer.controller.tool;
 
 import java.io.IOException;
 import java.net.URL;
@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
-import fr.irit.smac.amasrenderer.service.ServiceService;
+import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,32 +24,32 @@ import javafx.stage.Window;
  * The Class ServicesController.
  * This controller handles the service part of the main UI 
  */
-public class ServicesController implements Initializable {
+public class ToolController implements Initializable {
 
     @FXML
     private Button buttonAddService;
 
     @FXML
-    private ListView<Label> listServices;
+    private ListView<Label> listTool;
     
     @FXML
     private Label infrastructureLabel;
 
     private Stage stage;
     
-    public ServicesController() {
+    public ToolController() {
     	
    	}
     
     @FXML
-    public void addService() throws IOException {
+    public void addTool() throws IOException {
 
         stage = new Stage();
         stage.setTitle("Ajouter un service");
         stage.setResizable(false);
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("view/ServiceDialog.fxml"));
+        loader.setLocation(Main.class.getResource("view/ToolDialog.fxml"));
         DialogPane root = (DialogPane) loader.load();
         
         stage.initModality(Modality.WINDOW_MODAL);
@@ -71,7 +71,7 @@ public class ServicesController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-    	ServiceService.getInstance().setListServices(listServices.getItems());		
+    	ToolService.getInstance().setTools(listTool.getItems());		
     	InfrastructureService.getInstance().setLabelInfrastructures(infrastructureLabel);
 	}
 

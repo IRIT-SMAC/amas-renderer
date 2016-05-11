@@ -5,21 +5,21 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 
-public class Services {
+public class Tool {
 
-	private ObservableList<Label> services;
+	private ObservableList<Label> tools;
 
 	public ObservableList<Label> getServices() {
-		return services;
+		return tools;
 	}
 	
-	public void setServices(ObservableList<Label> items) {
-		this.services = items;
+	public void setTools(ObservableList<Label> items) {
+		this.tools = items;
 	}
 	
-	public void ajouterService(String nom){
+	public void addTool(String nom){
         Label nouveauService = new Label(nom);
         nouveauService.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
-		this.services.add(nouveauService);
+		this.tools.add(nouveauService);
 	}
 }

@@ -12,7 +12,7 @@ import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.AgentGraph;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
-import fr.irit.smac.amasrenderer.service.ServiceService;
+import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
@@ -23,7 +23,7 @@ import javafx.stage.FileChooser;
 public class MenuBarController {
 
 	GraphService graphService = GraphService.getInstance();
-	ServiceService serviceService = ServiceService.getInstance();
+	ToolService toolService = ToolService.getInstance();
 	InfrastructureService infrastructureService = InfrastructureService.getInstance();
 
 	private static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
@@ -46,7 +46,7 @@ public class MenuBarController {
 			GraphService.getInstance().getModel().setGraphMap(tmp.getGraphMap());
 			Map<String,Object> graphMap = GraphService.getInstance().getModel().getGraphMap();
 			graphService.createAgentGraphFromMap(graphMap);
-			serviceService.createServicesFromMap(graphMap);
+			toolService.createServicesFromMap(graphMap);
 			infrastructureService.createInfrastructuresFromMap(graphMap);
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.");
