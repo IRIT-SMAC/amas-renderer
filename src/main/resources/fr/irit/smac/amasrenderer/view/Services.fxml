@@ -65,10 +65,10 @@
 				<ListView fx:id="listServices" maxHeight="1.7976931348623157E308"
 					maxWidth="1.7976931348623157E308" prefHeight="753.0" prefWidth="200.0"
 					style="-fx-background-color: #F8F8F8;" VBox.vgrow="ALWAYS" />
-				<Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308"
+				<Button fx:id="generateButton" maxHeight="-Infinity" maxWidth="1.7976931348623157E308"
 					minHeight="-Infinity" mnemonicParsing="false" prefHeight="70.0"
 					style="-fx-background-color: #CA2723;" text="Générer" textFill="WHITE"
-					VBox.vgrow="ALWAYS">
+					VBox.vgrow="ALWAYS" onAction="#generateJsonFile">
 					<font>
 						<Font name="OpenSymbol" size="20.0" />
 					</font>

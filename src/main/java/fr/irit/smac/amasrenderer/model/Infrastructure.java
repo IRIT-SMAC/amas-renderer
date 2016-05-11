@@ -1,22 +1,22 @@
 package fr.irit.smac.amasrenderer.model;
 
 import javafx.collections.ObservableList;
-import javafx.scene.control.Label;
 
 public class Infrastructure {
 
-	private Label infrastructure;
+	private ObservableList<String> infrastructure;
 
-	public void setInfrastructure(Label label) {
+	public void setInfrastructure(ObservableList<String> label) {
 		this.infrastructure = label;
 	}
 	
-	public Label getInfrastructure() {
+	public ObservableList<String> getInfrastructure() {
 		return infrastructure;
 	}
-	
-	public void modifierInfrastructure(String nom){
-		this.infrastructure.setText(nom);
+
+	public void modifierInfrastructure(String string) {
+		infrastructure.clear();
+		infrastructure.add(string);
 	}
 	
 }

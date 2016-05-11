@@ -3,7 +3,7 @@ package fr.irit.smac.amasrenderer.service;
 import java.util.Map;
 
 import fr.irit.smac.amasrenderer.model.Infrastructure;
-import javafx.scene.control.Label;
+import javafx.collections.ObservableList;
 
 public class InfrastructureService {
 
@@ -19,16 +19,12 @@ public class InfrastructureService {
 		return instance;
 	}
 	
-	public Label getLabelInfrastructure(){
+	public ObservableList<String> getInfrastructure(){
 		return this.model.getInfrastructure();
 	}
 	
-	public void setLabelInfrastructures(Label label){
-		this.model.setInfrastructure(label);
-	}
-	
-	public void modifierInfrastructure(String nom){
-		this.model.modifierInfrastructure(nom);
+	public void setInfrastructure(ObservableList<String> list){
+		this.model.setInfrastructure(list);
 	}
 
 	public void createInfrastructuresFromMap(Map<String, Object> map) {
