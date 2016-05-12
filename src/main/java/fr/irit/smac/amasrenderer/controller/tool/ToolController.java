@@ -57,7 +57,7 @@ public class ToolController implements Initializable {
     
     private Stage stage;
     private static BorderPane root3;
-    private HashMap<Label,TreeItem<String>> attributeMap = new HashMap<Label, TreeItem<String>>();
+    private HashMap<String,TreeItem<String>> attributeMap = new HashMap<String, TreeItem<String>>();
     private static final Logger LOGGER = Logger.getLogger(ToolController.class.getName());
 
     
@@ -98,8 +98,6 @@ public class ToolController implements Initializable {
                     dialogStage.setMinWidth(440);
                     
                     serviceModifyController.setStage(dialogStage);
-                    System.out.println(attributeMap);
-                    System.out.println(listTool);
                     serviceModifyController.init(attributeMap, listTool);
                     
                     
@@ -124,7 +122,6 @@ public class ToolController implements Initializable {
         ToolDialogController toolDialogController = loader.getController();
 //        toolDialogController.setList(listTool);
         toolDialogController.setAttributeMap(attributeMap);
-//        toolDialogController.i
         stage.initModality(Modality.WINDOW_MODAL);
         Window window = buttonAddService.getScene().getWindow();
         stage.initOwner(buttonAddService.getScene().getWindow());
@@ -142,26 +139,34 @@ public class ToolController implements Initializable {
         stage.showAndWait();
     }
 
-    @FXML
-    public void generateJsonFile(){
-        File file = new FileChooser().showSaveDialog(generateButton.getScene().getWindow());
-        
-        List<String> lines = new ArrayList<String>();
-        
-        createLines(lines);
-        
-        try {
-            Files.write(file.toPath(), lines, Charset.forName("UTF-8"));
-        } catch (IOException e) {
-            LOGGER.log(Level.INFO, "Couldn't create the file" , e);
-        }
-        
-    }
+	@FXML
+	public void generateJsonFile(){
+		File file = new FileChooser().showSaveDialog(generateButton.getScene().getWindow());
+		
+		List<String> lines = new ArrayList<String>();
+		
+		generateInfrastructure(lines);
+		generateServices(lines);
+		
+//		try {
+//			Files.write(file.toPath(), lines, Charset.forName("UTF-8"));
+//		} catch (IOException e) {
+//			LOGGER.log(Level.INFO, "Couldn't create the file" , e);
+//		}
+		
+	}
 
-    private void createLines(List<String> lines) {
-      lines.add("{");
-      lines.add("\t\"classname\":\""+InfrastructureService.getInstance().getInfrastructure().get(0)+"\"}");
-    }
+	private void generateInfrastructure(List<String> lines) {
+		lines.add("\t\"classname\":\""+InfrastructureService.getInstance().getInfrastructure().get(0)+"\"},");
+	}
+	
+	private void generateServices(List<String> lines) {
+		List<String> services = ToolService.getInstance().getTools();
+		for(String service : services) {
+			TreeItem<String> serviceAttribute = attributeMap.get(service);
+			System.out.println(serviceAttribute);
+		}
+	}
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -177,10 +182,8 @@ public class ToolController implements Initializable {
             @Override
             public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
                 String newTool = ToolService.getInstance().getTools().get(ToolService.getInstance().getTools().size() - 1);
-                Label newToolLabel = new Label(newTool);
-                newToolLabel.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
-                attributeMap.put(newToolLabel, new TreeItem<String>(newToolLabel.getText()));
-                listTool.getItems().add(newToolLabel);
+                attributeMap.put(newTool, new TreeItem<String>(newTool));
+                listTool.getItems().add(new Label(newTool));
             }
         });
         

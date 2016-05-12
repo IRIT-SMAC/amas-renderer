@@ -39,15 +39,15 @@ public class ToolModifyController implements Initializable {
 
     private TreeItem<String> value;
 
-    private HashMap<Label,TreeItem<String>> attributeMap = new HashMap<Label, TreeItem<String>>();
+    private HashMap<String,TreeItem<String>> attributeMap = new HashMap<String, TreeItem<String>>();
     
     private Stage dialogStage;
     
-    private Label key;
+    private String key;
     
     private ListView<Label> list;
     
-    private Label baseRootName;
+    private String baseRootName;
     
     /**the new agent name*/
     private String newServiceName = null;
@@ -65,22 +65,18 @@ public class ToolModifyController implements Initializable {
      * sets the node to be modified
      * @param node the node to modify
      */
-    public void setKey(Label label) {
+    public void setKey(String label) {
         this.key = label;
     }
     
-    public void setAttributeMap(HashMap<Label, TreeItem<String>> attributeMap) {
+    public void setAttributeMap(HashMap<String, TreeItem<String>> attributeMap) {
         this.attributeMap = attributeMap;
     }
     
-    public void init(HashMap<Label, TreeItem<String>> attributeMap,ListView<Label> list){
+    public void init(HashMap<String, TreeItem<String>> attributeMap,ListView<Label> list){
         setAttributeMap(attributeMap);
-        setKey(list.getSelectionModel().getSelectedItem());
+        setKey(list.getSelectionModel().getSelectedItem().getText());
         this.list = list;
-        System.out.println(key);
-        System.out.println("hey" + attributeMap);
-        System.out.println(attributeMap);
-        System.out.println(attributeMap.get(key));
         tree.setRoot(deepcopy(attributeMap.get(key)));
         baseRootName = key;
     }
@@ -93,10 +89,10 @@ public class ToolModifyController implements Initializable {
         value = (tree.getRoot());
         attributeMap.put(key, value);
         newServiceName = tree.getRoot().getValue();
-        if(newServiceName != baseRootName.getText()){
+        if(newServiceName != baseRootName){
             list.getItems().remove(key);
-            key.setText(newServiceName);
-            list.getItems().add(key);
+            key = newServiceName;
+            list.getItems().add(new Label(key));
             attributeMap.put(key,attributeMap.remove(baseRootName));
         }
         dialogStage.close();

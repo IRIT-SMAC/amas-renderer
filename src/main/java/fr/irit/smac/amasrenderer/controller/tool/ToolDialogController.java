@@ -34,7 +34,7 @@ public class ToolDialogController implements Initializable {
     @FXML
     private TextField textfieldTool;
     
-    private HashMap<Label,TreeItem<String>> map;
+    private HashMap<String,TreeItem<String>> map;
 
     /**
      * @param list
@@ -90,8 +90,8 @@ public class ToolDialogController implements Initializable {
         ((Stage) buttonCancel.getScene().getWindow()).close();
 	}
     
-    public void setAttributeMap(HashMap<Label,TreeItem<String>> map){
-        this.map = map;
+    public void setAttributeMap(HashMap<String, TreeItem<String>> attributeMap){
+        this.map = attributeMap;
     }
 
 
