@@ -99,7 +99,7 @@ public class ServicesController implements Initializable {
 		
 		List<String> lines = new ArrayList<String>();
 		
-		createLines(lines);
+		generateInfrastructure(lines);
 		
 		try {
 			Files.write(file.toPath(), lines, Charset.forName("UTF-8"));
@@ -109,11 +109,10 @@ public class ServicesController implements Initializable {
 		
 	}
 
-	private void createLines(List<String> lines) {
-//		lines.add("{");
-//		lines.add("\"classname\":\""+InfrastructureService.getInstance().getInfrastructure().get(0)+"\"}");
+	private void generateInfrastructure(List<String> lines) {
+		lines.add("\t\"classname\":\""+InfrastructureService.getInstance().getInfrastructure().get(0)+"\"}");
 	}
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
