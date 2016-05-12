@@ -7,7 +7,7 @@
 		<fx:include fx:id="menuBar" source="MenuBar.fxml" />
 	</top>
 	<left>
-		<fx:include fx:id="services" source="Services.fxml" />
+		<fx:include fx:id="tool" source="Tool.fxml" />
 	</left>
 	<center>
 		<fx:include fx:id="graphMain" source="GraphAgents.fxml" />

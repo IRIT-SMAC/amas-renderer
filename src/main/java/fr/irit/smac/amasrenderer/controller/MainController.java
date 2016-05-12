@@ -3,6 +3,9 @@ package fr.irit.smac.amasrenderer.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import fr.irit.smac.amasrenderer.controller.graph.GraphMainController;
+import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
+import fr.irit.smac.amasrenderer.controller.tool.ToolController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -12,7 +15,7 @@ public class MainController implements Initializable {
     private GraphMainController graphMainController;
     
     @FXML
-    private ServicesController servicesController;
+    private ToolController toolController;
     
     @FXML
     private MenuBarController menuBarController;
@@ -26,8 +29,8 @@ public class MainController implements Initializable {
         return graphMainController;
     }
 
-    public ServicesController getServicesController() {
-        return servicesController;
+    public ToolController getServicesController() {
+        return toolController;
     }
 
     public MenuBarController getMenuBarController() {

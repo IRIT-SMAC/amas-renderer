@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.controller;
+package fr.irit.smac.amasrenderer.controller.graph;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,6 +11,7 @@ import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
 import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.controller.attribute.TreeModifyController;
 import fr.irit.smac.amasrenderer.model.Stock;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -29,11 +30,10 @@ import javafx.stage.Window;
  */
 public class GraphNodeEditController extends MouseAdapter{
     
-    /** The graph view. */
     private ViewPanel graphView;
-    /**The controller for the modal window*/
-    private TreeModifyController treeModifyController;
-    private Window window; 
+
+    private Window window;
+    
     /*the modal window, in static for test purposes*/
     private static BorderPane root3;
     
@@ -49,6 +49,7 @@ public class GraphNodeEditController extends MouseAdapter{
      * Inits the controller.
      *
      * @param graphView the graph view
+     * @param window the parent window
      */
     public void init(ViewPanel graphView, Window window) {
         this.graphView = graphView;
@@ -76,7 +77,8 @@ public class GraphNodeEditController extends MouseAdapter{
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        if (SwingUtilities.isRightMouseButton(e) && e.isAltDown()) {
+        if (SwingUtilities.isRightMouseButton(e) && !e.isShiftDown() && !e.isControlDown()) {
+            
             GraphicElement elt = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
             if (elt != null && elt instanceof Node) {
                 Node node = (Node) elt;
@@ -84,41 +86,44 @@ public class GraphNodeEditController extends MouseAdapter{
                 Platform.runLater(new Runnable() {
                     @Override public void run() {
                        
-                        
                         FXMLLoader loaderServices = new FXMLLoader();
+                        
                         loaderServices.setLocation(Main.class.getResource("view/GraphAttributes.fxml"));
                         root3 = null;
-                        try {
-                            root3 = loaderServices.load();
-                        }
-                        catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                        
+                            try {
+                                root3 = loaderServices.load();
+                            }
+                            catch (IOException e1) {
+                                // TODO Auto-generated catch block
+                                e1.printStackTrace();
+                            }
+
                         TreeModifyController treeModifyController = loaderServices.getController();
                         
                         Stage dialogStage = new Stage();
                         dialogStage.setTitle("Modification d'attribut");
-                        //fenetre modale, obligation de quitter pour revenir a la fenetre principale
+
                         dialogStage.initModality(Modality.WINDOW_MODAL);
                         dialogStage.initOwner(window);
                         Scene miniScene = new Scene(root3);
                         dialogStage.setScene(miniScene);
-                        dialogStage.initStyle(StageStyle.UNIFIED);
-                        dialogStage.setMinHeight(380);
-                        dialogStage.setMinWidth(440);
+                        dialogStage.initStyle(StageStyle.UNDECORATED);
+
+                        double x = window.getX() + (window.getWidth() - root3.getPrefWidth()) / 2;
+                        double y = window.getY() + (window.getHeight() - root3.getPrefHeight()) / 2;
+                        dialogStage.setX(x);
+                        dialogStage.setY(y);
+                        
                         treeModifyController.setStage(dialogStage);
                         treeModifyController.setStock(s);
+                        treeModifyController.setNode(node);
+                        
                         dialogStage.showAndWait();
                     }
+                    
                 });
+                
             }
         }
     }
-    
-    private void setupDialogStage(){
-        
-    }
-
 }

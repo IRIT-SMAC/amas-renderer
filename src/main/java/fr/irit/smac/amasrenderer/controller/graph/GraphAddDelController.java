@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.controller;
+package fr.irit.smac.amasrenderer.controller.graph;
 
 import org.graphstream.ui.swingViewer.ViewPanel;
 
@@ -31,7 +31,7 @@ public class GraphAddDelController {
     private GraphAddDelEdgeMouseController graphAddDelEdgeMouseController;
 
     private GraphAddDelNodeMouseController graphAddDelNodeMouseController;
-
+    
     /**
      * Inits the subcontrollers GraphAddDelEdgeMouseController and
      * GraphAddDelMouseController.
@@ -51,5 +51,11 @@ public class GraphAddDelController {
         graphAddDelNodeMouseController.setButtonAddAgent(this.buttonAddAgent);
         graphAddDelNodeMouseController.setButtonDelAgent(this.buttonDelAgent);
         graphAddDelNodeMouseController.init(graphView, graphNodeService);
+       
+        
+    }
+    
+    public ToggleGroup getTogGroup() {
+        return toggroup;
     }
 }

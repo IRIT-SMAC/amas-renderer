@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.controller;
+package fr.irit.smac.amasrenderer.controller.graph;
 
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -121,16 +121,19 @@ public class GraphMainController implements Initializable {
         for (MouseListener mouseListener : ml) {
             graphView.removeMouseListener(mouseListener);
         }
-
+        
         graphMouseWheelController = new GraphMouseWheelController();
         graphMouseWheelController.init(graphView);
+        
+        graphAddDelController.init(graphView, graphNodeService);
 
         defaultMouseController = new GraphDefaultMouseController();
-        defaultMouseController.init(graphView, getModel());
-        graphAddDelController.init(graphView, graphNodeService);
+        defaultMouseController.init(graphView, getModel(),graphAddDelController.getTogGroup());
 
         nodeEditController = new GraphNodeEditController();
         nodeEditController.init(graphView, stackPaneGraphNode.getScene().getWindow());
+        
+        
 
     }
 

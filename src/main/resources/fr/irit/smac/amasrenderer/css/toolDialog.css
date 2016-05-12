@@ -1,0 +1,6 @@
+.invalidField {
+	-fx-font-size: 12pt;
+	-fx-fill: #CA2723;
+}
+
+.text-input, .text-input:focused { -fx-prompt-text-fill: darkgray; }

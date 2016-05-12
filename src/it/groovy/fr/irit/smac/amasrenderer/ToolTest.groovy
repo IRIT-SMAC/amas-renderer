@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox
 import spock.lang.Shared
 import fr.irit.smac.amasrenderer.service.GraphService
 
-class ServiceTest extends GuiSpecification{
+class ToolTest extends GuiSpecification{
 
 	@Shared
 	graphService
@@ -31,17 +31,17 @@ class ServiceTest extends GuiSpecification{
 
 	}
 
-	def "check if a service is added by clicking on the corresponding button and filling the form"() {
+	def "check if a tool is added by clicking on the corresponding button and filling the form"() {
 
 		when:
 		println "addition of a service - toggle button + click"
 		fx.clickOn("#buttonAddService")
-				.clickOn("#textfieldService")
+				.clickOn("#textfieldTool")
 				.write("dancingService")
 				.clickOn("#buttonConfirm")
 
 		then:
-		Label service = ((ListView<Label>) rootLayout.lookup("#listServices")).getItems().get(0)
+		Label service = ((ListView<Label>) rootLayout.lookup("#listTool")).getItems().get(0)
 		service.getText() == "dancingService"
 	}
 

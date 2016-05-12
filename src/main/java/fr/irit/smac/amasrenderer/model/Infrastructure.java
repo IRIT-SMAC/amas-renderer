@@ -13,10 +13,10 @@ public class Infrastructure {
 	public ObservableList<String> getInfrastructure() {
 		return infrastructure;
 	}
-
-	public void modifierInfrastructure(String string) {
-		infrastructure.clear();
-		infrastructure.add(string);
+	
+	public void editInfrastructure(String nom){
+        infrastructure.clear();
+        infrastructure.add(nom);
 	}
 	
 }

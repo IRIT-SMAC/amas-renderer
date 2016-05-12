@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -17,7 +14,7 @@ import java.util.logging.Logger;
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
-import fr.irit.smac.amasrenderer.service.ServiceService;
+import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -120,12 +117,12 @@ public class ServicesController implements Initializable {
 		for (Label label: listServices.getItems()) {
 			list.add(label.getText());
 		}
-		ServiceService.getInstance().setListServices(FXCollections.observableArrayList(list));
+		ToolService.getInstance().setTools(FXCollections.observableArrayList(list));
 
-		ServiceService.getInstance().getListServices().addListener(new ListChangeListener<String>(){
+		ToolService.getInstance().getTools().addListener(new ListChangeListener<String>(){
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
-				String newItem = ServiceService.getInstance().getListServices().get(ServiceService.getInstance().getListServices().size() - 1);
+				String newItem = ToolService.getInstance().getTools().get(ToolService.getInstance().getTools().size() - 1);
 				Label nouveauService = new Label(newItem);
 				nouveauService.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
 				listServices.getItems().add(nouveauService);
