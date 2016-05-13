@@ -2,3 +2,11 @@
     -fx-font-size: 16pt;
     -fx-font-family: "OpenSymbol";
 }
+
+.categoryTitle {
+	-fx-background-color: #CA2723;
+	-fx-border-color: #A11F1C;
+	-fx-border-width: 4px;
+	-fx-font-size: 30px;
+    -fx-font-family: "OpenSans";
+}

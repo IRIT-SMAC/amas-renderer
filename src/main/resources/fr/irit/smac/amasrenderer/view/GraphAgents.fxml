@@ -7,9 +7,6 @@
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
 	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphMainController">
-	<top>
-		<fx:include source="GraphInfos.fxml" />
-	</top>
 	<center>
 		<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
 			style="-fx-background-color: #707070;">
@@ -23,8 +20,8 @@
 			</children>
 		</AnchorPane>
 	</center>
-	<bottom>
+	<right>
 		<fx:include fx:id="graphAddDel" source="GraphButtons.fxml" />
-	</bottom>
+	</right>
 
 </BorderPane>
