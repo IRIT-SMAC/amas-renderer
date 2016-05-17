@@ -145,7 +145,6 @@ public class ToolModifyController implements Initializable {
 
     private static class ServiceRenameMenuTreeCell extends TextFieldTreeCell<String> {
         private ContextMenu menu = new ContextMenu();
-        private MenuItem    renameMenuItem;
 
         public ServiceRenameMenuTreeCell() {
             super(new DefaultStringConverter());
@@ -154,7 +153,6 @@ public class ToolModifyController implements Initializable {
             MenuItem renameItem = new MenuItem("Renommer");
             renameItem.setId("renameAttributeItem");
             menu.getItems().add(renameItem);
-            renameMenuItem = renameItem;
 
             renameItem.setOnAction(e -> {
                 startEdit();
@@ -186,8 +184,6 @@ public class ToolModifyController implements Initializable {
                 return;
             }
             super.commitEdit(newValue);
-
-
         }
 
     }

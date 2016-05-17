@@ -162,6 +162,15 @@ public class TreeModifyController implements Initializable {
                 setContextMenu(menu);
             }
         }
+        
+        @Override
+        public void commitEdit(String newValue) {
+            
+            if (newValue.trim().isEmpty()) {
+                return;
+            }
+            super.commitEdit(newValue);
+        }
     }
 
 }
