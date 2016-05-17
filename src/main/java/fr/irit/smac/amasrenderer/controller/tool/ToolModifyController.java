@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -154,9 +151,7 @@ public class ToolModifyController implements Initializable {
             renameItem.setId("renameAttributeItem");
             menu.getItems().add(renameItem);
 
-            renameItem.setOnAction(e -> {
-                startEdit();
-            });
+            renameItem.setOnAction(e -> startEdit());
 
             MenuItem addItem = new MenuItem("Ajouter");
             menu.getItems().add(addItem);
@@ -179,7 +174,7 @@ public class ToolModifyController implements Initializable {
 
         @Override
         public void commitEdit(String newValue) {
-            
+
             if (newValue.trim().isEmpty()) {
                 return;
             }
