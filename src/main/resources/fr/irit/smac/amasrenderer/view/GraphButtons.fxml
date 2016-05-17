@@ -5,10 +5,11 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
 
-<VBox id="containerButtonGraph" prefHeight="352.0" prefWidth="107.0" stylesheets="@../css/graphButtons.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphAddDelController">
+<VBox id="containerButtonGraph" prefHeight="352.0" prefWidth="58.0" stylesheets="@../css/graphButtons.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphAddDelController">
    <children>
-		<ToggleButton fx:id="buttonAddAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="77.0" prefWidth="140.0" styleClass="buttonGraph" text="Ajouter un agent" textAlignment="CENTER" >
+		<ToggleButton fx:id="buttonAddAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="77.0" prefWidth="140.0" styleClass="buttonGraph" text="Ajoute run agent" textAlignment="CENTER">
          <toggleGroup>
             <ToggleGroup fx:id="toggroup" />
          </toggleGroup>
@@ -16,17 +17,18 @@
          	<Tooltip text="Ajoute un agent (Ctrl+ClicGauche)" />
          </tooltip>
          </ToggleButton>
-		<ToggleButton fx:id="buttonDelAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="72.0" prefWidth="140.0" styleClass="buttonGraph" text="Supprimer un agent" textAlignment="CENTER" toggleGroup="$toggroup" >
+      <SVGPath />
+		<ToggleButton fx:id="buttonDelAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="72.0" prefWidth="140.0" styleClass="buttonGraph" text="Supprimer un agent" textAlignment="CENTER" toggleGroup="$toggroup">
          <tooltip>
          	<Tooltip text="Supprime un agent (Ctrl+ClicDroit)" />
          </tooltip>
          </ToggleButton>
-		<ToggleButton fx:id="buttonAddEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="90.0" prefWidth="140.0" styleClass="buttonGraph" text="Ajouter un lien" textAlignment="CENTER" toggleGroup="$toggroup" >
+		<ToggleButton fx:id="buttonAddEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="90.0" prefWidth="140.0" styleClass="buttonGraph" text="Ajouter un lien" textAlignment="CENTER" toggleGroup="$toggroup">
          <tooltip>
          	<Tooltip text="Ajoute un arc (Shift+ClicGauche)" />
          </tooltip>
          </ToggleButton>
-		<ToggleButton fx:id="buttonDelEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="113.0" prefWidth="140.0" text="Supprimer un lien" textAlignment="CENTER" toggleGroup="$toggroup" >
+		<ToggleButton fx:id="buttonDelEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="113.0" prefWidth="140.0" text="Supprimer un lien" textAlignment="CENTER" toggleGroup="$toggroup">
          <tooltip>
          	<Tooltip text="Supprime un arc (Shift+ClicDroit)" />
          </tooltip>

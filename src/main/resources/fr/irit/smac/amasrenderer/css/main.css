@@ -10,3 +10,15 @@
 	-fx-font-size: 30px;
     -fx-font-family: "OpenSans";
 }
+
+.innerCategory {
+	-fx-border-color: #e0e0e0;
+	-fx-border-width: 0 0.2em 0 0.2em;
+}
+
+#generate {
+	-fx-font-size: 20px;
+    -fx-font-family: "OpenSans";
+	-fx-text-fill: #CA2723;
+	-fx-background-color: #e0e0e0;
+}

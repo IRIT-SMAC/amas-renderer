@@ -53,6 +53,11 @@ public class MenuBarController {
 		}
 	}
 
+	@FXML
+	public void clickMenuSave() {
+	    
+	}
+	
 	/**
 	 * On click on the menu item "Fermer" in the menu "Fichier" Close the
 	 * program

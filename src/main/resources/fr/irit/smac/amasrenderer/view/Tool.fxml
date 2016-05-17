@@ -18,45 +18,45 @@
 						<Font name="Open Sans" size="30.0" />
 					</font>
 				</Label>
-				<StackPane prefHeight="150.0" prefWidth="200.0">
+				<StackPane prefHeight="150.0" prefWidth="200.0" styleClass="innerCategory">
 					<children>
-						<Label fx:id="infrastructureLabel" maxWidth="1.7976931348623157E308" prefWidth="150.0">
+      						<Label fx:id="infrastructureLabel" maxWidth="1.7976931348623157E308" prefWidth="150.0">
 							<StackPane.margin>
 								<Insets left="10.0" right="10.0" />
 							</StackPane.margin>
-							<font>
-								<Font name="OpenSymbol" size="15.0" />
-							</font>
-						</Label>
+      							<font>
+      								<Font name="OpenSymbol" size="15.0" />
+      							</font>
+      						</Label>
 					</children>
 				</StackPane>
 			</children>
 		</VBox>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="900.0" prefWidth="382.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="100.0" styleClass="categoryTitle" text="SERVICES" textFill="WHITE">
-               <font>
-                  <Font name="Open Sans" size="30.0" />
-               </font>
-            </Label>
-            <Button fx:id="buttonAddService" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#addTool" prefHeight="50.0" style="-fx-background-color: #FFFFFF;" text="Ajouter un service" VBox.vgrow="ALWAYS">
-               <font>
-                  <Font name="OpenSymbol" size="20.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-
-            <ListView fx:id="listTool" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#handleMouseClick" prefHeight="753.0" prefWidth="200.0" style="-fx-background-color: #F8F8F8;" VBox.vgrow="ALWAYS" />
-				<Button fx:id="generateButton" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#generateJsonFile" prefHeight="70.0" style="-fx-background-color: #CA2723;" text="Générer" textFill="WHITE" VBox.vgrow="ALWAYS">
-					<font>
-						<Font name="OpenSymbol" size="20.0" />
-					</font>
-					<cursor>
-						<Cursor fx:constant="HAND" />
-					</cursor>
-				</Button>
+            <VBox>
+               <children>
+                  <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="100.0" styleClass="categoryTitle" text="SERVICES" textFill="WHITE">
+                     <font>
+                        <Font name="Open Sans" size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox styleClass="innerCategory">
+               <children>
+                  <Button fx:id="buttonAddService" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#addTool" prefHeight="52.0" prefWidth="382.0" style="-fx-background-color: #FFFFFF;" text="Ajouter un service">
+                     <font>
+                        <Font name="OpenSymbol" size="20.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+      
+                                    <ListView fx:id="listTool" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#handleMouseClick" prefHeight="683.0" prefWidth="382.0" style="-fx-background-color: #F8F8F8;" />
+               </children>
+            </VBox>
          </children>
       </VBox>
    </children>
