@@ -42,10 +42,6 @@ public class GraphNodeEditController extends MouseAdapter {
 
     private static final Logger LOGGER = Logger.getLogger(ToolController.class.getName());
 
-    public GraphNodeEditController() {
-
-    }
-
     /**
      * Inits the controller.
      *

@@ -55,10 +55,6 @@ public class ToolController implements Initializable {
     private HashMap<String, TreeItem<String>> attributeMap = new HashMap<>();
     private static final Logger               LOGGER       = Logger.getLogger(ToolController.class.getName());
 
-    public ToolController() {
-
-    }
-
     @FXML
     public void handleMouseClick() {
         String selectedLabel = listTool.getSelectionModel().getSelectedItem();

@@ -44,13 +44,6 @@ public class GraphMainController implements Initializable {
     private GraphDefaultMouseController defaultMouseController;
 
     /**
-     * Instantiates a new graph main controller.
-     */
-    public GraphMainController() {
-
-    }
-
-    /**
      * gets the viewer
      * 
      * @return the viewer

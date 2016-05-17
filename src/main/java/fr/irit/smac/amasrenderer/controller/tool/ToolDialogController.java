@@ -18,15 +18,12 @@ import javafx.stage.Stage;
  */
 public class ToolDialogController implements Initializable {
 
-    /** The confirm button */
     @FXML
     private Button buttonConfirm;
 
-    /** The cancel button */
     @FXML
     private Button buttonCancel;
 
-    /** The new service textfield */
     @FXML
     private TextField textfieldTool;
 
@@ -34,14 +31,6 @@ public class ToolDialogController implements Initializable {
 
     @FXML
     private Text invalidField;
-
-    /**
-     * @param list
-     *            The instance of the list in which we add the new service
-     */
-    public ToolDialogController() {
-
-    }
     
     /**
      * Click on the confirm button handler

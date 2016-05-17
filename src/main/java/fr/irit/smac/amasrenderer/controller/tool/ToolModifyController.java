@@ -83,17 +83,6 @@ public class ToolModifyController implements Initializable {
         this.list = list;
         tree.setRoot(deepcopy(attributeMap.get(key)));
         baseRootName = key;
-
-        /*
-         * tree.setOnEditCommit(new EventHandler<TreeView.EditEvent<String>>() {
-         * 
-         * @Override public void handle(EditEvent<String> event) {
-         * if(event.getNewValue().trim().isEmpty() && event.getOldValue() !=
-         * event.getNewValue()){ //
-         * event.getTreeItem().setValue(event.getOldValue()); //
-         * tree.getEditingItem().setValue(event.getOldValue());
-         * event.fireEvent(event.getTarget(), event); } } });
-         */
     }
 
     /**
@@ -169,10 +158,7 @@ public class ToolModifyController implements Initializable {
             MenuItem addItem = new MenuItem("Ajouter");
             menu.getItems().add(addItem);
             addItem.setId("addAttributeItem");
-            addItem.setOnAction(e -> {
-                TreeItem newItem = new TreeItem<String>("Nouvel attribut");
-                getTreeItem().getChildren().add(newItem);
-            });
+            addItem.setOnAction(e -> getTreeItem().getChildren().add(new TreeItem<String>("Nouvel attribut")));
 
             MenuItem removeItem = new MenuItem("Supprimer");
             menu.getItems().add(removeItem);
