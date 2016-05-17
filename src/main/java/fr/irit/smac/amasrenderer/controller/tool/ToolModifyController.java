@@ -155,12 +155,7 @@ public class ToolModifyController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.tree.setEditable(true);
-        tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
-            @Override
-            public TreeCell<String> call(TreeView<String> p) {
-                return new ServiceRenameMenuTreeCell();
-            }
-        });
+        tree.setCellFactory(p -> new ServiceRenameMenuTreeCell());
     }
 
     private static class ServiceRenameMenuTreeCell extends TextFieldTreeCell<String> {
@@ -173,35 +168,20 @@ public class ToolModifyController implements Initializable {
             MenuItem renameItem = new MenuItem("Renommer");
             renameItem.setId("renameAttributeItem");
             menu.getItems().add(renameItem);
-            renameItem.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent arg0) {
-                    startEdit();
-
-                }
-            });
+            renameItem.setOnAction(e -> startEdit());
 
             MenuItem addItem = new MenuItem("Ajouter");
             menu.getItems().add(addItem);
             addItem.setId("addAttributeItem");
-            addItem.setOnAction(new EventHandler() {
-                @Override
-                public void handle(Event t) {
-                    TreeItem newItem = new TreeItem<String>("Nouvel attribut");
-                    getTreeItem().getChildren().add(newItem);
-
-                }
+            addItem.setOnAction(e -> {
+                TreeItem newItem = new TreeItem<String>("Nouvel attribut");
+                getTreeItem().getChildren().add(newItem);
             });
 
             MenuItem removeItem = new MenuItem("Supprimer");
             menu.getItems().add(removeItem);
             removeItem.setId("removeAttributeItem");
-            removeItem.setOnAction(new EventHandler() {
-                @Override
-                public void handle(Event t) {
-                    getTreeItem().getParent().getChildren().remove(getTreeItem());
-                }
-            });
+            removeItem.setOnAction(e -> getTreeItem().getParent().getChildren().remove(getTreeItem()));
         }
 
         @Override

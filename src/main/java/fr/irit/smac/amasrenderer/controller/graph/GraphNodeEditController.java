@@ -88,9 +88,8 @@ public class GraphNodeEditController extends MouseAdapter {
             if (elt != null && elt instanceof Node) {
                 Node node = (Node) elt;
                 StockModel s = node.getAttribute("ui.stocked-info");
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
+                Platform.runLater(() -> {
+       
 
                         FXMLLoader loaderServices = new FXMLLoader();
 
@@ -125,7 +124,7 @@ public class GraphNodeEditController extends MouseAdapter {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
-                    }
+                    
 
                 });
 

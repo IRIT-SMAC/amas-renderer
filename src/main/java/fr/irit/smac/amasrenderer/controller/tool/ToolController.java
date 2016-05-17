@@ -62,42 +62,39 @@ public class ToolController implements Initializable {
     public void handleMouseClick() {
         String selectedLabel = listTool.getSelectionModel().getSelectedItem();
         if (selectedLabel != null && selectedLabel != "") {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
+            Platform.runLater(() -> {
 
-                    FXMLLoader loaderServices = new FXMLLoader();
-                    loaderServices.setLocation(Main.class.getResource("view/ServiceAttributes.fxml"));
-                    root3 = null;
-                    try {
-                        root3 = loaderServices.load();
-                    }
-                    catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
-                    ToolModifyController serviceModifyController = loaderServices.getController();
-
-                    Stage dialogStage = new Stage();
-                    dialogStage.setTitle("Modification d'attribut");
-                    // fenetre modale, obligation de quitter pour revenir a la
-                    // fenetre principale
-                    dialogStage.initModality(Modality.WINDOW_MODAL);
-                    dialogStage.initOwner(buttonAddService.getScene().getWindow());
-                    Scene miniScene = new Scene(root3);
-                    dialogStage.setScene(miniScene);
-                    dialogStage.initStyle(StageStyle.UNDECORATED);
-                    dialogStage.setMinHeight(380);
-                    dialogStage.setMinWidth(440);
-
-                    serviceModifyController.setStage(dialogStage);
-                    System.out.println(listTool.getItems() + " danzodihazdgah");
-                    serviceModifyController.init(attributeMap, listTool);
-
-                    dialogStage.showAndWait();
-                    listTool.getSelectionModel().clearSelection();
+                FXMLLoader loaderServices = new FXMLLoader();
+                loaderServices.setLocation(Main.class.getResource("view/ServiceAttributes.fxml"));
+                root3 = null;
+                try {
+                    root3 = loaderServices.load();
                 }
+                catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                ToolModifyController serviceModifyController = loaderServices.getController();
+
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Modification d'attribut");
+                // fenetre modale, obligation de quitter pour revenir a la
+                // fenetre principale
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(buttonAddService.getScene().getWindow());
+                Scene miniScene = new Scene(root3);
+                dialogStage.setScene(miniScene);
+                dialogStage.initStyle(StageStyle.UNDECORATED);
+                dialogStage.setMinHeight(380);
+                dialogStage.setMinWidth(440);
+
+                serviceModifyController.setStage(dialogStage);
+                System.out.println(listTool.getItems() + " danzodihazdgah");
+                serviceModifyController.init(attributeMap, listTool);
+
+                dialogStage.showAndWait();
+                listTool.getSelectionModel().clearSelection();
 
             });
         }
@@ -172,27 +169,22 @@ public class ToolController implements Initializable {
 
         ToolService.getInstance().setTools(FXCollections.observableArrayList(list));
 
-        ToolService.getInstance().getTools().addListener(new ListChangeListener<String>() {
-            @Override
-            public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
-                String newTool = ToolService.getInstance().getTools()
-                    .get(ToolService.getInstance().getTools().size() - 1);
-                attributeMap.put(newTool, new TreeItem<String>(newTool));
-                listTool.getItems().add(newTool);
-            }
+        ToolService.getInstance().getTools().addListener((ListChangeListener.Change<? extends String> e) -> {
+            String newTool = ToolService.getInstance().getTools()
+                .get(ToolService.getInstance().getTools().size() - 1);
+            attributeMap.put(newTool, new TreeItem<String>(newTool));
+            listTool.getItems().add(newTool);
         });
 
         InfrastructureService.getInstance().setInfrastructure(FXCollections.observableArrayList(new ArrayList<>()));
 
-        InfrastructureService.getInstance().getInfrastructure().addListener(new ListChangeListener<String>() {
-
-            @Override
-            public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
+        InfrastructureService.getInstance().getInfrastructure()
+            .addListener((ListChangeListener.Change<? extends String> c) -> {
                 String nouvelleInfrastructure = InfrastructureService.getInstance().getInfrastructure().get(0);
                 infrastructureLabel.setText(nouvelleInfrastructure);
             }
 
-        });
+        );
     }
 
 }
