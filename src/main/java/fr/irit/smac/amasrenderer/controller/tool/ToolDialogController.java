@@ -54,7 +54,6 @@ public class ToolDialogController implements Initializable {
 
             if (!found) {
                 ToolService.getInstance().getTools().add(newTool);
-                System.out.println(this.map);
             }
 
             ((Stage) buttonConfirm.getScene().getWindow()).close();

@@ -154,7 +154,6 @@ public class ToolController implements Initializable {
         List<String> services = ToolService.getInstance().getTools();
         for (String service : services) {
             TreeItem<String> serviceAttribute = attributeMap.get(service);
-            System.out.println(serviceAttribute);
         }
     }
 

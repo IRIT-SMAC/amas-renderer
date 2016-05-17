@@ -60,7 +60,7 @@ public class GraphMainController implements Initializable {
      */
     @FXML
     public void addAgent() {
-        this.graphNodeService.getModel().addNode("" + this.graphNodeService.getModel().getNodeCount() + 1);
+        this.graphNodeService.getModel().addNode(Integer.toString(this.graphNodeService.getModel().getNodeCount() + 1));
     }
 
     /**
