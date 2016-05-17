@@ -2,11 +2,9 @@ package fr.irit.smac.amasrenderer.controller.tool;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -16,12 +14,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
 
 /**
@@ -44,7 +40,7 @@ public class ToolModifyController implements Initializable {
 
     private TreeItem<String> value;
 
-    private HashMap<String, TreeItem<String>> attributeMap = new HashMap<>();
+    private Map<String, TreeItem<String>> attributeMap = new HashMap<>();
 
     private Stage dialogStage;
 
@@ -77,11 +73,11 @@ public class ToolModifyController implements Initializable {
         this.key = label;
     }
 
-    public void setAttributeMap(HashMap<String, TreeItem<String>> attributeMap) {
+    public void setAttributeMap(Map<String, TreeItem<String>> attributeMap) {
         this.attributeMap = attributeMap;
     }
 
-    public void init(HashMap<String, TreeItem<String>> attributeMap, ListView<String> list) {
+    public void init(Map<String, TreeItem<String>> attributeMap, ListView<String> list) {
         setAttributeMap(attributeMap);
         setKey(list.getSelectionModel().getSelectedItem());
         this.list = list;

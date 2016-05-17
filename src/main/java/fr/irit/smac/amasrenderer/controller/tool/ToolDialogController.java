@@ -1,7 +1,7 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
 import java.net.URL;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.service.ToolService;
@@ -30,7 +30,7 @@ public class ToolDialogController implements Initializable {
     @FXML
     private TextField textfieldTool;
 
-    private HashMap<String, TreeItem<String>> map;
+    private Map<String, TreeItem<String>> map;
 
     @FXML
     private Text invalidField;
@@ -85,7 +85,7 @@ public class ToolDialogController implements Initializable {
         ((Stage) buttonCancel.getScene().getWindow()).close();
     }
 
-    public void setAttributeMap(HashMap<String, TreeItem<String>> attributeMap) {
+    public void setAttributeMap(Map<String, TreeItem<String>> attributeMap) {
         this.map = attributeMap;
     }
 
