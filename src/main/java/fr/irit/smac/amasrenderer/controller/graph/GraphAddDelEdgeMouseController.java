@@ -10,14 +10,14 @@ import org.graphstream.graph.Node;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.AgentGraph;
+import fr.irit.smac.amasrenderer.model.AgentGraphModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.scene.control.ToggleButton;
 
 /**
- * The Class GraphAddDelEdgeMouseController. This controller controls
- * addition and deletion of edges on the graph "model" Creation and deletion are
- * used by right-click dragging from one node to an other
+ * The Class GraphAddDelEdgeMouseController. This controller controls addition
+ * and deletion of edges on the graph "model" Creation and deletion are used by
+ * right-click dragging from one node to an other
  */
 public class GraphAddDelEdgeMouseController extends MouseAdapter {
 
@@ -65,7 +65,8 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
         if ((source == null) && (e.isShiftDown() || (this.buttonAddEdge.isSelected() ^ this.buttonDelEdge.isSelected()))
             && (!e.isControlDown())) {
             firstClick(e);
-        }else if ((source != null)
+        }
+        else if ((source != null)
             && (e.isShiftDown() || (this.buttonAddEdge.isSelected() ^ this.buttonDelEdge.isSelected()))
             && (!e.isControlDown())) {
             // same but source not null so its the second click
@@ -103,12 +104,13 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
     private void secondClick(MouseEvent e) {
         target = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (target != null) {
-            AgentGraph model = this.graphNodeService.getModel();
+            AgentGraphModel model = this.graphNodeService.getModel();
             Edge edge = model.getEdge(source.getId() + "" + target.getId());
 
             if ((edge != null) && removeEdgeClickRequirement(e)) {
                 model.removeEdge(edge);
-            } else if ((edge == null)
+            }
+            else if ((edge == null)
                 && (SwingUtilities.isLeftMouseButton(e) && (e.isShiftDown() || this.buttonAddEdge.isSelected()))) {
                 model.addEdge(source.getId() + "" + target.getId(), source.getId(), target.getId(), true);
                 model.getEdge(source.getId() + "" + target.getId()).setAttribute("layout.weight",

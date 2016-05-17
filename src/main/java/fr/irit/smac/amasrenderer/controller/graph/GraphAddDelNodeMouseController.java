@@ -10,8 +10,8 @@ import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.AgentGraph;
-import fr.irit.smac.amasrenderer.model.Stock;
+import fr.irit.smac.amasrenderer.model.AgentGraphModel;
+import fr.irit.smac.amasrenderer.model.StockModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.scene.control.ToggleButton;
 
@@ -32,7 +32,6 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
     private ToggleButton buttonAddAgent;
 
     private ToggleButton buttonDelAgent;
-    
 
     /**
      * Initialize the controller, and adds it to the graph.
@@ -69,7 +68,8 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
         // if clicked on empty space, create a node
         if (n == null && SwingUtilities.isLeftMouseButton(e) && (e.isControlDown() || buttonAddAgent.isSelected())) {
             createNode(e);
-        }else if ((n != null) && ((SwingUtilities.isRightMouseButton(e) && e.isControlDown())
+        }
+        else if ((n != null) && ((SwingUtilities.isRightMouseButton(e) && e.isControlDown())
             ^ (SwingUtilities.isLeftMouseButton(e) && this.buttonDelAgent.isSelected()))) {
 
             // else on right click deletes the node and all connected edges
@@ -86,7 +86,7 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
      *
      * @return the model
      */
-    public AgentGraph getModel() {
+    public AgentGraphModel getModel() {
         return this.graphNodeService.getModel();
     }
 
@@ -100,19 +100,13 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
         String curId = Integer.toString(currentNodeId++);
         Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
         String label;
-        Stock actualStock = new Stock("Ag"+curId);
-        
+        StockModel actualStock = new StockModel("Ag" + curId);
+
         getModel().addNode(curId);
         getModel().getNode(curId).setAttribute("ui.label", "ag" + curId);
         getModel().getNode(curId).changeAttribute("xy", clicLoc.x, clicLoc.y);
-        getModel().getNode(curId).setAttribute("ui.stocked-info", actualStock );
+        getModel().getNode(curId).setAttribute("ui.stocked-info", actualStock);
         label = actualStock.getRoot().getValue();
-        if(label.length() > 3){
-            getModel().setAttribute("ui.stylesheet", "node{text-alignment: bottom}");
-        }
-        else {
-            getModel().setAttribute("ui.stylesheet", "node{text-alignment: center}");
-        }
         getModel().getNode(curId).setAttribute("ui.label", label);
         getModel().getNode(curId).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
     }

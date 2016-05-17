@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
-import fr.irit.smac.amasrenderer.model.AgentGraph;
+import fr.irit.smac.amasrenderer.model.AgentGraphModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
@@ -26,7 +26,7 @@ public class GraphMainController implements Initializable {
     private ViewPanel graphView;
 
     private Viewer viewer;
-    
+
     @FXML
     private StackPane stackPaneGraphNode;
 
@@ -52,29 +52,26 @@ public class GraphMainController implements Initializable {
 
     /**
      * gets the viewer
+     * 
      * @return the viewer
      */
     public Viewer getViewer() {
-    	return this.viewer;
+        return this.viewer;
     }
-    
 
     /**
-     * Draws he graph in the container.
-     * DEPRECATED Adds an agent to the graph
+     * Draws he graph in the container. DEPRECATED Adds an agent to the graph
      * 
-     * Prefer using GraphAddDelNodeMouseController to add agents (alt + left click).
+     * Prefer using GraphAddDelNodeMouseController to add agents (alt + left
+     * click).
      */
     @FXML
     public void addAgent() {
         this.graphNodeService.getModel().addNode("" + this.graphNodeService.getModel().getNodeCount() + 1);
     }
-    
-    
+
     /**
-     * DEPRECATED
-     * Graph mouse clicked.
-     * DEPRECATED Graph mouse clicked. Calls
+     * DEPRECATED Graph mouse clicked. DEPRECATED Graph mouse clicked. Calls
      */
     public void drawGraph() {
         ((SwingNode) this.stackPaneGraphNode.lookup("#graphNode")).setContent(this.graphView);
@@ -94,7 +91,7 @@ public class GraphMainController implements Initializable {
      *
      * @return the model
      */
-    public AgentGraph getModel() {
+    public AgentGraphModel getModel() {
         return this.graphNodeService.getModel();
     }
 
@@ -104,7 +101,7 @@ public class GraphMainController implements Initializable {
      */
     private void initGraph() {
         getModel().addAttribute("ui.quality");
-        getModel().addAttribute("layout.quality",4);
+        getModel().addAttribute("layout.quality", 4);
         getModel().addAttribute("ui.antialias");
     }
 
@@ -121,19 +118,17 @@ public class GraphMainController implements Initializable {
         for (MouseListener mouseListener : ml) {
             graphView.removeMouseListener(mouseListener);
         }
-        
+
         graphMouseWheelController = new GraphMouseWheelController();
         graphMouseWheelController.init(graphView);
-        
+
         graphAddDelController.init(graphView, graphNodeService);
 
         defaultMouseController = new GraphDefaultMouseController();
-        defaultMouseController.init(graphView, getModel(),graphAddDelController.getTogGroup());
+        defaultMouseController.init(graphView, getModel(), graphAddDelController.getTogGroup());
 
         nodeEditController = new GraphNodeEditController();
         nodeEditController.init(graphView, stackPaneGraphNode.getScene().getWindow());
-        
-        
 
     }
 
@@ -145,7 +140,7 @@ public class GraphMainController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+
         this.graphNodeService = GraphService.getInstance();
         this.graphNodeService.createAgentGraph();
 
@@ -157,7 +152,7 @@ public class GraphMainController implements Initializable {
         this.initGraph();
 
         graphAddDelController.init(graphView, graphNodeService);
-        
+
         SwingNode swingNode = new SwingNode();
         swingNode.setId("graphNode");
         stackPaneGraphNode.getChildren().add(swingNode);

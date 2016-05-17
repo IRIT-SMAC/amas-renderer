@@ -9,49 +9,48 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 /**
- * The Class AgentGraph. 
- * Represents a graph of agents
+ * The Class AgentGraph. Represents a graph of agents
  */
-public class AgentGraph extends SingleGraph {
-    
-    private Map<String, Object> graphMap = new HashMap<String, Object>();
-    
-    
+public class AgentGraphModel extends SingleGraph {
+
+    private Map<String, Object> graphMap = new HashMap<>();
+
     /**
      * Constuctor for Jackson parser
      */
-    public AgentGraph(){
+    public AgentGraphModel() {
         super("man lol");
     }
-    
+
     /**
      * Instantiates a new agent graph.
      *
-     * @param id the id of the graph
+     * @param id
+     *            the id of the graph
      */
-    public AgentGraph(String id) {
+    public AgentGraphModel(String id) {
         super(id);
     }
 
     @JsonAnyGetter
     public Map<String, Object> any() {
-     return graphMap;
+        return graphMap;
     }
 
-     @JsonAnySetter
+    @JsonAnySetter
     public void set(String name, Object value) {
-     graphMap.put(name, value);
+        graphMap.put(name, value);
     }
-    
-     /**
-      * 
-      * @return the graph map
-      */
+
+    /**
+     * 
+     * @return the graph map
+     */
     public Map<String, Object> getGraphMap() {
         return graphMap;
     }
 
-	public void setGraphMap(Map<String, Object> graphMap) {
-		this.graphMap = graphMap;
-	}
+    public void setGraphMap(Map<String, Object> graphMap) {
+        this.graphMap = graphMap;
+    }
 }

@@ -13,14 +13,14 @@ public class MainController implements Initializable {
 
     @FXML
     private GraphMainController graphMainController;
-    
+
     @FXML
     private ToolController toolController;
-    
+
     @FXML
     private MenuBarController menuBarController;
 
-	@Override
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
@@ -34,6 +34,6 @@ public class MainController implements Initializable {
     }
 
     public MenuBarController getMenuBarController() {
-		return menuBarController;
-	}
+        return menuBarController;
+    }
 }

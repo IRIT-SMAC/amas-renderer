@@ -9,10 +9,7 @@ import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
-import fr.irit.smac.amasrenderer.model.AgentGraph;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Toggle;
+import fr.irit.smac.amasrenderer.model.AgentGraphModel;
 import javafx.scene.control.ToggleGroup;
 
 /**
@@ -21,43 +18,40 @@ import javafx.scene.control.ToggleGroup;
  */
 public class GraphDefaultMouseController extends MouseAdapter {
 
-    /** The view. */
     protected ViewPanel view;
 
-    /** The graph. */
-    protected AgentGraph graph;
+    protected AgentGraphModel graph;
 
-    /** The cur element. */
     protected GraphicElement curElement;
 
-    /** The y1. */
-    protected float x1, y1;
-    
-    /*toggle group of the buttons*/
+    protected float x1;
+
+    protected float y1;
+
+    /* toggle group of the buttons */
     private ToggleGroup toggroup;
-    
+
     /**/
 
     /**
      * Initialize the controller, and adds it to the graph.
-     *
+     * 
      * @param view
-     *            the view
      * @param graph
-     *            the graph
+     * @param toggroup
      */
-    public void init(ViewPanel view, AgentGraph graph, ToggleGroup toggroup) {
+    public void init(ViewPanel view, AgentGraphModel graph, ToggleGroup toggroup) {
         this.view = view;
         this.graph = graph;
         view.addMouseListener(this);
         view.addMouseMotionListener(this);
         this.toggroup = toggroup;
     }
-    
-    private boolean isButtonSelected(){
-        return (toggroup.getSelectedToggle() != null);
+
+    private boolean isButtonSelected() {
+        return toggroup.getSelectedToggle() != null;
     }
-    
+
     /**
      * Used to "unplug" this controller from the graph.
      */
@@ -80,7 +74,7 @@ public class GraphDefaultMouseController extends MouseAdapter {
         // so don't unselect
         if (!event.isShiftDown()) {
             for (Node node : graph) {
-                node.addAttribute("ui.selected"); 
+                node.addAttribute("ui.selected");
                 // nonsense line, but don't always work without it
                 node.removeAttribute("ui.selected");
                 node.addAttribute("ui.clicked");
@@ -118,7 +112,8 @@ public class GraphDefaultMouseController extends MouseAdapter {
         view.freezeElement(element, true);
         if (SwingUtilities.isRightMouseButton(event)) {
             element.addAttribute("ui.selected");
-        } else {
+        }
+        else {
             element.addAttribute("ui.clicked");
         }
     }
@@ -153,17 +148,6 @@ public class GraphDefaultMouseController extends MouseAdapter {
     }
 
     /**
-     * Mouse clicked.
-     *
-     * @param event
-     *            the Mouse Event
-     * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
-     */
-    public void mouseClicked(MouseEvent event) {
-        // NOP
-    }
-
-    /**
      * On mousePress gets the node at the left click location, if there is a
      * node sets it as curElement to be dragged trough mouseButtonPressOnElement
      * COMMENTED: Else it means the user wants to create a selection box trough
@@ -173,14 +157,16 @@ public class GraphDefaultMouseController extends MouseAdapter {
      *            the Mouse Event
      * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
      */
+    @Override
     public void mousePressed(MouseEvent event) {
-        if(SwingUtilities.isLeftMouseButton(event) && !isButtonSelected() && ! event.isControlDown() && ! event.isShiftDown()){
+        if (SwingUtilities.isLeftMouseButton(event) && !isButtonSelected() && !event.isControlDown()
+            && !event.isShiftDown()) {
             curElement = view.findNodeOrSpriteAt(event.getX(), event.getY());
             if (curElement != null) {
                 mouseButtonPress(event);
                 mouseButtonPressOnElement(curElement, event);
             }
-        }        
+        }
     }
 
     /**
@@ -192,13 +178,11 @@ public class GraphDefaultMouseController extends MouseAdapter {
      *            the Mouse Event
      * @see java.awt.event.MouseAdapter#mouseDragged(java.awt.event.MouseEvent)
      */
+    @Override
     public void mouseDragged(MouseEvent event) {
-        if(SwingUtilities.isLeftMouseButton(event) && !isButtonSelected() && ! event.isControlDown() && ! event.isShiftDown()){
-            if (curElement != null) {
-                elementMoving(curElement, event);
-            }/* else {
-                view.selectionGrowsAt(event.getX(), event.getY());
-            }*/
+        if (SwingUtilities.isLeftMouseButton(event) && !isButtonSelected() && !event.isControlDown()
+            && !event.isShiftDown() && curElement != null) {
+            elementMoving(curElement, event);
         }
     }
 
@@ -212,30 +196,12 @@ public class GraphDefaultMouseController extends MouseAdapter {
      *            the Mouse Event
      * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
      */
+    @Override
     public void mouseReleased(MouseEvent event) {
-        if(SwingUtilities.isLeftMouseButton(event) && !isButtonSelected() && ! event.isControlDown() && ! event.isShiftDown()){
-            if (curElement != null) {
-                mouseButtonReleaseOffElement(curElement, event);
-                curElement = null;
-            }/* else {
-                float x2 = event.getX();
-                float y2 = event.getY();
-                float t;
-    
-                if (x1 > x2) {
-                    t = x1;
-                    x1 = x2;
-                    x2 = t;
-                }
-                if (y1 > y2) {
-                    t = y1;
-                    y1 = y2;
-                    y2 = t;
-                }
-    
-                mouseButtonRelease(event, view.allNodesOrSpritesIn(x1, y1, x2, y2));
-                view.endSelectionAt(x2, y2);
-            }*/
+        if (SwingUtilities.isLeftMouseButton(event) && !isButtonSelected() && !event.isControlDown()
+            && !event.isShiftDown() && curElement != null) {
+            mouseButtonReleaseOffElement(curElement, event);
+            curElement = null;
         }
     }
 }

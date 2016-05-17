@@ -1,10 +1,11 @@
 package fr.irit.smac.amasrenderer.controller.attribute;
 
-import org.graphstream.graph.Node;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import fr.irit.smac.amasrenderer.model.Stock;
+import org.graphstream.graph.Node;
+
+import fr.irit.smac.amasrenderer.model.StockModel;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -38,7 +39,7 @@ public class TreeModifyController implements Initializable {
 
     private TreeItem<String> oldTree;
 
-    private Stock stock;
+    private StockModel stock;
 
     private Stage dialogStage;
     
@@ -73,7 +74,7 @@ public class TreeModifyController implements Initializable {
      * @param s
      *            the new stock
      */
-    public void setStock(Stock s) {
+    public void setStock(StockModel s) {
         baseAgentName = s.getRoot().getValue();
         stock = s;
         tree.setRoot(deepcopy(s.getRoot()));
@@ -112,7 +113,7 @@ public class TreeModifyController implements Initializable {
      * @return a copy of the tree item the tree item
      */
     private TreeItem<String> deepcopy(TreeItem<String> item) {
-        TreeItem<String> copy = new TreeItem<String>(item.getValue());
+        TreeItem<String> copy = new TreeItem<>(item.getValue());
         for (TreeItem<String> child : item.getChildren()) {
             copy.getChildren().add(deepcopy(child));
         }
@@ -155,6 +156,7 @@ public class TreeModifyController implements Initializable {
             menu.getItems().add(addItem);
             addItem.setId("addAttributeItem");
             addItem.setOnAction(new EventHandler() {
+                @Override
                 public void handle(Event t) {
                     TreeItem newItem = new TreeItem<String>("Nouvel attribut");
                     getTreeItem().getChildren().add(newItem);
@@ -166,6 +168,7 @@ public class TreeModifyController implements Initializable {
             menu.getItems().add(removeItem);
             removeItem.setId("removeAttributeItem");
             removeItem.setOnAction(new EventHandler() {
+                @Override
                 public void handle(Event t) {
                     getTreeItem().getParent().getChildren().remove(getTreeItem());
                 }

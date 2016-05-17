@@ -12,7 +12,7 @@ import org.graphstream.ui.swingViewer.ViewPanel;
 
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.attribute.TreeModifyController;
-import fr.irit.smac.amasrenderer.model.Stock;
+import fr.irit.smac.amasrenderer.model.StockModel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,31 +25,33 @@ import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
 /**
- * The Class GraphNodeEditController.
- * This controller gets node information on click, it is linked to the Stock class
+ * The Class GraphNodeEditController. This controller gets node information on
+ * click, it is linked to the Stock class
  */
-public class GraphNodeEditController extends MouseAdapter{
-    
+public class GraphNodeEditController extends MouseAdapter {
+
     private ViewPanel graphView;
 
     private Window window;
-    
-    /*the modal window, in static for test purposes*/
+
+    /* the modal window, in static for test purposes */
     private static BorderPane root3;
-    
+
     /** The attribute synthesis. (for display) */
     @FXML
     private TextArea attributeSynthesis;
-    
+
     public GraphNodeEditController() {
-        
+
     }
-    
+
     /**
      * Inits the controller.
      *
-     * @param graphView the graph view
-     * @param window the parent window
+     * @param graphView
+     *            the graph view
+     * @param window
+     *            the parent window
      */
     public void init(ViewPanel graphView, Window window) {
         this.graphView = graphView;
@@ -57,72 +59,76 @@ public class GraphNodeEditController extends MouseAdapter{
         this.graphView.addMouseListener(this);
 
     }
-    
+
     /**
      * gets the modal window, for testing purposes
+     * 
      * @return the modal window
      */
     public static BorderPane getRoot3() {
         return root3;
     }
-    
+
     /**
-     *  
      * 
-     * On mouse press, if there is a node on clic location gets that node and ( for now ) return a string with node information in it
-     * displays it in a text area.
      * 
-     * @param e the e
+     * On mouse press, if there is a node on clic location gets that node and (
+     * for now ) return a string with node information in it displays it in a
+     * text area.
+     * 
+     * @param e
+     *            the e
      * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
      */
     @Override
     public void mousePressed(MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e) && !e.isShiftDown() && !e.isControlDown()) {
-            
+
             GraphicElement elt = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
             if (elt != null && elt instanceof Node) {
                 Node node = (Node) elt;
-                Stock s = node.getAttribute("ui.stocked-info");
+                StockModel s = node.getAttribute("ui.stocked-info");
                 Platform.runLater(new Runnable() {
-                    @Override public void run() {
-                       
+                    @Override
+                    public void run() {
+
                         FXMLLoader loaderServices = new FXMLLoader();
-                        
+
                         loaderServices.setLocation(Main.class.getResource("view/GraphAttributes.fxml"));
                         root3 = null;
-                            try {
-                                root3 = loaderServices.load();
-                            }
-                            catch (IOException e1) {
-                                // TODO Auto-generated catch block
-                                e1.printStackTrace();
-                            }
+                        try {
+                            root3 = loaderServices.load();
 
-                        TreeModifyController treeModifyController = loaderServices.getController();
-                        
-                        Stage dialogStage = new Stage();
-                        dialogStage.setTitle("Modification d'attribut");
+                            TreeModifyController treeModifyController = loaderServices.getController();
 
-                        dialogStage.initModality(Modality.WINDOW_MODAL);
-                        dialogStage.initOwner(window);
-                        Scene miniScene = new Scene(root3);
-                        dialogStage.setScene(miniScene);
-                        dialogStage.initStyle(StageStyle.UNDECORATED);
+                            Stage dialogStage = new Stage();
+                            dialogStage.setTitle("Modification d'attribut");
 
-                        double x = window.getX() + (window.getWidth() - root3.getPrefWidth()) / 2;
-                        double y = window.getY() + (window.getHeight() - root3.getPrefHeight()) / 2;
-                        dialogStage.setX(x);
-                        dialogStage.setY(y);
-                        
-                        treeModifyController.setStage(dialogStage);
-                        treeModifyController.setStock(s);
-                        treeModifyController.setNode(node);
-                        
-                        dialogStage.showAndWait();
+                            dialogStage.initModality(Modality.WINDOW_MODAL);
+                            dialogStage.initOwner(window);
+                            Scene miniScene = new Scene(root3);
+                            dialogStage.setScene(miniScene);
+                            dialogStage.initStyle(StageStyle.UNDECORATED);
+
+                            double x = window.getX() + (window.getWidth() - root3.getPrefWidth()) / 2;
+                            double y = window.getY() + (window.getHeight() - root3.getPrefHeight()) / 2;
+                            dialogStage.setX(x);
+                            dialogStage.setY(y);
+
+                            treeModifyController.setStage(dialogStage);
+                            treeModifyController.setStock(s);
+                            treeModifyController.setNode(node);
+
+                            dialogStage.showAndWait();
+                        }
+                        catch (IOException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
                     }
-                    
+
                 });
-                
+
             }
         }
     }
