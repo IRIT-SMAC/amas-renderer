@@ -42,6 +42,8 @@ public class TreeModifyController implements Initializable {
 
     private Stage dialogStage;
     
+    private String baseAgentName;
+    
     /**the node being modified*/
     private Node node;
     
@@ -72,6 +74,7 @@ public class TreeModifyController implements Initializable {
      *            the new stock
      */
     public void setStock(Stock s) {
+        baseAgentName = s.getRoot().getValue();
         stock = s;
         tree.setRoot(deepcopy(s.getRoot()));
         this.oldTree = new TreeItem<>();
@@ -84,14 +87,8 @@ public class TreeModifyController implements Initializable {
      */
     public void confirmButton() {
         stock.setRoot(tree.getRoot());
-        if(newAgentName != null){
-            /*if(newAgentName.length()>3){
-                //newAgentName = newAgentName.substring(0, 3);
-                node.setAttribute("ui.class", "long");
-                System.out.println("fuck graphstream");
-            } else {
-                node.removeAttribute("ui.class");
-            }*/
+        newAgentName = tree.getRoot().getValue();
+        if(newAgentName != baseAgentName){
             node.setAttribute("ui.label", newAgentName);
         }
         dialogStage.close();

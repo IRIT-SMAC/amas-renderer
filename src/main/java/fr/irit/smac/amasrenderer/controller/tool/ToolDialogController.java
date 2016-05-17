@@ -34,7 +34,7 @@ public class ToolDialogController implements Initializable {
     @FXML
     private TextField textfieldTool;
     
-    private HashMap<Label,TreeItem<String>> map;
+    private HashMap<String,TreeItem<String>> map;
 
     /**
      * @param list
@@ -57,19 +57,19 @@ public class ToolDialogController implements Initializable {
 				&& !textfieldTool.getText().trim().isEmpty()
 				&& !textfieldTool.getText().trim().contains(" ")){
 
-            Label newTool = new Label(textfieldTool.getText().trim());
-            newTool.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
+            String newTool = textfieldTool.getText().trim();
+//            newTool.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
             
             boolean found = false;
 
             for (String item : ToolService.getInstance().getTools()) {
-                if (item.equals(newTool.getText())) {
+                if (item.equals(newTool)) {
                     found = true;
                 }
             }
 
             if (!found) {
-                ToolService.getInstance().getTools().add(newTool.getText());
+                ToolService.getInstance().getTools().add(newTool);
                 System.out.println(this.map);
             }
 
@@ -90,8 +90,8 @@ public class ToolDialogController implements Initializable {
         ((Stage) buttonCancel.getScene().getWindow()).close();
 	}
     
-    public void setAttributeMap(HashMap<Label,TreeItem<String>> map){
-        this.map = map;
+    public void setAttributeMap(HashMap<String, TreeItem<String>> attributeMap){
+        this.map = attributeMap;
     }
 
 

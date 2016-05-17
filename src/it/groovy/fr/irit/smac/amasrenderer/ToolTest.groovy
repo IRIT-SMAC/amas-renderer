@@ -1,7 +1,6 @@
 package fr.irit.smac.amasrenderer
 
 import javafx.fxml.FXMLLoader
-import javafx.scene.control.Label
 import javafx.scene.control.ListView
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
@@ -41,8 +40,24 @@ class ToolTest extends GuiSpecification{
 				.clickOn("#buttonConfirm")
 
 		then:
-		Label service = ((ListView<Label>) rootLayout.lookup("#listTool")).getItems().get(0)
-		service.getText() == "dancingService"
+		String service = ((ListView<String>) rootLayout.lookup("#listTool")).getItems().get(0)
+		service == "dancingService"
 	}
+    
+    def "check if a tool is deleted by clicking on the corresponding button"() {
+        given:
+        println "addition of a service - toggle button + click"
+        fx.clickOn("#buttonAddService")
+                .clickOn("#textfieldTool")
+                .write("dancingService")
+                .clickOn("#buttonConfirm")
+        when:
+        int beforeDelSize = ((ListView<String>) rootLayout.lookup("#listTool")).getItems().size()
+        String service = ((ListView<String>) rootLayout.lookup("#listTool")).getItems().get(0)
+        fx.clickOn(service)
+        .clickOn("#delButton")
+        then:
+        ((ListView<String>) rootLayout.lookup("#listTool")).getItems().size() == beforeDelSize - 1
+    }
 
 }

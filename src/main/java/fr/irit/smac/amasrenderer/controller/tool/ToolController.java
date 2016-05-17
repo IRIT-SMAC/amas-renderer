@@ -47,7 +47,7 @@ public class ToolController implements Initializable {
     private Button buttonAddService;
 
     @FXML
-    private ListView<Label> listTool;
+    private ListView<String> listTool;
     
     @FXML
     private Label infrastructureLabel;
@@ -57,18 +57,18 @@ public class ToolController implements Initializable {
     
     private Stage stage;
     private static BorderPane root3;
-    private HashMap<Label,TreeItem<String>> attributeMap = new HashMap<Label, TreeItem<String>>();
+    private HashMap<String,TreeItem<String>> attributeMap = new HashMap<String, TreeItem<String>>();
     private static final Logger LOGGER = Logger.getLogger(ToolController.class.getName());
 
     
     public ToolController() {
-    	
-   	}
+        
+    }
     
     @FXML
     public void handleMouseClick(MouseEvent e){
-        Label selectedLabel =  listTool.getSelectionModel().getSelectedItem();
-        if(selectedLabel != null){
+        String selectedLabel =  listTool.getSelectionModel().getSelectedItem();
+        if(selectedLabel != null && selectedLabel != ""){
             Platform.runLater(new Runnable() {
                 @Override public void run() {
                    
@@ -98,8 +98,7 @@ public class ToolController implements Initializable {
                     dialogStage.setMinWidth(440);
                     
                     serviceModifyController.setStage(dialogStage);
-                    System.out.println(attributeMap);
-                    System.out.println(listTool);
+                    System.out.println(listTool.getItems()+" danzodihazdgah");
                     serviceModifyController.init(attributeMap, listTool);
                     
                     
@@ -124,7 +123,6 @@ public class ToolController implements Initializable {
         ToolDialogController toolDialogController = loader.getController();
 //        toolDialogController.setList(listTool);
         toolDialogController.setAttributeMap(attributeMap);
-//        toolDialogController.i
         stage.initModality(Modality.WINDOW_MODAL);
         Window window = buttonAddService.getScene().getWindow();
         stage.initOwner(buttonAddService.getScene().getWindow());
@@ -148,44 +146,50 @@ public class ToolController implements Initializable {
         
         List<String> lines = new ArrayList<String>();
         
-        createLines(lines);
+        generateInfrastructure(lines);
+        generateServices(lines);
         
-        try {
-            Files.write(file.toPath(), lines, Charset.forName("UTF-8"));
-        } catch (IOException e) {
-            LOGGER.log(Level.INFO, "Couldn't create the file" , e);
-        }
+//      try {
+//          Files.write(file.toPath(), lines, Charset.forName("UTF-8"));
+//      } catch (IOException e) {
+//          LOGGER.log(Level.INFO, "Couldn't create the file" , e);
+//      }
         
     }
 
-    private void createLines(List<String> lines) {
-      lines.add("{");
-      lines.add("\t\"classname\":\""+InfrastructureService.getInstance().getInfrastructure().get(0)+"\"}");
+    private void generateInfrastructure(List<String> lines) {
+        lines.add("\t\"classname\":\""+InfrastructureService.getInstance().getInfrastructure().get(0)+"\"},");
     }
     
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-    	
-		ArrayList<String> list = new ArrayList<>();
-    	for (Label label: listTool.getItems()) {
-    		list.add(label.getText());
-    	}
-    	
-    	ToolService.getInstance().setTools(FXCollections.observableArrayList(list));	
+    private void generateServices(List<String> lines) {
+        List<String> services = ToolService.getInstance().getTools();
+        for(String service : services) {
+            TreeItem<String> serviceAttribute = attributeMap.get(service);
+            System.out.println(serviceAttribute);
+        }
+    }
+    
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        
+        ArrayList<String> list = new ArrayList<>();
+        for (String tool: listTool.getItems()) {
+            list.add(tool);
+        }
+        
+        ToolService.getInstance().setTools(FXCollections.observableArrayList(list));    
 
         ToolService.getInstance().getTools().addListener(new ListChangeListener<String>(){
             @Override
             public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
                 String newTool = ToolService.getInstance().getTools().get(ToolService.getInstance().getTools().size() - 1);
-                Label newToolLabel = new Label(newTool);
-                newToolLabel.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
-                attributeMap.put(newToolLabel, new TreeItem<String>(newToolLabel.getText()));
-                listTool.getItems().add(newToolLabel);
+                attributeMap.put(newTool, new TreeItem<String>(newTool));
+                listTool.getItems().add(newTool);
             }
         });
         
         InfrastructureService.getInstance().setInfrastructure(FXCollections.observableArrayList(new ArrayList<>()));
-    	
+        
         InfrastructureService.getInstance().getInfrastructure().addListener(new ListChangeListener<String>(){
 
             @Override
@@ -195,6 +199,6 @@ public class ToolController implements Initializable {
             }
 
         });
-	}
+    }
 
 }

@@ -2,6 +2,7 @@ package fr.irit.smac.amasrenderer.controller.tool;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -9,6 +10,9 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -17,6 +21,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.TreeView.EditEvent;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -35,19 +40,22 @@ public class ToolModifyController implements Initializable {
     private Button cancButton;
 
     @FXML
+    private Button delButton;
+
+    @FXML
     private TreeView<String> tree;
 
     private TreeItem<String> value;
 
-    private HashMap<Label,TreeItem<String>> attributeMap = new HashMap<Label, TreeItem<String>>();
+    private HashMap<String,TreeItem<String>> attributeMap = new HashMap<String, TreeItem<String>>();
     
     private Stage dialogStage;
     
-    private Label key;
+    private String key;
     
-    private ListView<Label> list;
+    private ListView<String> list;
     
-    private Label baseRootName;
+    private String baseRootName;
     
     /**the new agent name*/
     private String newServiceName = null;
@@ -65,37 +73,57 @@ public class ToolModifyController implements Initializable {
      * sets the node to be modified
      * @param node the node to modify
      */
-    public void setKey(Label label) {
+    public void setKey(String label) {
         this.key = label;
     }
     
-    public void setAttributeMap(HashMap<Label, TreeItem<String>> attributeMap) {
+    public void setAttributeMap(HashMap<String, TreeItem<String>> attributeMap) {
         this.attributeMap = attributeMap;
     }
     
-    public void init(HashMap<Label, TreeItem<String>> attributeMap,ListView<Label> list){
+    public void init(HashMap<String, TreeItem<String>> attributeMap,ListView<String> list){
         setAttributeMap(attributeMap);
         setKey(list.getSelectionModel().getSelectedItem());
         this.list = list;
-        System.out.println(key);
-        System.out.println("hey" + attributeMap);
-        System.out.println(attributeMap);
-        System.out.println(attributeMap.get(key));
         tree.setRoot(deepcopy(attributeMap.get(key)));
         baseRootName = key;
+        
+        /*tree.setOnEditCommit(new EventHandler<TreeView.EditEvent<String>>() {
+            @Override
+            public void handle(EditEvent<String> event) {
+                if(event.getNewValue().trim().isEmpty() && event.getOldValue() != event.getNewValue()){
+//                    event.getTreeItem().setValue(event.getOldValue());
+//                    tree.getEditingItem().setValue(event.getOldValue());
+                    event.fireEvent(event.getTarget(), event);
+                }
+            }
+        });*/
     }
     
-
+    
+    
+    /**
+     * deletes the service ( no confirmation )
+     * */
+    @FXML
+    private void deleteButton(){
+        list.getItems().remove(key);
+        attributeMap.remove(key);
+        dialogStage.close();
+    }
+    
+    
     /**
      * Confirm button. sets the new tree as the node tree, and exit this window
      */
+    @FXML
     public void confirmButton() {
         value = (tree.getRoot());
         attributeMap.put(key, value);
         newServiceName = tree.getRoot().getValue();
-        if(newServiceName != baseRootName.getText()){
+        if(newServiceName != baseRootName){
             list.getItems().remove(key);
-            key.setText(newServiceName);
+            key = newServiceName;
             list.getItems().add(key);
             attributeMap.put(key,attributeMap.remove(baseRootName));
         }
@@ -184,6 +212,73 @@ public class ToolModifyController implements Initializable {
                 setContextMenu(menu);
             }
         }
+        
+        /**
+         * This commitEdit is the same as super.commitEdit
+         * I copied it to allow for mid commit check of the newValue
+         * This version checks if the newValue is empty (or whitespaces only)  
+         * and if it is, stops the edit. 
+         */
+        @Override
+        public void commitEdit(String newValue) {
+            if (! isEditing()) return;
+            final TreeItem<String> treeItem = getTreeItem();
+            final TreeView<String> tree = getTreeView();
+            if (tree != null) {
+                // Inform the TreeView of the edit being ready to be committed.
+                tree.fireEvent(new TreeView.EditEvent<String>(tree,
+                        TreeView.<String>editCommitEvent(),
+                        treeItem,
+                        getItem(),
+                        newValue));
+            }
+            
+            if(newValue.trim().isEmpty()){
+                return;
+            }
+
+            // inform parent classes of the commit, so that they can switch us
+            // out of the editing state.
+            // This MUST come before the updateItem call below, otherwise it will
+            // call cancelEdit(), resulting in both commit and cancel events being
+            // fired (as identified in RT-29650)
+            super.commitEdit(newValue);
+            
+            // update the item within this cell, so that it represents the new value
+            if (treeItem != null) {
+                treeItem.setValue(newValue);
+                updateTreeItem(treeItem);
+                updateItem(newValue, false);
+            }
+            
+            if (tree != null) {
+                // reset the editing item in the TreetView
+                tree.edit(null);
+
+                // request focus back onto the tree, only if the current focus
+                // owner has the tree as a parent (otherwise the user might have
+                // clicked out of the tree entirely and given focus to something else.
+                // It would be rude of us to request it back again.
+                Scene scene = tree.getScene();
+                final Node focusOwner = scene == null ? null : scene.getFocusOwner();
+                if (focusOwner == null) {
+                    tree.requestFocus();
+                } else if (! tree.equals(focusOwner)) {
+                    Parent p = focusOwner.getParent();
+                    while (p != null) {
+                        if (tree.equals(p)) {
+                            tree.requestFocus();
+                            break;
+                        }
+                        p = p.getParent();
+                    }
+                }
+            }
+
+        }
+        
+        
+        
     }
 
 }
