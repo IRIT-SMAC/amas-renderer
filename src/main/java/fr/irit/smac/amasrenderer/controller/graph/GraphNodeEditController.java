@@ -6,13 +6,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.sound.midi.MidiDevice.Info;
 import javax.swing.SwingUtilities;
 
 import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.swingViewer.ViewPanel;
-import org.jfree.util.Log;
 
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.attribute.TreeModifyController;
@@ -39,15 +37,11 @@ public class GraphNodeEditController extends MouseAdapter {
 
     private Window window;
 
-    /** The attribute synthesis. (for display) */
     @FXML
     private TextArea attributeSynthesis;
 
-    /* TODO : the modal window, in static for test purposes */
-    private static BorderPane root3;
-    
-    private static final Logger               LOGGER       = Logger.getLogger(ToolController.class.getName());
-    
+    private static final Logger LOGGER = Logger.getLogger(ToolController.class.getName());
+
     public GraphNodeEditController() {
 
     }
@@ -65,15 +59,6 @@ public class GraphNodeEditController extends MouseAdapter {
         this.window = window;
         this.graphView.addMouseListener(this);
 
-    }
-
-    /**
-     * gets the modal window, for testing purposes
-     * 
-     * @return the modal window
-     */
-    public static BorderPane getRoot3() {
-        return root3;
     }
 
     /**
@@ -96,41 +81,38 @@ public class GraphNodeEditController extends MouseAdapter {
                 Node node = (Node) elt;
                 StockModel s = node.getAttribute("ui.stocked-info");
                 Platform.runLater(() -> {
-       
 
-                        FXMLLoader loaderServices = new FXMLLoader();
+                    FXMLLoader loaderServices = new FXMLLoader();
 
-                        loaderServices.setLocation(Main.class.getResource("view/GraphAttributes.fxml"));
-                        root3 = null;
-                        try {
-                            root3 = loaderServices.load();
+                    loaderServices.setLocation(Main.class.getResource("view/GraphAttributes.fxml"));
+                    try {
+                        BorderPane root = loaderServices.load();
 
-                            TreeModifyController treeModifyController = loaderServices.getController();
+                        TreeModifyController treeModifyController = loaderServices.getController();
 
-                            Stage dialogStage = new Stage();
-                            dialogStage.setTitle("Modification d'attribut");
+                        Stage dialogStage = new Stage();
+                        dialogStage.setTitle("Modification d'attribut");
 
-                            dialogStage.initModality(Modality.WINDOW_MODAL);
-                            dialogStage.initOwner(window);
-                            Scene miniScene = new Scene(root3);
-                            dialogStage.setScene(miniScene);
-                            dialogStage.initStyle(StageStyle.UNDECORATED);
+                        dialogStage.initModality(Modality.WINDOW_MODAL);
+                        dialogStage.initOwner(window);
+                        Scene miniScene = new Scene(root);
+                        dialogStage.setScene(miniScene);
+                        dialogStage.initStyle(StageStyle.UNDECORATED);
 
-                            double x = window.getX() + (window.getWidth() - root3.getPrefWidth()) / 2;
-                            double y = window.getY() + (window.getHeight() - root3.getPrefHeight()) / 2;
-                            dialogStage.setX(x);
-                            dialogStage.setY(y);
+                        double x = window.getX() + (window.getWidth() - root.getPrefWidth()) / 2;
+                        double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
+                        dialogStage.setX(x);
+                        dialogStage.setY(y);
 
-                            treeModifyController.setStage(dialogStage);
-                            treeModifyController.setStock(s);
-                            treeModifyController.setNode(node);
+                        treeModifyController.setStage(dialogStage);
+                        treeModifyController.setStock(s);
+                        treeModifyController.setNode(node);
 
-                            dialogStage.showAndWait();
-                        }
-                        catch (IOException e2) {
-                            LOGGER.log(Level.SEVERE, "The loading of the graph attributes fxml failed", e2);
-                        }
-                    
+                        dialogStage.showAndWait();
+                    }
+                    catch (IOException e2) {
+                        LOGGER.log(Level.SEVERE, "The loading of the graph attributes fxml failed", e2);
+                    }
 
                 });
 

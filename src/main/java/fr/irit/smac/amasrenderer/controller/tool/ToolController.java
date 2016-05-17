@@ -50,8 +50,8 @@ public class ToolController implements Initializable {
     @FXML
     private Button generateButton;
 
-    private Stage                             stage;
-    private static BorderPane                 root3;
+    private Stage stage;
+
     private HashMap<String, TreeItem<String>> attributeMap = new HashMap<>();
     private static final Logger               LOGGER       = Logger.getLogger(ToolController.class.getName());
 
@@ -67,7 +67,7 @@ public class ToolController implements Initializable {
 
                 FXMLLoader loaderServices = new FXMLLoader();
                 loaderServices.setLocation(Main.class.getResource("view/ServiceAttributes.fxml"));
-                root3 = null;
+                BorderPane root3;
                 try {
                     root3 = loaderServices.load();
 

@@ -22,9 +22,9 @@ import javafx.stage.FileChooser;
  */
 public class MenuBarController {
 
-    GraphService          graphService          = GraphService.getInstance();
-    ToolService           toolService           = ToolService.getInstance();
-    InfrastructureService infrastructureService = InfrastructureService.getInstance();
+    private GraphService          graphService          = GraphService.getInstance();
+    private ToolService           toolService           = ToolService.getInstance();
+    private InfrastructureService infrastructureService = InfrastructureService.getInstance();
 
     private static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
 
@@ -73,5 +73,6 @@ public class MenuBarController {
         // TODO Popup à propos
         LOGGER.log(Level.INFO, "Popup à propos");
     }
+    
 
 }
