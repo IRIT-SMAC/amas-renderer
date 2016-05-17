@@ -73,46 +73,46 @@ public class GraphNodeEditController extends MouseAdapter {
         if (SwingUtilities.isRightMouseButton(e) && !e.isShiftDown() && !e.isControlDown()) {
 
             GraphicElement elt = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-            if (elt != null && elt instanceof Node) {
-                Node node = (Node) elt;
-                StockModel s = node.getAttribute("ui.stocked-info");
-                Platform.runLater(() -> {
-
-                    FXMLLoader loaderServices = new FXMLLoader();
-
-                    loaderServices.setLocation(Main.class.getResource("view/GraphAttributes.fxml"));
-                    try {
-                        BorderPane root = loaderServices.load();
-
-                        TreeModifyController treeModifyController = loaderServices.getController();
-
-                        Stage dialogStage = new Stage();
-                        dialogStage.setTitle("Modification d'attribut");
-
-                        dialogStage.initModality(Modality.WINDOW_MODAL);
-                        dialogStage.initOwner(window);
-                        Scene miniScene = new Scene(root);
-                        dialogStage.setScene(miniScene);
-                        dialogStage.initStyle(StageStyle.UNDECORATED);
-
-                        double x = window.getX() + (window.getWidth() - root.getPrefWidth()) / 2;
-                        double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
-                        dialogStage.setX(x);
-                        dialogStage.setY(y);
-
-                        treeModifyController.setStage(dialogStage);
-                        treeModifyController.setStock(s);
-                        treeModifyController.setNode(node);
-
-                        dialogStage.showAndWait();
-                    }
-                    catch (IOException e2) {
-                        LOGGER.log(Level.SEVERE, "The loading of the graph attributes fxml failed", e2);
-                    }
-
-                });
-
+            if (elt != null && elt instanceof Node) {               
+                Platform.runLater(() -> loadFxml((Node) elt));
             }
+        }
+    }
+
+    /**
+     * Load the graph attributes fxml
+     */
+    public void loadFxml(Node node) {
+        FXMLLoader loaderServices = new FXMLLoader();
+
+        loaderServices.setLocation(Main.class.getResource("view/GraphAttributes.fxml"));
+        try {
+            BorderPane root = loaderServices.load();
+
+            TreeModifyController treeModifyController = loaderServices.getController();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Modification d'attribut");
+
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(window);
+            Scene miniScene = new Scene(root);
+            dialogStage.setScene(miniScene);
+            dialogStage.initStyle(StageStyle.UNDECORATED);
+
+            double x = window.getX() + (window.getWidth() - root.getPrefWidth()) / 2;
+            double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
+            dialogStage.setX(x);
+            dialogStage.setY(y);
+
+            treeModifyController.setStage(dialogStage);
+            treeModifyController.setStock(node.getAttribute("ui.stocked-info"));
+            treeModifyController.setNode(node);
+
+            dialogStage.showAndWait();
+        }
+        catch (IOException e2) {
+            LOGGER.log(Level.SEVERE, "The loading of the graph attributes fxml failed", e2);
         }
     }
 }

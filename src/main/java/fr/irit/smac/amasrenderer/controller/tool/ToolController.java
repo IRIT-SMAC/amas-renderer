@@ -59,40 +59,43 @@ public class ToolController implements Initializable {
     public void handleMouseClick() {
         String selectedLabel = listTool.getSelectionModel().getSelectedItem();
         if (selectedLabel != null && selectedLabel != "") {
-            Platform.runLater(() -> {
+            Platform.runLater(() -> loadFxml());
+        }
+    }
 
-                FXMLLoader loaderServices = new FXMLLoader();
-                loaderServices.setLocation(Main.class.getResource("view/ServiceAttributes.fxml"));
-                BorderPane root3;
-                try {
-                    root3 = loaderServices.load();
+    /**
+     * Load the services attributes fxml
+     */
+    public void loadFxml() {
+        FXMLLoader loaderServices = new FXMLLoader();
+        loaderServices.setLocation(Main.class.getResource("view/ServiceAttributes.fxml"));
+        BorderPane root3;
+        try {
+            root3 = loaderServices.load();
 
-                    ToolModifyController serviceModifyController = loaderServices.getController();
+            ToolModifyController serviceModifyController = loaderServices.getController();
 
-                    Stage dialogStage = new Stage();
-                    dialogStage.setTitle("Modification d'attribut");
-                    // fenetre modale, obligation de quitter pour revenir a la
-                    // fenetre principale
-                    dialogStage.initModality(Modality.WINDOW_MODAL);
-                    dialogStage.initOwner(buttonAddService.getScene().getWindow());
-                    Scene miniScene = new Scene(root3);
-                    dialogStage.setScene(miniScene);
-                    dialogStage.initStyle(StageStyle.UNDECORATED);
-                    dialogStage.setMinHeight(380);
-                    dialogStage.setMinWidth(440);
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Modification d'attribut");
+            // fenetre modale, obligation de quitter pour revenir a la
+            // fenetre principale
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(buttonAddService.getScene().getWindow());
+            Scene miniScene = new Scene(root3);
+            dialogStage.setScene(miniScene);
+            dialogStage.initStyle(StageStyle.UNDECORATED);
+            dialogStage.setMinHeight(380);
+            dialogStage.setMinWidth(440);
 
-                    serviceModifyController.setStage(dialogStage);
-                    System.out.println(listTool.getItems() + " danzodihazdgah");
-                    serviceModifyController.init(attributeMap, listTool);
+            serviceModifyController.setStage(dialogStage);
+            serviceModifyController.init(attributeMap, listTool);
 
-                    dialogStage.showAndWait();
-                    listTool.getSelectionModel().clearSelection();
-                }
-                catch (IOException e) {
-                    LOGGER.log(Level.SEVERE, "The loading of the services attributes fxml failed", e);
+            dialogStage.showAndWait();
+            listTool.getSelectionModel().clearSelection();
+        }
+        catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "The loading of the services attributes fxml failed", e);
 
-                }
-            });
         }
     }
 
