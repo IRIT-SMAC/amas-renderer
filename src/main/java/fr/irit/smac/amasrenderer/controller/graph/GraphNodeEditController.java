@@ -3,15 +3,20 @@ package fr.irit.smac.amasrenderer.controller.graph;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.sound.midi.MidiDevice.Info;
 import javax.swing.SwingUtilities;
 
 import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.swingViewer.ViewPanel;
+import org.jfree.util.Log;
 
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.attribute.TreeModifyController;
+import fr.irit.smac.amasrenderer.controller.tool.ToolController;
 import fr.irit.smac.amasrenderer.model.StockModel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -34,13 +39,15 @@ public class GraphNodeEditController extends MouseAdapter {
 
     private Window window;
 
-    /* the modal window, in static for test purposes */
-    private static BorderPane root3;
-
     /** The attribute synthesis. (for display) */
     @FXML
     private TextArea attributeSynthesis;
 
+    /* TODO : the modal window, in static for test purposes */
+    private static BorderPane root3;
+    
+    private static final Logger               LOGGER       = Logger.getLogger(ToolController.class.getName());
+    
     public GraphNodeEditController() {
 
     }
@@ -120,9 +127,8 @@ public class GraphNodeEditController extends MouseAdapter {
 
                             dialogStage.showAndWait();
                         }
-                        catch (IOException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
+                        catch (IOException e2) {
+                            LOGGER.log(Level.SEVERE, "The loading of the graph attributes fxml failed", e2);
                         }
                     
 

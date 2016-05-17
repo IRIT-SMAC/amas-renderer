@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import fr.irit.smac.amasrenderer.Main;
@@ -69,33 +70,32 @@ public class ToolController implements Initializable {
                 root3 = null;
                 try {
                     root3 = loaderServices.load();
+
+                    ToolModifyController serviceModifyController = loaderServices.getController();
+
+                    Stage dialogStage = new Stage();
+                    dialogStage.setTitle("Modification d'attribut");
+                    // fenetre modale, obligation de quitter pour revenir a la
+                    // fenetre principale
+                    dialogStage.initModality(Modality.WINDOW_MODAL);
+                    dialogStage.initOwner(buttonAddService.getScene().getWindow());
+                    Scene miniScene = new Scene(root3);
+                    dialogStage.setScene(miniScene);
+                    dialogStage.initStyle(StageStyle.UNDECORATED);
+                    dialogStage.setMinHeight(380);
+                    dialogStage.setMinWidth(440);
+
+                    serviceModifyController.setStage(dialogStage);
+                    System.out.println(listTool.getItems() + " danzodihazdgah");
+                    serviceModifyController.init(attributeMap, listTool);
+
+                    dialogStage.showAndWait();
+                    listTool.getSelectionModel().clearSelection();
                 }
                 catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    LOGGER.log(Level.SEVERE, "The loading of the services attributes fxml failed", e);
+
                 }
-
-                ToolModifyController serviceModifyController = loaderServices.getController();
-
-                Stage dialogStage = new Stage();
-                dialogStage.setTitle("Modification d'attribut");
-                // fenetre modale, obligation de quitter pour revenir a la
-                // fenetre principale
-                dialogStage.initModality(Modality.WINDOW_MODAL);
-                dialogStage.initOwner(buttonAddService.getScene().getWindow());
-                Scene miniScene = new Scene(root3);
-                dialogStage.setScene(miniScene);
-                dialogStage.initStyle(StageStyle.UNDECORATED);
-                dialogStage.setMinHeight(380);
-                dialogStage.setMinWidth(440);
-
-                serviceModifyController.setStage(dialogStage);
-                System.out.println(listTool.getItems() + " danzodihazdgah");
-                serviceModifyController.init(attributeMap, listTool);
-
-                dialogStage.showAndWait();
-                listTool.getSelectionModel().clearSelection();
-
             });
         }
     }

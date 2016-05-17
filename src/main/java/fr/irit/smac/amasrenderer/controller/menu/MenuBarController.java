@@ -50,7 +50,7 @@ public class MenuBarController {
             infrastructureService.createInfrastructuresFromMap(graphMap);
         }
         catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.");
+            LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.", e);
         }
     }
 
