@@ -6,20 +6,15 @@ import java.util.ResourceBundle;
 import org.graphstream.graph.Node;
 
 import fr.irit.smac.amasrenderer.model.StockModel;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
 
 /**
@@ -42,15 +37,15 @@ public class TreeModifyController implements Initializable {
     private StockModel stock;
 
     private Stage dialogStage;
-    
+
     private String baseAgentName;
-    
-    /**the node being modified*/
+
+    /** the node being modified */
     private Node node;
-    
-    /**the new agent name*/
+
+    /** the new agent name */
     private String newAgentName = null;
-    
+
     /**
      * Sets the stage.
      *
@@ -60,14 +55,17 @@ public class TreeModifyController implements Initializable {
     public void setStage(Stage stage) {
         dialogStage = stage;
     }
+
     /**
      * sets the node to be modified
-     * @param node the node to modify
+     * 
+     * @param node
+     *            the node to modify
      */
     public void setNode(Node node) {
         this.node = node;
     }
-    
+
     /**
      * Sets the stock.
      *
@@ -89,7 +87,7 @@ public class TreeModifyController implements Initializable {
     public void confirmButton() {
         stock.setRoot(tree.getRoot());
         newAgentName = tree.getRoot().getValue();
-        if(newAgentName != baseAgentName){
+        if (newAgentName != baseAgentName) {
             node.setAttribute("ui.label", newAgentName);
         }
         dialogStage.close();
@@ -126,7 +124,7 @@ public class TreeModifyController implements Initializable {
         this.tree.setEditable(true);
 
         tree.setCellFactory(p -> new MenuAttributeTreeCell());
-       
+
     }
 
     private static class MenuAttributeTreeCell extends TextFieldTreeCell<String> {
@@ -135,21 +133,20 @@ public class TreeModifyController implements Initializable {
         @SuppressWarnings({ "rawtypes", "unchecked" })
         public MenuAttributeTreeCell() {
             super(new DefaultStringConverter());
-            
+
             menu.setId("treeAttributeItem");
             MenuItem renameItem = new MenuItem("Renommer");
             renameItem.setId("renameAttributeItem");
             menu.getItems().add(renameItem);
             renameItem.setOnAction(e -> startEdit());
 
-
             MenuItem addItem = new MenuItem("Ajouter");
             menu.getItems().add(addItem);
             addItem.setId("addAttributeItem");
-            addItem.setOnAction(e -> { TreeItem newItem = new TreeItem<String>("Nouvel attribut");
-                    getTreeItem().getChildren().add(newItem); }
-                )
-            ;
+            addItem.setOnAction(e -> {
+                TreeItem newItem = new TreeItem<String>("Nouvel attribut");
+                getTreeItem().getChildren().add(newItem);
+            });
 
             MenuItem removeItem = new MenuItem("Supprimer");
             menu.getItems().add(removeItem);

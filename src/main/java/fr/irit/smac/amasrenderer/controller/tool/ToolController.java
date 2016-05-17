@@ -110,7 +110,6 @@ public class ToolController implements Initializable {
         loader.setLocation(Main.class.getResource("view/ToolDialog.fxml"));
         DialogPane root = (DialogPane) loader.load();
         ToolDialogController toolDialogController = loader.getController();
-        // toolDialogController.setList(listTool);
         toolDialogController.setAttributeMap(attributeMap);
         stage.initModality(Modality.WINDOW_MODAL);
         Window window = buttonAddService.getScene().getWindow();
@@ -137,12 +136,6 @@ public class ToolController implements Initializable {
 
         generateInfrastructure(lines);
         generateServices(lines);
-
-        // try {
-        // Files.write(file.toPath(), lines, Charset.forName("UTF-8"));
-        // } catch (IOException e) {
-        // LOGGER.log(Level.INFO, "Couldn't create the file" , e);
-        // }
 
     }
 

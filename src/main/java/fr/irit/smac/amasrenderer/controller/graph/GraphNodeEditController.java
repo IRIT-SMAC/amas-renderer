@@ -15,7 +15,6 @@ import org.graphstream.ui.swingViewer.ViewPanel;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.attribute.TreeModifyController;
 import fr.irit.smac.amasrenderer.controller.tool.ToolController;
-import fr.irit.smac.amasrenderer.model.StockModel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
