@@ -47,8 +47,8 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
      */
     public void init(ViewPanel graphView) {
         this.graphView = graphView;
-        this.currentNodeId = graphNodeService.getModel().getNodeCount() + 1;
         this.graphNodeService = GraphService.getInstance();
+        this.currentNodeId = graphNodeService.getModel().getNodeCount() + 1;
         graphView.addMouseListener(this);
     }
 
