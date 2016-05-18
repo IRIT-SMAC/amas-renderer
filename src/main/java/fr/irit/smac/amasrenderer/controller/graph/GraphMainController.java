@@ -1,5 +1,7 @@
 package fr.irit.smac.amasrenderer.controller.graph;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.net.URL;
@@ -8,6 +10,7 @@ import java.util.ResourceBundle;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
+import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.AgentGraphModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.embed.swing.SwingNode;
@@ -27,6 +30,8 @@ public class GraphMainController implements Initializable {
 
     private Viewer viewer;
 
+    public static EStateGraph state = EStateGraph.AT_EASE;
+    
     @FXML
     private StackPane stackPaneGraphNode;
 
@@ -111,6 +116,33 @@ public class GraphMainController implements Initializable {
 
         nodeEditController = new GraphNodeEditController();
         nodeEditController.init(graphView, stackPaneGraphNode.getScene().getWindow());
+
+        stackPaneGraphNode.getScene().setOnKeyPressed(k -> {
+            switch (GraphMainController.state) {
+                case AT_EASE:
+                    if (k.isControlDown()) {
+                        state = EStateGraph.CTRL_DOWN;
+                    } else if (k.isShiftDown()) {
+                        state = EStateGraph.SHIFT_DOWN;
+                    }
+                default:
+                    break;
+
+            }
+        });
+
+        stackPaneGraphNode.getScene().setOnKeyReleased(k -> {
+            switch (GraphMainController.state) {
+                case CTRL_DOWN:
+                    state = EStateGraph.AT_EASE;
+                    
+                case SHIFT_DOWN:
+                    state = EStateGraph.AT_EASE;
+                default:
+                    break;
+
+            }
+        });
 
     }
 

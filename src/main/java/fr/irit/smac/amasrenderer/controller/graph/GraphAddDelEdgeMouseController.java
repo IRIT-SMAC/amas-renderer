@@ -8,7 +8,6 @@ import org.graphstream.graph.Node;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
 import fr.irit.smac.amasrenderer.service.GraphService;
-import javafx.scene.control.ToggleButton;
 
 /**
  * The Class GraphAddDelEdgeMouseController. This controller controls addition
@@ -25,11 +24,7 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
 
     private Node target = null;
 
-    private ToggleButton buttonAddEdge;
-
-    private ToggleButton buttonDelEdge;
-
-    private EState state = EState.AT_EASE;
+    private EStateGraph previousState;
 
     /**
      * Initialize the controller, and adds it to the graph.
@@ -57,63 +52,58 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
 
-        if (!e.isControlDown()) {
+        switch (GraphMainController.state) {
 
-            switch (state) {
+            case SHIFT_DOWN:
+                source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+                if (source != null) {
+                    previousState = EStateGraph.SHIFT_DOWN;
+                    if (e.getButton() == MouseEvent.BUTTON1) {
+                        GraphMainController.state = EStateGraph.READY_TO_ADD;
 
-                case AT_EASE:
-                    state = nextStepAtEase(e);
+                    }
+                    else if (e.getButton() == MouseEvent.BUTTON3) {
+                        GraphMainController.state = EStateGraph.READY_TO_DELETE;
+
+                    }
                     selectSource();
-                    break;
+                }
+                break;
 
-                case READY_TO_ADD:
-                    state = EState.AT_EASE;
-                    addEdge(e);
-                    unselectSource();
-                    break;
+            case BUTTON_ADD_EDGE:
+                source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+                if (source != null) {
+                    previousState = EStateGraph.BUTTON_ADD_EDGE;
+                    GraphMainController.state = EStateGraph.READY_TO_ADD;
+                    selectSource();
+                }
+                break;
 
-                case READY_TO_DELETE:
-                    state = EState.AT_EASE;
-                    removeEdge(e);
-                    unselectSource();
-                    break;
+            case BUTTON_DELETE_EDGE:
+                source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+                if (source != null) {
+                    previousState = EStateGraph.BUTTON_DELETE_EDGE;
+                    GraphMainController.state = EStateGraph.READY_TO_DELETE;
+                    selectSource();
+                }
+                break;
 
-                default:
-                    break;
-            }
+            case READY_TO_ADD:
+                GraphMainController.state = previousState;
+                addEdge(e);
+                unselectSource();
+                break;
+
+            case READY_TO_DELETE:
+                GraphMainController.state = previousState;
+                removeEdge(e);
+                unselectSource();
+                break;
+
+            default:
+                break;
         }
 
-    }
-
-    /**
-     * Select the next step of the first step
-     * 
-     * @param e
-     *            the mouse event
-     * @return
-     */
-    public EState nextStepAtEase(MouseEvent e) {
-
-        EState localState = EState.AT_EASE;
-        source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-
-        if (source != null) {
-
-            if (e.isShiftDown() && e.getButton() == MouseEvent.BUTTON1) {
-                localState = EState.READY_TO_ADD;
-            }
-            else if (e.isShiftDown() && e.getButton() == MouseEvent.BUTTON3) {
-                localState = EState.READY_TO_DELETE;
-            }
-            else if (this.buttonAddEdge.isSelected()) {
-                localState = EState.READY_TO_ADD;
-            }
-            else if (this.buttonDelEdge.isSelected()) {
-                localState = EState.READY_TO_DELETE;
-            }
-        }
-
-        return localState;
     }
 
     /**
@@ -176,25 +166,5 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
 
         source.removeAttribute("ui.selected");
         source = null;
-    }
-
-    /**
-     * Sets the button AddEdge from the parent controller
-     *
-     * @param buttonAddEdge
-     *            the new button add edge
-     */
-    public void setButtonAddEdge(ToggleButton buttonAddEdge) {
-        this.buttonAddEdge = buttonAddEdge;
-    }
-
-    /**
-     * Sets the button DelEdge from the parent controller
-     *
-     * @param buttonDelEdge
-     *            the new button del edge
-     */
-    public void setButtonDelEdge(ToggleButton buttonDelEdge) {
-        this.buttonDelEdge = buttonDelEdge;
     }
 }

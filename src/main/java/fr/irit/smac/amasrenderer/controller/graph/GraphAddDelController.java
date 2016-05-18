@@ -31,6 +31,66 @@ public class GraphAddDelController {
 
     private GraphAddDelNodeMouseController graphAddDelNodeMouseController;
 
+    @FXML
+    public void buttonAddNode() {
+
+        switch (GraphMainController.state) {
+            case BUTTON_ADD_NODE:
+                GraphMainController.state = EStateGraph.AT_EASE;
+                break;
+            default:
+                if (GraphMainController.state != null) {
+                    GraphMainController.state = EStateGraph.BUTTON_ADD_NODE;
+                }
+                break;
+        }
+    }
+
+    @FXML
+    public void buttonDeleteNode() {
+
+        switch (GraphMainController.state) {
+            case BUTTON_DELETE_NODE:
+                GraphMainController.state = EStateGraph.AT_EASE;
+                break;
+            default:
+                if (GraphMainController.state != null) {
+                    GraphMainController.state = EStateGraph.BUTTON_DELETE_NODE;
+                }
+                break;
+        }
+    }
+
+    @FXML
+    public void buttonAddEdge() {
+
+        switch (GraphMainController.state) {
+            case BUTTON_ADD_EDGE:
+                GraphMainController.state = EStateGraph.AT_EASE;
+                break;
+            default:
+                if (GraphMainController.state != null) {
+                    GraphMainController.state = EStateGraph.BUTTON_ADD_EDGE;
+                }
+                break;
+        }
+    }
+
+    @FXML
+    public void buttonDeleteEdge() {
+
+        switch (GraphMainController.state) {
+            case BUTTON_DELETE_EDGE:
+                GraphMainController.state = EStateGraph.AT_EASE;
+                break;
+            default:
+                if (GraphMainController.state != null) {
+                    GraphMainController.state = EStateGraph.BUTTON_DELETE_EDGE;
+                }
+                break;
+        }
+    }
+
     /**
      * Inits the subcontrollers GraphAddDelEdgeMouseController and
      * GraphAddDelMouseController.
@@ -44,11 +104,7 @@ public class GraphAddDelController {
 
         graphAddDelEdgeMouseController = new GraphAddDelEdgeMouseController();
         graphAddDelEdgeMouseController.init(graphView);
-        graphAddDelEdgeMouseController.setButtonAddEdge(this.buttonAddEdge);
-        graphAddDelEdgeMouseController.setButtonDelEdge(this.buttonDelEdge);
         graphAddDelNodeMouseController = new GraphAddDelNodeMouseController();
-        graphAddDelNodeMouseController.setButtonAddAgent(this.buttonAddAgent);
-        graphAddDelNodeMouseController.setButtonDelAgent(this.buttonDelAgent);
         graphAddDelNodeMouseController.init(graphView);
 
     }

@@ -11,27 +11,27 @@
 		<ToggleGroup fx:id="toggroup" />
 	</fx:define>
 	<children>
-		<ToggleButton fx:id="buttonAddAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="77.0" prefWidth="140.0" styleClass="buttonGraph" text="Ajouter un agent" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+		<ToggleButton fx:id="buttonAddAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonAddNode" prefHeight="77.0" prefWidth="140.0" styleClass="buttonGraph" text="Ajouter un agent" textAlignment="CENTER" HBox.hgrow="ALWAYS">
          <toggleGroup>
             <ToggleGroup fx:id="toggroup" />
          </toggleGroup>
          <tooltip>
-         	<Tooltip text="Ajoute un agent (Ctrl+ClicGauche)"/>
+         	<Tooltip text="Ajoute un agent (Ctrl+ClicGauche)" />
          </tooltip>
          </ToggleButton>
-		<ToggleButton fx:id="buttonDelAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="buttonGraph" text="Supprimer un agent" textAlignment="CENTER" toggleGroup="$toggroup" HBox.hgrow="ALWAYS">
+		<ToggleButton fx:id="buttonDelAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonDeleteNode" styleClass="buttonGraph" text="Supprimer un agent" textAlignment="CENTER" toggleGroup="$toggroup" HBox.hgrow="ALWAYS">
          <tooltip>
-         	<Tooltip text="Supprime un agent (Ctrl+ClicDroit)"/>
+         	<Tooltip text="Supprime un agent (Ctrl+ClicDroit)" />
          </tooltip>
          </ToggleButton>
-		<ToggleButton fx:id="buttonAddEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="buttonGraph" text="Ajouter un lien" textAlignment="CENTER" toggleGroup="$toggroup" HBox.hgrow="ALWAYS">
+		<ToggleButton fx:id="buttonAddEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonAddEdge" styleClass="buttonGraph" text="Ajouter un lien" textAlignment="CENTER" toggleGroup="$toggroup" HBox.hgrow="ALWAYS">
          <tooltip>
-         	<Tooltip text="Ajoute un arc (Shift+ClicGauche)"/>
+         	<Tooltip text="Ajoute un arc (Shift+ClicGauche)" />
          </tooltip>
          </ToggleButton>
-		<ToggleButton fx:id="buttonDelEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Supprimer un lien" textAlignment="CENTER" toggleGroup="$toggroup" HBox.hgrow="ALWAYS">
+		<ToggleButton fx:id="buttonDelEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonDeleteEdge" text="Supprimer un lien" textAlignment="CENTER" toggleGroup="$toggroup" HBox.hgrow="ALWAYS">
          <tooltip>
-         	<Tooltip text="Supprime un arc (Shift+ClicDroit)"/>
+         	<Tooltip text="Supprime un arc (Shift+ClicDroit)" />
          </tooltip>
          <styleClass>
             <String fx:value="buttonGraph" />

@@ -3,17 +3,11 @@ package fr.irit.smac.amasrenderer.controller.graph;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.SwingUtilities;
-
 import org.graphstream.graph.Node;
 import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
-import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.AgentGraphModel;
-import fr.irit.smac.amasrenderer.model.StockModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
-import javafx.scene.control.ToggleButton;
 
 /**
  * The Class GraphAddDelNodeMouseController. This controller controls addition
@@ -28,10 +22,6 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
     private ViewPanel graphView;
 
     private int currentNodeId;
-
-    private ToggleButton buttonAddAgent;
-
-    private ToggleButton buttonDelAgent;
 
     /**
      * Initialize the controller, and adds it to the graph.
@@ -63,31 +53,36 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
      * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseClicked(MouseEvent e) {
-        Node n = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-        // if clicked on empty space, create a node
-        if (n == null && SwingUtilities.isLeftMouseButton(e) && (e.isControlDown() || buttonAddAgent.isSelected())) {
-            createNode(e);
-        }
-        else if ((n != null) && ((SwingUtilities.isRightMouseButton(e) && e.isControlDown())
-            ^ (SwingUtilities.isLeftMouseButton(e) && this.buttonDelAgent.isSelected()))) {
+    public void mousePressed(MouseEvent e) {
 
-            // else on right click deletes the node and all connected edges
-            // explanation of the if:
-            // if there is a node on clic location
-            // and user does ctrl+right-click XOR he does left click and the del
-            // agen button is pressed
-            this.graphNodeService.removeNode(n);
-        }
-    }
+        switch (GraphMainController.state) {
 
-    /**
-     * Gets the model. (the AgentGraph)
-     *
-     * @return the model
-     */
-    public AgentGraphModel getModel() {
-        return this.graphNodeService.getModel();
+            case CTRL_DOWN:
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    createNode(e);
+                }
+                else if (e.getButton() == MouseEvent.BUTTON3) {
+                    Node node = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+                    this.graphNodeService.removeNode(node);
+                }
+                GraphMainController.state = EStateGraph.CTRL_DOWN;
+                break;
+                
+            case BUTTON_ADD_NODE:
+                createNode(e);
+                GraphMainController.state = EStateGraph.BUTTON_ADD_NODE;
+                break;
+                
+            case BUTTON_DELETE_NODE:
+                Node n = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+                this.graphNodeService.removeNode(n);
+                GraphMainController.state = EStateGraph.BUTTON_DELETE_NODE;
+                break;
+                
+            default:
+                break;  
+
+        }
     }
 
     /**
@@ -101,26 +96,6 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
         Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
 
         this.graphNodeService.addNode(curId, clicLoc.x, clicLoc.y);
-    }
-
-    /**
-     * Sets the button AddAgent from the parent controller
-     *
-     * @param buttonAddAgent
-     *            the new button add agent
-     */
-    public void setButtonAddAgent(ToggleButton buttonAddAgent) {
-        this.buttonAddAgent = buttonAddAgent;
-    }
-
-    /**
-     * Sets the button DelAgent from the parent controller
-     *
-     * @param buttonDelAgent
-     *            the new button del agent
-     */
-    public void setButtonDelAgent(ToggleButton buttonDelAgent) {
-        this.buttonDelAgent = buttonDelAgent;
     }
 
 }
