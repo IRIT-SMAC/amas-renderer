@@ -104,7 +104,7 @@ public class GraphMainController implements Initializable {
         graphMouseWheelController = new GraphMouseWheelController();
         graphMouseWheelController.init(graphView);
 
-        graphAddDelController.init(graphView, graphNodeService);
+        graphAddDelController.init(graphView);
 
         defaultMouseController = new GraphDefaultMouseController();
         defaultMouseController.init(graphView, getModel(), graphAddDelController.getTogGroup());
@@ -133,7 +133,7 @@ public class GraphMainController implements Initializable {
 
         this.initGraph();
 
-        graphAddDelController.init(graphView, graphNodeService);
+        graphAddDelController.init(graphView);
 
         SwingNode swingNode = new SwingNode();
         swingNode.setId("graphNode");

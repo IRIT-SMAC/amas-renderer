@@ -45,10 +45,10 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
      * @param graphNodeService
      *            the graph node service
      */
-    public void init(ViewPanel graphView, GraphService graphNodeService) {
-        this.graphNodeService = graphNodeService;
+    public void init(ViewPanel graphView) {
         this.graphView = graphView;
         this.currentNodeId = graphNodeService.getModel().getNodeCount() + 1;
+        this.graphNodeService = GraphService.getInstance();
         graphView.addMouseListener(this);
     }
 
@@ -100,8 +100,8 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
         String curId = Integer.toString(currentNodeId++);
         Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
 
-        GraphService.getInstance().addNode(curId, clicLoc.x, clicLoc.y);
-   }
+        this.graphNodeService.addNode(curId, clicLoc.x, clicLoc.y);
+    }
 
     /**
      * Sets the button AddAgent from the parent controller

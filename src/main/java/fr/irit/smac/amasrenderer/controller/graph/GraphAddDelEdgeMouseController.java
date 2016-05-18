@@ -44,10 +44,10 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
      * @param graphNodeService
      *            the graph node service
      */
-    public void init(ViewPanel graphView, GraphService graphNodeService) {
-        this.graphNodeService = graphNodeService;
+    public void init(ViewPanel graphView) {
         this.graphView = graphView;
         graphView.addMouseListener(this);
+        this.graphNodeService = GraphService.getInstance();
     }
 
     /*
@@ -102,21 +102,21 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
      *            the event
      */
     private void secondClick(MouseEvent e) {
-        
+
         target = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (target != null) {
 
             String sourceId = source.getId();
             String targetId = target.getId();
-            
-            Edge edge = GraphService.getInstance().getModel().getEdge(source + "" + target);
-            
+
+            Edge edge = this.graphNodeService.getModel().getEdge(source + "" + target);
+
             if ((edge != null) && removeEdgeClickRequirement(e)) {
-                GraphService.getInstance().removeEdge(edge);
+                this.graphNodeService.removeEdge(edge);
             }
             else if ((edge == null)
                 && (SwingUtilities.isLeftMouseButton(e) && (e.isShiftDown() || this.buttonAddEdge.isSelected()))) {
-                GraphService.getInstance().addEdge(sourceId, targetId);
+                this.graphNodeService.addEdge(sourceId, targetId);
             }
             source.removeAttribute("ui.selected");
             source = null;
