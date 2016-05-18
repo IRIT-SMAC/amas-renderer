@@ -61,6 +61,7 @@ public class GraphService {
      *            the y location of the node
      */
     public void addNode(String id, double x, double y) {
+
         model.addNode(id);
         Node node = model.getNode(id);
         node.changeAttribute(Const.NODE_XY, x, y);
@@ -77,6 +78,7 @@ public class GraphService {
      *            the id of the node
      */
     public void addNode(String id) {
+
         model.addNode(id);
         Node node = model.getNode(id);
         node.setAttribute(Const.NODE_CONTENT, new StockModel(id));
@@ -88,11 +90,25 @@ public class GraphService {
      * Add a directed edge from the source to the target
      * 
      * @param source
+     *            the id of the source node
      * @param target
+     *            the id of the target node
      */
     public void addEdge(String source, String target) {
+
         model.addEdge(source + target, source, target, true);
         model.getEdge(source + target).setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_EDGE);
+    }
+
+    /**
+     * Remove an edge
+     * 
+     * @param edge
+     *            the edge to remove
+     */
+    public void removeEdge(Edge edge) {
+
+        model.removeEdge(edge);
     }
 
     /**

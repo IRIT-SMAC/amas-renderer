@@ -102,24 +102,24 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
      *            the event
      */
     private void secondClick(MouseEvent e) {
+        
         target = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (target != null) {
-            AgentGraphModel model = this.graphNodeService.getModel();
-            Edge edge = model.getEdge(source.getId() + "" + target.getId());
 
+            String sourceId = source.getId();
+            String targetId = target.getId();
+            
+            Edge edge = GraphService.getInstance().getModel().getEdge(source + "" + target);
+            
             if ((edge != null) && removeEdgeClickRequirement(e)) {
-                model.removeEdge(edge);
+                GraphService.getInstance().removeEdge(edge);
             }
             else if ((edge == null)
                 && (SwingUtilities.isLeftMouseButton(e) && (e.isShiftDown() || this.buttonAddEdge.isSelected()))) {
-                model.addEdge(source.getId() + "" + target.getId(), source.getId(), target.getId(), true);
-                model.getEdge(source.getId() + "" + target.getId()).setAttribute("layout.weight",
-                    Const.LAYOUT_WEIGHT_EDGE);
+                GraphService.getInstance().addEdge(sourceId, targetId);
             }
-            source.addAttribute("ui.selected");
             source.removeAttribute("ui.selected");
             source = null;
-
         }
     }
 
