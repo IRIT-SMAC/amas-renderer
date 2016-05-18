@@ -44,7 +44,7 @@ public class GraphMainController implements Initializable {
     private GraphDefaultMouseController defaultMouseController;
 
     /**
-     * gets the viewer
+     * Gets the viewer
      * 
      * @return the viewer
      */
@@ -53,18 +53,7 @@ public class GraphMainController implements Initializable {
     }
 
     /**
-     * Draws he graph in the container. DEPRECATED Adds an agent to the graph
-     * 
-     * Prefer using GraphAddDelNodeMouseController to add agents (alt + left
-     * click).
-     */
-    @FXML
-    public void addAgent() {
-        this.graphNodeService.getModel().addNode(Integer.toString(this.graphNodeService.getModel().getNodeCount() + 1));
-    }
-
-    /**
-     * DEPRECATED Graph mouse clicked. DEPRECATED Graph mouse clicked. Calls
+     * Draw the graph inside a swing node
      */
     public void drawGraph() {
         ((SwingNode) this.stackPaneGraphNode.lookup("#graphNode")).setContent(this.graphView);
