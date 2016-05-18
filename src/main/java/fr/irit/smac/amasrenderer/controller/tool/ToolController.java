@@ -53,8 +53,12 @@ public class ToolController implements Initializable {
     private Stage stage;
 
     private HashMap<String, TreeItem<String>> attributeMap = new HashMap<>();
-    private static final Logger               LOGGER       = Logger.getLogger(ToolController.class.getName());
 
+    private static final Logger LOGGER = Logger.getLogger(ToolController.class.getName());
+
+    /**
+     * Handle mouse click.
+     */
     @FXML
     public void handleMouseClick() {
         String selectedLabel = listTool.getSelectionModel().getSelectedItem();
@@ -64,9 +68,10 @@ public class ToolController implements Initializable {
     }
 
     /**
-     * Load the services attributes fxml
+     * Load the services attributes fxml.
      */
     public void loadFxml() {
+
         FXMLLoader loaderServices = new FXMLLoader();
         loaderServices.setLocation(Main.class.getResource("view/ServiceAttributes.fxml"));
         BorderPane root3;
@@ -77,8 +82,7 @@ public class ToolController implements Initializable {
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Modification d'attribut");
-            // fenetre modale, obligation de quitter pour revenir a la
-            // fenetre principale
+
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(buttonAddService.getScene().getWindow());
             Scene miniScene = new Scene(root3);
@@ -99,6 +103,12 @@ public class ToolController implements Initializable {
         }
     }
 
+    /**
+     * Adds the tool.
+     *
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
     @FXML
     public void addTool() throws IOException {
 
@@ -128,6 +138,9 @@ public class ToolController implements Initializable {
         stage.showAndWait();
     }
 
+    /**
+     * Generate json file.
+     */
     @FXML
     public void generateJsonFile() {
         File file = new FileChooser().showSaveDialog(generateButton.getScene().getWindow());
@@ -139,10 +152,22 @@ public class ToolController implements Initializable {
 
     }
 
+    /**
+     * Generate infrastructure.
+     *
+     * @param lines
+     *            the lines
+     */
     private void generateInfrastructure(List<String> lines) {
         lines.add("\t\"classname\":\"" + InfrastructureService.getInstance().getInfrastructure().get(0) + "\"},");
     }
 
+    /**
+     * Generate services.
+     *
+     * @param lines
+     *            the lines
+     */
     private void generateServices(List<String> lines) {
         List<String> services = ToolService.getInstance().getTools();
         for (String service : services) {
@@ -150,6 +175,12 @@ public class ToolController implements Initializable {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javafx.fxml.Initializable#initialize(java.net.URL,
+     * java.util.ResourceBundle)
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

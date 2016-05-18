@@ -28,17 +28,17 @@ public class GraphDefaultMouseController extends MouseAdapter {
 
     protected float y1;
 
-    /* toggle group of the buttons */
     private ToggleGroup toggroup;
-
-    /**/
 
     /**
      * Initialize the controller, and adds it to the graph.
      * 
      * @param view
+     *            the view
      * @param graph
+     *            the graph
      * @param toggroup
+     *            the toggle group
      */
     public void init(ViewPanel view, AgentGraphModel graph, ToggleGroup toggroup) {
         this.view = view;

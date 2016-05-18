@@ -47,7 +47,7 @@ public class GraphService {
      */
     public void createAgentGraph() {
         this.model = new AgentGraphModel("AMAS Rendering");
-        this.model.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/theTrueStyleSheet.css") + ")");
+        this.model.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
     }
 
     /**
@@ -97,7 +97,11 @@ public class GraphService {
      * @param id
      *            the node id
      * @param attribute
+     *            the attribute
      * @param value
+     *            the value
+     * @param parent
+     *            the parent node
      */
     public void setNodeAttribute(String attribute, Object value, TreeItem<String> parent) {
 
@@ -142,6 +146,12 @@ public class GraphService {
         this.model = model;
     }
 
+    /**
+     * Create the agent graph from a map
+     * 
+     * @param map
+     *            the map
+     */
     @SuppressWarnings("unchecked")
     public void createAgentGraphFromMap(Map<?, ?> map) {
         HashMap<String, Object> agentHandlerService = (HashMap<String, Object>) map.get("agentHandlerService");
@@ -225,7 +235,7 @@ public class GraphService {
     private void clearGraph() {
         this.getModel().clear();
         this.getModel().addAttribute("ui.stylesheet",
-            "url(" + getClass().getResource("../css/theTrueStyleSheet.css") + ")");
+            "url(" + getClass().getResource("../css/graph.css") + ")");
     }
 
 }

@@ -70,10 +70,24 @@ public class ToolModifyController implements Initializable {
         this.key = label;
     }
 
+    /**
+     * Sets the map of the attributes
+     * 
+     * @param attributeMap
+     *            the attributeMap
+     */
     public void setAttributeMap(Map<String, TreeItem<String>> attributeMap) {
         this.attributeMap = attributeMap;
     }
 
+    /**
+     * Initialize the controller
+     * 
+     * @param attributeMap
+     *            the map of attributes
+     * @param list
+     *            the list of tools
+     */
     public void init(Map<String, TreeItem<String>> attributeMap, ListView<String> list) {
         setAttributeMap(attributeMap);
         setKey(list.getSelectionModel().getSelectedItem());

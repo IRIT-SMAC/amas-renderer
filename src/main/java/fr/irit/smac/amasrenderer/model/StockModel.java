@@ -11,9 +11,11 @@ public class StockModel {
     TreeItem<String> root;
 
     /**
-     * Instantiates a new stock. test purposes, will change
+     * Instantiates a new stock
+     * 
+     * @param s
+     *            the name of the root
      */
-
     public StockModel(String s) {
         root = new TreeItem<>(s);
     }

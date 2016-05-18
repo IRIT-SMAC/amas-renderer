@@ -16,10 +16,10 @@ public class AgentGraphModel extends SingleGraph {
     private Map<String, Object> graphMap = new HashMap<>();
 
     /**
-     * Constuctor for Jackson parser
+     * Used by Jackson parser.
      */
     public AgentGraphModel() {
-        super("man lol");
+        super("");
     }
 
     /**
@@ -32,24 +32,44 @@ public class AgentGraphModel extends SingleGraph {
         super(id);
     }
 
+    /**
+     * Gets the map (when the graphMap is serialized)
+     *
+     * @return the map
+     */
     @JsonAnyGetter
     public Map<String, Object> any() {
         return graphMap;
     }
 
+    /**
+     * Sets the map (when the graphMap is deserialized)
+     *
+     * @param name
+     *            the name
+     * @param value
+     *            the value
+     */
     @JsonAnySetter
     public void set(String name, Object value) {
         graphMap.put(name, value);
     }
 
     /**
-     * 
+     * Gets the graph map.
+     *
      * @return the graph map
      */
     public Map<String, Object> getGraphMap() {
         return graphMap;
     }
 
+    /**
+     * Sets the graph map.
+     *
+     * @param graphMap
+     *            the graph map
+     */
     public void setGraphMap(Map<String, Object> graphMap) {
         this.graphMap = graphMap;
     }

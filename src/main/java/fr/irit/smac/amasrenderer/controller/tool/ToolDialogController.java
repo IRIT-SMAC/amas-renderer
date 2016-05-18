@@ -31,7 +31,7 @@ public class ToolDialogController implements Initializable {
 
     @FXML
     private Text invalidField;
-    
+
     /**
      * Click on the confirm button handler
      */

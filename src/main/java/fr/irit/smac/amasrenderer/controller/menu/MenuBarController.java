@@ -73,6 +73,5 @@ public class MenuBarController {
         // TODO Popup à propos
         LOGGER.log(Level.INFO, "Popup à propos");
     }
-    
 
 }

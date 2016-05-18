@@ -8,11 +8,11 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 
 /**
- * The Class GraphAddDelController.
- * This controller handles the buttons of the graph
+ * The Class GraphAddDelController. This controller handles the buttons of the
+ * graph
  */
 public class GraphAddDelController {
-    
+
     @FXML
     ToggleGroup toggroup;
 
@@ -31,7 +31,7 @@ public class GraphAddDelController {
     private GraphAddDelEdgeMouseController graphAddDelEdgeMouseController;
 
     private GraphAddDelNodeMouseController graphAddDelNodeMouseController;
-    
+
     /**
      * Inits the subcontrollers GraphAddDelEdgeMouseController and
      * GraphAddDelMouseController.
@@ -51,10 +51,9 @@ public class GraphAddDelController {
         graphAddDelNodeMouseController.setButtonAddAgent(this.buttonAddAgent);
         graphAddDelNodeMouseController.setButtonDelAgent(this.buttonDelAgent);
         graphAddDelNodeMouseController.init(graphView, graphNodeService);
-       
-        
+
     }
-    
+
     public ToggleGroup getTogGroup() {
         return toggroup;
     }

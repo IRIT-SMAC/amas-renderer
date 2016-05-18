@@ -72,7 +72,7 @@ public class GraphNodeEditController extends MouseAdapter {
         if (SwingUtilities.isRightMouseButton(e) && !e.isShiftDown() && !e.isControlDown()) {
 
             GraphicElement elt = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-            if (elt != null && elt instanceof Node) {               
+            if (elt != null && elt instanceof Node) {
                 Platform.runLater(() -> loadFxml((Node) elt));
             }
         }
@@ -80,6 +80,9 @@ public class GraphNodeEditController extends MouseAdapter {
 
     /**
      * Load the graph attributes fxml
+     * 
+     * @param node
+     *            the node
      */
     public void loadFxml(Node node) {
         FXMLLoader loaderServices = new FXMLLoader();

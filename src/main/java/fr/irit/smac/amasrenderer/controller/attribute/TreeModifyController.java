@@ -40,10 +40,8 @@ public class TreeModifyController implements Initializable {
 
     private String baseAgentName;
 
-    /** the node being modified */
     private Node node;
 
-    /** the new agent name */
     private String newAgentName = null;
 
     /**
@@ -57,7 +55,7 @@ public class TreeModifyController implements Initializable {
     }
 
     /**
-     * sets the node to be modified
+     * Sets the node to be modified
      * 
      * @param node
      *            the node to modify
@@ -82,7 +80,7 @@ public class TreeModifyController implements Initializable {
     }
 
     /**
-     * Confirm button. sets the new tree as the node tree, and exit this window
+     * Confirm button. Sets the new tree as the node tree, and exit this window
      */
     public void confirmButton() {
         stock.setRoot(tree.getRoot());
@@ -94,7 +92,7 @@ public class TreeModifyController implements Initializable {
     }
 
     /**
-     * Cancel button. just exit this window
+     * Cancel button. Just exit this window
      */
     @FXML
     public void cancelButton() {
@@ -162,10 +160,10 @@ public class TreeModifyController implements Initializable {
                 setContextMenu(menu);
             }
         }
-        
+
         @Override
         public void commitEdit(String newValue) {
-            
+
             if (newValue.trim().isEmpty()) {
                 return;
             }
