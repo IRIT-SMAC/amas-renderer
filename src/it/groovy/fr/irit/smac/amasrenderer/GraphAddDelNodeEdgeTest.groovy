@@ -167,7 +167,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
 
     def "check if an edge is removed by clicking on the corresponding button"() {
 
-        when:
+        given:
         println "link removed with button"
         fx.press(KeyCode.CONTROL)
         .clickOn(graphId)
@@ -183,14 +183,12 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         .clickOn()
         .release(KeyCode.SHIFT)
         .clickOn("#buttonDelEdge")
-
+        
+        when:
         fx.moveTo(graphId).moveBy(0.0,-(height/2)+20)
-        .press(KeyCode.SHIFT)
         .clickOn()
         .moveBy(0.0,height-40)
         .clickOn()
-        .release(KeyCode.SHIFT)
-
 
         then:
         graphService.getModel().getEdgeCount() == 0 && graphService.getModel().getNodeCount() == 2

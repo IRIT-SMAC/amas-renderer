@@ -3,20 +3,16 @@ package fr.irit.smac.amasrenderer.controller.graph;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.SwingUtilities;
-
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
-import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.AgentGraphModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.scene.control.ToggleButton;
 
 /**
  * The Class GraphAddDelEdgeMouseController. This controller controls addition
- * and deletion of edges on the graph "model" Creation and deletion are used by
+ * and deletion of edges on the graph "model" Creation and deletion are used bys
  * right-click dragging from one node to an other
  */
 public class GraphAddDelEdgeMouseController extends MouseAdapter {
@@ -32,6 +28,8 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
     private ToggleButton buttonAddEdge;
 
     private ToggleButton buttonDelEdge;
+
+    private EState state = EState.AT_EASE;
 
     /**
      * Initialize the controller, and adds it to the graph.
@@ -58,81 +56,126 @@ public class GraphAddDelEdgeMouseController extends MouseAdapter {
     // the headache function
     @Override
     public void mouseClicked(MouseEvent e) {
-        // if explanation:
-        // if source = null --> its the first click
-        // and one of the edge button is pressed or shift is down, and control
-        // is not down
-        if ((source == null) && (e.isShiftDown() || (this.buttonAddEdge.isSelected() ^ this.buttonDelEdge.isSelected()))
-            && (!e.isControlDown())) {
-            firstClick(e);
-        }
-        else if ((source != null)
-            && (e.isShiftDown() || (this.buttonAddEdge.isSelected() ^ this.buttonDelEdge.isSelected()))
-            && (!e.isControlDown())) {
-            // same but source not null so its the second click
-            secondClick(e);
-        }
 
-    }
+        if (!e.isControlDown()) {
 
-    /**
-     * Handle the first click This first click sets the source var, and cleans
-     * the target var
-     *
-     * @param e
-     *            the event
-     */
-    private void firstClick(MouseEvent e) {
-        source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-        if (source != null) {
-            if (!source.hasAttribute("ui.selected")) {
-                source.addAttribute("ui.selected");
+            switch (state) {
+
+                case AT_EASE:
+                    state = nextStepAtEase(e);
+                    selectSource();
+                    break;
+
+                case READY_TO_ADD:
+                    state = EState.AT_EASE;
+                    addEdge(e);
+                    unselectSource();
+                    break;
+
+                case READY_TO_DELETE:
+                    state = EState.AT_EASE;
+                    removeEdge(e);
+                    unselectSource();
+                    break;
+
+                default:
+                    break;
             }
-            target = null;
+        }
+
+    }
+
+    /**
+     * Select the next step of the first step
+     * 
+     * @param e
+     *            the mouse event
+     * @return
+     */
+    public EState nextStepAtEase(MouseEvent e) {
+
+        EState localState = EState.AT_EASE;
+        source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+
+        if (source != null) {
+
+            if (e.isShiftDown() && e.getButton() == MouseEvent.BUTTON1) {
+                localState = EState.READY_TO_ADD;
+            }
+            else if (e.isShiftDown() && e.getButton() == MouseEvent.BUTTON3) {
+                localState = EState.READY_TO_DELETE;
+            }
+            else if (this.buttonAddEdge.isSelected()) {
+                localState = EState.READY_TO_ADD;
+            }
+            else if (this.buttonDelEdge.isSelected()) {
+                localState = EState.READY_TO_DELETE;
+            }
+        }
+
+        return localState;
+    }
+
+    /**
+     * Select the source node
+     */
+    public void selectSource() {
+
+        if (source != null && !source.hasAttribute("ui.selected")) {
+            source.addAttribute("ui.selected");
+        }
+        target = null;
+    }
+
+    /**
+     * Add an edge between the source and the target
+     * 
+     * @param e
+     *            the mouse event
+     */
+    public void addEdge(MouseEvent e) {
+
+        if (getEdge(e) == null && target != null) {
+            this.graphNodeService.addEdge(source.getId(), target.getId());
         }
     }
 
     /**
-     * Handle the second click this second click gets the target var , if it is
-     * valid , checks how the used clicked on that node, and tries to add an
-     * edge (if addEdgeButton or shift + left click ) or tries to delete it (if
-     * user did shift + right click or delEdgeButton + left click )
+     * Remove the edge between the source and the target
+     * 
+     * @param e
+     *            the mouse event
+     */
+    public void removeEdge(MouseEvent e) {
+
+        this.graphNodeService.removeEdge(getEdge(e));
+    }
+
+    /**
+     * Get the edge between the source and the target
      * 
      * @param e
      *            the event
+     * @return
      */
-    private void secondClick(MouseEvent e) {
+    private Edge getEdge(MouseEvent e) {
 
         target = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (target != null) {
-
-            String sourceId = source.getId();
-            String targetId = target.getId();
-
             Edge edge = this.graphNodeService.getModel().getEdge(source + "" + target);
-
-            if ((edge != null) && removeEdgeClickRequirement(e)) {
-                this.graphNodeService.removeEdge(edge);
-            }
-            else if ((edge == null)
-                && (SwingUtilities.isLeftMouseButton(e) && (e.isShiftDown() || this.buttonAddEdge.isSelected()))) {
-                this.graphNodeService.addEdge(sourceId, targetId);
-            }
-            source.removeAttribute("ui.selected");
-            source = null;
+            return edge;
         }
+        return null;
     }
 
     /**
-     * Removes the edge click requirement.
-     *
-     * @param e
-     *            the event
-     * @return true, if successful
+     * Unselect a source when an edge is created, deleted, or when the target is
+     * not a node
      */
-    private boolean removeEdgeClickRequirement(MouseEvent e) {
-        return (!e.isControlDown()) && ((e.isShiftDown() && SwingUtilities.isRightMouseButton(e))
-            ^ (SwingUtilities.isLeftMouseButton(e) && buttonDelEdge.isSelected()));
+    private void unselectSource() {
+
+        source.removeAttribute("ui.selected");
+        source = null;
     }
 
     /**
