@@ -12,6 +12,7 @@ import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.attribute.TreeModifyController;
 import fr.irit.smac.amasrenderer.controller.tool.ToolController;
@@ -108,7 +109,7 @@ public class GraphNodeEditController extends MouseAdapter {
             dialogStage.setY(y);
 
             treeModifyController.setStage(dialogStage);
-            treeModifyController.setStock(node.getAttribute("ui.stocked-info"));
+            treeModifyController.setStock(node.getAttribute(Const.NODE_CONTENT));
             treeModifyController.setNode(node);
 
             dialogStage.showAndWait();

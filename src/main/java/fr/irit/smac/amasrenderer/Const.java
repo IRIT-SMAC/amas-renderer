@@ -23,6 +23,14 @@ public final class Const {
 
     public static final int FONT_SIZE = 18;
 
+    public static final String NODE_WEIGHT = "layout.weight";
+    
+    public static final String NODE_LABEL = "ui.label";
+    
+    public static final String NODE_CONTENT = "ui.stocked-info";
+    
+    public static final String NODE_XY = "xy";
+    
     /**
      * Instantiates a new const (just to hide the constructor).
      */

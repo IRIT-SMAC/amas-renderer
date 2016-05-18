@@ -62,9 +62,12 @@ public class GraphService {
      */
     public void addNode(String id, double x, double y) {
         model.addNode(id);
-        model.getNode(id).changeAttribute("xyz", x, y);
-        model.getNode(id).setAttribute("ui.stocked-info", new StockModel(id));
-        model.getNode(id).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
+        Node node = model.getNode(id);
+        node.changeAttribute(Const.NODE_XY, x, y);
+        node.setAttribute(Const.NODE_CONTENT, new StockModel(id));
+        node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
+        node.setAttribute(Const.NODE_LABEL, id);
+
     }
 
     /**
@@ -75,9 +78,10 @@ public class GraphService {
      */
     public void addNode(String id) {
         model.addNode(id);
-        model.getNode(id).setAttribute("ui.stocked-info", new StockModel(id));
-        model.getNode(id).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
-        model.getNode(id).setAttribute("ui.label", id);
+        Node node = model.getNode(id);
+        node.setAttribute(Const.NODE_CONTENT, new StockModel(id));
+        node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
+        node.setAttribute(Const.NODE_LABEL, id);
     }
 
     /**
@@ -88,7 +92,7 @@ public class GraphService {
      */
     public void addEdge(String source, String target) {
         model.addEdge(source + target, source, target, true);
-        model.getEdge(source + target).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_EDGE);
+        model.getEdge(source + target).setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_EDGE);
     }
 
     /**
@@ -164,7 +168,7 @@ public class GraphService {
             HashMap<String, Object> currentAgent = (HashMap<String, Object>) currentAgentMap.getValue();
             fillAgentTargets(currentAgent);
             String id = (String) currentAgent.get("id");
-            StockModel stock = model.getNode(id).getAttribute("ui.stocked-info");
+            StockModel stock = model.getNode(id).getAttribute(Const.NODE_CONTENT);
             stock.getRoot().setValue(id);
             fillAgentAttributes(currentAgent, stock.getRoot());
         }
@@ -203,7 +207,7 @@ public class GraphService {
             if (value instanceof HashMap<?, ?>) {
                 TreeItem<String> item = new TreeItem<>();
                 item.setValue(name);
-                StockModel stock = model.getNode(id).getAttribute("ui.stocked-info");
+                StockModel stock = model.getNode(id).getAttribute(Const.NODE_CONTENT);
                 stock.getRoot().getChildren().add(item);
                 fillAgentAttributes((HashMap<String, Object>) value, item);
             }

@@ -99,17 +99,9 @@ public class GraphAddDelNodeMouseController extends MouseAdapter {
     private void createNode(MouseEvent e) {
         String curId = Integer.toString(currentNodeId++);
         Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
-        String label;
-        StockModel actualStock = new StockModel("Ag" + curId);
 
-        getModel().addNode(curId);
-        getModel().getNode(curId).setAttribute("ui.label", "ag" + curId);
-        getModel().getNode(curId).changeAttribute("xy", clicLoc.x, clicLoc.y);
-        getModel().getNode(curId).setAttribute("ui.stocked-info", actualStock);
-        label = actualStock.getRoot().getValue();
-        getModel().getNode(curId).setAttribute("ui.label", label);
-        getModel().getNode(curId).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
-    }
+        GraphService.getInstance().addNode(curId, clicLoc.x, clicLoc.y);
+   }
 
     /**
      * Sets the button AddAgent from the parent controller
