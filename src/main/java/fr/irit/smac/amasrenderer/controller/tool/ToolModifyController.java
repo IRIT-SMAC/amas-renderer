@@ -100,7 +100,7 @@ public class ToolModifyController implements Initializable {
      * deletes the service ( no confirmation )
      */
     @FXML
-    private void deleteButton() {
+    public void deleteButton() {
         list.getItems().remove(key);
         attributeMap.remove(key);
         dialogStage.close();
@@ -151,13 +151,13 @@ public class ToolModifyController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.tree.setEditable(true);
-        tree.setCellFactory(p -> new ServiceRenameMenuTreeCell());
+        tree.setCellFactory(p -> new ToolAttributesTreeCell());
     }
 
-    private static class ServiceRenameMenuTreeCell extends TextFieldTreeCell<String> {
+    private static class ToolAttributesTreeCell extends TextFieldTreeCell<String> {
         private ContextMenu menu = new ContextMenu();
 
-        public ServiceRenameMenuTreeCell() {
+        public ToolAttributesTreeCell() {
             super(new DefaultStringConverter());
 
             menu.setId("treeAttributeItem");

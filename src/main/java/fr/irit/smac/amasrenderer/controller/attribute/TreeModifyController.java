@@ -121,15 +121,15 @@ public class TreeModifyController implements Initializable {
 
         this.tree.setEditable(true);
 
-        tree.setCellFactory(p -> new MenuAttributeTreeCell());
+        tree.setCellFactory(p -> new MenuAttributesTreeCell());
 
     }
 
-    private static class MenuAttributeTreeCell extends TextFieldTreeCell<String> {
+    private static class MenuAttributesTreeCell extends TextFieldTreeCell<String> {
         private ContextMenu menu = new ContextMenu();
 
         @SuppressWarnings({ "rawtypes", "unchecked" })
-        public MenuAttributeTreeCell() {
+        public MenuAttributesTreeCell() {
             super(new DefaultStringConverter());
 
             menu.setId("treeAttributeItem");
