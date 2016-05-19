@@ -36,7 +36,7 @@ import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
 /**
- * The Class GraphMainController.
+ * The Class
  */
 public class GraphMainController implements Initializable {
 
@@ -66,7 +66,7 @@ public class GraphMainController implements Initializable {
 
     private EStateGraph previousState;
 
-    private GraphicElement curElement;
+    private GraphicElement selectedElement;
 
     public static EStateGraph state = EStateGraph.AT_EASE;
 
@@ -75,130 +75,69 @@ public class GraphMainController implements Initializable {
     @FXML
     public void handleOnMouseReleased(MouseEvent e) {
 
-        switch (GraphMainController.state) {
-
-            case SELECTED_NODE:
-                state = EStateGraph.AT_EASE;
-                mouseButtonReleaseOffElement(curElement, e);
-                break;
-            default:
-                break;
+        if (state == EStateGraph.SELECTED_NODE) {
+            state = EStateGraph.AT_EASE;
+            unselectNode(selectedElement);
         }
     }
 
     @FXML
     public void handleOnMouseDragged(MouseEvent e) {
-        switch (GraphMainController.state) {
 
-            case SELECTED_NODE:
-                state = EStateGraph.SELECTED_NODE;
-                elementMoving(curElement, e);
-                break;
-            default:
-                break;
+        if (state == EStateGraph.SELECTED_NODE) {
+            state = EStateGraph.SELECTED_NODE;
+            moveSelectedNode(selectedElement, e);
         }
     }
 
     @FXML
     public void handleOnScroll(ScrollEvent e) {
 
-        switch (GraphMainController.state) {
-
-            default:
-                Double scale = graphView.getCamera().getViewPercent();
-                if (e.getDeltaY() >= 0) {
-                    graphView.getCamera().setViewPercent(scale * Const.SCALE_ZOOM_RATIO);
-                }
-                else {
-                    graphView.getCamera().setViewPercent(scale * Const.SCALE_UNZOOM_RATIO);
-                }
-                Point3 newCenter = graphView.getCamera().getViewCenter()
-                    .interpolate(graphView.getCamera().transformPxToGu(e.getX(), e.getY()), Const.TRANSLATE_ZOOM_RATIO);
-                graphView.getCamera().setViewCenter(newCenter.x, newCenter.y, newCenter.z);
-                break;
-        }
-
+        zoomOrUnzoom(e);
     }
 
     @FXML
     public void handleOnMousePressed(MouseEvent e) {
-        switch (GraphMainController.state) {
+        switch (state) {
 
             case AT_EASE:
-                if (e.isSecondaryButtonDown()) {
-                    loadAttributes(e);
-                }
-                else if (e.isPrimaryButtonDown()) {
-                    state = EStateGraph.SELECTED_NODE;
-                    mouseButtonPress(e);
-                }
+                handleAttributesOrSelectNode(e);
                 break;
             case CTRL_DOWN:
-                if (e.isPrimaryButtonDown()) {
-                    createNode(e);
-                }
-                else if (e.isSecondaryButtonDown()) {
-                    Node node = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-                    this.graphNodeService.removeNode(node);
-                }
-                GraphMainController.state = EStateGraph.CTRL_DOWN;
+                state = EStateGraph.CTRL_DOWN;
+                createOrRemoveNode(e);
                 break;
 
             case BUTTON_ADD_NODE:
+                state = EStateGraph.BUTTON_ADD_NODE;
                 createNode(e);
-                GraphMainController.state = EStateGraph.BUTTON_ADD_NODE;
                 break;
 
             case BUTTON_DELETE_NODE:
-                Node n = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-                this.graphNodeService.removeNode(n);
-                GraphMainController.state = EStateGraph.BUTTON_DELETE_NODE;
+                state = EStateGraph.BUTTON_DELETE_NODE;
+                removeNode(e);
                 break;
 
             case SHIFT_DOWN:
-                source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-                if (source != null) {
-                    previousState = EStateGraph.SHIFT_DOWN;
-                    if (e.isPrimaryButtonDown()) {
-                        GraphMainController.state = EStateGraph.READY_TO_ADD;
-
-                    }
-                    else if (e.isSecondaryButtonDown()) {
-                        GraphMainController.state = EStateGraph.READY_TO_DELETE;
-
-                    }
-                    selectSource();
-                }
+                readyToAddOrDeleteEdgeShift(e);
                 break;
 
             case BUTTON_ADD_EDGE:
-                source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-                if (source != null) {
-                    previousState = EStateGraph.BUTTON_ADD_EDGE;
-                    GraphMainController.state = EStateGraph.READY_TO_ADD;
-                    selectSource();
-                }
+                readyToAddOrDeleteEdge(e, EStateGraph.BUTTON_ADD_EDGE, EStateGraph.READY_TO_ADD);
                 break;
 
             case BUTTON_DELETE_EDGE:
-                source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-                if (source != null) {
-                    previousState = EStateGraph.BUTTON_DELETE_EDGE;
-                    GraphMainController.state = EStateGraph.READY_TO_DELETE;
-                    selectSource();
-                }
+                readyToAddOrDeleteEdge(e, EStateGraph.BUTTON_DELETE_EDGE, EStateGraph.READY_TO_DELETE);
                 break;
 
             case READY_TO_ADD:
-                GraphMainController.state = previousState;
+                state = previousState;
                 addEdge(e);
-                unselectSource();
                 break;
 
             case READY_TO_DELETE:
-                GraphMainController.state = previousState;
+                state = previousState;
                 removeEdge(e);
-                unselectSource();
                 break;
 
             default:
@@ -208,28 +147,118 @@ public class GraphMainController implements Initializable {
     }
 
     /**
+     * Set the state to ready to add or delete an edge depending on the mouse
+     * button edge
+     * 
+     * @param e
+     *            the event
+     */
+    private void readyToAddOrDeleteEdgeShift(MouseEvent e) {
+
+        previousState = EStateGraph.SHIFT_DOWN;
+        if (e.isPrimaryButtonDown()) {
+            readyToAddOrDeleteEdge(e, previousState, EStateGraph.READY_TO_ADD);
+        }
+        else if (e.isSecondaryButtonDown()) {
+            readyToAddOrDeleteEdge(e, previousState, EStateGraph.READY_TO_DELETE);
+
+        }
+    }
+
+    /**
+     * Set the state to ready to add or delete an edge depending on the
+     * arguments
+     * 
+     * @param e
+     *            the event
+     * @param previousState
+     *            the previous state that has to be set after the next state is
+     *            done
+     * @param nextState
+     *            the next state
+     */
+    private void readyToAddOrDeleteEdge(MouseEvent e, EStateGraph previousState, EStateGraph nextState) {
+
+        source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        if (source != null) {
+            this.previousState = previousState;
+            state = nextState;
+            selectSource();
+        }
+    }
+
+    /**
+     * Create or remove a node depending on the mouse button down
+     * 
+     * @param e
+     */
+    private void createOrRemoveNode(MouseEvent e) {
+
+        if (e.isPrimaryButtonDown()) {
+            createNode(e);
+        }
+        else if (e.isSecondaryButtonDown()) {
+            removeNode(e);
+        }
+    }
+
+    /**
+     * Zoom or unzoom depending on the scroll event
+     * 
+     * @param e
+     */
+    private void zoomOrUnzoom(ScrollEvent e) {
+        Double scale = graphView.getCamera().getViewPercent();
+        if (e.getDeltaY() >= 0) {
+            graphView.getCamera().setViewPercent(scale * Const.SCALE_ZOOM_RATIO);
+        }
+        else {
+            graphView.getCamera().setViewPercent(scale * Const.SCALE_UNZOOM_RATIO);
+        }
+        Point3 newCenter = graphView.getCamera().getViewCenter()
+            .interpolate(graphView.getCamera().transformPxToGu(e.getX(), e.getY()), Const.TRANSLATE_ZOOM_RATIO);
+        graphView.getCamera().setViewCenter(newCenter.x, newCenter.y, newCenter.z);
+    }
+
+    /**
+     * Handles the attribute or select a node depending on the mouse button down
+     * 
+     * @param e
+     *            the event
+     */
+    private void handleAttributesOrSelectNode(MouseEvent e) {
+        if (e.isSecondaryButtonDown()) {
+            state = EStateGraph.AT_EASE;
+            handleAttributes(e);
+        }
+        else if (e.isPrimaryButtonDown()) {
+            state = EStateGraph.SELECTED_NODE;
+            selectNode(e);
+        }
+    }
+
+    /**
      * Method to unselect all nodes when the Mouse button is pressed.
      *
      * @param event
      *            the event
      */
-    private void mouseButtonPress(MouseEvent e) {
+    private void selectNode(MouseEvent e) {
 
-        curElement = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-        if (curElement != null) {
+        selectedElement = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        if (selectedElement != null) {
             graphView.requestFocus();
-
             for (Node node : GraphService.getInstance().getModel()) {
                 node.addAttribute("ui.clicked");
                 node.removeAttribute("ui.clicked");
             }
-
-            graphView.freezeElement(curElement, true);
-            curElement.addAttribute("ui.clicked");
+            graphView.freezeElement(selectedElement, true);
+            selectedElement.addAttribute("ui.clicked");
         }
     }
 
-    private void loadAttributes(MouseEvent e) {
+    private void handleAttributes(MouseEvent e) {
+
         GraphicElement elt = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (elt != null && elt instanceof Node) {
             Platform.runLater(() -> loadFxml((Node) elt));
@@ -245,9 +274,10 @@ public class GraphMainController implements Initializable {
      * @param event
      *            the event
      */
-    private void mouseButtonReleaseOffElement(GraphicElement element, MouseEvent event) {
+    private void unselectNode(GraphicElement element) {
+        
         graphView.freezeElement(element, false);
-        curElement = null;
+        selectedElement = null;
     }
 
     /**
@@ -259,7 +289,8 @@ public class GraphMainController implements Initializable {
      * @param event
      *            the event
      */
-    private void elementMoving(GraphicElement element, MouseEvent event) {
+    private void moveSelectedNode(GraphicElement element, MouseEvent event) {
+        
         graphView.moveElementAtPx(element, event.getX(), event.getY());
     }
 
@@ -270,10 +301,23 @@ public class GraphMainController implements Initializable {
      *            the event
      */
     private void createNode(MouseEvent e) {
+
         String curId = Integer.toString(currentNodeId++);
         Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
 
         this.graphNodeService.addNode(curId, clicLoc.x, clicLoc.y);
+    }
+
+    /**
+     * Removes a node
+     * 
+     * @param e
+     *            the event
+     */
+    private void removeNode(MouseEvent e) {
+
+        Node node = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        this.graphNodeService.removeNode(node);
     }
 
     /**
@@ -288,6 +332,16 @@ public class GraphMainController implements Initializable {
     }
 
     /**
+     * Unselect a source when an edge is created, deleted, or when the target is
+     * not a node
+     */
+    private void unselectSource() {
+
+        source.removeAttribute("ui.selected");
+        source = null;
+    }
+
+    /**
      * Add an edge between the source and the target
      * 
      * @param e
@@ -298,6 +352,7 @@ public class GraphMainController implements Initializable {
         if (getEdge(e) == null && target != null) {
             this.graphNodeService.addEdge(source.getId(), target.getId());
         }
+        unselectSource();
     }
 
     /**
@@ -309,6 +364,7 @@ public class GraphMainController implements Initializable {
     private void removeEdge(MouseEvent e) {
 
         this.graphNodeService.removeEdge(getEdge(e));
+        unselectSource();
     }
 
     /**
@@ -320,22 +376,12 @@ public class GraphMainController implements Initializable {
      */
     private Edge getEdge(MouseEvent e) {
 
+        Edge edge = null;
         target = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (target != null) {
-            Edge edge = this.graphNodeService.getModel().getEdge(source + "" + target);
-            return edge;
+            edge = this.graphNodeService.getModel().getEdge(source + "" + target);
         }
-        return null;
-    }
-
-    /**
-     * Unselect a source when an edge is created, deleted, or when the target is
-     * not a node
-     */
-    private void unselectSource() {
-
-        source.removeAttribute("ui.selected");
-        source = null;
+        return edge;
     }
 
     /**
