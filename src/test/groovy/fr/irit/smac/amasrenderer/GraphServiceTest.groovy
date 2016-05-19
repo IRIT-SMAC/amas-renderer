@@ -1,12 +1,9 @@
 package fr.irit.smac.amasrenderer
 
-import org.graphstream.graph.Edge
 import org.graphstream.graph.implementations.SingleNode
 
 import spock.lang.Shared
 import spock.lang.Specification
-import fr.irit.smac.amasrenderer.controller.graph.GraphAddDelNodeMouseController;
-import fr.irit.smac.amasrenderer.model.AgentGraphModel
 import fr.irit.smac.amasrenderer.service.GraphService
 
 /**

@@ -27,9 +27,6 @@ public class GraphAddDelController {
     @FXML
     private ToggleButton buttonDelEdge;
 
-    private GraphAddDelEdgeMouseController graphAddDelEdgeMouseController;
-
-    private GraphAddDelNodeMouseController graphAddDelNodeMouseController;
 
     @FXML
     public void buttonAddNode() {
@@ -91,23 +88,6 @@ public class GraphAddDelController {
         }
     }
 
-    /**
-     * Inits the subcontrollers GraphAddDelEdgeMouseController and
-     * GraphAddDelMouseController.
-     *
-     * @param graphView
-     *            the graph view
-     * @param graphNodeService
-     *            the graph node service
-     */
-    public void init(ViewPanel graphView) {
-
-        graphAddDelEdgeMouseController = new GraphAddDelEdgeMouseController();
-        graphAddDelEdgeMouseController.init(graphView);
-        graphAddDelNodeMouseController = new GraphAddDelNodeMouseController();
-        graphAddDelNodeMouseController.init(graphView);
-
-    }
 
     public ToggleGroup getTogGroup() {
         return toggroup;

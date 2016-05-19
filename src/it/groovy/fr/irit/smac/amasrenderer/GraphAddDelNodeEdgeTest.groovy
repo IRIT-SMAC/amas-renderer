@@ -1,22 +1,16 @@
 package fr.irit.smac.amasrenderer
 
 
-import java.lang.invoke.MethodHandleImpl.BindCaller.T
-import javafx.embed.swing.SwingNode
 import javafx.fxml.FXMLLoader
-import javafx.scene.control.TreeView
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.BorderPane
-import javafx.scene.layout.StackPane
 
 import org.graphstream.ui.swingViewer.ViewPanel
 
 import spock.lang.IgnoreIf
 import spock.lang.Shared
-import fr.irit.smac.amasrenderer.controller.graph.GraphMainController
-import fr.irit.smac.amasrenderer.controller.graph.GraphNodeEditController;
 import fr.irit.smac.amasrenderer.controller.MainController
-import fr.irit.smac.amasrenderer.controller.attribute.TreeModifyController;
+import fr.irit.smac.amasrenderer.controller.graph.GraphMainController
 import fr.irit.smac.amasrenderer.service.GraphService
 
 @IgnoreIf({
@@ -50,7 +44,6 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
             graphView = graphMainController.getGraphView()
             return rootLayout
         }
-        graphMainController.initSubControllers()
 
         sleep(1000) //time for the graph to be initialized
         graphService = GraphService.getInstance()

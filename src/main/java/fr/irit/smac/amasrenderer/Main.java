@@ -36,7 +36,6 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(rootLayout));
         MainController mainController = loaderRootLayout.getController();
         GraphMainController graphMainController = mainController.getGraphMainController();
-        graphMainController.initSubControllers();
         primaryStage.setMaximized(true);
         primaryStage.setOnCloseRequest(event -> {
             Platform.exit();
