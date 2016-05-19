@@ -42,7 +42,6 @@ class GraphNodeAttributeTest extends GuiSpecification{
             graphView = graphMainController.getGraphView()
             return rootLayout
         }
-        graphMainController.initSubControllers()
 
         sleep(1000) //time for the graph to be initialized
         graphService = GraphService.getInstance()

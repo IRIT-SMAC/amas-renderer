@@ -258,4 +258,11 @@ public class GraphService {
             "url(" + getClass().getResource("../css/graph.css") + ")");
     }
 
+    public void setQualityGraph() {
+        
+        this.getModel().addAttribute("ui.quality");
+        this.getModel().addAttribute("layout.quality", 4);
+        this.getModel().addAttribute("ui.antialias");        
+    }
+
 }

@@ -18,7 +18,6 @@ import org.graphstream.ui.view.Viewer;
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.attribute.TreeModifyController;
-import fr.irit.smac.amasrenderer.model.AgentGraphModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
@@ -53,8 +52,6 @@ public class GraphMainController implements Initializable {
     @FXML
     private GraphAddDelController graphAddDelController;
 
-    private static final Logger LOGGER = Logger.getLogger(GraphMainController.class.getName());
-
     private GraphService graphNodeService = GraphService.getInstance();
 
     private ViewPanel graphView;
@@ -63,19 +60,17 @@ public class GraphMainController implements Initializable {
 
     private int currentNodeId;
 
-    public static EStateGraph state = EStateGraph.AT_EASE;
-
     private Node source = null;
 
     private Node target = null;
 
     private EStateGraph previousState;
 
-    protected GraphicElement curElement;
+    private GraphicElement curElement;
 
-    protected float x1;
+    public static EStateGraph state = EStateGraph.AT_EASE;
 
-    protected float y1;
+    private static final Logger LOGGER = Logger.getLogger(GraphMainController.class.getName());
 
     @FXML
     public void handleOnMouseReleased(MouseEvent e) {
@@ -218,29 +213,19 @@ public class GraphMainController implements Initializable {
      * @param event
      *            the event
      */
-    protected void mouseButtonPress(MouseEvent e) {
+    private void mouseButtonPress(MouseEvent e) {
 
         curElement = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (curElement != null) {
-
             graphView.requestFocus();
 
             for (Node node : GraphService.getInstance().getModel()) {
-                node.addAttribute("ui.selected");
-                // nonsense line, but don't always work without it
-                node.removeAttribute("ui.selected");
                 node.addAttribute("ui.clicked");
-                // nonsense line, but don't always work without it
                 node.removeAttribute("ui.clicked");
             }
 
             graphView.freezeElement(curElement, true);
-            if (e.isSecondaryButtonDown()) {
-                curElement.addAttribute("ui.selected");
-            }
-            else {
-                curElement.addAttribute("ui.clicked");
-            }
+            curElement.addAttribute("ui.clicked");
         }
     }
 
@@ -260,11 +245,8 @@ public class GraphMainController implements Initializable {
      * @param event
      *            the event
      */
-    protected void mouseButtonReleaseOffElement(GraphicElement element, MouseEvent event) {
+    private void mouseButtonReleaseOffElement(GraphicElement element, MouseEvent event) {
         graphView.freezeElement(element, false);
-        if (event.isSecondaryButtonDown()) {
-            element.removeAttribute("ui.clicked");
-        }
         curElement = null;
     }
 
@@ -277,7 +259,7 @@ public class GraphMainController implements Initializable {
      * @param event
      *            the event
      */
-    protected void elementMoving(GraphicElement element, MouseEvent event) {
+    private void elementMoving(GraphicElement element, MouseEvent event) {
         graphView.moveElementAtPx(element, event.getX(), event.getY());
     }
 
@@ -297,7 +279,7 @@ public class GraphMainController implements Initializable {
     /**
      * Select the source node
      */
-    public void selectSource() {
+    private void selectSource() {
 
         if (source != null && !source.hasAttribute("ui.selected")) {
             source.addAttribute("ui.selected");
@@ -311,7 +293,7 @@ public class GraphMainController implements Initializable {
      * @param e
      *            the mouse event
      */
-    public void addEdge(MouseEvent e) {
+    private void addEdge(MouseEvent e) {
 
         if (getEdge(e) == null && target != null) {
             this.graphNodeService.addEdge(source.getId(), target.getId());
@@ -324,7 +306,7 @@ public class GraphMainController implements Initializable {
      * @param e
      *            the mouse event
      */
-    public void removeEdge(MouseEvent e) {
+    private void removeEdge(MouseEvent e) {
 
         this.graphNodeService.removeEdge(getEdge(e));
     }
@@ -357,46 +339,12 @@ public class GraphMainController implements Initializable {
     }
 
     /**
-     * Gets the viewer
-     * 
-     * @return the viewer
-     */
-    public Viewer getViewer() {
-        return this.viewer;
-    }
-
-    /**
-     * Draw the graph inside a swing node
-     */
-    public void drawGraph() {
-        graphNode.setContent(this.graphView);
-    }
-
-    /**
-     * Gets the graph view.
-     *
-     * @return the graph view
-     */
-    public ViewPanel getGraphView() {
-        return graphView;
-    }
-
-    /**
-     * Gets the model. (the AgentGraph)
-     *
-     * @return the model
-     */
-    public AgentGraphModel getModel() {
-        return this.graphNodeService.getModel();
-    }
-
-    /**
      * Load the graph attributes fxml
      * 
      * @param node
      *            the node
      */
-    public void loadFxml(Node node) {
+    private void loadFxml(Node node) {
         FXMLLoader loaderServices = new FXMLLoader();
 
         loaderServices.setLocation(Main.class.getResource("view/GraphAttributes.fxml"));
@@ -432,13 +380,12 @@ public class GraphMainController implements Initializable {
     }
 
     /**
-     * Initialize the graph. Creates Const.NODE_INIT nodes with each
-     * Const.EDGE_INIT edge going from them to other nodes For testing purposes
+     * Gets the graph view.
+     *
+     * @return the graph view
      */
-    private void initGraph() {
-        getModel().addAttribute("ui.quality");
-        getModel().addAttribute("layout.quality", 4);
-        getModel().addAttribute("ui.antialias");
+    public ViewPanel getGraphView() {
+        return graphView;
     }
 
     /*
@@ -468,9 +415,8 @@ public class GraphMainController implements Initializable {
             graphView.removeMouseListener(mouseListener);
         }
 
-        this.initGraph();
-
-        this.drawGraph();
+        graphNodeService.setQualityGraph();
+        graphNode.setContent(this.graphView);
     }
 
 }
