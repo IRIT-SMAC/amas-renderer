@@ -64,8 +64,6 @@ public class GraphMainController implements Initializable {
 
     private Node target = null;
 
-    private EStateGraph previousState;
-
     private GraphicElement selectedElement;
 
     public static EStateGraph state = EStateGraph.AT_EASE;
@@ -123,20 +121,32 @@ public class GraphMainController implements Initializable {
                 break;
 
             case BUTTON_ADD_EDGE:
-                readyToAddOrDeleteEdge(e, EStateGraph.BUTTON_ADD_EDGE, EStateGraph.READY_TO_ADD);
+                state = EStateGraph.BUTTON_ADD_EDGE;
+                readyToAddOrDeleteEdge(e, EStateGraph.READY_TO_ADD_BUTTON);
                 break;
 
             case BUTTON_DELETE_EDGE:
-                readyToAddOrDeleteEdge(e, EStateGraph.BUTTON_DELETE_EDGE, EStateGraph.READY_TO_DELETE);
+                state = EStateGraph.BUTTON_DELETE_EDGE;
+                readyToAddOrDeleteEdge(e, EStateGraph.READY_TO_DELETE_BUTTON);
                 break;
 
             case READY_TO_ADD:
-                state = previousState;
+                state = EStateGraph.SHIFT_DOWN;
                 addEdge(e);
                 break;
 
             case READY_TO_DELETE:
-                state = previousState;
+                state = EStateGraph.SHIFT_DOWN;
+                removeEdge(e);
+                break;
+
+            case READY_TO_ADD_BUTTON:
+                state = EStateGraph.BUTTON_ADD_EDGE;
+                addEdge(e);
+                break;
+
+            case READY_TO_DELETE_BUTTON:
+                state = EStateGraph.BUTTON_DELETE_EDGE;
                 removeEdge(e);
                 break;
 
@@ -155,12 +165,11 @@ public class GraphMainController implements Initializable {
      */
     private void readyToAddOrDeleteEdgeShift(MouseEvent e) {
 
-        previousState = EStateGraph.SHIFT_DOWN;
         if (e.isPrimaryButtonDown()) {
-            readyToAddOrDeleteEdge(e, previousState, EStateGraph.READY_TO_ADD);
+            readyToAddOrDeleteEdge(e, EStateGraph.READY_TO_ADD);
         }
         else if (e.isSecondaryButtonDown()) {
-            readyToAddOrDeleteEdge(e, previousState, EStateGraph.READY_TO_DELETE);
+            readyToAddOrDeleteEdge(e, EStateGraph.READY_TO_DELETE);
 
         }
     }
@@ -177,11 +186,10 @@ public class GraphMainController implements Initializable {
      * @param nextState
      *            the next state
      */
-    private void readyToAddOrDeleteEdge(MouseEvent e, EStateGraph previousState, EStateGraph nextState) {
+    private void readyToAddOrDeleteEdge(MouseEvent e, EStateGraph nextState) {
 
         source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (source != null) {
-            this.previousState = previousState;
             state = nextState;
             selectSource();
         }
@@ -275,7 +283,7 @@ public class GraphMainController implements Initializable {
      *            the event
      */
     private void unselectNode(GraphicElement element) {
-        
+
         graphView.freezeElement(element, false);
         selectedElement = null;
     }
@@ -290,7 +298,7 @@ public class GraphMainController implements Initializable {
      *            the event
      */
     private void moveSelectedNode(GraphicElement element, MouseEvent event) {
-        
+
         graphView.moveElementAtPx(element, event.getX(), event.getY());
     }
 
