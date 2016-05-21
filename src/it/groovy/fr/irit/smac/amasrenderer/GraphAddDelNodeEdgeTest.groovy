@@ -101,6 +101,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         when:
         fx.clickOn("#buttonDelAgent").clickOn(graphId)
         sleep(2000)
+        
         then:
         model.getNodeCount() == 0
     }

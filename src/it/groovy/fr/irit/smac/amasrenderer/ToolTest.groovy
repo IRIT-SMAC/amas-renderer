@@ -5,8 +5,10 @@ import javafx.scene.control.ListView
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
 import spock.lang.Shared
+import spock.lang.Stepwise;
 import fr.irit.smac.amasrenderer.service.GraphService
 
+@Stepwise
 class ToolTest extends GuiSpecification{
 
 	@Shared

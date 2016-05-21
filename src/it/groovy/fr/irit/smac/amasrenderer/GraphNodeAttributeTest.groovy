@@ -11,13 +11,16 @@ import org.graphstream.ui.swingViewer.ViewPanel
 
 import spock.lang.IgnoreIf
 import spock.lang.Shared
+import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.controller.MainController
 import fr.irit.smac.amasrenderer.controller.graph.GraphMainController
+import fr.irit.smac.amasrenderer.model.AgentGraphModel
 import fr.irit.smac.amasrenderer.service.GraphService
 
 @IgnoreIf({
     System.getenv("TRAVIS") != null
 })
+@Stepwise
 class GraphNodeAttributeTest extends GuiSpecification{
 
     @Shared
@@ -46,15 +49,15 @@ class GraphNodeAttributeTest extends GuiSpecification{
         sleep(1000) //time for the graph to be initialized
         graphService = GraphService.getInstance()
 
+        AgentGraphModel model = graphService.getModel()
+        graphService.addNode("ag1")
+        sleep(2000)
+
     }
 
     def "check if adding an attribute works with alt+rightClick"() {
 
         given:
-        fx.press(KeyCode.CONTROL)
-                        .clickOn(graphId)
-                        .release(KeyCode.CONTROL)
-
         Object<T> tree = graphService.getModel().getNode(0).getAttribute("ui.stocked-info")
         int nbChildren = tree.getRoot().getChildren().size()
 
@@ -74,13 +77,8 @@ class GraphNodeAttributeTest extends GuiSpecification{
 
     def "check if modifying an attribute works with alt+rightClick"() {
 
-        given:
-        fx.press(KeyCode.CONTROL)
-                        .clickOn(graphId)
-                        .release(KeyCode.CONTROL)
-
         when:
-        fx.rightClickOn()
+        fx.rightClickOn(graphId)
                         .clickOn("#tree")
                         .doubleClickOn("#tree")
                         .moveBy(-200,-160)
@@ -98,16 +96,12 @@ class GraphNodeAttributeTest extends GuiSpecification{
     def "check if deleting an attribute works with alt+rightClick"() {
 
         given:
-        fx.press(KeyCode.CONTROL)
-                        .clickOn(graphId)
-                        .release(KeyCode.CONTROL)
-                        .rightClickOn(graphId)
+        fx.rightClickOn(graphId)
                         .clickOn("#tree")
                         .doubleClickOn("#tree")
                         .moveBy(-200,-160)
                         .rightClickOn()
                         .clickOn("#addAttributeItem")
-                        
         int nbChildren = 1
 
         when:

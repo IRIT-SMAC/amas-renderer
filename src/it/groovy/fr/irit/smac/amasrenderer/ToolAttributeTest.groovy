@@ -8,11 +8,13 @@ import javafx.scene.control.TreeItem
 import javafx.scene.layout.BorderPane
 import spock.lang.IgnoreIf
 import spock.lang.Shared
+import spock.lang.Stepwise;
 import fr.irit.smac.amasrenderer.service.GraphService
 
 @IgnoreIf({
     System.getenv("TRAVIS") != null
 })
+@Stepwise
 class ToolAttributeTest extends GuiSpecification{
 
     @Shared
