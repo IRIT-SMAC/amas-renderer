@@ -1,21 +1,26 @@
 package fr.irit.smac.amasrenderer
 
-
+import javafx.application.Platform
 import javafx.fxml.FXMLLoader
 import javafx.scene.input.KeyCode
+import javafx.scene.input.MouseButton
 import javafx.scene.layout.BorderPane
 
 import org.graphstream.ui.swingViewer.ViewPanel
 
+import spock.lang.AutoCleanup
 import spock.lang.IgnoreIf
 import spock.lang.Shared
+import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.controller.MainController
 import fr.irit.smac.amasrenderer.controller.graph.GraphMainController
+import fr.irit.smac.amasrenderer.model.AgentGraphModel
 import fr.irit.smac.amasrenderer.service.GraphService
 
 @IgnoreIf({
     System.getenv("TRAVIS") != null
 })
+@Stepwise
 class GraphAddDelNodeEdgeTest extends GuiSpecification{
 
     @Shared
@@ -29,37 +34,43 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
 
     @Shared
     String graphId = "#graphNode"
-    
-    GraphMainController graphMainController
+
+    @Shared
+    double height
+
 
     def setup() {
-        setupStage {
-            stage ->
+        setupStage { stage ->
 
             FXMLLoader loaderRootLayout = new FXMLLoader()
             loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
-            BorderPane rootLayout = (BorderPane) loaderRootLayout.load()
+            rootLayout = (BorderPane) loaderRootLayout.load()
             MainController mainController = loaderRootLayout.getController()
-            graphMainController = mainController.getGraphMainController()
+            GraphMainController graphMainController = mainController.getGraphMainController()
             graphView = graphMainController.getGraphView()
+
             return rootLayout
         }
 
         sleep(1000) //time for the graph to be initialized
         graphService = GraphService.getInstance()
+        height = graphView.getHeight()
 
+        fx.release(KeyCode.CONTROL)
+        fx.release(KeyCode.SHIFT)
+        fx.clickOn(graphId)
     }
+
 
     def "check if an agent is added by clicking on the corresponding button"() {
 
-
         given:
-        def model = graphService.getModel()
-        def nbNoeud = model.getNodeCount()
+        AgentGraphModel model = graphService.getModel()
+        int nbNoeud = model.getNodeCount()
 
         when:
-        println "addition of an agent - toggle button + click"
         fx.clickOn("#buttonAddAgent").clickOn(graphId)
+        sleep(2000)
 
         then:
         model.getNodeCount() == (nbNoeud+1)
@@ -68,12 +79,12 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is added by doing the corresponding shortcut"() {
 
         given:
-        def model = graphService.getModel()
-        def nbNoeud = model.getNodeCount()
+        AgentGraphModel model = graphService.getModel()
+        int nbNoeud = model.getNodeCount()
 
         when:
-        println "addition of an agent - shortcut"
         fx.press(KeyCode.CONTROL).clickOn(graphId).release(KeyCode.CONTROL)
+        sleep(2000)
 
         then:
         model.getNodeCount() == (nbNoeud+1)
@@ -83,13 +94,13 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is removed by clicking on the corresponding button"() {
 
         given:
-        def model = graphService.getModel()
+        AgentGraphModel model = graphService.getModel()
+        graphService.addNode("ag1")
+        sleep(2000)
 
         when:
-        println "deletion of an agent - button"
-        fx.press(KeyCode.CONTROL).clickOn(graphId).release(KeyCode.CONTROL)
         fx.clickOn("#buttonDelAgent").clickOn(graphId)
-
+        sleep(2000)
         then:
         model.getNodeCount() == 0
     }
@@ -97,13 +108,13 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is removed by doing the corresponding shortcut"() {
 
         given:
-        def model = graphService.getModel()
+        AgentGraphModel model = graphService.getModel()
+        graphService.addNode("ag1")
+        sleep(2000)
 
         when:
-        println "deletion of an agent - shortcut"
-        fx.press(KeyCode.CONTROL).clickOn(graphId).release(KeyCode.CONTROL)
         fx.press(KeyCode.CONTROL).rightClickOn(graphId).release(KeyCode.CONTROL)
-
+        sleep(2000)
 
         then:
         model.getNodeCount() == 0
@@ -112,21 +123,15 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an edge is added by clicking on the corresponding button"() {
 
         given:
-        def nbEdge = graphService.getModel().getEdgeCount()
-
+        int nbEdge = graphService.getModel().getEdgeCount()
+        graphService.addNode("ag1",0.0,-(height/2)+20)
+        graphService.addNode("ag2",0.0,height-40)
+        fx.clickOn("#buttonAddEdge")
+        sleep(2000)
 
         when:
-        println "addition of a link - button"
-
-        fx.press(KeyCode.CONTROL)
-        .clickOn(graphId)
-        .moveBy(0,-50)
-        .clickOn()
-        .release(KeyCode.CONTROL)
-        .clickOn("#buttonAddEdge")
-        double width = graphView.getWidth()
-        double height = graphView.getHeight()
         fx.moveTo(graphId).moveBy(0.0,-(height/2)+20).clickOn().moveBy(0.0,height-40).clickOn()
+        sleep(2000)
 
         then:
         graphService.getModel().getEdgeCount() == nbEdge+1
@@ -135,24 +140,19 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an edge is added by doing the corresponding shortcut"() {
 
         given:
-        def nbEdge = graphService.getModel().getEdgeCount()
+        int nbEdge = graphService.getModel().getEdgeCount()
+        graphService.addNode("ag1",0.0,-(height/2)+20)
+        graphService.addNode("ag2",0.0,height-40)
+        sleep(2000)
 
         when:
-        println "addition of a link - shortcut"
-        fx.press(KeyCode.CONTROL)
-        .clickOn(graphId)
-        .moveBy(0,-50)
-        .clickOn()
-        .release(KeyCode.CONTROL)
-        double width = graphView.getWidth()
-        double height = graphView.getHeight()
         fx.moveTo(graphId).moveBy(0.0,-(height/2)+20)
-        .press(KeyCode.SHIFT)
-        .clickOn()
-        .moveBy(0.0,height-40)
-        .clickOn()
-        .release(KeyCode.SHIFT)
-
+                        .press(KeyCode.SHIFT)
+                        .clickOn()
+                        .moveBy(0.0,height-40)
+                        .clickOn()
+                        .release(KeyCode.SHIFT)
+        sleep(2000)
 
         then:
         graphService.getModel().getEdgeCount() == nbEdge+1 && graphService.getModel().getNodeCount() == 2
@@ -161,58 +161,45 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an edge is removed by clicking on the corresponding button"() {
 
         given:
-        println "link removed with button"
-        fx.press(KeyCode.CONTROL)
-        .clickOn(graphId)
-        .moveBy(0,-50)
-        .clickOn()
-        .release(KeyCode.CONTROL)
-        double width = graphView.getWidth()
-        double height = graphView.getHeight()
-        fx.moveTo(graphId).press(KeyCode.SHIFT)
-        .moveBy(0.0,-(height/2)+20)
-        .clickOn()
-        .moveBy(0.0,height-40)
-        .clickOn()
-        .release(KeyCode.SHIFT)
-        .clickOn("#buttonDelEdge")
-        
+        graphService.addNode("ag1",0.0,-(height/2)+20)
+        graphService.addNode("ag2",0.0,height-40)
+        graphService.addEdge("ag1","ag2")
+        fx.clickOn("#buttonDelEdge")
+        int oneEdge = graphService.getModel().getEdgeCount()
+        sleep(2000)
+
         when:
-        fx.moveTo(graphId).moveBy(0.0,-(height/2)+20)
-        .clickOn()
-        .moveBy(0.0,height-40)
-        .clickOn()
+        fx.clickOn(graphId)
+                        .moveBy(0.0,-(height/2)+20)
+                        .clickOn()
+                        .moveBy(0.0,height-40)
+                        .clickOn()
+        sleep(2000)
 
         then:
-        graphService.getModel().getEdgeCount() == 0 && graphService.getModel().getNodeCount() == 2
+        graphService.getModel().getEdgeCount() == 0 && graphService.getModel().getNodeCount() == 2 && oneEdge == 1
     }
 
     def "check if an edge is removed by doing the corresponding shortcut"() {
 
-        when:
-        println "link removed with button"
-        fx.press(KeyCode.CONTROL)
-        .clickOn(graphId)
-        .moveBy(0,-50)
-        .clickOn()
-        .release(KeyCode.CONTROL)
-        double width = graphView.getWidth()
-        double height = graphView.getHeight()
-        fx.moveTo(graphId).moveBy(0.0,-(height/2)+20)
-        .press(KeyCode.SHIFT)
-        .clickOn()
-        .moveBy(0.0,height-40)
-        .clickOn()
-        .release(KeyCode.SHIFT)
+        given:
+        graphService.addNode("ag1",0.0,-(height/2)+20)
+        graphService.addNode("ag2",0.0,height-40)
+        graphService.addEdge("ag1","ag2")
+        int oneEdge = graphService.getModel().getEdgeCount()
+        sleep(2000)
 
-        fx.moveTo(graphId).moveBy(0.0,-(height/2)+20)
-        .press(KeyCode.SHIFT)
-        .rightClickOn()
-        .moveBy(0.0,height-40)
-        .rightClickOn()
-        .release(KeyCode.SHIFT)
+        when:
+        fx.moveTo(graphId)
+                        .moveBy(0.0,-(height/2)+20)
+                        .press(KeyCode.SHIFT)
+                        .rightClickOn()
+                        .moveBy(0.0,height-40)
+                        .rightClickOn()
+                        .release(KeyCode.SHIFT)
+        sleep(2000)
 
         then:
-        graphService.getModel().getEdgeCount() == 0
+        graphService.getModel().getEdgeCount() == 0 &&  graphService.getModel().getNodeCount() == 2 && oneEdge == 1
     }
 }
