@@ -48,7 +48,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
             MainController mainController = loaderRootLayout.getController()
             GraphMainController graphMainController = mainController.getGraphMainController()
             graphView = graphMainController.getGraphView()
-
+            
             return rootLayout
         }
 
@@ -171,9 +171,9 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
 
         when:
         fx.clickOn(graphId)
-                        .moveBy(0.0,-(height/2)+20)
+                        .moveBy(0.0,-(height/2)+110)
                         .clickOn()
-                        .moveBy(0.0,height-40)
+                        .moveBy(0.0,height-220)
                         .clickOn()
         sleep(2000)
 
@@ -192,10 +192,10 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
 
         when:
         fx.moveTo(graphId)
-                        .moveBy(0.0,-(height/2)+20)
+                        .moveBy(0.0,-(height/2)+110)
                         .press(KeyCode.SHIFT)
                         .rightClickOn()
-                        .moveBy(0.0,height-40)
+                        .moveBy(0.0,height-220)
                         .rightClickOn()
                         .release(KeyCode.SHIFT)
         sleep(2000)

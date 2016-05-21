@@ -1,4 +1,37 @@
 .root{
-    -fx-font-size: 16pt;
+    -fx-font-size: 16.0pt;
     -fx-font-family: "OpenSymbol";
+}
+
+
+#bigTitle {
+	-fx-background-color: #CCCCCC;
+	-fx-border-color: #FFFFFF;
+	-fx-border-width: 4.0px;
+	-fx-text-fill: #FFFFFF;
+}
+
+.categoryTitle {
+	-fx-background-color: #707070;
+	-fx-border-color: #CCCCCC;
+	-fx-border-width: 4.0px;
+	-fx-font-size: 23.0px;
+    -fx-font-family: "OpenSans";
+}
+
+.innerCategory {
+	-fx-border-color: #e0e0e0;
+	-fx-border-width: 0.0 0.2em 0.0 0.2em;
+}
+
+#generate {
+	-fx-font-size: 20.0px;
+    -fx-font-family: "OpenSans";
+	-fx-text-fill: #CA2723;
+	-fx-background-color: #e0e0e0;
+}
+
+
+.secondaryWindow {
+	 -fx-opacity: 0.7;
 }

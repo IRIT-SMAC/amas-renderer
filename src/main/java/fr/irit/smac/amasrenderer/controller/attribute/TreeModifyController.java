@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import org.graphstream.graph.Node;
 
+import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.StockModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -88,6 +89,7 @@ public class TreeModifyController implements Initializable {
         if (newAgentName != baseAgentName) {
             node.setAttribute("ui.label", newAgentName);
         }
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 
@@ -96,6 +98,7 @@ public class TreeModifyController implements Initializable {
      */
     @FXML
     public void cancelButton() {
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
         this.tree.setRoot(deepcopy(oldTree));
     }

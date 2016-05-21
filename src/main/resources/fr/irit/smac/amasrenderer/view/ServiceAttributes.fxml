@@ -7,30 +7,41 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane stylesheets="@../css/dialog.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.tool.ToolModifyController">
-   <top>
-      <Label prefHeight="42.0" prefWidth="630.0" styleClass="title" text="Attributs du Service" BorderPane.alignment="CENTER" />
-   </top>
-   <center>
-      <TreeView fx:id="tree" editable="true" focusTraversable="false" prefHeight="303.0" prefWidth="31.0" BorderPane.alignment="CENTER" />
-   </center>
-   <bottom>
-      <AnchorPane prefHeight="69.0" prefWidth="630.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="confButton" layoutX="439.0" layoutY="10.0" mnemonicParsing="false" onAction="#confirmButton" prefHeight="33.0" prefWidth="106.0" text="Confirmer">
-               <styleClass>
-                  <String fx:value="buttonDialogOk" />
-                  <String fx:value="buttonDialog" />
-               </styleClass>
-            </Button>
-            <Button fx:id="cancButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="33.0" prefWidth="99.0" styleClass="buttonDialog" text="Annuler" />
-            <Button fx:id="delButton" layoutX="225.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteButton" prefHeight="33.0" prefWidth="106.0" text="Supprimer le Service">
-               <styleClass>
-                  <String fx:value="buttonDialogOk" />
-                  <String fx:value="buttonDialog" />
-               </styleClass>
-            </Button>
-         </children>
-      </AnchorPane>
-   </bottom>
+<BorderPane styleClass="dialog" stylesheets="@../css/dialog.css"
+	xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="fr.irit.smac.amasrenderer.controller.tool.ToolModifyController">
+	<top>
+		<Label prefHeight="42.0" prefWidth="630.0" styleClass="title"
+			text="Attributs du Service" BorderPane.alignment="CENTER" />
+	</top>
+	<center>
+		<TreeView fx:id="tree" editable="true" focusTraversable="false"
+			prefHeight="303.0" prefWidth="31.0" BorderPane.alignment="CENTER" />
+	</center>
+	<bottom>
+		<AnchorPane prefHeight="69.0" prefWidth="630.0"
+			BorderPane.alignment="CENTER">
+			<children>
+				<Button fx:id="confButton" layoutX="439.0" layoutY="10.0"
+					mnemonicParsing="false" onAction="#confirmButton" prefHeight="33.0"
+					prefWidth="106.0" text="Confirmer">
+					<styleClass>
+						<String fx:value="buttonDialogOk" />
+						<String fx:value="buttonDialog" />
+					</styleClass>
+				</Button>
+				<Button fx:id="cancButton" layoutX="14.0" layoutY="10.0"
+					mnemonicParsing="false" onAction="#cancelButton" prefHeight="33.0"
+					prefWidth="99.0" styleClass="buttonDialog" text="Annuler" />
+				<Button fx:id="delButton" layoutX="225.0" layoutY="10.0"
+					mnemonicParsing="false" onAction="#deleteButton" prefHeight="33.0"
+					prefWidth="106.0" text="Supprimer le Service">
+					<styleClass>
+						<String fx:value="buttonDialogOk" />
+						<String fx:value="buttonDialog" />
+					</styleClass>
+				</Button>
+			</children>
+		</AnchorPane>
+	</bottom>
 </BorderPane>

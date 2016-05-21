@@ -49,10 +49,13 @@ public class GraphAddDelController implements Initializable {
      */
     @FXML
     public void buttonAddNode() {
-        if (state == EStateGraph.BUTTON_ADD_NODE) {
+
+        if (this.state == EStateGraph.BUTTON_ADD_NODE) {
+            this.state = EStateGraph.AT_EASE;
             graphButtonsState.changedStateButtons(EStateGraph.AT_EASE);
         }
         else {
+            this.state = EStateGraph.BUTTON_ADD_NODE;
             graphButtonsState.changedStateButtons(EStateGraph.BUTTON_ADD_NODE);
         }
     }
@@ -64,10 +67,12 @@ public class GraphAddDelController implements Initializable {
     @FXML
     public void buttonDeleteNode() {
 
-        if (state == EStateGraph.BUTTON_DELETE_NODE) {
+        if (this.state == EStateGraph.BUTTON_DELETE_NODE) {
+            this.state = EStateGraph.AT_EASE;
             graphButtonsState.changedStateButtons(EStateGraph.AT_EASE);
         }
         else {
+            this.state = EStateGraph.BUTTON_DELETE_NODE;
             graphButtonsState.changedStateButtons(EStateGraph.BUTTON_DELETE_NODE);
         }
 
@@ -80,10 +85,12 @@ public class GraphAddDelController implements Initializable {
     @FXML
     public void buttonAddEdge() {
 
-        if (state == EStateGraph.BUTTON_ADD_EDGE) {
+        if (this.state == EStateGraph.BUTTON_ADD_EDGE) {
+            this.state = EStateGraph.AT_EASE;
             graphButtonsState.changedStateButtons(EStateGraph.AT_EASE);
         }
         else {
+            this.state = EStateGraph.BUTTON_ADD_EDGE;
             graphButtonsState.changedStateButtons(EStateGraph.BUTTON_ADD_EDGE);
         }
     }
@@ -95,10 +102,12 @@ public class GraphAddDelController implements Initializable {
     @FXML
     public void buttonDeleteEdge() {
 
-        if (state == EStateGraph.BUTTON_DELETE_EDGE) {
+        if (this.state == EStateGraph.BUTTON_DELETE_EDGE) {
+            this.state = EStateGraph.AT_EASE;
             graphButtonsState.changedStateButtons(EStateGraph.AT_EASE);
         }
         else {
+            this.state = EStateGraph.BUTTON_DELETE_EDGE;
             graphButtonsState.changedStateButtons(EStateGraph.BUTTON_DELETE_EDGE);
         }
     }
@@ -106,7 +115,7 @@ public class GraphAddDelController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        state = EStateGraph.AT_EASE;
+        this.state = EStateGraph.AT_EASE;
     }
 
     /**

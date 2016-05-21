@@ -78,6 +78,8 @@ public class ToolController implements Initializable {
         try {
             root3 = loaderServices.load();
 
+            Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
+
             ToolModifyController serviceModifyController = loaderServices.getController();
 
             Stage dialogStage = new Stage();
@@ -99,7 +101,6 @@ public class ToolController implements Initializable {
         }
         catch (IOException e) {
             LOGGER.log(Level.SEVERE, "The loading of the services attributes fxml failed", e);
-
         }
     }
 
@@ -115,6 +116,8 @@ public class ToolController implements Initializable {
         stage = new Stage();
         stage.setTitle("Ajouter un service");
         stage.setResizable(false);
+
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/ToolDialog.fxml"));

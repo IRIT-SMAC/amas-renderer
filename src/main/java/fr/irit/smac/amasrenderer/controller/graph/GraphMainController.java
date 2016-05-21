@@ -492,6 +492,8 @@ public class GraphMainController implements Initializable, GraphAddDelController
         try {
             BorderPane root = loaderServices.load();
 
+            Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
+
             TreeModifyController treeModifyController = loaderServices.getController();
 
             Stage dialogStage = new Stage();
@@ -558,6 +560,7 @@ public class GraphMainController implements Initializable, GraphAddDelController
 
         this.state = EStateGraph.AT_EASE;
         this.previousState = EStateGraph.AT_EASE;
+        this.previousStateButtons = EStateGraph.AT_EASE;
 
         graphAddDelController.setGraphButtonsState(this);
         graphNodeService.setQualityGraph();

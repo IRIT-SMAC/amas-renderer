@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.embed.swing.SwingNode?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphMainController">
-	<top>
-		<fx:include source="GraphInfos.fxml" />
-	</top>
-	<center>
-		<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #707070;">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphMainController">
+	<children>
+		<StackPane fx:id="stackPaneGraphNode" layoutY="60.0" prefHeight="602.0" prefWidth="346.0" style="-fx-background-color: #707070;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
 			<children>
-				<StackPane fx:id="stackPaneGraphNode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="650.0" prefWidth="1024.0" style="-fx-background-color: #707070;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <SwingNode fx:id="graphNode" onKeyPressed="#handleOnKeyPressed" onKeyReleased="#handleOnKeyReleased" onMouseDragged="#handleOnMouseDragged" onMousePressed="#handleOnMousePressed" onMouseReleased="#handleOnMouseReleased" onScroll="#handleOnScroll" />
-               </children></StackPane>
+				<SwingNode fx:id="graphNode" onKeyPressed="#handleOnKeyPressed" onKeyReleased="#handleOnKeyReleased" onMouseDragged="#handleOnMouseDragged" onMousePressed="#handleOnMousePressed" onMouseReleased="#handleOnMouseReleased" onScroll="#handleOnScroll" />
+			</children>
+		</StackPane>
+		<AnchorPane prefHeight="355.0" prefWidth="41.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="300.0">
+			<children>
+				<fx:include fx:id="graphAddDel" source="GraphButtons.fxml" />
 			</children>
 		</AnchorPane>
-	</center>
-	<bottom>
-		<fx:include fx:id="graphAddDel" source="GraphButtons.fxml" />
-	</bottom>
-
-</BorderPane>
+		<TextField id="bigTitle" alignment="CENTER" text="Graphe d'agents" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+			<font>
+				<Font name="Open Sans" size="28.0" />
+			</font>
+		</TextField>
+	</children>
+</AnchorPane>

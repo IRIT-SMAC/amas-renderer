@@ -64,6 +64,11 @@ public class MenuBarController {
         System.exit(0);
     }
 
+	@FXML
+	public void clickMenuSave() {
+	    
+	}
+
     /**
      * On click on the menu item "A propos" in the menu "Aide" Open a help
      * window

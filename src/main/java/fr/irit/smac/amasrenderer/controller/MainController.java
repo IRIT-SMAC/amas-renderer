@@ -4,6 +4,7 @@ import fr.irit.smac.amasrenderer.controller.graph.GraphMainController;
 import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
 import fr.irit.smac.amasrenderer.controller.tool.ToolController;
 import javafx.fxml.FXML;
+import javafx.scene.layout.BorderPane;
 
 /**
  * The Class MainController.
@@ -19,6 +20,9 @@ public class MainController {
     @FXML
     private MenuBarController menuBarController;
 
+    @FXML
+    private BorderPane rootLayout;
+    
     /**
      * Gets the graph main controller (contains all of the sub controllers about
      * the graph).

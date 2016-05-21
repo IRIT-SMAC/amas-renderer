@@ -24,9 +24,12 @@ class ToolTest extends GuiSpecification{
             loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
             BorderPane rootLayout = (BorderPane) loaderRootLayout.load()
             this.rootLayout = rootLayout
+            Main.mainStage = stage
+
 			return rootLayout
 		}
 
+        
 		sleep(1000) //time for the graph to be initialized
 		graphService = GraphService.getInstance()
 

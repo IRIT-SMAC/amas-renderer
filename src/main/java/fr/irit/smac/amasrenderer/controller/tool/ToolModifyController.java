@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import fr.irit.smac.amasrenderer.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -120,6 +121,7 @@ public class ToolModifyController implements Initializable {
             list.getItems().add(key);
             attributeMap.put(key, attributeMap.remove(baseRootName));
         }
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 
@@ -128,6 +130,7 @@ public class ToolModifyController implements Initializable {
      */
     @FXML
     public void cancelButton() {
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 

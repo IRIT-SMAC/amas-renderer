@@ -1,0 +1,9 @@
+#menuBar {
+	-fx-background-color: #CA2723;
+		-fx-text-fill: #FFFFFF;
+	
+}
+
+.menuItem {
+	-fx-text-fill: #FFFFFF;
+}

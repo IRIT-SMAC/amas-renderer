@@ -43,6 +43,8 @@ class GraphNodeAttributeTest extends GuiSpecification{
             MainController mainController = loaderRootLayout.getController()
             graphMainController = mainController.getGraphMainController()
             graphView = graphMainController.getGraphView()
+            Main.mainStage = stage
+            
             return rootLayout
         }
 
