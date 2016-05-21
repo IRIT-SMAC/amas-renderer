@@ -25,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
@@ -38,7 +39,7 @@ import javafx.stage.Window;
 /**
  * The Class
  */
-public class GraphMainController implements Initializable {
+public class GraphMainController implements Initializable, GraphAddDelController.IGraphButtonsState {
 
     @FXML
     private StackPane stackPaneGraphNode;
@@ -47,7 +48,7 @@ public class GraphMainController implements Initializable {
     private AnchorPane nodeEdit;
 
     @FXML
-    private SwingNode graphNode;
+    public SwingNode graphNode;
 
     @FXML
     private GraphAddDelController graphAddDelController;
@@ -66,15 +67,57 @@ public class GraphMainController implements Initializable {
 
     private GraphicElement selectedElement;
 
-    public static EStateGraph state = EStateGraph.AT_EASE;
+    public EStateGraph state;
+
+    private EStateGraph previousState;
+
+    private EStateGraph previousStateButtons;
 
     private static final Logger LOGGER = Logger.getLogger(GraphMainController.class.getName());
 
     @FXML
+    public void handleOnKeyPressed(KeyEvent e) {
+
+        if (e.isControlDown()) {
+            this.previousState = this.state;
+            this.state = EStateGraph.CTRL_DOWN;
+        }
+        else if (e.isShiftDown()) {
+            this.previousState = this.state;
+            this.state = EStateGraph.SHIFT_DOWN;
+        }
+    }
+
+    @FXML
+    public void handleOnKeyReleased(KeyEvent e) {
+
+        switch (this.state) {
+            case CTRL_DOWN:
+                if (previousStateButtons != EStateGraph.AT_EASE) {
+                    this.state = previousStateButtons;
+                }
+                else {
+                    this.state = previousState;
+                }
+                break;
+            case SHIFT_DOWN:
+                if (previousStateButtons != EStateGraph.AT_EASE) {
+                    this.state = previousStateButtons;
+                }
+                else {
+                    this.state = previousState;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @FXML
     public void handleOnMouseReleased(MouseEvent e) {
 
-        if (state == EStateGraph.SELECTED_NODE) {
-            state = EStateGraph.AT_EASE;
+        if (this.state == EStateGraph.SELECTED_NODE) {
+            this.state = EStateGraph.AT_EASE;
             unselectNode(selectedElement);
         }
     }
@@ -82,8 +125,8 @@ public class GraphMainController implements Initializable {
     @FXML
     public void handleOnMouseDragged(MouseEvent e) {
 
-        if (state == EStateGraph.SELECTED_NODE) {
-            state = EStateGraph.SELECTED_NODE;
+        if (this.state == EStateGraph.SELECTED_NODE) {
+            this.state = EStateGraph.SELECTED_NODE;
             moveSelectedNode(selectedElement, e);
         }
     }
@@ -96,23 +139,24 @@ public class GraphMainController implements Initializable {
 
     @FXML
     public void handleOnMousePressed(MouseEvent e) {
-        switch (state) {
+
+        switch (this.state) {
 
             case AT_EASE:
                 handleAttributesOrSelectNode(e);
                 break;
             case CTRL_DOWN:
-                state = EStateGraph.CTRL_DOWN;
+                this.state = EStateGraph.CTRL_DOWN;
                 createOrRemoveNode(e);
                 break;
 
             case BUTTON_ADD_NODE:
-                state = EStateGraph.BUTTON_ADD_NODE;
+                this.state = EStateGraph.BUTTON_ADD_NODE;
                 createNode(e);
                 break;
 
             case BUTTON_DELETE_NODE:
-                state = EStateGraph.BUTTON_DELETE_NODE;
+                this.state = EStateGraph.BUTTON_DELETE_NODE;
                 removeNode(e);
                 break;
 
@@ -121,38 +165,25 @@ public class GraphMainController implements Initializable {
                 break;
 
             case BUTTON_ADD_EDGE:
-                state = EStateGraph.BUTTON_ADD_EDGE;
-                readyToAddOrDeleteEdge(e, EStateGraph.READY_TO_ADD_BUTTON);
+                readyToAddOrDeleteEdge(e, EStateGraph.BUTTON_ADD_EDGE, EStateGraph.READY_TO_ADD);
                 break;
 
             case BUTTON_DELETE_EDGE:
-                state = EStateGraph.BUTTON_DELETE_EDGE;
-                readyToAddOrDeleteEdge(e, EStateGraph.READY_TO_DELETE_BUTTON);
+                readyToAddOrDeleteEdge(e, EStateGraph.BUTTON_DELETE_EDGE, EStateGraph.READY_TO_DELETE);
                 break;
 
             case READY_TO_ADD:
-                state = EStateGraph.SHIFT_DOWN;
+                this.state = this.previousState;
                 addEdge(e);
                 break;
 
             case READY_TO_DELETE:
-                state = EStateGraph.SHIFT_DOWN;
-                removeEdge(e);
-                break;
-
-            case READY_TO_ADD_BUTTON:
-                state = EStateGraph.BUTTON_ADD_EDGE;
-                addEdge(e);
-                break;
-
-            case READY_TO_DELETE_BUTTON:
-                state = EStateGraph.BUTTON_DELETE_EDGE;
+                this.state = this.previousState;
                 removeEdge(e);
                 break;
 
             default:
                 break;
-
         }
     }
 
@@ -166,10 +197,10 @@ public class GraphMainController implements Initializable {
     private void readyToAddOrDeleteEdgeShift(MouseEvent e) {
 
         if (e.isPrimaryButtonDown()) {
-            readyToAddOrDeleteEdge(e, EStateGraph.READY_TO_ADD);
+            readyToAddOrDeleteEdge(e, EStateGraph.SHIFT_DOWN, EStateGraph.READY_TO_ADD);
         }
         else if (e.isSecondaryButtonDown()) {
-            readyToAddOrDeleteEdge(e, EStateGraph.READY_TO_DELETE);
+            readyToAddOrDeleteEdge(e, EStateGraph.SHIFT_DOWN, EStateGraph.READY_TO_DELETE);
 
         }
     }
@@ -180,17 +211,15 @@ public class GraphMainController implements Initializable {
      * 
      * @param e
      *            the event
-     * @param previousState
-     *            the previous state that has to be set after the next state is
-     *            done
      * @param nextState
      *            the next state
      */
-    private void readyToAddOrDeleteEdge(MouseEvent e, EStateGraph nextState) {
+    private void readyToAddOrDeleteEdge(MouseEvent e, EStateGraph previousState, EStateGraph nextState) {
 
         source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (source != null) {
-            state = nextState;
+            this.previousState = previousState;
+            this.state = nextState;
             selectSource();
         }
     }
@@ -216,6 +245,7 @@ public class GraphMainController implements Initializable {
      * @param e
      */
     private void zoomOrUnzoom(ScrollEvent e) {
+
         Double scale = graphView.getCamera().getViewPercent();
         if (e.getDeltaY() >= 0) {
             graphView.getCamera().setViewPercent(scale * Const.SCALE_ZOOM_RATIO);
@@ -235,12 +265,12 @@ public class GraphMainController implements Initializable {
      *            the event
      */
     private void handleAttributesOrSelectNode(MouseEvent e) {
+
         if (e.isSecondaryButtonDown()) {
-            state = EStateGraph.AT_EASE;
+            this.state = EStateGraph.AT_EASE;
             handleAttributes(e);
         }
         else if (e.isPrimaryButtonDown()) {
-            state = EStateGraph.SELECTED_NODE;
             selectNode(e);
         }
     }
@@ -255,6 +285,7 @@ public class GraphMainController implements Initializable {
 
         selectedElement = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (selectedElement != null) {
+            this.state = EStateGraph.SELECTED_NODE;
             graphView.requestFocus();
             for (Node node : GraphService.getInstance().getModel()) {
                 node.addAttribute("ui.clicked");
@@ -325,7 +356,9 @@ public class GraphMainController implements Initializable {
     private void removeNode(MouseEvent e) {
 
         Node node = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-        this.graphNodeService.removeNode(node);
+        if (node != null) {
+            this.graphNodeService.removeNode(node);
+        }
     }
 
     /**
@@ -469,8 +502,19 @@ public class GraphMainController implements Initializable {
             graphView.removeMouseListener(mouseListener);
         }
 
+        this.state = EStateGraph.AT_EASE;
+        this.previousState = EStateGraph.AT_EASE;
+
+        graphAddDelController.init(this);
         graphNodeService.setQualityGraph();
         graphNode.setContent(this.graphView);
     }
 
+    @Override
+    public void changedStateButtons(EStateGraph state) {
+
+        this.state = state;
+        this.previousStateButtons = state;
+        this.graphNode.requestFocus();
+    }
 }

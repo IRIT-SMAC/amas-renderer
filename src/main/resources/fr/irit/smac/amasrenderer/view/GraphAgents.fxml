@@ -14,7 +14,7 @@
 			<children>
 				<StackPane fx:id="stackPaneGraphNode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="650.0" prefWidth="1024.0" style="-fx-background-color: #707070;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <SwingNode fx:id="graphNode" onMouseDragged="#handleOnMouseDragged" onMousePressed="#handleOnMousePressed" onMouseReleased="#handleOnMouseReleased" onScroll="#handleOnScroll" />
+                  <SwingNode fx:id="graphNode" onKeyPressed="#handleOnKeyPressed" onKeyReleased="#handleOnKeyReleased" onMouseDragged="#handleOnMouseDragged" onMousePressed="#handleOnMousePressed" onMouseReleased="#handleOnMouseReleased" onScroll="#handleOnScroll" />
                </children></StackPane>
 			</children>
 		</AnchorPane>
