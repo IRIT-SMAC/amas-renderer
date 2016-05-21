@@ -34,8 +34,6 @@ public class Main extends Application {
         loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"));
         BorderPane rootLayout = (BorderPane) loaderRootLayout.load();
         primaryStage.setScene(new Scene(rootLayout));
-        MainController mainController = loaderRootLayout.getController();
-        GraphMainController graphMainController = mainController.getGraphMainController();
         primaryStage.setMaximized(true);
         primaryStage.setOnCloseRequest(event -> {
             Platform.exit();

@@ -33,6 +33,20 @@ public class GraphAddDelController implements Initializable {
 
     private IGraphButtonsState graphButtonsState;
 
+    /**
+     * Sets the implementation of graphButtonsState
+     * 
+     * @param graphButtonsState
+     *            the implementation
+     */
+    public void setGraphButtonsState(IGraphButtonsState graphButtonsState) {
+        this.graphButtonsState = graphButtonsState;
+    }
+
+    /**
+     * Sets the new state of the buttons when the user selects the button
+     * AddNode
+     */
     @FXML
     public void buttonAddNode() {
         if (state == EStateGraph.BUTTON_ADD_NODE) {
@@ -43,10 +57,10 @@ public class GraphAddDelController implements Initializable {
         }
     }
 
-    public void init(IGraphButtonsState interaction) {
-        this.graphButtonsState = interaction;
-    }
-
+    /**
+     * Sets the new state of the buttons when the user selects the button
+     * DeleteNode
+     */
     @FXML
     public void buttonDeleteNode() {
 
@@ -59,6 +73,10 @@ public class GraphAddDelController implements Initializable {
 
     }
 
+    /**
+     * Sets the new state of the buttons when the user selects the button
+     * AddEdge
+     */
     @FXML
     public void buttonAddEdge() {
 
@@ -70,6 +88,10 @@ public class GraphAddDelController implements Initializable {
         }
     }
 
+    /**
+     * Sets the new state of the buttons when the user selects the button
+     * DeleteEdge
+     */
     @FXML
     public void buttonDeleteEdge() {
 
@@ -87,8 +109,19 @@ public class GraphAddDelController implements Initializable {
         state = EStateGraph.AT_EASE;
     }
 
+    /**
+     * This interface allows to the GraphMainController to get the new state of
+     * the graphButtons
+     */
+    @FunctionalInterface
     public interface IGraphButtonsState {
 
+        /**
+         * This method is called when the state of the graphButtons is updated
+         * 
+         * @param state
+         *            the new state of the graphButtons
+         */
         public void changedStateButtons(EStateGraph state);
     }
 }

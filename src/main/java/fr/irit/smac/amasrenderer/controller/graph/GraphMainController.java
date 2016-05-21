@@ -48,7 +48,7 @@ public class GraphMainController implements Initializable, GraphAddDelController
     private AnchorPane nodeEdit;
 
     @FXML
-    public SwingNode graphNode;
+    private SwingNode graphNode;
 
     @FXML
     private GraphAddDelController graphAddDelController;
@@ -67,7 +67,7 @@ public class GraphMainController implements Initializable, GraphAddDelController
 
     private GraphicElement selectedElement;
 
-    public EStateGraph state;
+    private EStateGraph state;
 
     private EStateGraph previousState;
 
@@ -75,6 +75,12 @@ public class GraphMainController implements Initializable, GraphAddDelController
 
     private static final Logger LOGGER = Logger.getLogger(GraphMainController.class.getName());
 
+    /**
+     * Handles the behavior of the graph when the user pressed a key
+     * 
+     * @param e
+     *            the key event
+     */
     @FXML
     public void handleOnKeyPressed(KeyEvent e) {
 
@@ -88,31 +94,33 @@ public class GraphMainController implements Initializable, GraphAddDelController
         }
     }
 
+    /**
+     * Handles the behavior of the graph when the user released a key
+     * 
+     * @param e
+     *            the key event
+     */
     @FXML
     public void handleOnKeyReleased(KeyEvent e) {
 
         switch (this.state) {
             case CTRL_DOWN:
-                if (previousStateButtons != EStateGraph.AT_EASE) {
-                    this.state = previousStateButtons;
-                }
-                else {
-                    this.state = previousState;
-                }
+                nextStateCtrl();
                 break;
             case SHIFT_DOWN:
-                if (previousStateButtons != EStateGraph.AT_EASE) {
-                    this.state = previousStateButtons;
-                }
-                else {
-                    this.state = previousState;
-                }
+                nextStateShift();
                 break;
             default:
                 break;
         }
     }
 
+    /**
+     * Handles the behavior of the graph when the user released the mouse
+     * 
+     * @param e
+     *            the mouse event
+     */
     @FXML
     public void handleOnMouseReleased(MouseEvent e) {
 
@@ -122,6 +130,12 @@ public class GraphMainController implements Initializable, GraphAddDelController
         }
     }
 
+    /**
+     * Handles the behavior of the graph when the user drag the mouse
+     * 
+     * @param e
+     *            the mouse event
+     */
     @FXML
     public void handleOnMouseDragged(MouseEvent e) {
 
@@ -131,12 +145,24 @@ public class GraphMainController implements Initializable, GraphAddDelController
         }
     }
 
+    /**
+     * Handles the behavior of the graph when the user zoom or unzoom
+     * 
+     * @param e
+     *            the scroll event
+     */
     @FXML
     public void handleOnScroll(ScrollEvent e) {
 
         zoomOrUnzoom(e);
     }
 
+    /**
+     * Handles the behavior of the graph when the user click on it
+     * 
+     * @param e
+     *            the mouse event
+     */
     @FXML
     public void handleOnMousePressed(MouseEvent e) {
 
@@ -188,6 +214,32 @@ public class GraphMainController implements Initializable, GraphAddDelController
     }
 
     /**
+     * Chooses the next state when shift is pressed
+     */
+    private void nextStateShift() {
+
+        if (previousStateButtons != EStateGraph.AT_EASE) {
+            this.state = previousStateButtons;
+        }
+        else {
+            this.state = previousState;
+        }
+    }
+
+    /**
+     * Chooses the next state when ctrl is pressed
+     */
+    private void nextStateCtrl() {
+
+        if (previousStateButtons != EStateGraph.AT_EASE) {
+            this.state = previousStateButtons;
+        }
+        else {
+            this.state = previousState;
+        }
+    }
+
+    /**
      * Set the state to ready to add or delete an edge depending on the mouse
      * button edge
      * 
@@ -211,6 +263,8 @@ public class GraphMainController implements Initializable, GraphAddDelController
      * 
      * @param e
      *            the event
+     * @param previousState
+     *            the previous state
      * @param nextState
      *            the next state
      */
@@ -413,7 +467,7 @@ public class GraphMainController implements Initializable, GraphAddDelController
      * 
      * @param e
      *            the event
-     * @return
+     * @return the edge
      */
     private Edge getEdge(MouseEvent e) {
 
@@ -505,7 +559,7 @@ public class GraphMainController implements Initializable, GraphAddDelController
         this.state = EStateGraph.AT_EASE;
         this.previousState = EStateGraph.AT_EASE;
 
-        graphAddDelController.init(this);
+        graphAddDelController.setGraphButtonsState(this);
         graphNodeService.setQualityGraph();
         graphNode.setContent(this.graphView);
     }
