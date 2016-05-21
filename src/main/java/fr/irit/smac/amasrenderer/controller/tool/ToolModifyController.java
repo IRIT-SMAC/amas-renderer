@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import fr.irit.smac.amasrenderer.Main;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -99,6 +100,7 @@ public class ToolModifyController implements Initializable {
             list.getItems().add(key);
             attributeMap.put(key,attributeMap.remove(baseRootName));
         }
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 
@@ -107,6 +109,7 @@ public class ToolModifyController implements Initializable {
      */
     @FXML
     public void cancelButton() {
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 

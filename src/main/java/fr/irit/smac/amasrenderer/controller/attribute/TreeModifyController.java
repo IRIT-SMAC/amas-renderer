@@ -4,6 +4,7 @@ import org.graphstream.graph.Node;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.Stock;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -94,6 +95,7 @@ public class TreeModifyController implements Initializable {
             }*/
             node.setAttribute("ui.label", newAgentName);
         }
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 
@@ -102,6 +104,7 @@ public class TreeModifyController implements Initializable {
      */
     @FXML
     public void cancelButton() {
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
         this.tree.setRoot(deepcopy(oldTree));
     }

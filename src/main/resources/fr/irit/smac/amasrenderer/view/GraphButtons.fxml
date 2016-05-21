@@ -4,24 +4,38 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.SVGPath?>
 
-<VBox id="containerButtonGraph" prefHeight="352.0" prefWidth="58.0" stylesheets="@../css/graphButtons.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphAddDelController">
+<VBox id="containerButtonGraph" prefHeight="352.0" prefWidth="58.0" stylesheets="@../css/graphButtons.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphAddDelController">
    <children>
-		<ToggleButton fx:id="buttonAddAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="77.0" prefWidth="140.0" styleClass="buttonGraph" text="Ajoute run agent" textAlignment="CENTER">
+		<ToggleButton fx:id="buttonAddAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="77.0" prefWidth="140.0" styleClass="buttonGraph" textAlignment="CENTER">
          <toggleGroup>
             <ToggleGroup fx:id="toggroup" />
          </toggleGroup>
          <tooltip>
          	<Tooltip text="Ajoute un agent (Ctrl+ClicGauche)" />
          </tooltip>
+         <graphic>
+            <ImageView fx:id="myImg" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/buttonAdd.png" />
+               </image>
+            </ImageView>
+         </graphic>
          </ToggleButton>
-      <SVGPath />
-		<ToggleButton fx:id="buttonDelAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="72.0" prefWidth="140.0" styleClass="buttonGraph" text="Supprimer un agent" textAlignment="CENTER" toggleGroup="$toggroup">
+		<ToggleButton fx:id="buttonDelAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="72.0" prefWidth="140.0" styleClass="buttonGraph" textAlignment="CENTER" toggleGroup="$toggroup">
          <tooltip>
          	<Tooltip text="Supprime un agent (Ctrl+ClicDroit)" />
          </tooltip>
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/buttonDelete.png" />
+               </image>
+            </ImageView>
+         </graphic>
          </ToggleButton>
 		<ToggleButton fx:id="buttonAddEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="90.0" prefWidth="140.0" styleClass="buttonGraph" text="Ajouter un lien" textAlignment="CENTER" toggleGroup="$toggroup">
          <tooltip>

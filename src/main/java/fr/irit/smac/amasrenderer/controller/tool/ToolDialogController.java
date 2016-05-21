@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Const;
+import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -74,6 +75,8 @@ public class ToolDialogController implements Initializable {
             }
 
             ((Stage) buttonConfirm.getScene().getWindow()).close();
+            Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
+
         } else {
 		    invalidField.setVisible(true);
 
@@ -87,6 +90,7 @@ public class ToolDialogController implements Initializable {
      */
     @FXML
     public void clickCancel() {
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         ((Stage) buttonCancel.getScene().getWindow()).close();
 	}
     

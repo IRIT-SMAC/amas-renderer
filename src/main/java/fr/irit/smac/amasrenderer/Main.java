@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -34,7 +35,9 @@ public class Main extends Application {
         FXMLLoader loaderRootLayout = new FXMLLoader();
         loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"));
         BorderPane rootLayout = (BorderPane) loaderRootLayout.load();   
-        primaryStage.setScene(new Scene(rootLayout));
+        Scene scene = new Scene(rootLayout);
+        scene.setFill(Color.BLACK);
+        primaryStage.setScene(scene);
         MainController mainController = loaderRootLayout.getController();
         GraphMainController graphMainController = mainController.getGraphMainController();
         graphMainController.initSubControllers();

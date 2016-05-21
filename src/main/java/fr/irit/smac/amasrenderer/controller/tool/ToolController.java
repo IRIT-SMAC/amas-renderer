@@ -72,7 +72,8 @@ public class ToolController implements Initializable {
             Platform.runLater(new Runnable() {
                 @Override public void run() {
                    
-                    
+                    Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
+
                     FXMLLoader loaderServices = new FXMLLoader();
                     loaderServices.setLocation(Main.class.getResource("view/ServiceAttributes.fxml"));
                     root3 = null;
@@ -97,6 +98,7 @@ public class ToolController implements Initializable {
                     dialogStage.setMinHeight(380);
                     dialogStage.setMinWidth(440);
                     
+                    
                     serviceModifyController.setStage(dialogStage);
                     System.out.println(attributeMap);
                     System.out.println(listTool);
@@ -118,13 +120,13 @@ public class ToolController implements Initializable {
         stage.setTitle("Ajouter un service");
         stage.setResizable(false);
 
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/ToolDialog.fxml"));
         DialogPane root = (DialogPane) loader.load();
         ToolDialogController toolDialogController = loader.getController();
-//        toolDialogController.setList(listTool);
         toolDialogController.setAttributeMap(attributeMap);
-//        toolDialogController.i
         stage.initModality(Modality.WINDOW_MODAL);
         Window window = buttonAddService.getScene().getWindow();
         stage.initOwner(buttonAddService.getScene().getWindow());

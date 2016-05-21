@@ -86,6 +86,8 @@ public class GraphNodeEditController extends MouseAdapter{
                 Platform.runLater(new Runnable() {
                     @Override public void run() {
                        
+                        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
+
                         FXMLLoader loaderServices = new FXMLLoader();
                         
                         loaderServices.setLocation(Main.class.getResource("view/GraphAttributes.fxml"));
@@ -117,6 +119,7 @@ public class GraphNodeEditController extends MouseAdapter{
                         treeModifyController.setStage(dialogStage);
                         treeModifyController.setStock(s);
                         treeModifyController.setNode(node);
+                        
                         
                         dialogStage.showAndWait();
                     }
