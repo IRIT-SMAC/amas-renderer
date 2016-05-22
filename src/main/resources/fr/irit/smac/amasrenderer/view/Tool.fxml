@@ -13,7 +13,7 @@
 	<children>
 		<VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
 			<children>
-				<Label alignment="CENTER" focusTraversable="false" maxHeight="100.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="70.0" prefWidth="200.0" styleClass="categoryTitle" text="INFRASTRUCTURE" textFill="WHITE" VBox.vgrow="ALWAYS">
+				<Label alignment="CENTER" focusTraversable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="45.0" prefWidth="382.0" styleClass="categoryTitle" text="INFRASTRUCTURE" textFill="WHITE" VBox.vgrow="ALWAYS">
 					<font>
 						<Font name="Open Sans" size="30.0" />
 					</font>
@@ -37,7 +37,7 @@
 
 				<VBox>
 					<children>
-						<Label alignment="CENTER" focusTraversable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="70.0" prefWidth="382.0" styleClass="categoryTitle" text="SERVICES" textFill="WHITE">
+						<Label alignment="CENTER" focusTraversable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="45.0" prefWidth="382.0" styleClass="categoryTitle" text="SERVICES" textFill="WHITE">
 							<font>
 								<Font name="Open Sans" size="30.0" />
 							</font>
@@ -46,7 +46,7 @@
 				</VBox>
 				<VBox styleClass="innerCategory">
 					<children>
-						<Button fx:id="buttonAddService" focusTraversable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#addTool" prefHeight="52.0" prefWidth="382.0" style="-fx-background-color: #FFFFFF;" text="Ajouter un service">
+						<Button id="buttonAddService" fx:id="buttonAddService" focusTraversable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#addTool" prefHeight="52.0" prefWidth="382.0" text="Ajouter un service">
 							<font>
 								<Font name="OpenSymbol" size="20.0" />
 							</font>

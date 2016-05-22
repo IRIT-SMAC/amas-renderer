@@ -8,9 +8,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="containerButtonGraph" prefHeight="352.0" prefWidth="58.0" stylesheets="@../css/graphButtons.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphAddDelController">
+<VBox id="containerButtonGraph" stylesheets="@../css/graphButtons.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphAddDelController">
 	<children>
-		<ToggleButton fx:id="buttonAddAgent" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonAddNode" prefHeight="77.0" prefWidth="140.0" styleClass="buttonGraph" textAlignment="CENTER">
+		<ToggleButton fx:id="buttonAddAgent" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonAddNode" styleClass="buttonGraph" textAlignment="CENTER">
 			<toggleGroup>
 				<ToggleGroup fx:id="toggroup" />
 			</toggleGroup>
@@ -18,7 +18,7 @@
 				<Tooltip text="Ajoute un agent (Ctrl+ClicGauche)" />
 			</tooltip>
 			<graphic>
-				<ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+				<ImageView fitHeight="50.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
 					<image>
 						<Image url="@../image/buttonAdd.png" />
 					</image>
@@ -26,7 +26,7 @@
 			</graphic>
 		</ToggleButton>
 
-		<ToggleButton fx:id="buttonDelAgent" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonDeleteNode" prefHeight="72.0" prefWidth="140.0" styleClass="buttonGraph" textAlignment="CENTER" toggleGroup="$toggroup">
+		<ToggleButton fx:id="buttonDelAgent" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonDeleteNode" styleClass="buttonGraph" textAlignment="CENTER" toggleGroup="$toggroup">
 			<tooltip>
 				<Tooltip text="Supprime un agent (Ctrl+ClicDroit)" />
 			</tooltip>
@@ -38,19 +38,33 @@
 				</ImageView>
 			</graphic>
 		</ToggleButton>
-		<ToggleButton fx:id="buttonAddEdge" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonAddEdge" prefHeight="90.0" prefWidth="140.0" styleClass="buttonGraph" text="Ajouter un lien" textAlignment="CENTER" toggleGroup="$toggroup">
+		<ToggleButton fx:id="buttonAddEdge" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonAddEdge" styleClass="buttonGraph" textAlignment="CENTER" toggleGroup="$toggroup">
 			<tooltip>
 				<Tooltip text="Ajoute un arc (Shift+ClicGauche)" />
 			</tooltip>
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/buttonAddEdge.png" />
+               </image>
+            </ImageView>
+         </graphic>
 		</ToggleButton>
-		<ToggleButton fx:id="buttonDelEdge" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonDeleteEdge" prefHeight="113.0" prefWidth="140.0" text="Supprimer un lien" textAlignment="CENTER" toggleGroup="$toggroup">
+		<ToggleButton fx:id="buttonDelEdge" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonDeleteEdge" textAlignment="CENTER" toggleGroup="$toggroup">
 			<tooltip>
 				<Tooltip text="Supprime un arc (Shift+ClicDroit)" />
 			</tooltip>
-			<styleClass>
-				<String fx:value="buttonGraph" />
-				<String fx:value="lastButtonGraph" />
-			</styleClass>
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/buttonDeleteEdge.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <styleClass>
+            <String fx:value="buttonGraph" />
+            <String fx:value="lastButtonGraph" />
+         </styleClass>
 		</ToggleButton>
 	</children>
 </VBox>
