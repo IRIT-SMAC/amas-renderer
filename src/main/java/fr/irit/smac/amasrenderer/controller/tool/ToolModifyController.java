@@ -104,6 +104,7 @@ public class ToolModifyController implements Initializable {
     public void deleteButton() {
         list.getItems().remove(key);
         attributeMap.remove(key);
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 

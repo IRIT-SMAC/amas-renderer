@@ -24,7 +24,7 @@
 					</styleClass>
 				</Button>
 				<Button fx:id="cancButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="33.0" prefWidth="99.0" styleClass="buttonDialog" text="Annuler" />
-				<Button fx:id="delButton" layoutX="221.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteButton" prefHeight="33.0" prefWidth="106.0" text="Supprimer le Service">
+				<Button fx:id="delButton" layoutX="221.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteButton" prefHeight="33.0" prefWidth="106.0" text="Supprimer">
 					<styleClass>
 						<String fx:value="buttonDialogOk" />
 						<String fx:value="buttonDialog" />
