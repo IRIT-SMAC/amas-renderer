@@ -23,6 +23,12 @@ class ToolAttributeTest extends GuiSpecification{
     @Shared
     BorderPane rootLayout
 
+    @Shared
+    double positionX
+
+    @Shared
+    double positionY
+
     def setup() {
         setupStage { stage ->
 
@@ -38,6 +44,10 @@ class ToolAttributeTest extends GuiSpecification{
         sleep(1000) //time for the graph to be initialized
         graphService = GraphService.getInstance()
 
+        double height = 450
+        double width = 630
+        positionX = -(width/2)+20
+        positionY = -(height/2) + 70
     }
 
     def "check if adding an attribute works"() {
@@ -58,7 +68,8 @@ class ToolAttributeTest extends GuiSpecification{
         //        println "salut " + tree
 
         fx.clickOn(service)
-                        .moveBy(320,-190)
+                        .clickOn("#attributesServiceDialog")
+                        .moveBy(positionX,positionY)
                         .rightClickOn()
                         .clickOn("#addAttributeItem")
                         .clickOn("#confButton")
@@ -86,7 +97,8 @@ class ToolAttributeTest extends GuiSpecification{
         //                println "salut " + tree
 
         fx.clickOn(service)
-                        .moveBy(320,-190)
+                        .clickOn("#attributesServiceDialog")
+                        .moveBy(positionX,positionY)
                         .rightClickOn()
                         .clickOn("#renameAttributeItem")
                         .type(KeyCode.E)
@@ -115,16 +127,16 @@ class ToolAttributeTest extends GuiSpecification{
         //                println "salut " + tree
 
         fx.clickOn(service)
-                        .moveBy(320,-190)
+                        .clickOn("#attributesServiceDialog")
+                        .moveBy(positionX,positionY)
                         .rightClickOn()
                         .clickOn("#addAttributeItem")
 
         when:
-
         fx.clickOn("#tree")
-                        .moveBy(-290,-130)
+                        .moveBy(positionX+5, positionY+25)
                         .clickOn()
-                        .moveBy(50,50)
+                        fx.moveBy(20, 40)
                         .rightClickOn()
 
                         .clickOn("#removeAttributeItem")

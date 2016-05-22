@@ -2,10 +2,11 @@ package fr.irit.smac.amasrenderer
 
 import java.lang.invoke.MethodHandleImpl.BindCaller.T
 
-import javafx.embed.swing.SwingNode
 import javafx.fxml.FXMLLoader
+import javafx.scene.control.Label
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.BorderPane
+import javafx.stage.Stage
 
 import org.graphstream.ui.swingViewer.ViewPanel
 
@@ -34,6 +35,15 @@ class GraphNodeAttributeTest extends GuiSpecification{
 
     GraphMainController graphMainController
 
+    @Shared
+    Stage mainStage
+
+    @Shared
+    double positionX
+
+    @Shared
+    double positionY
+
     def setup() {
         setupStage { stage ->
 
@@ -44,7 +54,8 @@ class GraphNodeAttributeTest extends GuiSpecification{
             graphMainController = mainController.getGraphMainController()
             graphView = graphMainController.getGraphView()
             Main.mainStage = stage
-            
+            mainStage = stage
+
             return rootLayout
         }
 
@@ -53,6 +64,12 @@ class GraphNodeAttributeTest extends GuiSpecification{
 
         AgentGraphModel model = graphService.getModel()
         graphService.addNode("ag1")
+
+        double height = 450
+        double width = 630
+        positionX = -(width/2)+20
+        positionY = -(height/2) + 70
+
         sleep(2000)
 
     }
@@ -67,8 +84,7 @@ class GraphNodeAttributeTest extends GuiSpecification{
         fx.rightClickOn(graphId)
                         .clickOn("#tree")
                         .doubleClickOn("#tree")
-                        //TODO : y depends on the height of the window
-                        .moveBy(-200,-160)
+                        .moveBy(positionX, positionY)
                         .rightClickOn()
                         .clickOn("#addAttributeItem")
                         .clickOn("#confButton")
@@ -83,7 +99,7 @@ class GraphNodeAttributeTest extends GuiSpecification{
         fx.rightClickOn(graphId)
                         .clickOn("#tree")
                         .doubleClickOn("#tree")
-                        .moveBy(-200,-160)
+                        .moveBy(positionX,positionY)
                         .rightClickOn()
                         .clickOn("#renameAttributeItem")
                         .type(KeyCode.E)
@@ -101,14 +117,14 @@ class GraphNodeAttributeTest extends GuiSpecification{
         fx.rightClickOn(graphId)
                         .clickOn("#tree")
                         .doubleClickOn("#tree")
-                        .moveBy(-200,-160)
+                        .moveBy(positionX, positionY)
                         .rightClickOn()
                         .clickOn("#addAttributeItem")
         int nbChildren = 1
 
         when:
         fx.clickOn("#tree")
-                        .moveBy(-340,-130)
+                        .moveBy(positionX+20, positionY+40)
                         .rightClickOn()
                         .clickOn("#removeAttributeItem")
                         .clickOn("#confButton")
