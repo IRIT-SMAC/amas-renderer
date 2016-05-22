@@ -1,9 +1,28 @@
-#menuBar {
+.menu-bar {
 	-fx-background-color: #CA2723;
-		-fx-text-fill: #FFFFFF;
-	
 }
 
-.menuItem {
+.menu .label {     
 	-fx-text-fill: #FFFFFF;
 }
+
+.menu-item {
+	-fx-background-color: #CA2723;
+}
+
+.context-menu {
+    -fx-background-color: #CA2723;
+}
+
+.menu-item:focused {
+	-fx-background-color: #D96765;
+}
+
+.menu:hover {
+	-fx-background-color: #D4524E;
+}
+
+.menu-button:showing{
+    -fx-background-color: #D4524E;
+}
+

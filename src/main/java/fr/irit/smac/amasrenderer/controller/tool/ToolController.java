@@ -74,9 +74,9 @@ public class ToolController implements Initializable {
 
         FXMLLoader loaderServices = new FXMLLoader();
         loaderServices.setLocation(Main.class.getResource("view/ServiceAttributes.fxml"));
-        BorderPane root3;
+        BorderPane root;
         try {
-            root3 = loaderServices.load();
+            root = loaderServices.load();
 
             Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
 
@@ -86,13 +86,20 @@ public class ToolController implements Initializable {
             dialogStage.setTitle("Modification d'attribut");
 
             dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(buttonAddService.getScene().getWindow());
-            Scene miniScene = new Scene(root3);
+            
+            Window window = buttonAddService.getScene().getWindow();
+            dialogStage.initOwner(window);
+            Scene miniScene = new Scene(root);
             dialogStage.setScene(miniScene);
             dialogStage.initStyle(StageStyle.UNDECORATED);
             dialogStage.setMinHeight(380);
             dialogStage.setMinWidth(440);
 
+            double x = window.getX() + (window.getWidth() - root.getPrefWidth()) / 2;
+            double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
+            dialogStage.setX(x);
+            dialogStage.setY(y);
+            
             serviceModifyController.setStage(dialogStage);
             serviceModifyController.init(attributeMap, listTool);
 

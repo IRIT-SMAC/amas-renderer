@@ -7,14 +7,14 @@
 #bigTitle {
 	-fx-background-color: #CCCCCC;
 	-fx-border-color: #FFFFFF;
-	-fx-border-width: 4.0px;
+	-fx-border-width: 3.0px;
 	-fx-text-fill: #FFFFFF;
 }
 
 .categoryTitle {
 	-fx-background-color: #707070;
 	-fx-border-color: #CCCCCC;
-	-fx-border-width: 4.0px;
+	-fx-border-width: 3.0px;
 	-fx-font-size: 23.0px;
     -fx-font-family: "OpenSans";
 }
