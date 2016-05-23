@@ -1,11 +1,9 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +24,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -47,12 +44,8 @@ public class ToolController implements Initializable {
     @FXML
     private Label infrastructureLabel;
 
-    @FXML
-    private Button generateButton;
-
     private Stage stage;
 
-    private HashMap<String, TreeItem<String>> attributeMap = new HashMap<>();
 
     private static final Logger LOGGER = Logger.getLogger(ToolController.class.getName());
 
@@ -86,7 +79,7 @@ public class ToolController implements Initializable {
             dialogStage.setTitle("Modification d'attribut");
 
             dialogStage.initModality(Modality.WINDOW_MODAL);
-            
+
             Window window = buttonAddService.getScene().getWindow();
             dialogStage.initOwner(window);
             Scene miniScene = new Scene(root);
@@ -99,9 +92,9 @@ public class ToolController implements Initializable {
             double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
             dialogStage.setX(x);
             dialogStage.setY(y);
-            
+
             serviceModifyController.setStage(dialogStage);
-            serviceModifyController.init(attributeMap, listTool);
+            serviceModifyController.init(ToolService.getInstance().getAttributes(), listTool);
 
             dialogStage.showAndWait();
             listTool.getSelectionModel().clearSelection();
@@ -129,8 +122,6 @@ public class ToolController implements Initializable {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/ToolDialog.fxml"));
         DialogPane root = (DialogPane) loader.load();
-        ToolDialogController toolDialogController = loader.getController();
-        toolDialogController.setAttributeMap(attributeMap);
         stage.initModality(Modality.WINDOW_MODAL);
         Window window = buttonAddService.getScene().getWindow();
         stage.initOwner(buttonAddService.getScene().getWindow());
@@ -146,43 +137,6 @@ public class ToolController implements Initializable {
         stage.setScene(myScene);
 
         stage.showAndWait();
-    }
-
-    /**
-     * Generate json file.
-     */
-    @FXML
-    public void generateJsonFile() {
-        File file = new FileChooser().showSaveDialog(generateButton.getScene().getWindow());
-
-        List<String> lines = new ArrayList<>();
-
-        generateInfrastructure(lines);
-        generateServices(lines);
-
-    }
-
-    /**
-     * Generate infrastructure.
-     *
-     * @param lines
-     *            the lines
-     */
-    private void generateInfrastructure(List<String> lines) {
-        lines.add("\t\"classname\":\"" + InfrastructureService.getInstance().getInfrastructure().get(0) + "\"},");
-    }
-
-    /**
-     * Generate services.
-     *
-     * @param lines
-     *            the lines
-     */
-    private void generateServices(List<String> lines) {
-        List<String> services = ToolService.getInstance().getTools();
-        for (String service : services) {
-            TreeItem<String> serviceAttribute = attributeMap.get(service);
-        }
     }
 
     /*
@@ -202,10 +156,13 @@ public class ToolController implements Initializable {
         ToolService.getInstance().setTools(FXCollections.observableArrayList(list));
 
         ToolService.getInstance().getTools().addListener((ListChangeListener.Change<? extends String> e) -> {
-            String newTool = ToolService.getInstance().getTools()
-                .get(ToolService.getInstance().getTools().size() - 1);
-            attributeMap.put(newTool, new TreeItem<String>(newTool));
-            listTool.getItems().add(newTool);
+
+            if (ToolService.getInstance().getTools().size() > 0) {
+                String newTool = ToolService.getInstance().getTools()
+                    .get(ToolService.getInstance().getTools().size() - 1);
+                ToolService.getInstance().getAttributes().put(newTool, new TreeItem<String>(newTool));
+                listTool.getItems().add(newTool);
+            }
         });
 
         InfrastructureService.getInstance().setInfrastructure(FXCollections.observableArrayList(new ArrayList<>()));
@@ -218,5 +175,4 @@ public class ToolController implements Initializable {
 
         );
     }
-
 }

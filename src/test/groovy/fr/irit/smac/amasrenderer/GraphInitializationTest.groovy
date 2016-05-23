@@ -44,7 +44,6 @@ class GraphInitializationTest extends Specification{
 		GraphService.getInstance().getModel().setGraphMap(tmp.getGraphMap());
 		Map<String,Object> graphMap = GraphService.getInstance().getModel().getGraphMap();
 		graphNodeService.createAgentGraphFromMap(graphMap);
-		
 		toolService.createServicesFromMap(graphMap);
 		infrastructureService.createInfrastructuresFromMap(graphMap);
 		
