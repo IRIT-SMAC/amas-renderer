@@ -40,7 +40,7 @@ import javafx.stage.Window;
 /**
  * The Class
  */
-public class GraphMainController implements Initializable, GraphAddDelController.IGraphButtonsState {
+public class GraphMainController implements Initializable, GraphToolboxController.IGraphButtonsState {
 
     @FXML
     private StackPane stackPaneGraphNode;
@@ -52,7 +52,7 @@ public class GraphMainController implements Initializable, GraphAddDelController
     private SwingNode graphNode;
 
     @FXML
-    private GraphAddDelController graphAddDelController;
+    private GraphToolboxController graphToolboxController;
 
     private GraphService graphNodeService = GraphService.getInstance();
 
@@ -567,16 +567,32 @@ public class GraphMainController implements Initializable, GraphAddDelController
         this.previousState = EStateGraph.AT_EASE;
         this.previousStateButtons = EStateGraph.AT_EASE;
 
-        graphAddDelController.setGraphButtonsState(this);
+        graphToolboxController.setGraphButtonsState(this);
         graphNodeService.setQualityGraph();
         graphNode.setContent(this.graphView);
     }
 
     @Override
-    public void changedStateButtons(EStateGraph state) {
+    public void changedStateButtonsAddDel(EStateGraph state) {
 
         this.state = state;
         this.previousStateButtons = state;
         this.graphNode.requestFocus();
+    }
+
+    @Override
+    public void changedStateOtherButtons(EStateGraph state) {
+
+        this.graphNode.requestFocus();
+
+        switch (state) {
+
+            case RESET_VIEW:
+                graphView.getCamera().resetView();
+                break;
+
+            default:
+                break;
+        }
     }
 }

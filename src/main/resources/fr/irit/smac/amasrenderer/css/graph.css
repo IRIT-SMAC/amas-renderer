@@ -10,9 +10,9 @@ node {
 	shape: circle;
 	text-alignment: center;
 	text-size: 15px;
-	text-offset: 0gu, 0.05gu;
+	text-offset: 0px, 15px;
 	text-color: #FFFFFF;
-	padding: 0.1gu, 0.05gu;
+	padding: 20px, 15px;
 	fill-color: #AA4A4A;
 	stroke-mode: plain;
 	stroke-color: #FFFFFF;

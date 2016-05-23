@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
@@ -8,14 +9,14 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="containerButtonGraph" stylesheets="@../css/graphButtons.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphAddDelController">
+<VBox id="containerButtonGraph" stylesheets="@../css/graphButtons.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphToolboxController">
 	<children>
 		<ToggleButton fx:id="buttonAddAgent" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonAddNode" styleClass="buttonGraph" textAlignment="CENTER">
 			<toggleGroup>
 				<ToggleGroup fx:id="toggroup" />
 			</toggleGroup>
 			<tooltip>
-				<Tooltip text="Ajoute un agent (Ctrl+ClicGauche)" />
+				<Tooltip text="Ajouter un agent (Ctrl+ClicGauche)" />
 			</tooltip>
 			<graphic>
 				<ImageView fitHeight="50.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
@@ -28,7 +29,7 @@
 
 		<ToggleButton fx:id="buttonDelAgent" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonDeleteNode" styleClass="buttonGraph" textAlignment="CENTER" toggleGroup="$toggroup">
 			<tooltip>
-				<Tooltip text="Supprime un agent (Ctrl+ClicDroit)" />
+				<Tooltip text="Supprimer un agent (Ctrl+ClicDroit)" />
 			</tooltip>
 			<graphic>
 				<ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -40,7 +41,7 @@
 		</ToggleButton>
 		<ToggleButton fx:id="buttonAddEdge" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonAddEdge" styleClass="buttonGraph" textAlignment="CENTER" toggleGroup="$toggroup">
 			<tooltip>
-				<Tooltip text="Ajoute un arc (Shift+ClicGauche)" />
+				<Tooltip text="Ajouter un arc (Shift+ClicGauche)" />
 			</tooltip>
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -50,9 +51,9 @@
             </ImageView>
          </graphic>
 		</ToggleButton>
-		<ToggleButton fx:id="buttonDelEdge" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonDeleteEdge" textAlignment="CENTER" toggleGroup="$toggroup">
+		<ToggleButton fx:id="buttonDelEdge" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonDeleteEdge" styleClass="buttonGraph" textAlignment="CENTER" toggleGroup="$toggroup">
 			<tooltip>
-				<Tooltip text="Supprime un arc (Shift+ClicDroit)" />
+				<Tooltip text="Supprimer un arc (Shift+ClicDroit)" />
 			</tooltip>
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -61,10 +62,22 @@
                </image>
             </ImageView>
          </graphic>
+		</ToggleButton>
+      <Button fx:id="viewCenter" mnemonicParsing="false" onAction="#buttonViewCenter" prefWidth="68.0">
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/buttonResetView.png" />
+               </image>
+            </ImageView>
+         </graphic>
          <styleClass>
             <String fx:value="buttonGraph" />
             <String fx:value="lastButtonGraph" />
          </styleClass>
-		</ToggleButton>
+         <tooltip>
+            <Tooltip text="Réinitialiser la vue" />
+         </tooltip>
+      </Button>
 	</children>
 </VBox>

@@ -17,7 +17,7 @@
 		</StackPane>
 		<AnchorPane prefHeight="355.0" prefWidth="41.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="300.0">
 			<children>
-				<fx:include fx:id="graphAddDel" source="GraphButtons.fxml" />
+				<fx:include fx:id="graphToolbox" source="GraphToolbox.fxml" />
 			</children>
 		</AnchorPane>
 	</children>
