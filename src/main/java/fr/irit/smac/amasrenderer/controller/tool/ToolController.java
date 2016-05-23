@@ -27,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -50,7 +51,7 @@ public class ToolController implements Initializable {
     private ListView<String> listTool;
     
     @FXML
-    private Label infrastructureLabel;
+    private TextField infrastructureTextField;
 
     @FXML
     private Button generateButton;
