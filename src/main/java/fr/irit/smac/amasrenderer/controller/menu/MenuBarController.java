@@ -47,13 +47,11 @@ public class MenuBarController {
         try {
             AgentGraphModel tmp = mapper.readValue(file, AgentGraphModel.class);
             GraphService.getInstance().getModel().setGraphMap(tmp.getGraphMap());
-            GraphService.getInstance().getModel().addAttribute("ui.quality");
-            GraphService.getInstance().getModel().addAttribute("layout.quality", 4);
-            GraphService.getInstance().getModel().addAttribute("ui.antialias");
             Map<String, Object> graphMap = GraphService.getInstance().getModel().getGraphMap();
             graphService.createAgentGraphFromMap(graphMap);
             toolService.createServicesFromMap(graphMap);
             infrastructureService.createInfrastructuresFromMap(graphMap);
+            GraphService.getInstance().setQualityGraph();
         }
         catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.", e);
