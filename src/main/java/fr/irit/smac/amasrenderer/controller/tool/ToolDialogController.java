@@ -28,8 +28,6 @@ public class ToolDialogController implements Initializable {
     @FXML
     private TextField textfieldTool;
 
-    private Map<String, TreeItem<String>> map;
-
     @FXML
     private Text invalidField;
 
@@ -73,10 +71,6 @@ public class ToolDialogController implements Initializable {
     public void clickCancel() {
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         ((Stage) buttonCancel.getScene().getWindow()).close();
-    }
-
-    public void setAttributeMap(Map<String, TreeItem<String>> attributeMap) {
-        this.map = attributeMap;
     }
 
     @Override

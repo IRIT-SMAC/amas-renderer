@@ -6,10 +6,12 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
@@ -38,8 +40,6 @@ public class ToolModifyController implements Initializable {
 
     private TreeItem<String> value;
 
-    private Map<String, TreeItem<String>> attributeMap = new HashMap<>();
-
     private Stage dialogStage;
 
     private String key;
@@ -48,7 +48,6 @@ public class ToolModifyController implements Initializable {
 
     private String baseRootName;
 
-    /** the new agent name */
     private String newServiceName = null;
 
     /**
@@ -78,7 +77,7 @@ public class ToolModifyController implements Initializable {
      *            the attributeMap
      */
     public void setAttributeMap(Map<String, TreeItem<String>> attributeMap) {
-        this.attributeMap = attributeMap;
+        ToolService.getInstance().setAttributesMap(attributeMap);
     }
 
     /**
@@ -103,7 +102,7 @@ public class ToolModifyController implements Initializable {
     @FXML
     public void deleteButton() {
         list.getItems().remove(key);
-        attributeMap.remove(key);
+        ToolService.getInstance().getAttributes().remove(key);
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
@@ -114,13 +113,15 @@ public class ToolModifyController implements Initializable {
     @FXML
     public void confirmButton() {
         value = tree.getRoot();
-        attributeMap.put(key, value);
+        ToolService.getInstance().getAttributes().put(key, value);
         newServiceName = tree.getRoot().getValue();
         if (newServiceName != baseRootName) {
             list.getItems().remove(key);
             key = newServiceName;
             list.getItems().add(key);
-            attributeMap.put(key, attributeMap.remove(baseRootName));
+            System.out.println(key);
+            ToolService.getInstance().getAttributes().put(key,
+                ToolService.getInstance().getAttributes().remove(baseRootName));
         }
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();

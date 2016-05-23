@@ -36,7 +36,7 @@ public class InfrastructureModel {
      */
     public void editInfrastructure(String name) {
         infrastructure.clear();
-        infrastructure.add(name);
+        infrastructure.add(0, name);
     }
 
 }
