@@ -1,26 +1,38 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 
 import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.service.ToolService;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TextFieldTreeCell;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
 import javafx.util.converter.DefaultStringConverter;
 
 /**
@@ -29,6 +41,10 @@ import javafx.util.converter.DefaultStringConverter;
  */
 public class ToolModifyController implements Initializable {
 
+    private Stage stage;
+    
+    
+    
     @FXML
     private Button confButton;
 
@@ -43,8 +59,6 @@ public class ToolModifyController implements Initializable {
 
     private TreeItem<String> value;
 
-    private Map<String, TreeItem<String>> attributeMap = new HashMap<>();
-
     private Stage dialogStage;
 
     private String key;
@@ -53,8 +67,9 @@ public class ToolModifyController implements Initializable {
 
     private String baseRootName;
 
-    /** the new agent name */
     private String newServiceName = null;
+    
+    private boolean supressConfirm = false;
 
     /**
      * Sets the stage.
@@ -83,7 +98,7 @@ public class ToolModifyController implements Initializable {
      *            the attributeMap
      */
     public void setAttributeMap(Map<String, TreeItem<String>> attributeMap) {
-        this.attributeMap = attributeMap;
+        ToolService.getInstance().setAttributesMap(attributeMap);
     }
 
     /**
@@ -107,7 +122,7 @@ public class ToolModifyController implements Initializable {
      */
     @FXML
     public void deleteButton() {
-        
+        Platform.runLater(() -> loadFxml());
     }
 
     /**
@@ -116,13 +131,15 @@ public class ToolModifyController implements Initializable {
     @FXML
     public void confirmButton() {
         value = tree.getRoot();
-        attributeMap.put(key, value);
+        ToolService.getInstance().getAttributes().put(key, value);
         newServiceName = tree.getRoot().getValue();
         if (newServiceName != baseRootName) {
             list.getItems().remove(key);
             key = newServiceName;
             list.getItems().add(key);
-            attributeMap.put(key, attributeMap.remove(baseRootName));
+            System.out.println(key);
+            ToolService.getInstance().getAttributes().put(key,
+                ToolService.getInstance().getAttributes().remove(baseRootName));
         }
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
@@ -157,15 +174,15 @@ public class ToolModifyController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.tree.setEditable(true);
-        tree.setCellFactory(p -> new ToolAttributesTreeCell());
+        tree.setCellFactory(p -> new ToolAttributesTreeCell(tree));
     }
 
     private static class ToolAttributesTreeCell extends TextFieldTreeCell<String> {
         private ContextMenu menu = new ContextMenu();
-
-        public ToolAttributesTreeCell() {
+        private TreeView<String> tree;
+        public ToolAttributesTreeCell(TreeView<String> tree) {
             super(new DefaultStringConverter());
-
+            this.tree = tree;
             menu.setId("treeAttributeItem");
             MenuItem renameItem = new MenuItem("Renommer");
             renameItem.setId("renameAttributeItem");
@@ -191,16 +208,63 @@ public class ToolModifyController implements Initializable {
                 setContextMenu(menu);
             }
         }
-
+        /**
+         * the value needs to be of the form "X : Y" with X and Y non empty
+         * @param newValue the value to test
+         * @return 
+         */
+        private boolean isValidExpression(String newValue){
+            return newValue.split(" : ").length != 2 ^ (!newValue.split(" : ")[0].trim().isEmpty() && !newValue.split(" : ")[1].trim().isEmpty() );
+        }
+        
         @Override
         public void commitEdit(String newValue) {
-
+            System.out.println(newValue.split(":").toString());
             if (newValue.trim().isEmpty()) {
+                return;
+            }
+            else if(this.getTreeItem() != tree.getRoot() && !isValidExpression(newValue) ){
                 return;
             }
             super.commitEdit(newValue);
         }
 
+    }
+    
+    public void loadFxml(){
+        stage = new Stage();
+        stage.setTitle("Ajouter un service");
+        stage.setResizable(false);
+
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("view/ConfirmationDialog.fxml"));
+        try{
+            
+            DialogPane root = (DialogPane) loader.load();
+            stage.initModality(Modality.WINDOW_MODAL);
+            Window window = delButton.getScene().getWindow();
+            stage.initOwner(delButton.getScene().getWindow());
+            stage.initStyle(StageStyle.UNDECORATED);
+            ConfirmationDialogController confimDialogController = loader.getController();
+            Scene myScene = new Scene(root);
+            
+            double x = window.getX() + (window.getWidth() - root.getPrefWidth()) / 2;
+            double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
+            stage.setX(x);
+            stage.setY(y);
+            confimDialogController.setList(list);
+            confimDialogController.setKey(key);
+            confimDialogController.setDialogStage(dialogStage);
+            stage.setScene(myScene);
+            
+            stage.showAndWait();
+           
+        } catch(IOException e){
+            e.printStackTrace();
+            System.out.println("rage");
+        }
     }
 
 }

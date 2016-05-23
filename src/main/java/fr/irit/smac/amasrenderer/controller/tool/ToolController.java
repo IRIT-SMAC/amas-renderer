@@ -57,6 +57,7 @@ public class ToolController implements Initializable {
 
     private static final Logger LOGGER = Logger.getLogger(ToolController.class.getName());
 
+    
     /**
      * Handle mouse click.
      */
@@ -131,7 +132,6 @@ public class ToolController implements Initializable {
         loader.setLocation(Main.class.getResource("view/ToolDialog.fxml"));
         DialogPane root = (DialogPane) loader.load();
         ToolDialogController toolDialogController = loader.getController();
-        toolDialogController.setAttributeMap(attributeMap);
         stage.initModality(Modality.WINDOW_MODAL);
         Window window = buttonAddService.getScene().getWindow();
         stage.initOwner(buttonAddService.getScene().getWindow());
@@ -209,6 +209,7 @@ public class ToolController implements Initializable {
         });
 
         InfrastructureService.getInstance().setInfrastructure(FXCollections.observableArrayList(new ArrayList<>()));
+
         InfrastructureService.getInstance().getInfrastructure()
             .addListener((ListChangeListener.Change<? extends String> c) -> {
                 String nouvelleInfrastructure = InfrastructureService.getInstance().getInfrastructure().get(0);

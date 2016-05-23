@@ -36,16 +36,9 @@ public class ToolDialogController implements Initializable {
     
     private HashMap<String,TreeItem<String>> map;
 
-    /**
-     * @param list
-     *            The instance of the list in which we add the new service
-     */
-    public ToolDialogController() {
-    	
-    }
+    @FXML
+    private Text invalidField;
 
-	@FXML
-	private Text invalidField;
 	
     /**
      * Click on the confirm button handler
@@ -88,12 +81,7 @@ public class ToolDialogController implements Initializable {
     @FXML
     public void clickCancel() {
         ((Stage) buttonCancel.getScene().getWindow()).close();
-	}
-    
-    public void setAttributeMap(HashMap<String, TreeItem<String>> attributeMap){
-        this.map = attributeMap;
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {  

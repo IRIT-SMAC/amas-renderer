@@ -25,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -74,6 +75,9 @@ public class GraphMainController implements Initializable, GraphAddDelController
     private EStateGraph previousStateButtons;
 
     private static final Logger LOGGER = Logger.getLogger(GraphMainController.class.getName());
+
+    @FXML
+    private Label classNameLabel;
 
     /**
      * Handles the behavior of the graph when the user pressed a key
@@ -171,6 +175,7 @@ public class GraphMainController implements Initializable, GraphAddDelController
             case AT_EASE:
                 handleAttributesOrSelectNode(e);
                 break;
+
             case CTRL_DOWN:
                 this.state = EStateGraph.CTRL_DOWN;
                 createOrRemoveNode(e);

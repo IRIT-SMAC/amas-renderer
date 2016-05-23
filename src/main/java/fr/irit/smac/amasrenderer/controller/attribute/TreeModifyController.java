@@ -124,17 +124,18 @@ public class TreeModifyController implements Initializable {
 
         this.tree.setEditable(true);
 
-        tree.setCellFactory(p -> new MenuAttributesTreeCell());
+        tree.setCellFactory(p -> new MenuAttributesTreeCell(tree));
 
     }
 
     private static class MenuAttributesTreeCell extends TextFieldTreeCell<String> {
         private ContextMenu menu = new ContextMenu();
+        private TreeView<String> tree;
 
         @SuppressWarnings({ "rawtypes", "unchecked" })
-        public MenuAttributesTreeCell() {
+        public MenuAttributesTreeCell(TreeView<String> tree) {
             super(new DefaultStringConverter());
-
+            this.tree = tree;
             menu.setId("treeAttributeItem");
             MenuItem renameItem = new MenuItem("Renommer");
             renameItem.setId("renameAttributeItem");
@@ -155,6 +156,10 @@ public class TreeModifyController implements Initializable {
             removeItem.setOnAction(e -> getTreeItem().getParent().getChildren().remove(getTreeItem()));
         }
 
+        private boolean isValidExpression(String newValue){
+            return newValue.split(" : ").length != 2 ^ (!newValue.split(" : ")[0].trim().isEmpty() && !newValue.split(" : ")[1].trim().isEmpty() );
+        }
+        
         @Override
         public void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
@@ -168,6 +173,9 @@ public class TreeModifyController implements Initializable {
         public void commitEdit(String newValue) {
 
             if (newValue.trim().isEmpty()) {
+                return;
+            }
+            else if(this.getTreeItem() != tree.getRoot() && !isValidExpression(newValue)){
                 return;
             }
             super.commitEdit(newValue);
