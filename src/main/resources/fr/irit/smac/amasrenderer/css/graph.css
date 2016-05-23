@@ -10,30 +10,29 @@ node {
 	shape: circle;
 	text-alignment: center;
 	text-size: 15px;
-	text-offset: 0px, 10px;
+	text-offset: 0gu, 0.05gu;
 	text-color: #FFFFFF;
-	padding: 15px, 10px;
-	fill-color: #BF0000;
+	padding: 0.1gu, 0.05gu;
+	fill-color: #AA4A4A;
 	stroke-mode: plain;
 	stroke-color: #FFFFFF;
-	stroke-width: 2px;
-	text-style: bold;
+	stroke-width: 1px;
 }
 
  edge {
-     shape: line;
+     shape: angle;
      fill-color: #FFF;
      arrow-size: 10.0px, 6.0px;
      z-index: 0.0;
-     size: 3.0px;
- }
+     size: 0.008gu;
+}
  
  node:clicked {
      fill-color: #FF0000;
  	 stroke-color: #E6E6E6;
- }
+}
  
  node:selected {
      fill-color: #FF0000;
  	 stroke-color: #E6E6E6;
- }
+}
