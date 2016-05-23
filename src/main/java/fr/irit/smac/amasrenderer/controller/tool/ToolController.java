@@ -46,7 +46,7 @@ public class ToolController implements Initializable {
     private ListView<String> listTool;
 
     @FXML
-    private Label infrastructureLabel;
+    private TextField infrastructureTextField;
 
     @FXML
     private Button generateButton;
@@ -199,9 +199,8 @@ public class ToolController implements Initializable {
         for (String tool : listTool.getItems()) {
             list.add(tool);
         }
-
         ToolService.getInstance().setTools(FXCollections.observableArrayList(list));
-
+        
         ToolService.getInstance().getTools().addListener((ListChangeListener.Change<? extends String> e) -> {
             String newTool = ToolService.getInstance().getTools()
                 .get(ToolService.getInstance().getTools().size() - 1);
@@ -210,11 +209,10 @@ public class ToolController implements Initializable {
         });
 
         InfrastructureService.getInstance().setInfrastructure(FXCollections.observableArrayList(new ArrayList<>()));
-
         InfrastructureService.getInstance().getInfrastructure()
             .addListener((ListChangeListener.Change<? extends String> c) -> {
                 String nouvelleInfrastructure = InfrastructureService.getInstance().getInfrastructure().get(0);
-                infrastructureLabel.setText(nouvelleInfrastructure);
+                infrastructureTextField.setText(nouvelleInfrastructure);
             }
 
         );

@@ -3,13 +3,18 @@ package fr.irit.smac.amasrenderer.controller.tool;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
@@ -102,10 +107,21 @@ public class ToolModifyController implements Initializable {
      */
     @FXML
     public void deleteButton() {
-        list.getItems().remove(key);
-        attributeMap.remove(key);
-        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
-        dialogStage.close();
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Suppression du service");
+        alert.setHeaderText("Vous êtes sur le point de supprimer le service "+key+".");
+        alert.setContentText("Êtes vous sur?");
+        DialogPane dialogPane = alert.getDialogPane();
+        //dialogPane.getStylesheets().add(getClass().getResource("MyDialog.css").toExternalForm());
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            list.getItems().remove(key);
+            attributeMap.remove(key);
+            Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
+            dialogStage.close();
+        } else {
+           // Do nothing
+        }
     }
 
     /**
