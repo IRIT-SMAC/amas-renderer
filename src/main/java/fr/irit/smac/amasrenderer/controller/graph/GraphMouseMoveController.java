@@ -1,4 +1,5 @@
 package fr.irit.smac.amasrenderer.controller.graph;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -8,12 +9,11 @@ import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swingViewer.ViewPanel;
 
 /**
- * The Class GraphMouseMoveController.
- * DEPRECATED , pan the graph using the mouse wheel (GraphMouseWheelController)
- * This controller is used to pan the graph on left click drag
- * BUG: makes the graph flicker for whatever reason
+ * The Class GraphMouseMoveController. DEPRECATED , pan the graph using the
+ * mouse wheel (GraphMouseWheelController) This controller is used to pan the
+ * graph on left click drag BUG: makes the graph flicker for whatever reason
  */
-public class GraphMouseMoveController extends MouseAdapter{
+public class GraphMouseMoveController extends MouseAdapter {
 
     /** The graph view. */
     private ViewPanel graphView;
@@ -53,52 +53,55 @@ public class GraphMouseMoveController extends MouseAdapter{
 
     /** The y center. */
     double yCenter;
-    
-    
-    
+
     /**
      * Instantiates a new graph mouse move controller.
      *
-     * @param graphView the graph view
+     * @param graphView
+     *            the graph view
      */
-    public GraphMouseMoveController(ViewPanel graphView){
+    public GraphMouseMoveController(ViewPanel graphView) {
         this.graphView = graphView;
     }
-    
+
     /**
      * On mouse press, gets the source of the panning .
      *
-     * @param e the e
+     * @param e
+     *            the e
      * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        if(SwingUtilities.isLeftMouseButton(e) && ! e.isShiftDown()) {
+        if (SwingUtilities.isLeftMouseButton(e) && !e.isShiftDown()) {
             source = graphView.getCamera().transformPxToGu(e.getPoint().getX(), e.getPoint().getY());
             xSource = source.x;
             ySource = source.y;
         }
     }
-    
+
     /**
      * On mouse dragged, pan the graph using panGraph or panGraph2.
      *
-     * @param e the e
+     * @param e
+     *            the e
      * @see java.awt.event.MouseAdapter#mouseDragged(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseDragged (MouseEvent e) {    
+    public void mouseDragged(MouseEvent e) {
         panGraph2(e);
     }
-    
-   /**
-    * Pan graph.
-    * updates the target with mouse location and define the difference between source and target
-    * then shifts the center of the graph by the same vector as the mouse start - mouse actual location 
-    * @param e the e
-    */
-    void panGraph(MouseEvent e){
-        if(SwingUtilities.isLeftMouseButton(e) && ! e.isShiftDown()){
+
+    /**
+     * Pan graph. updates the target with mouse location and define the
+     * difference between source and target then shifts the center of the graph
+     * by the same vector as the mouse start - mouse actual location
+     * 
+     * @param e
+     *            the e
+     */
+    void panGraph(MouseEvent e) {
+        if (SwingUtilities.isLeftMouseButton(e) && !e.isShiftDown()) {
             target = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
             difference.x = source.x - target.x;
             difference.y = source.y - target.y;
@@ -110,15 +113,17 @@ public class GraphMouseMoveController extends MouseAdapter{
             graphView.getCamera().setViewCenter(center.x, center.y, center.z);
         }
     }
-    
+
     /**
-     * Pan graph2.
-     * updates the target with mouse location and define the difference between source and target
-     * then sets the center of the graph to the difference between source and target
-     * @param e the e
+     * Pan graph2. updates the target with mouse location and define the
+     * difference between source and target then sets the center of the graph to
+     * the difference between source and target
+     * 
+     * @param e
+     *            the e
      */
-    void panGraph2(MouseEvent e){
-        if(SwingUtilities.isLeftMouseButton(e) && ! e.isShiftDown()){
+    void panGraph2(MouseEvent e) {
+        if (SwingUtilities.isLeftMouseButton(e) && !e.isShiftDown()) {
             target = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
             xTarget = target.x;
             yTarget = target.y;
@@ -128,9 +133,5 @@ public class GraphMouseMoveController extends MouseAdapter{
             graphView.getCamera().setViewCenter(xDiff, yDiff, 0);
         }
     }
-    
-    
-    
-    
 
 }

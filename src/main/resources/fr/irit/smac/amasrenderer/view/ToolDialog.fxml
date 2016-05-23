@@ -6,19 +6,22 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="504.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.tool.ToolDialogController">
+
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="309.0" prefWidth="504.0" styleClass="dialog" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.tool.ToolDialogController">
     <header>
       <AnchorPane prefHeight="200.0">
          <children>
-      		<Label alignment="CENTER" maxHeight="100.0" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="504.0" styleClass="title" text="Ajouter un service" textFill="WHITE">
+      		<Label alignment="CENTER" maxHeight="100.0" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="496.0" styleClass="title" text="Ajouter un service" textFill="WHITE">
             		</Label>
 				<TextField fx:id="textfieldTool" alignment="CENTER" layoutX="66.0" layoutY="125.0" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="361.0" promptText="Renseignez un nom" styleClass="input">
                <font>
                   <Font name="OpenSymbol" size="18.0" />
-               </font></TextField>
+               </font>
+            </TextField>
             <Text fx:id="invalidField" layoutX="79.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="invalidField" text="Saisissez un nom valide." textAlignment="CENTER" wrappingWidth="334.13671875">
               </Text>
          </children>
@@ -38,4 +41,7 @@
       <URL value="@../css/toolDialog.css" />
       <URL value="@../css/dialog.css" />
    </stylesheets>
+   <graphic>
+      <Pane prefHeight="200.0" prefWidth="200.0" />
+   </graphic>
 </DialogPane>

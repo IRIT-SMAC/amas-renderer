@@ -4,12 +4,15 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 
-<MenuBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.menu.MenuBarController">
+<MenuBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../css/menuBar.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.menu.MenuBarController">
   <menus>
     <Menu mnemonicParsing="false" text="Fichier">
       <items>
             <MenuItem mnemonicParsing="false" onAction="#clickMenuCharger" text="Charger" />
+            <MenuItem mnemonicParsing="false" onAction="#clickMenuSave" text="Enregistrer" />
+            
         <MenuItem mnemonicParsing="false" onAction="#clickMenuFermer" text="Fermer" />
+        
       </items>
     </Menu>
     <Menu mnemonicParsing="false" text="Aide">
@@ -19,4 +22,3 @@
     </Menu>
   </menus>
 </MenuBar>
-

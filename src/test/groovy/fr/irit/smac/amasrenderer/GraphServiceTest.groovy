@@ -1,12 +1,9 @@
 package fr.irit.smac.amasrenderer
 
-import org.graphstream.graph.Edge
 import org.graphstream.graph.implementations.SingleNode
 
 import spock.lang.Shared
 import spock.lang.Specification
-import fr.irit.smac.amasrenderer.controller.graph.GraphAddDelNodeMouseController;
-import fr.irit.smac.amasrenderer.model.AgentGraph
 import fr.irit.smac.amasrenderer.service.GraphService
 
 /**
@@ -40,7 +37,7 @@ class GraphServiceTest extends Specification{
         then:
         SingleNode node = graphNodeService.getModel().getNode("agent1")
         node.getId()
-        node.getAttribute("xyz") == [5.0, 10.0]
+        node.getAttribute("xy") == [5.0, 10.0]
         node.getAttribute("layout.weight") == Const.LAYOUT_WEIGHT_NODE
         
         when:

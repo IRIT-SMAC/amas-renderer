@@ -1,8 +1,8 @@
 graph {
     canvas-color: #707070;
-    fill-mode: gradient-diagonal2;
-    fill-color: #404040, #A0A0A0;
-    padding: 20px;
+    fill-mode: gradient-vertical;
+    fill-color: #808080, #909090, #A0A0A0;
+    padding: 130px, 50px;
 }
 node {
      size: 40px;

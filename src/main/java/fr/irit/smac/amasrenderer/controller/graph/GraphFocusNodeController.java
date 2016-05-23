@@ -1,40 +1,44 @@
 package fr.irit.smac.amasrenderer.controller.graph;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import org.graphstream.ui.geom.Point3;
 
 /**
- * The Class GraphFocusNodeController.
- * Scroll wheel to move the graph is better, use GraphMouseWheelController instead
- * This controller is used to move the center of the graph to the mouse location
- * shift+click on the graph to set that point as the center
+ * The Class GraphFocusNodeController. Scroll wheel to move the graph is better,
+ * use GraphMouseWheelController instead This controller is used to move the
+ * center of the graph to the mouse location shift+click on the graph to set
+ * that point as the center
  */
 public class GraphFocusNodeController extends MouseAdapter {
-    
+
     /** The controller. */
-    private GraphMainController controller; 
-    
+    private GraphMainController controller;
+
     /**
      * Initialize the controller and adds it to the graph.
      *
-     * @param controller the controller
+     * @param controller
+     *            the controller
      */
     public void init(GraphMainController controller) {
         this.controller = controller;
         controller.getGraphView().addMouseListener(this);
     }
-    
+
     /**
-     * gets the clic location and if shift is pressed sets that point as the center of the camera .
+     * gets the clic location and if shift is pressed sets that point as the
+     * center of the camera .
      *
-     * @param e the e
+     * @param e
+     *            the e
      * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
      */
     @Override
     public void mouseClicked(MouseEvent e) {
         Point3 clicLocation = controller.getGraphView().getCamera().transformPxToGu(e.getX(), e.getY());
-        if(e.isShiftDown()){
+        if (e.isShiftDown()) {
             controller.getGraphView().getCamera().setViewCenter(clicLocation.x, clicLocation.y, clicLocation.z);
         }
     }

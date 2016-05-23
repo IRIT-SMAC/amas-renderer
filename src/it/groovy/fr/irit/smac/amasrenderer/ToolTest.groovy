@@ -5,8 +5,10 @@ import javafx.scene.control.ListView
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
 import spock.lang.Shared
+import spock.lang.Stepwise;
 import fr.irit.smac.amasrenderer.service.GraphService
 
+@Stepwise
 class ToolTest extends GuiSpecification{
 
 	@Shared
@@ -22,9 +24,12 @@ class ToolTest extends GuiSpecification{
             loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
             BorderPane rootLayout = (BorderPane) loaderRootLayout.load()
             this.rootLayout = rootLayout
+            Main.mainStage = stage
+
 			return rootLayout
 		}
 
+        
 		sleep(1000) //time for the graph to be initialized
 		graphService = GraphService.getInstance()
 

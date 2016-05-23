@@ -1,18 +1,19 @@
 package fr.irit.smac.amasrenderer.controller.graph;
 
-import org.graphstream.ui.swingViewer.ViewPanel;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 
 /**
- * The Class GraphAddDelController.
- * This controller handles the buttons of the graph
+ * The Class GraphAddDelController. This controller handles the buttons of the
+ * graph
  */
-public class GraphAddDelController {
-    
+public class GraphAddDelController implements Initializable {
+
     @FXML
     ToggleGroup toggroup;
 
@@ -28,34 +29,108 @@ public class GraphAddDelController {
     @FXML
     private ToggleButton buttonDelEdge;
 
-    private GraphAddDelEdgeMouseController graphAddDelEdgeMouseController;
+    private EStateGraph state;
 
-    private GraphAddDelNodeMouseController graphAddDelNodeMouseController;
-    
+    private IGraphButtonsState graphButtonsState;
+
     /**
-     * Inits the subcontrollers GraphAddDelEdgeMouseController and
-     * GraphAddDelMouseController.
-     *
-     * @param graphView
-     *            the graph view
-     * @param graphNodeService
-     *            the graph node service
+     * Sets the implementation of graphButtonsState
+     * 
+     * @param graphButtonsState
+     *            the implementation
      */
-    public void init(ViewPanel graphView, GraphService graphNodeService) {
-
-        graphAddDelEdgeMouseController = new GraphAddDelEdgeMouseController();
-        graphAddDelEdgeMouseController.init(graphView, graphNodeService);
-        graphAddDelEdgeMouseController.setButtonAddEdge(this.buttonAddEdge);
-        graphAddDelEdgeMouseController.setButtonDelEdge(this.buttonDelEdge);
-        graphAddDelNodeMouseController = new GraphAddDelNodeMouseController();
-        graphAddDelNodeMouseController.setButtonAddAgent(this.buttonAddAgent);
-        graphAddDelNodeMouseController.setButtonDelAgent(this.buttonDelAgent);
-        graphAddDelNodeMouseController.init(graphView, graphNodeService);
-       
-        
+    public void setGraphButtonsState(IGraphButtonsState graphButtonsState) {
+        this.graphButtonsState = graphButtonsState;
     }
-    
-    public ToggleGroup getTogGroup() {
-        return toggroup;
+
+    /**
+     * Sets the new state of the buttons when the user selects the button
+     * AddNode
+     */
+    @FXML
+    public void buttonAddNode() {
+
+        if (this.state == EStateGraph.BUTTON_ADD_NODE) {
+            this.state = EStateGraph.AT_EASE;
+            graphButtonsState.changedStateButtons(EStateGraph.AT_EASE);
+        }
+        else {
+            this.state = EStateGraph.BUTTON_ADD_NODE;
+            graphButtonsState.changedStateButtons(EStateGraph.BUTTON_ADD_NODE);
+        }
+    }
+
+    /**
+     * Sets the new state of the buttons when the user selects the button
+     * DeleteNode
+     */
+    @FXML
+    public void buttonDeleteNode() {
+
+        if (this.state == EStateGraph.BUTTON_DELETE_NODE) {
+            this.state = EStateGraph.AT_EASE;
+            graphButtonsState.changedStateButtons(EStateGraph.AT_EASE);
+        }
+        else {
+            this.state = EStateGraph.BUTTON_DELETE_NODE;
+            graphButtonsState.changedStateButtons(EStateGraph.BUTTON_DELETE_NODE);
+        }
+
+    }
+
+    /**
+     * Sets the new state of the buttons when the user selects the button
+     * AddEdge
+     */
+    @FXML
+    public void buttonAddEdge() {
+
+        if (this.state == EStateGraph.BUTTON_ADD_EDGE) {
+            this.state = EStateGraph.AT_EASE;
+            graphButtonsState.changedStateButtons(EStateGraph.AT_EASE);
+        }
+        else {
+            this.state = EStateGraph.BUTTON_ADD_EDGE;
+            graphButtonsState.changedStateButtons(EStateGraph.BUTTON_ADD_EDGE);
+        }
+    }
+
+    /**
+     * Sets the new state of the buttons when the user selects the button
+     * DeleteEdge
+     */
+    @FXML
+    public void buttonDeleteEdge() {
+
+        if (this.state == EStateGraph.BUTTON_DELETE_EDGE) {
+            this.state = EStateGraph.AT_EASE;
+            graphButtonsState.changedStateButtons(EStateGraph.AT_EASE);
+        }
+        else {
+            this.state = EStateGraph.BUTTON_DELETE_EDGE;
+            graphButtonsState.changedStateButtons(EStateGraph.BUTTON_DELETE_EDGE);
+        }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        this.state = EStateGraph.AT_EASE;
+    }
+
+    /**
+     * This interface allows to the GraphMainController to get the new state of
+     * the graphButtons
+     */
+    @FunctionalInterface
+    public interface IGraphButtonsState {
+
+        /**
+         * This method is called when the state of the graphButtons is updated
+         * 
+         * @param state
+         *            the new state of the graphButtons
+         */
+        public void changedStateButtons(EStateGraph state);
     }
 }

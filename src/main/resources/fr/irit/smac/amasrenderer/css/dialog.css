@@ -2,14 +2,20 @@
     -fx-font-size: 16pt;
     -fx-font-family: "OpenSymbol";
 }
+
+.dialog {
+	-fx-border-color: white;
+    -fx-border-width: 4.0px;
+}
+
 .title {
-    -fx-background-color: #CA2723;
+    -fx-background-color: linear-gradient( from 0 100 to 100 -100, #b4231f, #c34e4b);
     -fx-text-fill: #FFFFFF;
     -fx-alignment: center;
     -fx-pref-height: 60;
 }
 .buttonDialog {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: linear-gradient( from 0 100 to 100 -100, #dbdbdb, #e0e0e0);
     -fx-background-radius: 5.0px;
     -fx-border-color: #404040;
     -fx-border-width: 0.0 0.0 0.0 0.0;
@@ -20,15 +26,16 @@
 	-fx-pref-width: 180;
 }
 .buttonDialogOk {
-    -fx-background-color: #CA2723;
+    -fx-background-color: linear-gradient( from 0 100 to 100 -100, #b4231f, #c34e4b);
     -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-text-fill: #FFFFFF;
 }
 .buttonDialog:hover {
-    -fx-background-color: #CCCCCC;
+    -fx-background-color: linear-gradient( from 0 100 to 100 -100, #cccccc, #d1d1d1);
     -fx-font-weight: bold;
 }
+
 .buttonDialogOk:hover {
-    -fx-background-color: #8d1b18;
+    -fx-background-color: linear-gradient( from 0 100 to 100 -100, #a21f1b, #901c18);
 }

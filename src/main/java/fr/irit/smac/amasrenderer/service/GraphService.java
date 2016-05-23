@@ -9,8 +9,8 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.AgentGraph;
-import fr.irit.smac.amasrenderer.model.Stock;
+import fr.irit.smac.amasrenderer.model.AgentGraphModel;
+import fr.irit.smac.amasrenderer.model.StockModel;
 import javafx.scene.control.TreeItem;
 
 /**
@@ -19,7 +19,7 @@ import javafx.scene.control.TreeItem;
 public class GraphService {
 
     /** The model. */
-    private AgentGraph model;
+    private AgentGraphModel model;
 
     /** The instance. */
     private static GraphService instance = new GraphService();
@@ -46,8 +46,8 @@ public class GraphService {
      * Creates and initialise the agent graph.
      */
     public void createAgentGraph() {
-        this.model = new AgentGraph("AMAS Rendering");
-        this.model.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/theTrueStyleSheet.css") + ")");
+        this.model = new AgentGraphModel("AMAS Rendering");
+        this.model.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
     }
 
     /**
@@ -61,10 +61,14 @@ public class GraphService {
      *            the y location of the node
      */
     public void addNode(String id, double x, double y) {
+
         model.addNode(id);
-        model.getNode(id).changeAttribute("xyz", x, y);
-        model.getNode(id).setAttribute("ui.stocked-info", new Stock(id));
-        model.getNode(id).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
+        Node node = model.getNode(id);
+        node.changeAttribute(Const.NODE_XY, x, y);
+        node.setAttribute(Const.NODE_CONTENT, new StockModel(id));
+        node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
+        node.setAttribute(Const.NODE_LABEL, id);
+
     }
 
     /**
@@ -74,21 +78,37 @@ public class GraphService {
      *            the id of the node
      */
     public void addNode(String id) {
+
         model.addNode(id);
-        model.getNode(id).setAttribute("ui.stocked-info", new Stock(id));
-        model.getNode(id).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_NODE);
-        model.getNode(id).setAttribute("ui.label", id);
+        Node node = model.getNode(id);
+        node.setAttribute(Const.NODE_CONTENT, new StockModel(id));
+        node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
+        node.setAttribute(Const.NODE_LABEL, id);
     }
 
     /**
      * Add a directed edge from the source to the target
      * 
      * @param source
+     *            the id of the source node
      * @param target
+     *            the id of the target node
      */
     public void addEdge(String source, String target) {
+
         model.addEdge(source + target, source, target, true);
-        model.getEdge(source + target).setAttribute("layout.weight", Const.LAYOUT_WEIGHT_EDGE);
+        model.getEdge(source + target).setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_EDGE);
+    }
+
+    /**
+     * Remove an edge
+     * 
+     * @param edge
+     *            the edge to remove
+     */
+    public void removeEdge(Edge edge) {
+
+        model.removeEdge(edge);
     }
 
     /**
@@ -97,9 +117,13 @@ public class GraphService {
      * @param id
      *            the node id
      * @param attribute
+     *            the attribute
      * @param value
+     *            the value
+     * @param parent
+     *            the parent node
      */
-    public void setNodeAttribute(String id, String attribute, Object value, TreeItem<String> parent) {
+    public void setNodeAttribute(String attribute, Object value, TreeItem<String> parent) {
 
         TreeItem<String> item = new TreeItem<>();
         item.setValue(attribute + " : " + value);
@@ -128,7 +152,7 @@ public class GraphService {
      *
      * @return the model
      */
-    public AgentGraph getModel() {
+    public AgentGraphModel getModel() {
         return this.model;
     }
 
@@ -138,10 +162,16 @@ public class GraphService {
      * @param model
      *            the new model
      */
-    public void setModel(AgentGraph model) {
+    public void setModel(AgentGraphModel model) {
         this.model = model;
     }
 
+    /**
+     * Create the agent graph from a map
+     * 
+     * @param map
+     *            the map
+     */
     @SuppressWarnings("unchecked")
     public void createAgentGraphFromMap(Map<?, ?> map) {
         HashMap<String, Object> agentHandlerService = (HashMap<String, Object>) map.get("agentHandlerService");
@@ -154,7 +184,7 @@ public class GraphService {
             HashMap<String, Object> currentAgent = (HashMap<String, Object>) currentAgentMap.getValue();
             fillAgentTargets(currentAgent);
             String id = (String) currentAgent.get("id");
-            Stock stock = model.getNode(id).getAttribute("ui.stocked-info");
+            StockModel stock = model.getNode(id).getAttribute(Const.NODE_CONTENT);
             stock.getRoot().setValue(id);
             fillAgentAttributes(currentAgent, stock.getRoot());
         }
@@ -193,12 +223,12 @@ public class GraphService {
             if (value instanceof HashMap<?, ?>) {
                 TreeItem<String> item = new TreeItem<>();
                 item.setValue(name);
-                Stock stock = model.getNode(id).getAttribute("ui.stocked-info");
+                StockModel stock = model.getNode(id).getAttribute(Const.NODE_CONTENT);
                 stock.getRoot().getChildren().add(item);
                 fillAgentAttributes((HashMap<String, Object>) value, item);
             }
             else {
-                this.setNodeAttribute(id, name, value, parent);
+                this.setNodeAttribute(name, value, parent);
 
             }
         }
@@ -225,7 +255,17 @@ public class GraphService {
     private void clearGraph() {
         this.getModel().clear();
         this.getModel().addAttribute("ui.stylesheet",
-            "url(" + getClass().getResource("../css/theTrueStyleSheet.css") + ")");
+            "url(" + getClass().getResource("../css/graph.css") + ")");
+    }
+
+    /**
+     * Sets the quality of rendering of the graph
+     */
+    public void setQualityGraph() {
+
+        this.getModel().addAttribute("ui.quality");
+        this.getModel().addAttribute("layout.quality", 4);
+        this.getModel().addAttribute("ui.antialias");
     }
 
 }

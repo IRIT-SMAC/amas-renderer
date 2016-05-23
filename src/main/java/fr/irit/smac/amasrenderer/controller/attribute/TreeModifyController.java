@@ -1,24 +1,21 @@
 package fr.irit.smac.amasrenderer.controller.attribute;
 
-import org.graphstream.graph.Node;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import fr.irit.smac.amasrenderer.model.Stock;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
+import org.graphstream.graph.Node;
+
+import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.model.StockModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.converter.DefaultStringConverter;
 
 /**
@@ -38,18 +35,16 @@ public class TreeModifyController implements Initializable {
 
     private TreeItem<String> oldTree;
 
-    private Stock stock;
+    private StockModel stock;
 
     private Stage dialogStage;
-    
+
     private String baseAgentName;
-    
-    /**the node being modified*/
+
     private Node node;
-    
-    /**the new agent name*/
+
     private String newAgentName = null;
-    
+
     /**
      * Sets the stage.
      *
@@ -59,21 +54,24 @@ public class TreeModifyController implements Initializable {
     public void setStage(Stage stage) {
         dialogStage = stage;
     }
+
     /**
-     * sets the node to be modified
-     * @param node the node to modify
+     * Sets the node to be modified
+     * 
+     * @param node
+     *            the node to modify
      */
     public void setNode(Node node) {
         this.node = node;
     }
-    
+
     /**
      * Sets the stock.
      *
      * @param s
      *            the new stock
      */
-    public void setStock(Stock s) {
+    public void setStock(StockModel s) {
         baseAgentName = s.getRoot().getValue();
         stock = s;
         tree.setRoot(deepcopy(s.getRoot()));
@@ -83,22 +81,24 @@ public class TreeModifyController implements Initializable {
     }
 
     /**
-     * Confirm button. sets the new tree as the node tree, and exit this window
+     * Confirm button. Sets the new tree as the node tree, and exit this window
      */
     public void confirmButton() {
         stock.setRoot(tree.getRoot());
         newAgentName = tree.getRoot().getValue();
-        if(newAgentName != baseAgentName){
+        if (newAgentName != baseAgentName) {
             node.setAttribute("ui.label", newAgentName);
         }
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 
     /**
-     * Cancel button. just exit this window
+     * Cancel button. Just exit this window
      */
     @FXML
     public void cancelButton() {
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
         this.tree.setRoot(deepcopy(oldTree));
     }
@@ -112,7 +112,7 @@ public class TreeModifyController implements Initializable {
      * @return a copy of the tree item the tree item
      */
     private TreeItem<String> deepcopy(TreeItem<String> item) {
-        TreeItem<String> copy = new TreeItem<String>(item.getValue());
+        TreeItem<String> copy = new TreeItem<>(item.getValue());
         for (TreeItem<String> child : item.getChildren()) {
             copy.getChildren().add(deepcopy(child));
         }
@@ -124,52 +124,35 @@ public class TreeModifyController implements Initializable {
 
         this.tree.setEditable(true);
 
-        tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
-            @Override
-            public TreeCell<String> call(TreeView<String> p) {
-                return new MenuAttributeTreeCell();
-            }
-        });
-       
+        tree.setCellFactory(p -> new MenuAttributesTreeCell());
+
     }
 
-    private static class MenuAttributeTreeCell extends TextFieldTreeCell<String> {
+    private static class MenuAttributesTreeCell extends TextFieldTreeCell<String> {
         private ContextMenu menu = new ContextMenu();
 
         @SuppressWarnings({ "rawtypes", "unchecked" })
-        public MenuAttributeTreeCell() {
+        public MenuAttributesTreeCell() {
             super(new DefaultStringConverter());
-            
+
             menu.setId("treeAttributeItem");
             MenuItem renameItem = new MenuItem("Renommer");
             renameItem.setId("renameAttributeItem");
             menu.getItems().add(renameItem);
-            renameItem.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent arg0) {
-                    startEdit();
-                }
-            });
+            renameItem.setOnAction(e -> startEdit());
 
             MenuItem addItem = new MenuItem("Ajouter");
             menu.getItems().add(addItem);
             addItem.setId("addAttributeItem");
-            addItem.setOnAction(new EventHandler() {
-                public void handle(Event t) {
-                    TreeItem newItem = new TreeItem<String>("Nouvel attribut");
-                    getTreeItem().getChildren().add(newItem);
-
-                }
+            addItem.setOnAction(e -> {
+                TreeItem newItem = new TreeItem<String>("Nouvel attribut");
+                getTreeItem().getChildren().add(newItem);
             });
 
             MenuItem removeItem = new MenuItem("Supprimer");
             menu.getItems().add(removeItem);
             removeItem.setId("removeAttributeItem");
-            removeItem.setOnAction(new EventHandler() {
-                public void handle(Event t) {
-                    getTreeItem().getParent().getChildren().remove(getTreeItem());
-                }
-            }); 
+            removeItem.setOnAction(e -> getTreeItem().getParent().getChildren().remove(getTreeItem()));
         }
 
         @Override
@@ -179,6 +162,15 @@ public class TreeModifyController implements Initializable {
             if (!empty && !isEditing()) {
                 setContextMenu(menu);
             }
+        }
+
+        @Override
+        public void commitEdit(String newValue) {
+
+            if (newValue.trim().isEmpty()) {
+                return;
+            }
+            super.commitEdit(newValue);
         }
     }
 
