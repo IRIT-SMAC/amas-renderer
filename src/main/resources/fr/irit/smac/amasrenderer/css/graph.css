@@ -2,37 +2,38 @@ graph {
     canvas-color: #707070;
     fill-mode: gradient-vertical;
     fill-color: #808080, #909090, #A0A0A0;
-    padding: 130px, 50px;
+    padding: 130.0px, 50.0px;
 }
+
 node {
-     size: 40px;
-     fill-mode: gradient-diagonal2;
-     fill-color: #BF0000;
-     stroke-mode: plain;
-     stroke-color: #FFFFFF;
-     stroke-width: 2px;
-     text-mode: normal;
-     text-style: bold;
-     text-size: 12;
-     text-color: #FFFFFF;
-     text-alignment: under;
-     z-index: 1;
- }
- node.long {
- 	text-alignment: under;
- }
+	size-mode: fit;
+	shape: circle;
+	text-alignment: center;
+	text-size: 15px;
+	text-offset: 0px, 10px;
+	text-color: #FFFFFF;
+	padding: 15px, 10px;
+	fill-color: #BF0000;
+	stroke-mode: plain;
+	stroke-color: #FFFFFF;
+	stroke-width: 2px;
+	text-style: bold;
+}
+
  edge {
      shape: line;
-     fill-color: #FFFFFF;
-     arrow-size: 10px, 6px;
-     z-index: 0;
-     size: 3px;
+     fill-color: #FFF;
+     arrow-size: 10.0px, 6.0px;
+     z-index: 0.0;
+     size: 3.0px;
  }
+ 
  node:clicked {
      fill-color: #FF0000;
  	 stroke-color: #E6E6E6;
  }
-  node:selected {
+ 
+ node:selected {
      fill-color: #FF0000;
  	 stroke-color: #E6E6E6;
  }
