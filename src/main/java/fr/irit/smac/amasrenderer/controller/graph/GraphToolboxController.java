@@ -33,7 +33,12 @@ public class GraphToolboxController implements Initializable {
     @FXML
     private Button buttonResetView;
 
+    @FXML
+    private ToggleButton buttonAutoLayout;
+
     private EStateGraph state;
+
+    private EStateGraph autoLayoutState;
 
     private IGraphButtonsState graphToolboxState;
 
@@ -116,20 +121,31 @@ public class GraphToolboxController implements Initializable {
         }
     }
 
-    /**
-     * Sets the new state of the buttons when the user selects the button
-     * DeleteEdge
-     */
     @FXML
     public void buttonViewCenter() {
 
         graphToolboxState.changedStateOtherButtons(EStateGraph.RESET_VIEW);
     }
 
+    @FXML
+    public void autoLayout() {
+
+        if (this.autoLayoutState == EStateGraph.AUTO_LAYOUT) {
+            this.autoLayoutState = EStateGraph.AT_EASE;
+            graphToolboxState.changedStateAutoLayout(EStateGraph.AT_EASE);
+        }
+        else {
+            this.autoLayoutState = EStateGraph.AUTO_LAYOUT;
+            graphToolboxState.changedStateAutoLayout(EStateGraph.AUTO_LAYOUT);
+
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         this.state = EStateGraph.AT_EASE;
+        this.autoLayoutState = EStateGraph.AUTO_LAYOUT;
     }
 
     /**
@@ -145,7 +161,9 @@ public class GraphToolboxController implements Initializable {
          *            the new state of the graphButtons
          */
         public void changedStateButtonsAddDel(EStateGraph state);
-        
+
         public void changedStateOtherButtons(EStateGraph state);
+        
+        public void changedStateAutoLayout(EStateGraph state);
     }
 }

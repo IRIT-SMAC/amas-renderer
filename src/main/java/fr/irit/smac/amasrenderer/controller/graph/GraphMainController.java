@@ -591,6 +591,30 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
                 graphView.getCamera().resetView();
                 break;
 
+            case AUTO_LAYOUT:
+                viewer.disableAutoLayout();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void changedStateAutoLayout(EStateGraph state) {
+
+        this.graphNode.requestFocus();
+
+        switch (state) {
+
+            case AUTO_LAYOUT:
+                viewer.enableAutoLayout();
+                break;
+
+            case AT_EASE:
+                viewer.disableAutoLayout();
+                break;
+                
             default:
                 break;
         }
