@@ -11,7 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import fr.irit.smac.amasrenderer.Main;
-import fr.irit.smac.amasrenderer.model.AgentGraphModel;
+import fr.irit.smac.amasrenderer.model.ConfigurationMapModel;
+import fr.irit.smac.amasrenderer.service.ConfigurationMapService;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
@@ -45,15 +46,17 @@ public class MenuBarController {
         File file = fileChooser.showOpenDialog(Main.getMainStage());
         ObjectMapper mapper = new ObjectMapper();
         try {
-            AgentGraphModel tmp = mapper.readValue(file, AgentGraphModel.class);
-            GraphService.getInstance().getModel().setGraphMap(tmp.getGraphMap());
-            GraphService.getInstance().getModel().addAttribute("ui.quality");
-            GraphService.getInstance().getModel().addAttribute("layout.quality", 4);
-            GraphService.getInstance().getModel().addAttribute("ui.antialias");
-            Map<String, Object> graphMap = GraphService.getInstance().getModel().getGraphMap();
+   
+        	
+        	ConfigurationMapModel tmp = mapper.readValue(file, ConfigurationMapModel.class);
+        	ConfigurationMapService.getInstance().setModel(tmp);
+        	
+        	
+//            GraphService.getInstance().getModel().setConfigurationMap(tmp.getConfigurationMap());
+            Map<String, Object> graphMap = GraphService.getInstance().getModel().getAgentMap();
             graphService.createAgentGraphFromMap(graphMap);
-            toolService.createServicesFromMap(graphMap);
-            infrastructureService.createInfrastructuresFromMap(graphMap);
+//            toolService.createServicesFromMap(graphMap);
+//            infrastructureService.createInfrastructuresFromMap(graphMap);
         }
         catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.", e);
@@ -80,13 +83,13 @@ public class MenuBarController {
 
         updateGraphMap();
 
-        try {
-            mapper.writeValue(file, GraphService.getInstance().getModel().getGraphMap());
-        }
-        catch (IOException e) {
+//        try {
+//            mapper.writeValue(file, GraphService.getInstance().getModel().getConfigurationMap());
+//        }
+//        catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//            e.printStackTrace();
+//        }
     }
 
     private void updateGraphMap() {

@@ -5,24 +5,25 @@ import java.util.Map;
 
 import org.graphstream.graph.implementations.SingleGraph;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
+import javafx.scene.control.TreeItem;
 
 /**
  * The Class AgentGraph. Represents a graph of agents
  */
 public class AgentGraphModel extends SingleGraph {
 
-    private Map<String, Object> graphMap = new HashMap<>();
+	private Map<String, Object> agentMap;
+	private Map<String, TreeItem<String>> attributeMap;
 
-    /**
-     * Used by Jackson parser.
-     */
-    public AgentGraphModel() {
-        super("");
-    }
+	public Map<String, TreeItem<String>> getAttributeMap() {
+		return attributeMap;
+	}
 
-    /**
+	public void setAttributeMap(Map<String, TreeItem<String>> attributeMap) {
+		this.attributeMap = attributeMap;
+	}
+
+	/**
      * Instantiates a new agent graph.
      *
      * @param id
@@ -31,46 +32,12 @@ public class AgentGraphModel extends SingleGraph {
     public AgentGraphModel(String id) {
         super(id);
     }
+    
+    public Map<String, Object> getAgentMap() {
+		return agentMap;
+	}
 
-    /**
-     * Gets the map (when the graphMap is serialized)
-     *
-     * @return the map
-     */
-    @JsonAnyGetter
-    public Map<String, Object> any() {
-        return graphMap;
-    }
-
-    /**
-     * Sets the map (when the graphMap is deserialized)
-     *
-     * @param name
-     *            the name
-     * @param value
-     *            the value
-     */
-    @JsonAnySetter
-    public void set(String name, Object value) {
-        graphMap.put(name, value);
-    }
-
-    /**
-     * Gets the graph map.
-     *
-     * @return the graph map
-     */
-    public Map<String, Object> getGraphMap() {
-        return graphMap;
-    }
-
-    /**
-     * Sets the graph map.
-     *
-     * @param graphMap
-     *            the graph map
-     */
-    public void setGraphMap(Map<String, Object> graphMap) {
-        this.graphMap = graphMap;
-    }
+	public void setAgentMap(Map<String, Object> agentMap) {
+		this.agentMap = agentMap;
+	}    
 }
