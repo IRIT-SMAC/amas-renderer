@@ -107,21 +107,7 @@ public class ToolModifyController implements Initializable {
      */
     @FXML
     public void deleteButton() {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Suppression du service");
-        alert.setHeaderText("Vous êtes sur le point de supprimer le service "+key+".");
-        alert.setContentText("Êtes vous sur?");
-        DialogPane dialogPane = alert.getDialogPane();
-        //dialogPane.getStylesheets().add(getClass().getResource("MyDialog.css").toExternalForm());
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            list.getItems().remove(key);
-            attributeMap.remove(key);
-            Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
-            dialogStage.close();
-        } else {
-           // Do nothing
-        }
+        
     }
 
     /**
