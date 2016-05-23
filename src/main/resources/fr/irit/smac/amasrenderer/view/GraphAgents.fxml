@@ -3,12 +3,29 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
 	xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphMainController">
 	<top>
-		<fx:include source="GraphInfos.fxml" />
+		<VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308"
+			minHeight="-Infinity" prefHeight="200.0" prefWidth="824.0"
+			BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.65"
+			xmlns:fx="http://javafx.com/fxml/1">
+			<children>
+				<Label alignment="CENTER" maxHeight="1.7976931348623157E308"
+					maxWidth="1.7976931348623157E308" style="-fx-background-color: #E6E6E6;"
+					text="Agent Handler" textFill="#707070" VBox.vgrow="ALWAYS" />
+				<Label fx:id="classNameLabel" alignment="CENTER"
+					maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+					text="ClassName :" VBox.vgrow="ALWAYS" />
+				<Label alignment="CENTER" maxHeight="1.7976931348623157E308"
+					maxWidth="1.7976931348623157E308" style="-fx-background-color: #E6E6E6;"
+					text="AgentMap" VBox.vgrow="ALWAYS" />
+			</children>
+		</VBox>
 	</top>
 	<center>
 		<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"

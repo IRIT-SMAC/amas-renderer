@@ -15,8 +15,7 @@ public class Infrastructure {
 	}
 	
 	public void editInfrastructure(String nom){
-        infrastructure.clear();
-        infrastructure.add(nom);
+        infrastructure.add(0, nom);
 	}
 	
 }

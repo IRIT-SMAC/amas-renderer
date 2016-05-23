@@ -16,7 +16,6 @@ public class AgentGraph extends SingleGraph {
     
     private Map<String, Object> graphMap = new HashMap<String, Object>();
     
-    
     /**
      * Constuctor for Jackson parser
      */

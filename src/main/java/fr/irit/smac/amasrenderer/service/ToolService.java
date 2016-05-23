@@ -1,9 +1,11 @@
 package fr.irit.smac.amasrenderer.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import fr.irit.smac.amasrenderer.model.Tool;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TreeItem;
 
 public class ToolService {
 
@@ -26,14 +28,23 @@ public class ToolService {
 	public void setTools(ObservableList<String> items) {
 		this.model.setTools(items); 
 	}
-	
+
 	public void createServicesFromMap(Map<String,Object> map) {
 
 		for(Map.Entry<String,Object> pair : map.entrySet()){
 			if(pair.getKey() != "className"){
-				this.model.addTool(pair.getKey());
+				this.model.getTools().clear();
+				if(pair.getValue() instanceof String)
+					this.model.addTool(pair.getKey(), (String)pair.getValue());
+				else {
+					this.model.addTool(pair.getKey(), (HashMap<String,Object>)pair.getValue());
+				}
 			}
 		}
+	}
+
+	public HashMap<String, TreeItem<String>> getAttributes() {
+		return this.model.getAttributes();
 	}
 
 

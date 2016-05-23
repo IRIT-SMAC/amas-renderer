@@ -40,16 +40,21 @@ public class MenuBarController {
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
 		fileChooser.getExtensionFilters().add(extFilter);
 		File file = fileChooser.showOpenDialog(Main.getMainStage());
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			AgentGraph tmp = mapper.readValue(file,AgentGraph.class);
-			GraphService.getInstance().getModel().setGraphMap(tmp.getGraphMap());
-			Map<String,Object> graphMap = GraphService.getInstance().getModel().getGraphMap();
-			graphService.createAgentGraphFromMap(graphMap);
-			toolService.createServicesFromMap(graphMap);
-			infrastructureService.createInfrastructuresFromMap(graphMap);
-		} catch (IOException e) {
-			LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.");
+		if(file != null){
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				AgentGraph tmp = mapper.readValue(file,AgentGraph.class);
+				GraphService.getInstance().getModel().setGraphMap(tmp.getGraphMap());
+				GraphService.getInstance().getModel().addAttribute("ui.quality");
+				GraphService.getInstance().getModel().addAttribute("layout.quality",4);
+				GraphService.getInstance().getModel().addAttribute("ui.antialias");
+				Map<String,Object> graphMap = GraphService.getInstance().getModel().getGraphMap();
+				graphService.createAgentGraphFromMap(graphMap);
+				toolService.createServicesFromMap(graphMap);
+				infrastructureService.createInfrastructuresFromMap(graphMap);
+			} catch (IOException e) {
+				LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.");
+			}
 		}
 	}
 

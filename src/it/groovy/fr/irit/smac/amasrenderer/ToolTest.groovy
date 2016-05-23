@@ -41,7 +41,7 @@ class ToolTest extends GuiSpecification{
 				.clickOn("#buttonConfirm")
 
 		then:
-		Label service = ((ListView<Label>) rootLayout.lookup("#listTool")).getItems().get(0)
+		Label service = ((ListView<String>) rootLayout.lookup("#listTool")).getItems().get(0)
 		service.getText() == "dancingService"
 	}
 

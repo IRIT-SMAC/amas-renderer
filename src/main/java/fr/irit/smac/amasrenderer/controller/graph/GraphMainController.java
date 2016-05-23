@@ -13,6 +13,7 @@ import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
@@ -38,6 +39,9 @@ public class GraphMainController implements Initializable {
 
     @FXML
     private GraphAddDelController graphAddDelController;
+    
+    @FXML
+    private Label classNameLabel;
 
     private GraphMouseWheelController graphMouseWheelController;
 
@@ -162,6 +166,7 @@ public class GraphMainController implements Initializable {
         swingNode.setId("graphNode");
         stackPaneGraphNode.getChildren().add(swingNode);
         this.drawGraph();
+        this.classNameLabel.setText("fr.irit.smac.amasfactory.service.agenthandler.impl.BasicAgentHandler");
     }
 
 }
