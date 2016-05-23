@@ -307,10 +307,10 @@ public class GraphMainController implements Initializable, GraphAddDelController
 
         Double scale = graphView.getCamera().getViewPercent();
         if (e.getDeltaY() >= 0) {
-            graphView.getCamera().setViewPercent(scale * Const.SCALE_ZOOM_RATIO);
+            graphView.getCamera().setViewPercent(scale * Const.SCALE_UNZOOM_RATIO);
         }
         else {
-            graphView.getCamera().setViewPercent(scale * Const.SCALE_UNZOOM_RATIO);
+            graphView.getCamera().setViewPercent(scale * Const.SCALE_ZOOM_RATIO);
         }
         Point3 newCenter = graphView.getCamera().getViewCenter()
             .interpolate(graphView.getCamera().transformPxToGu(e.getX(), e.getY()), Const.TRANSLATE_ZOOM_RATIO);
