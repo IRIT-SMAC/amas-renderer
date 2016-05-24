@@ -2,7 +2,6 @@ package fr.irit.smac.amasrenderer.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -11,7 +10,6 @@ import org.graphstream.graph.Node;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentGraphModel;
-import fr.irit.smac.amasrenderer.model.StockModel;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
@@ -74,7 +72,6 @@ public class GraphService {
 		this.model.addNode(id);
 		Node node = model.getNode(id);
 		node.changeAttribute(Const.NODE_XY, x, y);
-		node.setAttribute(Const.NODE_CONTENT, new StockModel(id));
 		node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
 		node.setAttribute(Const.NODE_LABEL, id);
 
@@ -90,7 +87,6 @@ public class GraphService {
 
 		model.addNode(id);
 		Node node = model.getNode(id);
-		node.setAttribute(Const.NODE_CONTENT, new StockModel(id));
 		node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
 		node.setAttribute(Const.NODE_LABEL, id);
 	}

@@ -1,7 +1,6 @@
 package fr.irit.smac.amasrenderer.controller.attribute;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -10,7 +9,6 @@ import java.util.ResourceBundle;
 import org.graphstream.graph.Node;
 
 import fr.irit.smac.amasrenderer.Main;
-import fr.irit.smac.amasrenderer.model.StockModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

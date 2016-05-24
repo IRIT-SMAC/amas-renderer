@@ -26,9 +26,7 @@ public final class Const {
     public static final String NODE_WEIGHT = "layout.weight";
     
     public static final String NODE_LABEL = "ui.label";
-    
-    public static final String NODE_CONTENT = "ui.stocked-info";
-    
+        
     public static final String NODE_XY = "xy";
     
     /**

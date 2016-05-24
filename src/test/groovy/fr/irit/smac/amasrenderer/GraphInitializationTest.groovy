@@ -1,6 +1,7 @@
 package fr.irit.smac.amasrenderer
 
 import javafx.collections.FXCollections
+import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -14,6 +15,7 @@ import fr.irit.smac.amasrenderer.service.ToolService
 /**
  * The Class GraphServiceTest.
  */
+@Ignore
 class GraphInitializationTest extends Specification{
 
     @Shared GraphService graphNodeService

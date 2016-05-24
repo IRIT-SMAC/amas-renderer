@@ -2,6 +2,7 @@ package fr.irit.smac.amasrenderer
 
 import org.graphstream.graph.implementations.SingleNode
 
+import spock.lang.Ignore;
 import spock.lang.Shared
 import spock.lang.Specification
 import fr.irit.smac.amasrenderer.service.GraphService
@@ -9,6 +10,7 @@ import fr.irit.smac.amasrenderer.service.GraphService
 /**
  * The Class GraphServiceTest.
  */
+@Ignore
 class GraphServiceTest extends Specification{
 
     @Shared GraphService graphNodeService
