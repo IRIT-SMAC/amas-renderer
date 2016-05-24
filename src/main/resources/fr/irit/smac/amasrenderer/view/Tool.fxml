@@ -5,7 +5,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -18,11 +21,29 @@
 						<Font name="Open Sans" size="30.0" />
 					</font>
 				</Label>
-				<StackPane prefHeight="150.0" prefWidth="200.0" styleClass="innerCategory">
+            <HBox prefHeight="155.0" prefWidth="381.0">
                <children>
-                  <TextField fx:id="infrastructureTextField" />
+                  <AnchorPane>
+                     <children>
+                        <TextField fx:id="infrastructureTextField" layoutX="7.0" layoutY="42.0" prefHeight="48.0" prefWidth="338.0" />
+                        <Label fx:id="infrastructureLabel" layoutX="7.0" layoutY="43.0" prefHeight="45.0" prefWidth="338.0" />
+                        <Button fx:id="infrastructureButton" layoutX="345.0" layoutY="41.0" mnemonicParsing="false" prefHeight="20" prefWidth="20.0" styleClass="buttonGraph" stylesheets="@../css/graphButtons.css">
+                        	<graphic>
+                        		<ImageView fitHeight="28.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                        			<Image url="@../image/edit-icon.png" />
+                        		</ImageView>
+                        	</graphic>
+                        </Button>
+                        <Label fx:id="infrastructureWarningLabel" layoutX="68.0" layoutY="109.0" prefHeight="32.0" prefWidth="318.0" style="-fx-font-size: 12pt;" text="Veuillez entrer un nom d'infrastructure." textFill="#e41d1d" visible="false" />
+                        <ImageView fx:id="infrastructureWarningIcon" fitHeight="39.0" fitWidth="43.0" layoutX="14.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../image/warning-icon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
                </children>
-				</StackPane>
+            </HBox>
 			</children>
 		</VBox>
 		<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="900.0" prefWidth="382.0" VBox.vgrow="ALWAYS">
