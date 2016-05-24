@@ -11,6 +11,7 @@ import org.graphstream.graph.Node;
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentGraphModel;
 import fr.irit.smac.amasrenderer.model.StockModel;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
 /**
@@ -167,25 +168,25 @@ public class GraphService {
 	}
 
 	/**
-     * Create the agent graph from a map
-     * 
-     * @param map
-     *            the map
-     */
-    @SuppressWarnings("unchecked")
-    public void createAgentGraphFromMap(Map<String, Object> map) {
-        this.clearGraph();
-        fillAgentMap(map);
-        Iterator<Map.Entry<String, Object>> agents = map.entrySet().iterator();
-        
-        while (agents.hasNext()) {
-            Map.Entry<String, Object> currentAgentMap = agents.next();
-            HashMap<String, Object> currentAgent = (HashMap<String, Object>) currentAgentMap.getValue();
-            fillAgentTargets(currentAgent);
-            String id = (String) currentAgent.get("id");
-        }
+	 * Create the agent graph from a map
+	 * 
+	 * @param map
+	 *            the map
+	 */
+	@SuppressWarnings("unchecked")
+	public void createAgentGraphFromMap(Map<String, Object> map) {
+		this.clearGraph();
+		fillAgentMap(map);
+		Iterator<Map.Entry<String, Object>> agents = map.entrySet().iterator();
 
-    }
+		while (agents.hasNext()) {
+			Map.Entry<String, Object> currentAgentMap = agents.next();
+			HashMap<String, Object> currentAgent = (HashMap<String, Object>) currentAgentMap.getValue();
+			fillAgentTargets(currentAgent);
+			String id = (String) currentAgent.get("id");
+		}
+
+	}
 
 	/**
 	 * Create as many nodes as agents in the map
@@ -232,6 +233,35 @@ public class GraphService {
 		this.getModel().addAttribute("ui.quality");
 		this.getModel().addAttribute("layout.quality", 4);
 		this.getModel().addAttribute("ui.antialias");
+	}
+
+	public void updateAgentMap(String id, TreeItem<String> item) {
+
+		this.model.getAgentMap().remove(id);
+		Map<String, Object> singleAgentMap = new HashMap<String, Object>();
+		this.updateAgentMapCaml(item, singleAgentMap, id);
+		this.model.getAgentMap().put(id, singleAgentMap.get(id));
+	}
+
+	public void updateAgentMapCaml(TreeItem<String> item, Map<String, Object> map, String key) {
+
+		ObservableList<TreeItem<String>> node = item.getChildren();
+
+		if (node.size() > 1) {
+			Map<String, Object> newAgentMap = new HashMap<String, Object>();
+			for (TreeItem<String> subItem : node) {
+
+				String[] splitItem = subItem.getValue().split(" : ");
+				String keyItem = splitItem[0];
+				updateAgentMapCaml(subItem, newAgentMap, keyItem);
+			}
+			map.put(key, newAgentMap);
+			
+		} else {
+			String[] splitItem = item.getValue().split(" : ");
+			String value = splitItem[1];
+			map.put(key, value);
+		}
 	}
 
 }

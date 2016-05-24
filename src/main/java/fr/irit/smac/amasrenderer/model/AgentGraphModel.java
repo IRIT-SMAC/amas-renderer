@@ -13,15 +13,6 @@ import javafx.scene.control.TreeItem;
 public class AgentGraphModel extends SingleGraph {
 
 	private Map<String, Object> agentMap;
-	private Map<String, TreeItem<String>> attributeMap;
-
-	public Map<String, TreeItem<String>> getAttributeMap() {
-		return attributeMap;
-	}
-
-	public void setAttributeMap(Map<String, TreeItem<String>> attributeMap) {
-		this.attributeMap = attributeMap;
-	}
 
 	/**
      * Instantiates a new agent graph.

@@ -12,6 +12,7 @@ import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.StockModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -85,12 +86,11 @@ public class TreeModifyController implements Initializable {
 		tree.getRoot().setExpanded(true);
 	}
 
-	public void init(
-			 String id) {
+	public void init(String id) {
 
 		HashMap<String, Object> agent = (HashMap<String, Object>) GraphService.getInstance().getModel().getAgentMap()
 				.get(id);
-	
+
 		TreeItem<String> myItem = new TreeItem<>(id);
 		tree.setRoot(myItem);
 
@@ -113,6 +113,7 @@ public class TreeModifyController implements Initializable {
 				TreeItem<String> item = new TreeItem<>();
 				item.setValue(name);
 				fillAgentAttributes((HashMap<String, Object>) value, item);
+				parent.getChildren().add(item);
 			} else {
 				TreeItem<String> item = new TreeItem<>();
 				item.setValue(name + " : " + value);
@@ -125,8 +126,11 @@ public class TreeModifyController implements Initializable {
 	 * Confirm button. Sets the new tree as the node tree, and exit this window
 	 */
 	public void confirmButton() {
-		stock.setRoot(tree.getRoot());
+
+		GraphService.getInstance().updateAgentMap(tree.getRoot().getValue(), tree.getRoot());
+
 		newAgentName = tree.getRoot().getValue();
+		System.out.println(newAgentName);
 		if (newAgentName != baseAgentName) {
 			node.setAttribute("ui.label", newAgentName);
 		}
@@ -141,7 +145,6 @@ public class TreeModifyController implements Initializable {
 	public void cancelButton() {
 		Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
 		dialogStage.close();
-		this.tree.setRoot(deepcopy(oldTree));
 	}
 
 	/**
@@ -162,7 +165,6 @@ public class TreeModifyController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
 
 	}
 

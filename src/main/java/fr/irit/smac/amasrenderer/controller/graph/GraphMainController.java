@@ -517,6 +517,7 @@ public class GraphMainController implements Initializable, GraphAddDelController
             dialogStage.setY(y);
 
             treeModifyController.init(node.getId());
+            treeModifyController.setNode(node);
             treeModifyController.setStage(dialogStage);
 
             dialogStage.showAndWait();
