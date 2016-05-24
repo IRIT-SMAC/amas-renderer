@@ -47,11 +47,12 @@ public class MenuBarController {
 
 			ConfigurationMapModel tmp = mapper.readValue(file, ConfigurationMapModel.class);
 			ConfigurationMapService.getInstance().setModel(tmp);
-
 			Map<String, Object> graphMap = GraphService.getInstance().getModel().getAgentMap();
 			graphService.createAgentGraphFromMap(graphMap);
 			toolService.createServicesFromMap(ToolService.getInstance().getServicesMap());
 			infrastructureService.createInfrastructure(InfrastructureService.getInstance().getInfrastructureClassname());
+            GraphService.getInstance().setQualityGraph();
+			
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.", e);
 		}
@@ -92,5 +93,4 @@ public class MenuBarController {
 		// TODO Popup à propos
 		LOGGER.log(Level.INFO, "Popup à propos");
 	}
-
 }

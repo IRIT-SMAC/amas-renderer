@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 
@@ -12,7 +13,7 @@ import javafx.scene.control.ToggleGroup;
  * The Class GraphAddDelController. This controller handles the buttons of the
  * graph
  */
-public class GraphAddDelController implements Initializable {
+public class GraphToolboxController implements Initializable {
 
     @FXML
     ToggleGroup toggroup;
@@ -29,9 +30,17 @@ public class GraphAddDelController implements Initializable {
     @FXML
     private ToggleButton buttonDelEdge;
 
+    @FXML
+    private Button buttonResetView;
+
+    @FXML
+    private ToggleButton buttonAutoLayout;
+
     private EStateGraph state;
 
-    private IGraphButtonsState graphButtonsState;
+    private EStateGraph autoLayoutState;
+
+    private IGraphButtonsState graphToolboxState;
 
     /**
      * Sets the implementation of graphButtonsState
@@ -40,7 +49,7 @@ public class GraphAddDelController implements Initializable {
      *            the implementation
      */
     public void setGraphButtonsState(IGraphButtonsState graphButtonsState) {
-        this.graphButtonsState = graphButtonsState;
+        this.graphToolboxState = graphButtonsState;
     }
 
     /**
@@ -52,11 +61,11 @@ public class GraphAddDelController implements Initializable {
 
         if (this.state == EStateGraph.BUTTON_ADD_NODE) {
             this.state = EStateGraph.AT_EASE;
-            graphButtonsState.changedStateButtons(EStateGraph.AT_EASE);
+            graphToolboxState.changedStateButtonsAddDel(EStateGraph.AT_EASE);
         }
         else {
             this.state = EStateGraph.BUTTON_ADD_NODE;
-            graphButtonsState.changedStateButtons(EStateGraph.BUTTON_ADD_NODE);
+            graphToolboxState.changedStateButtonsAddDel(EStateGraph.BUTTON_ADD_NODE);
         }
     }
 
@@ -69,11 +78,11 @@ public class GraphAddDelController implements Initializable {
 
         if (this.state == EStateGraph.BUTTON_DELETE_NODE) {
             this.state = EStateGraph.AT_EASE;
-            graphButtonsState.changedStateButtons(EStateGraph.AT_EASE);
+            graphToolboxState.changedStateButtonsAddDel(EStateGraph.AT_EASE);
         }
         else {
             this.state = EStateGraph.BUTTON_DELETE_NODE;
-            graphButtonsState.changedStateButtons(EStateGraph.BUTTON_DELETE_NODE);
+            graphToolboxState.changedStateButtonsAddDel(EStateGraph.BUTTON_DELETE_NODE);
         }
 
     }
@@ -87,11 +96,11 @@ public class GraphAddDelController implements Initializable {
 
         if (this.state == EStateGraph.BUTTON_ADD_EDGE) {
             this.state = EStateGraph.AT_EASE;
-            graphButtonsState.changedStateButtons(EStateGraph.AT_EASE);
+            graphToolboxState.changedStateButtonsAddDel(EStateGraph.AT_EASE);
         }
         else {
             this.state = EStateGraph.BUTTON_ADD_EDGE;
-            graphButtonsState.changedStateButtons(EStateGraph.BUTTON_ADD_EDGE);
+            graphToolboxState.changedStateButtonsAddDel(EStateGraph.BUTTON_ADD_EDGE);
         }
     }
 
@@ -104,11 +113,31 @@ public class GraphAddDelController implements Initializable {
 
         if (this.state == EStateGraph.BUTTON_DELETE_EDGE) {
             this.state = EStateGraph.AT_EASE;
-            graphButtonsState.changedStateButtons(EStateGraph.AT_EASE);
+            graphToolboxState.changedStateButtonsAddDel(EStateGraph.AT_EASE);
         }
         else {
             this.state = EStateGraph.BUTTON_DELETE_EDGE;
-            graphButtonsState.changedStateButtons(EStateGraph.BUTTON_DELETE_EDGE);
+            graphToolboxState.changedStateButtonsAddDel(EStateGraph.BUTTON_DELETE_EDGE);
+        }
+    }
+
+    @FXML
+    public void buttonViewCenter() {
+
+        graphToolboxState.changedStateOtherButtons(EStateGraph.RESET_VIEW);
+    }
+
+    @FXML
+    public void autoLayout() {
+
+        if (this.autoLayoutState == EStateGraph.AUTO_LAYOUT) {
+            this.autoLayoutState = EStateGraph.AT_EASE;
+            graphToolboxState.changedStateAutoLayout(EStateGraph.AT_EASE);
+        }
+        else {
+            this.autoLayoutState = EStateGraph.AUTO_LAYOUT;
+            graphToolboxState.changedStateAutoLayout(EStateGraph.AUTO_LAYOUT);
+
         }
     }
 
@@ -116,13 +145,13 @@ public class GraphAddDelController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.state = EStateGraph.AT_EASE;
+        this.autoLayoutState = EStateGraph.AUTO_LAYOUT;
     }
 
     /**
      * This interface allows to the GraphMainController to get the new state of
      * the graphButtons
      */
-    @FunctionalInterface
     public interface IGraphButtonsState {
 
         /**
@@ -131,6 +160,10 @@ public class GraphAddDelController implements Initializable {
          * @param state
          *            the new state of the graphButtons
          */
-        public void changedStateButtons(EStateGraph state);
+        public void changedStateButtonsAddDel(EStateGraph state);
+
+        public void changedStateOtherButtons(EStateGraph state);
+        
+        public void changedStateAutoLayout(EStateGraph state);
     }
 }

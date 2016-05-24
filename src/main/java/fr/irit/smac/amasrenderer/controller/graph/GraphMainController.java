@@ -40,7 +40,7 @@ import javafx.stage.Window;
 /**
  * The Class
  */
-public class GraphMainController implements Initializable, GraphAddDelController.IGraphButtonsState {
+public class GraphMainController implements Initializable, GraphToolboxController.IGraphButtonsState {
 
     @FXML
     private StackPane stackPaneGraphNode;
@@ -52,7 +52,7 @@ public class GraphMainController implements Initializable, GraphAddDelController
     private SwingNode graphNode;
 
     @FXML
-    private GraphAddDelController graphAddDelController;
+    private GraphToolboxController graphToolboxController;
 
     private GraphService graphNodeService = GraphService.getInstance();
 
@@ -307,10 +307,10 @@ public class GraphMainController implements Initializable, GraphAddDelController
 
         Double scale = graphView.getCamera().getViewPercent();
         if (e.getDeltaY() >= 0) {
-            graphView.getCamera().setViewPercent(scale * Const.SCALE_ZOOM_RATIO);
+            graphView.getCamera().setViewPercent(scale * Const.SCALE_UNZOOM_RATIO);
         }
         else {
-            graphView.getCamera().setViewPercent(scale * Const.SCALE_UNZOOM_RATIO);
+            graphView.getCamera().setViewPercent(scale * Const.SCALE_ZOOM_RATIO);
         }
         Point3 newCenter = graphView.getCamera().getViewCenter()
             .interpolate(graphView.getCamera().transformPxToGu(e.getX(), e.getY()), Const.TRANSLATE_ZOOM_RATIO);
@@ -567,16 +567,56 @@ public class GraphMainController implements Initializable, GraphAddDelController
         this.previousState = EStateGraph.AT_EASE;
         this.previousStateButtons = EStateGraph.AT_EASE;
 
-        graphAddDelController.setGraphButtonsState(this);
+        graphToolboxController.setGraphButtonsState(this);
         graphNodeService.setQualityGraph();
         graphNode.setContent(this.graphView);
     }
 
     @Override
-    public void changedStateButtons(EStateGraph state) {
+    public void changedStateButtonsAddDel(EStateGraph state) {
 
         this.state = state;
         this.previousStateButtons = state;
         this.graphNode.requestFocus();
+    }
+
+    @Override
+    public void changedStateOtherButtons(EStateGraph state) {
+
+        this.graphNode.requestFocus();
+
+        switch (state) {
+
+            case RESET_VIEW:
+                graphView.getCamera().resetView();
+                break;
+
+            case AUTO_LAYOUT:
+                viewer.disableAutoLayout();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void changedStateAutoLayout(EStateGraph state) {
+
+        this.graphNode.requestFocus();
+
+        switch (state) {
+
+            case AUTO_LAYOUT:
+                viewer.enableAutoLayout();
+                break;
+
+            case AT_EASE:
+                viewer.disableAutoLayout();
+                break;
+                
+            default:
+                break;
+        }
     }
 }
