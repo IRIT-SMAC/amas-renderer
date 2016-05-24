@@ -15,6 +15,7 @@ public class ToolModel {
 	private ObservableList<String> tools;
 
 	private Map<String, TreeItem<String>> attributeMap = new HashMap<String, TreeItem<String>>();
+	private Map<String, Object> servicesMap;
 
 	public ToolModel() {
 
@@ -84,5 +85,13 @@ public class ToolModel {
 
 	public void setAttributesMap(Map<String, TreeItem<String>> attributeMap) {
 		this.attributeMap = attributeMap;
+	}
+	
+	public Map<String, Object> getServicesMap() {
+		return servicesMap;
+	}
+
+	public void setServicesMap(Map<String, Object> servicesMap) {
+		this.servicesMap = servicesMap;
 	}
 }

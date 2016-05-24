@@ -96,10 +96,6 @@ public class TreeModifyController implements Initializable {
 
 		fillAgentAttributes(agent, myItem);
 
-		// setAttributeMap(attributeMap);
-		// setKey(list.getSelectionModel().getSelectedItem());
-		
-
 		this.tree.setEditable(true);
 
 		tree.setCellFactory(p -> new MenuAttributesTreeCell());
@@ -112,8 +108,6 @@ public class TreeModifyController implements Initializable {
 			Map.Entry<String, Object> attribute = attributeIterator.next();
 			String name = attribute.getKey();
 			Object value = attribute.getValue();
-			System.out.println(name);
-			System.out.println(value);
 
 			if (value instanceof HashMap<?, ?>) {
 				TreeItem<String> item = new TreeItem<>();

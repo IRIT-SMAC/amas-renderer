@@ -81,4 +81,11 @@ public class ToolService {
         this.model.setAttributesMap(attributeMap);
     }
 
+    public Map<String,Object> getServicesMap() {
+    	return this.model.getServicesMap();
+    }
+    
+    public void setServicesMap(Map<String,Object> servicesMap) {
+    	this.model.setServicesMap(servicesMap);
+    }
 }

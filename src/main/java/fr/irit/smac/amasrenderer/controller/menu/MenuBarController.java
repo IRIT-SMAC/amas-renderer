@@ -55,8 +55,8 @@ public class MenuBarController {
 //            GraphService.getInstance().getModel().setConfigurationMap(tmp.getConfigurationMap());
             Map<String, Object> graphMap = GraphService.getInstance().getModel().getAgentMap();
             graphService.createAgentGraphFromMap(graphMap);
-//            toolService.createServicesFromMap(graphMap);
-//            infrastructureService.createInfrastructuresFromMap(graphMap);
+            toolService.createServicesFromMap(ToolService.getInstance().getServicesMap());
+            infrastructureService.createInfrastructure(InfrastructureService.getInstance().getInfrastructureClassname());
         }
         catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.", e);

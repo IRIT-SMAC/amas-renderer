@@ -174,8 +174,6 @@ public class GraphService {
      */
     @SuppressWarnings("unchecked")
     public void createAgentGraphFromMap(Map<String, Object> map) {
-//        HashMap<String, Object> agentHandlerService = (HashMap<String, Object>) map.get("agentHandlerService");
-//        HashMap<String, Object> agentMap = (HashMap<String, Object>) agentHandlerService.get("agentMap");
         this.clearGraph();
         fillAgentMap(map);
         Iterator<Map.Entry<String, Object>> agents = map.entrySet().iterator();
@@ -185,10 +183,6 @@ public class GraphService {
             HashMap<String, Object> currentAgent = (HashMap<String, Object>) currentAgentMap.getValue();
             fillAgentTargets(currentAgent);
             String id = (String) currentAgent.get("id");
-//            StockModel stock = model.getNode(id).getAttribute(Const.NODE_CONTENT);
-//            stock.getRoot().setValue(id);
-            System.out.println(model.getAttributeMap());
-//            fillAgentAttributes(currentAgent, model.getAttributeMap().get(id));
         }
 
     }
@@ -204,34 +198,6 @@ public class GraphService {
 		while (it.hasNext()) {
 			Map.Entry<String, Object> agent = it.next();
 			this.addNode(agent.getKey());
-		}
-	}
-
-	/**
-	 * Create all attributes for the agent in parameter
-	 * 
-	 * @param agent
-	 *            the agent to explore
-	 */
-	@SuppressWarnings("unchecked")
-	private void fillAgentAttributes(HashMap<String, Object> agent, TreeItem<String> parent) {
-		Iterator<Map.Entry<String, Object>> attributeIterator = agent.entrySet().iterator();
-		while (attributeIterator.hasNext()) {
-			Map.Entry<String, Object> attribute = attributeIterator.next();
-			String name = attribute.getKey();
-			Object value = attribute.getValue();
-
-			String id = (String) agent.get("id");
-			if (value instanceof HashMap<?, ?>) {
-				TreeItem<String> item = new TreeItem<>();
-				item.setValue(name);
-				StockModel stock = model.getNode(id).getAttribute(Const.NODE_CONTENT);
-				stock.getRoot().getChildren().add(item);
-				fillAgentAttributes((HashMap<String, Object>) value, item);
-			} else {
-				this.setNodeAttribute(name, value, parent);
-
-			}
 		}
 	}
 
