@@ -50,7 +50,6 @@ public class MenuBarController {
 			ConfigurationMapModel tmp = mapper.readValue(file, ConfigurationMapModel.class);
 			ConfigurationMapService.getInstance().setModel(tmp);
 
-			// GraphService.getInstance().getModel().setConfigurationMap(tmp.getConfigurationMap());
 			Map<String, Object> graphMap = GraphService.getInstance().getModel().getAgentMap();
 			graphService.createAgentGraphFromMap(graphMap);
 			toolService.createServicesFromMap(ToolService.getInstance().getServicesMap());
@@ -78,8 +77,6 @@ public class MenuBarController {
 
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-//		updateGraphMap();
 
 		try {
 			if(file != null)

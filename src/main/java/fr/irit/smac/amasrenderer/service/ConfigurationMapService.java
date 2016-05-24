@@ -22,12 +22,16 @@ public class ConfigurationMapService {
 		HashMap<String, Object> configurationMap = new HashMap<String,Object>();
 
 		this.model.setConfigurationMap(configurationMap);
+		
+		String infrastructureClassname = "fr.irit.smac.amasfactory.impl.BasicInfrastructure";
+		InfrastructureService.getInstance().editInfrastructure(infrastructureClassname);
+		
+		configurationMap.put("className", infrastructureClassname);
 		HashMap<String, Object> agentHandlerService = new HashMap<String,Object>();
 		HashMap<String, Object> agentMap = new HashMap<String,Object>();
 		
 		agentHandlerService.put("agentMap", agentMap);
 		this.model.getConfigurationMap().put("agentHandlerService", agentHandlerService);
-		
 		GraphService.getInstance().getModel().setAgentMap(agentMap);
 	}
 	

@@ -2,6 +2,7 @@ package fr.irit.smac.amasrenderer.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -66,7 +67,11 @@ public class GraphService {
 		Map<String,Object> mapNode = new HashMap<String,Object>();
 		mapNode.put("id", id);
 		this.model.getAgentMap().put(id, mapNode);
-		model.addNode(id);
+		Map<String,Object> knowledgeMap = new HashMap<String,Object>();
+		mapNode.put("knowledge", knowledgeMap);
+		ArrayList<String> targets = new ArrayList<String>();
+		knowledgeMap.put("targets", targets);
+		this.model.addNode(id);
 		Node node = model.getNode(id);
 		node.changeAttribute(Const.NODE_XY, x, y);
 		node.setAttribute(Const.NODE_CONTENT, new StockModel(id));
@@ -98,10 +103,29 @@ public class GraphService {
 	 * @param target
 	 *            the id of the target node
 	 */
-	public void addEdge(String source, String target) {
-
+	public void addEdgeGraph(String source, String target) {
+		
 		model.addEdge(source + target, source, target, true);
 		model.getEdge(source + target).setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_EDGE);
+	}
+	
+	/**
+	 * Add a directed edge from the source to the target
+	 * 
+	 * @param source
+	 *            the id of the source node
+	 * @param target
+	 *            the id of the target node
+	 */
+	public void addEdgeGraphModel(String source, String target) {
+
+		Map<String,Object> sourceMap = (Map<String, Object>) this.model.getAgentMap().get(source);
+		Map<String,Object> knowledgeSourceMap = (Map<String, Object>) sourceMap.get("knowledge");
+		
+		ArrayList<String> targetSourceSet = (ArrayList<String>) knowledgeSourceMap.get("targets");
+		targetSourceSet.add(target);
+		
+		addEdgeGraph(source, target);
 	}
 
 	/**
@@ -187,7 +211,6 @@ public class GraphService {
 			Map.Entry<String, Object> currentAgentMap = agents.next();
 			HashMap<String, Object> currentAgent = (HashMap<String, Object>) currentAgentMap.getValue();
 			fillAgentTargets(currentAgent);
-			String id = (String) currentAgent.get("id");
 		}
 
 	}
@@ -215,9 +238,10 @@ public class GraphService {
 	@SuppressWarnings("unchecked")
 	private void fillAgentTargets(HashMap<String, Object> agent) {
 		HashMap<String, Object> knowledgeMap = (HashMap<String, Object>) agent.get("knowledge");
+
 		ArrayList<String> targets = (ArrayList<String>) knowledgeMap.get("targets");
 		for (String target : targets) {
-			this.addEdge((String) agent.get("id"), target);
+			this.addEdgeGraph((String) agent.get("id"), target);
 		}
 	}
 
@@ -243,26 +267,28 @@ public class GraphService {
 
 		this.model.getAgentMap().remove(id);
 		Map<String, Object> singleAgentMap = new HashMap<String, Object>();
-		this.updateAgentMapCaml(item, singleAgentMap, id);
+		this.updateAgentMap(item, singleAgentMap, id);
 		this.model.getAgentMap().put(id, singleAgentMap.get(id));
 	}
 
-	public void updateAgentMapCaml(TreeItem<String> item, Map<String, Object> map, String key) {
+	public void updateAgentMap(TreeItem<String> item, Map<String, Object> map, String key) {
 
 		ObservableList<TreeItem<String>> node = item.getChildren();
 
-		if (node.size() > 1) {
+		if (node.size() > 0) {
 			Map<String, Object> newAgentMap = new HashMap<String, Object>();
 			for (TreeItem<String> subItem : node) {
 
-				String[] splitItem = subItem.getValue().split(" : ");
+				String[] splitItem = ((String) subItem.getValue()).split(" : ");
 				String keyItem = splitItem[0];
-				updateAgentMapCaml(subItem, newAgentMap, keyItem);
+				updateAgentMap(subItem, newAgentMap, keyItem);
+				
 			}
 			map.put(key, newAgentMap);
 			
 		} else {
-			String[] splitItem = item.getValue().split(" : ");
+	
+			String[] splitItem = ((String) item.getValue()).split(" : ");
 			String value = splitItem[1];
 			map.put(key, value);
 		}

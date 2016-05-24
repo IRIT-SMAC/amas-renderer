@@ -450,7 +450,7 @@ public class GraphMainController implements Initializable, GraphAddDelController
     private void addEdge(MouseEvent e) {
 
         if (getEdge(e) == null && target != null) {
-            this.graphNodeService.addEdge(source.getId(), target.getId());
+            this.graphNodeService.addEdgeGraphModel(source.getId(), target.getId());
         }
         unselectSource();
     }

@@ -181,7 +181,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         given:
         graphService.addNode("ag1",0.0,positionUp)
         graphService.addNode("ag2",0.0,positionDown)
-        graphService.addEdge("ag1","ag2")
+        graphService.addEdgeGraphModel("ag1","ag2")
         fx.clickOn("#buttonDelEdge")
         int oneEdge = graphService.getModel().getEdgeCount()
         sleep(2000)
@@ -203,7 +203,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         given:
         graphService.addNode("ag1",0.0,positionUp)
         graphService.addNode("ag2",0.0,positionDown)
-        graphService.addEdge("ag1","ag2")
+        graphService.addEdgeGraphModel("ag1","ag2")
         int oneEdge = graphService.getModel().getEdgeCount()
         sleep(2000)
 

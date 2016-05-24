@@ -1,6 +1,7 @@
 package fr.irit.smac.amasrenderer.controller.attribute;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -11,8 +12,6 @@ import org.graphstream.graph.Node;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.StockModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -69,21 +68,6 @@ public class TreeModifyController implements Initializable {
 	 */
 	public void setNode(Node node) {
 		this.node = node;
-	}
-
-	/**
-	 * Sets the stock.
-	 *
-	 * @param s
-	 *            the new stock
-	 */
-	public void setStock(StockModel s) {
-		baseAgentName = s.getRoot().getValue();
-		stock = s;
-		tree.setRoot(deepcopy(s.getRoot()));
-		this.oldTree = new TreeItem<>();
-		this.oldTree = deepcopy(tree.getRoot());
-		tree.getRoot().setExpanded(true);
 	}
 
 	public void init(String id) {
