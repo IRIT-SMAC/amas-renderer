@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import org.graphstream.graph.Node;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.StockModel;
 import javafx.fxml.FXML;
@@ -153,11 +154,40 @@ public class TreeModifyController implements Initializable {
             MenuItem removeItem = new MenuItem("Supprimer");
             menu.getItems().add(removeItem);
             removeItem.setId("removeAttributeItem");
-            removeItem.setOnAction(e -> getTreeItem().getParent().getChildren().remove(getTreeItem()));
+            removeItem.setOnAction(e -> {
+                if(!isProtectedField(getItem())){
+                    getTreeItem().getParent().getChildren().remove(getTreeItem());
+                }
+            });
         }
-
+        
+        /**
+         * test if the string new value is valid
+         * @param newValue
+         * @return
+         */
         private boolean isValidExpression(String newValue){
-            return newValue.split(" : ").length != 2 ^ (!newValue.split(" : ")[0].trim().isEmpty() && !newValue.split(" : ")[1].trim().isEmpty() );
+            //checks if the new value has the good key-value séparator ( and only one )
+            boolean isSemiColon = newValue.split(Const.KEY_VALUE_SEPARATOR).length == 2; 
+            boolean isEachSideNonEmpty = false;
+            if(isSemiColon) isEachSideNonEmpty = !newValue.split(Const.KEY_VALUE_SEPARATOR)[0].trim().isEmpty() && !newValue.split(Const.KEY_VALUE_SEPARATOR)[1].trim().isEmpty();
+            
+            //checks if the new value contains an unauthorized string
+            boolean containsNewUnauthorizedString = false;
+            for(String str : Const.UNAUTHORISED_STRING){
+                containsNewUnauthorizedString = newValue.contains(str) ? true : containsNewUnauthorizedString; 
+            }
+            
+            return isSemiColon && isEachSideNonEmpty && !containsNewUnauthorizedString;
+        }
+        
+        private boolean isProtectedField(String oldValue){
+          //checks if the oldValue was protected
+            boolean oldContainsProtectedString = false;
+            for(String str : Const.PROTECTED_STRING){
+                oldContainsProtectedString = oldValue.contains(str) ? true : oldContainsProtectedString;
+            }
+            return oldContainsProtectedString;
         }
         
         @Override
@@ -168,16 +198,26 @@ public class TreeModifyController implements Initializable {
                 setContextMenu(menu);
             }
         }
-
+        
+        @Override
+        public void startEdit() {
+            if(isProtectedField(this.getItem())){
+                this.cancelEdit();
+            }
+            else{
+                super.startEdit();
+            }
+        };
+        
         @Override
         public void commitEdit(String newValue) {
-
             if (newValue.trim().isEmpty()) {
                 return;
             }
             else if(this.getTreeItem() != tree.getRoot() && !isValidExpression(newValue)){
                 return;
             }
+            
             super.commitEdit(newValue);
         }
     }
