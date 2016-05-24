@@ -26,110 +26,106 @@ import javafx.stage.FileChooser;
  */
 public class MenuBarController {
 
-    private GraphService          graphService          = GraphService.getInstance();
-    private ToolService           toolService           = ToolService.getInstance();
-    private InfrastructureService infrastructureService = InfrastructureService.getInstance();
+	private GraphService graphService = GraphService.getInstance();
+	private ToolService toolService = ToolService.getInstance();
+	private InfrastructureService infrastructureService = InfrastructureService.getInstance();
 
-    private static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
 
-    /**
-     * On click on the menu item "Charger" in the menu "Fichier". Open a file
-     * chooser to load a configuration file. Generate the graph from the
-     * configuration file.
-     */
-    @FXML
-    public void clickMenuCharger() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choisir un fichier de configuration");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showOpenDialog(Main.getMainStage());
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-   
-        	
-        	ConfigurationMapModel tmp = mapper.readValue(file, ConfigurationMapModel.class);
-        	ConfigurationMapService.getInstance().setModel(tmp);
-        	
-        	
-//            GraphService.getInstance().getModel().setConfigurationMap(tmp.getConfigurationMap());
-            Map<String, Object> graphMap = GraphService.getInstance().getModel().getAgentMap();
-            graphService.createAgentGraphFromMap(graphMap);
-            toolService.createServicesFromMap(ToolService.getInstance().getServicesMap());
-            infrastructureService.createInfrastructure(InfrastructureService.getInstance().getInfrastructureClassname());
-        }
-        catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.", e);
-        }
-    }
+	/**
+	 * On click on the menu item "Charger" in the menu "Fichier". Open a file
+	 * chooser to load a configuration file. Generate the graph from the
+	 * configuration file.
+	 */
+	@FXML
+	public void clickMenuCharger() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Choisir un fichier de configuration");
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+		fileChooser.getExtensionFilters().add(extFilter);
+		File file = fileChooser.showOpenDialog(Main.getMainStage());
+		ObjectMapper mapper = new ObjectMapper();
+		try {
 
-    /**
-     * On click on the menu item "Fermer" in the menu "Fichier" Close the
-     * program
-     */
-    @FXML
-    public void clickMenuFermer() {
-        Platform.exit();
-        System.exit(0);
-    }
+			ConfigurationMapModel tmp = mapper.readValue(file, ConfigurationMapModel.class);
+			ConfigurationMapService.getInstance().setModel(tmp);
 
-    @FXML
-    public void clickMenuSave() {
+			// GraphService.getInstance().getModel().setConfigurationMap(tmp.getConfigurationMap());
+			Map<String, Object> graphMap = GraphService.getInstance().getModel().getAgentMap();
+			graphService.createAgentGraphFromMap(graphMap);
+			toolService.createServicesFromMap(ToolService.getInstance().getServicesMap());
+			infrastructureService
+					.createInfrastructure(InfrastructureService.getInstance().getInfrastructureClassname());
+		} catch (IOException e) {
+			LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.", e);
+		}
+	}
 
-        File file = new FileChooser().showSaveDialog(Main.getMainStage().getScene().getWindow());
+	/**
+	 * On click on the menu item "Fermer" in the menu "Fichier" Close the
+	 * program
+	 */
+	@FXML
+	public void clickMenuFermer() {
+		Platform.exit();
+		System.exit(0);
+	}
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+	@FXML
+	public void clickMenuSave() {
 
-        updateGraphMap();
+		File file = new FileChooser().showSaveDialog(Main.getMainStage().getScene().getWindow());
 
-//        try {
-//            mapper.writeValue(file, GraphService.getInstance().getModel().getConfigurationMap());
-//        }
-//        catch (IOException e) {
-            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-    }
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-    private void updateGraphMap() {
-        HashMap<String, Object> newMap = new HashMap<String, Object>();
-        String infra = InfrastructureService.getInstance().getInfrastructure().get(0);
-        newMap.put("className", infra);
-        for (String service : ToolService.getInstance().getTools()) {
-            newMap.put(service, createToolEntry(service));
-        }
-    }
+//		updateGraphMap();
 
-    private HashMap<String, Object> createToolEntry(String service) {
-        TreeItem<String> attributes = ToolService.getInstance().getAttributes().get(service);
-        return exploreTree(attributes);
-    }
+		try {
+			if(file != null)
+				mapper.writeValue(file, ConfigurationMapService.getInstance().getModel().getConfigurationMap());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-    private HashMap<String, Object> exploreTree(TreeItem<String> attributes) {
+	private void updateGraphMap() {
+		HashMap<String, Object> newMap = new HashMap<String, Object>();
+		String infra = InfrastructureService.getInstance().getInfrastructure().get(0);
+		newMap.put("className", infra);
+		for (String service : ToolService.getInstance().getTools()) {
+			newMap.put(service, createToolEntry(service));
+		}
+	}
 
-        HashMap<String, Object> entry = new HashMap<String, Object>();
+	private HashMap<String, Object> createToolEntry(String service) {
+		TreeItem<String> attributes = ToolService.getInstance().getAttributes().get(service);
+		return exploreTree(attributes);
+	}
 
-        for (TreeItem<String> child : attributes.getChildren()) {
-            if (!child.isLeaf()) {
-                entry.put(attributes.getValue(), exploreTree(child));
-            }
-            else {
-                entry.put(attributes.getValue(), child.getValue());
-            }
-        }
+	private HashMap<String, Object> exploreTree(TreeItem<String> attributes) {
 
-        return entry;
-    }
+		HashMap<String, Object> entry = new HashMap<String, Object>();
 
-    /**
-     * On click on the menu item "A propos" in the menu "Aide" Open a help
-     * window
-     */
-    @FXML
-    public void clickMenuAPropos() {
-        // TODO Popup à propos
-        LOGGER.log(Level.INFO, "Popup à propos");
-    }
+		for (TreeItem<String> child : attributes.getChildren()) {
+			if (!child.isLeaf()) {
+				entry.put(attributes.getValue(), exploreTree(child));
+			} else {
+				entry.put(attributes.getValue(), child.getValue());
+			}
+		}
+
+		return entry;
+	}
+
+	/**
+	 * On click on the menu item "A propos" in the menu "Aide" Open a help
+	 * window
+	 */
+	@FXML
+	public void clickMenuAPropos() {
+		// TODO Popup à propos
+		LOGGER.log(Level.INFO, "Popup à propos");
+	}
 
 }

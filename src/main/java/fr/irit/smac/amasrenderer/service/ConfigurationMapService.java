@@ -13,8 +13,24 @@ public class ConfigurationMapService {
 
 	private ConfigurationMapService() {
 
+
 	}
 
+	public void init() {
+		
+		this.model = new ConfigurationMapModel();
+		HashMap<String, Object> configurationMap = new HashMap<String,Object>();
+
+		this.model.setConfigurationMap(configurationMap);
+		HashMap<String, Object> agentHandlerService = new HashMap<String,Object>();
+		HashMap<String, Object> agentMap = new HashMap<String,Object>();
+		
+		agentHandlerService.put("agentMap", agentMap);
+		this.model.getConfigurationMap().put("agentHandlerService", agentHandlerService);
+		
+		GraphService.getInstance().getModel().setAgentMap(agentMap);
+	}
+	
 	public static ConfigurationMapService getInstance() {
 		return instance;
 	}
