@@ -14,8 +14,7 @@ public class ToolModel {
 
 	private ObservableList<String> tools;
 
-	private Map<String, TreeItem<String>> attributeMap = new HashMap<String, TreeItem<String>>();
-	private Map<String, Object> servicesMap;
+	private Map<String, Object> servicesMap = new HashMap<String,Object>();
 
 	public ToolModel() {
 
@@ -48,15 +47,15 @@ public class ToolModel {
 	 */
 	public void addTool(String name, String value) {
 		this.tools.add(name);
-		TreeItem<String> tree = new TreeItem<String>(name);
-		tree.getChildren().add(new TreeItem<String>(value));
-		attributeMap.put(tree.getValue(), tree);
+//		TreeItem<String> tree = new TreeItem<String>(name);
+//		tree.getChildren().add(new TreeItem<String>(value));
+//		servicesMap.put(name, value);
 	}
 
 	public void addTool(String name, HashMap<String, Object> attributes) {
 		this.tools.add(name);
-		TreeItem<String> tree = new TreeItem<String>(name);
-		exploreTree(attributes, tree);
+//		TreeItem<String> tree = new TreeItem<String>(name);
+//		exploreTree(attributes, tree);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -74,18 +73,11 @@ public class ToolModel {
 				newItem.getChildren().add(child);
 				tree.getChildren().add(newItem);
 			}
-			attributeMap.put(tree.getValue(), tree);
+//			attributeMap.put(tree.getValue(), tree);
 		}
 
 	}
 
-	public Map<String, TreeItem<String>> getAttributes() {
-		return this.attributeMap;
-	}
-
-	public void setAttributesMap(Map<String, TreeItem<String>> attributeMap) {
-		this.attributeMap = attributeMap;
-	}
 	
 	public Map<String, Object> getServicesMap() {
 		return servicesMap;

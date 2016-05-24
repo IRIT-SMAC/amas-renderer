@@ -86,19 +86,19 @@ public class MenuBarController {
 		}
 	}
 
-	private void updateGraphMap() {
-		HashMap<String, Object> newMap = new HashMap<String, Object>();
-		String infra = InfrastructureService.getInstance().getInfrastructure().get(0);
-		newMap.put("className", infra);
-		for (String service : ToolService.getInstance().getTools()) {
-			newMap.put(service, createToolEntry(service));
-		}
-	}
-
-	private HashMap<String, Object> createToolEntry(String service) {
-		TreeItem<String> attributes = ToolService.getInstance().getAttributes().get(service);
-		return exploreTree(attributes);
-	}
+//	private void updateGraphMap() {
+//		HashMap<String, Object> newMap = new HashMap<String, Object>();
+//		String infra = InfrastructureService.getInstance().getInfrastructure().get(0);
+//		newMap.put("className", infra);
+//		for (String service : ToolService.getInstance().getTools()) {
+//			newMap.put(service, createToolEntry(service));
+//		}
+//	}
+//
+//	private HashMap<String, Object> createToolEntry(String service) {
+//		TreeItem<String> attributes = ToolService.getInstance().getAttributes().get(service);
+//		return exploreTree(attributes);
+//	}
 
 	private HashMap<String, Object> exploreTree(TreeItem<String> attributes) {
 

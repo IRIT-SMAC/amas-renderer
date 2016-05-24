@@ -73,14 +73,6 @@ public class ToolService {
 
     }
 
-    public Map<String, TreeItem<String>> getAttributes() {
-        return this.model.getAttributes();
-    }
-
-    public void setAttributesMap(Map<String, TreeItem<String>> attributeMap) {
-        this.model.setAttributesMap(attributeMap);
-    }
-
     public Map<String,Object> getServicesMap() {
     	return this.model.getServicesMap();
     }
@@ -88,4 +80,35 @@ public class ToolService {
     public void setServicesMap(Map<String,Object> servicesMap) {
     	this.model.setServicesMap(servicesMap);
     }
+    
+    public void updateServiceMap(String id, TreeItem<String> item) {
+
+		this.model.getServicesMap().remove(id);
+		Map<String, Object> singleServiceMap = new HashMap<String, Object>();
+		this.updateSingleServiceMap(item, singleServiceMap, id);
+		this.model.getServicesMap().put(id, singleServiceMap.get(id));
+	}
+
+	public void updateSingleServiceMap(TreeItem<String> item, Map<String, Object> map, String key) {
+
+		ObservableList<TreeItem<String>> node = item.getChildren();
+
+		if (node.size() > 0) {
+			Map<String, Object> newServiceMap = new HashMap<String, Object>();
+			for (TreeItem<String> subItem : node) {
+
+				String[] splitItem = ((String) subItem.getValue()).split(" : ");
+				String keyItem = splitItem[0];
+				updateSingleServiceMap(subItem, newServiceMap, keyItem);
+				
+			}
+			map.put(key, newServiceMap);
+			
+		} else {
+	
+			String[] splitItem = ((String) item.getValue()).split(" : ");
+			String value = splitItem[1];
+			map.put(key, value);
+		}
+	}
 }

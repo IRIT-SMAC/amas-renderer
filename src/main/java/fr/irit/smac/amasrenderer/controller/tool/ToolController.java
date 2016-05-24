@@ -57,14 +57,14 @@ public class ToolController implements Initializable {
     public void handleMouseClick() {
         String selectedLabel = listTool.getSelectionModel().getSelectedItem();
         if (selectedLabel != null && selectedLabel != "") {
-            Platform.runLater(() -> loadFxml());
+            Platform.runLater(() -> loadFxml(selectedLabel));
         }
     }
 
     /**
      * Load the services attributes fxml.
      */
-    public void loadFxml() {
+    public void loadFxml(String selectedLabel) {
 
         FXMLLoader loaderServices = new FXMLLoader();
         loaderServices.setLocation(Main.class.getResource("view/ServiceAttributes.fxml"));
@@ -95,7 +95,7 @@ public class ToolController implements Initializable {
             dialogStage.setY(y);
 
             serviceModifyController.setStage(dialogStage);
-            serviceModifyController.init(ToolService.getInstance().getAttributes(), listTool);
+            serviceModifyController.init(listTool, selectedLabel);
 
             dialogStage.showAndWait();
             listTool.getSelectionModel().clearSelection();
@@ -160,7 +160,7 @@ public class ToolController implements Initializable {
             if (ToolService.getInstance().getTools().size() > 0) {
                 String newTool = ToolService.getInstance().getTools()
                     .get(ToolService.getInstance().getTools().size() - 1);
-                ToolService.getInstance().getAttributes().put(newTool, new TreeItem<String>(newTool));
+                System.out.println(ToolService.getInstance().getServicesMap());
                 listTool.getItems().add(newTool);
             } else {
             	listTool.getItems().clear();
@@ -168,9 +168,7 @@ public class ToolController implements Initializable {
         });
         
         tools.getTools().add("agentHandlerService");
-        TreeItem<String> root = new TreeItem<String>("agentHandlerService");
-        root.getChildren().add(new TreeItem<String>("className : fr.irit.smac.amasfactory.service.agenthandler.impl.BasicAgentHandler"));
-        tools.getAttributes().put("agentHandlerService", root);
+        tools.getServicesMap().put("agentHandlerService", "className : fr.irit.smac.amasfactory.service.agenthandler.impl.BasicAgentHandler");
         
         
 

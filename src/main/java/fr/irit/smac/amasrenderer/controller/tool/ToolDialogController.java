@@ -1,6 +1,7 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -52,9 +53,12 @@ public class ToolDialogController implements Initializable {
             }
 
             if (!found) {
-                ToolService.getInstance().getTools().add(newTool);
+              HashMap<String,Object> map = new HashMap<String,Object>();
+              ToolService.getInstance().getServicesMap().put(newTool, map );
+              ToolService.getInstance().getTools().add(newTool);
             }
 
+            
             Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
             ((Stage) buttonConfirm.getScene().getWindow()).close();
         }
