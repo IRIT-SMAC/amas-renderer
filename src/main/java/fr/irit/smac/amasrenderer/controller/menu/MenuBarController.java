@@ -2,7 +2,6 @@ package fr.irit.smac.amasrenderer.controller.menu;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +17,6 @@ import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.TreeItem;
 import javafx.stage.FileChooser;
 
 /**
@@ -53,8 +51,7 @@ public class MenuBarController {
 			Map<String, Object> graphMap = GraphService.getInstance().getModel().getAgentMap();
 			graphService.createAgentGraphFromMap(graphMap);
 			toolService.createServicesFromMap(ToolService.getInstance().getServicesMap());
-			infrastructureService
-					.createInfrastructure(InfrastructureService.getInstance().getInfrastructureClassname());
+			infrastructureService.createInfrastructure(InfrastructureService.getInstance().getInfrastructureClassname());
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.", e);
 		}
@@ -84,35 +81,6 @@ public class MenuBarController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-//	private void updateGraphMap() {
-//		HashMap<String, Object> newMap = new HashMap<String, Object>();
-//		String infra = InfrastructureService.getInstance().getInfrastructure().get(0);
-//		newMap.put("className", infra);
-//		for (String service : ToolService.getInstance().getTools()) {
-//			newMap.put(service, createToolEntry(service));
-//		}
-//	}
-//
-//	private HashMap<String, Object> createToolEntry(String service) {
-//		TreeItem<String> attributes = ToolService.getInstance().getAttributes().get(service);
-//		return exploreTree(attributes);
-//	}
-
-	private HashMap<String, Object> exploreTree(TreeItem<String> attributes) {
-
-		HashMap<String, Object> entry = new HashMap<String, Object>();
-
-		for (TreeItem<String> child : attributes.getChildren()) {
-			if (!child.isLeaf()) {
-				entry.put(attributes.getValue(), exploreTree(child));
-			} else {
-				entry.put(attributes.getValue(), child.getValue());
-			}
-		}
-
-		return entry;
 	}
 
 	/**

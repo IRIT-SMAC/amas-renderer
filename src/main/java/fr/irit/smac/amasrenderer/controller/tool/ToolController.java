@@ -150,25 +150,20 @@ public class ToolController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         ArrayList<String> list = new ArrayList<>();
-        
         ToolService tools = ToolService.getInstance();
-        
         tools.setTools(FXCollections.observableArrayList(list));
-
         tools.getTools().addListener((ListChangeListener.Change<? extends String> e) -> {
 
-            if (ToolService.getInstance().getTools().size() > 0) {
+        	if (ToolService.getInstance().getTools().size() > 0) {
                 String newTool = ToolService.getInstance().getTools()
                     .get(ToolService.getInstance().getTools().size() - 1);
-                System.out.println(ToolService.getInstance().getServicesMap());
                 listTool.getItems().add(newTool);
             } else {
             	listTool.getItems().clear();
             }
         });
         
-        tools.getTools().add("agentHandlerService");
-        tools.getServicesMap().put("agentHandlerService", "className : fr.irit.smac.amasfactory.service.agenthandler.impl.BasicAgentHandler");
+
         
         
 

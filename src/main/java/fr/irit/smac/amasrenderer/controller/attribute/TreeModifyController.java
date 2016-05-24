@@ -38,10 +38,6 @@ public class TreeModifyController implements Initializable {
 	@FXML
 	private TreeView<String> tree;
 
-	private TreeItem<String> oldTree;
-
-	private StockModel stock;
-
 	private Stage dialogStage;
 
 	private String baseAgentName;
@@ -72,6 +68,7 @@ public class TreeModifyController implements Initializable {
 
 	public void init(String id) {
 
+		@SuppressWarnings("unchecked")
 		HashMap<String, Object> agent = (HashMap<String, Object>) GraphService.getInstance().getModel().getAgentMap()
 				.get(id);
 
@@ -85,6 +82,7 @@ public class TreeModifyController implements Initializable {
 		tree.setCellFactory(p -> new MenuAttributesTreeCell());
 	}
 
+	@SuppressWarnings("unchecked")
 	private void fillAgentAttributes(HashMap<String, Object> agent, TreeItem<String> parent) {
 
 		Iterator<Map.Entry<String, Object>> attributeIterator = agent.entrySet().iterator();
@@ -114,7 +112,6 @@ public class TreeModifyController implements Initializable {
 		GraphService.getInstance().updateAgentMap(tree.getRoot().getValue(), tree.getRoot());
 
 		newAgentName = tree.getRoot().getValue();
-		System.out.println(newAgentName);
 		if (newAgentName != baseAgentName) {
 			node.setAttribute("ui.label", newAgentName);
 		}
@@ -129,22 +126,6 @@ public class TreeModifyController implements Initializable {
 	public void cancelButton() {
 		Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
 		dialogStage.close();
-	}
-
-	/**
-	 * Deepcopy. recursively copies the tree, to be able to modify it without
-	 * changing the original
-	 * 
-	 * @param item
-	 *            the the tree to copy
-	 * @return a copy of the tree item the tree item
-	 */
-	private TreeItem<String> deepcopy(TreeItem<String> item) {
-		TreeItem<String> copy = new TreeItem<>(item.getValue());
-		for (TreeItem<String> child : item.getChildren()) {
-			copy.getChildren().add(deepcopy(child));
-		}
-		return copy;
 	}
 
 	@Override
