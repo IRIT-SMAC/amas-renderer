@@ -12,7 +12,7 @@ import javafx.scene.control.TreeItem;
  */
 public class AgentGraphModel extends SingleGraph {
 
-	private Map<String, Object> agentMap;
+	private Map<String, Object> agentMap = new HashMap<String,Object>();
 
 	/**
      * Instantiates a new agent graph.

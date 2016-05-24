@@ -63,6 +63,9 @@ public class GraphService {
 	 */
 	public void addNode(String id, double x, double y) {
 
+		Map<String,Object> mapNode = new HashMap<String,Object>();
+		mapNode.put("id", id);
+		this.model.getAgentMap().put(id, mapNode);
 		model.addNode(id);
 		Node node = model.getNode(id);
 		node.changeAttribute(Const.NODE_XY, x, y);
@@ -138,14 +141,15 @@ public class GraphService {
 	 *            the node
 	 */
 	public void removeNode(Node n) {
-
+		
 		Iterable<Edge> edges = n.getEachEdge();
 		if (edges != null) {
 			for (Edge edge : edges) {
-				model.removeEdge(edge.getId());
+				this.model.removeEdge(edge.getId());
 			}
 		}
-		model.removeNode(n.getId());
+		this.model.removeNode(n.getId());
+		this.model.getAgentMap().remove(n.getId());
 	}
 
 	/**
