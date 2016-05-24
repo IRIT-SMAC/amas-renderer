@@ -1,15 +1,21 @@
 package fr.irit.smac.amasrenderer.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import fr.irit.smac.amasrenderer.controller.graph.GraphMainController;
 import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
 import fr.irit.smac.amasrenderer.controller.tool.ToolController;
+import fr.irit.smac.amasrenderer.model.ConfigurationMapModel;
+import fr.irit.smac.amasrenderer.service.ConfigurationMapService;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
 
 /**
  * The Class MainController.
  */
-public class MainController {
+public class MainController implements Initializable{
 
     @FXML
     private GraphMainController graphMainController;
@@ -50,5 +56,11 @@ public class MainController {
     public MenuBarController getMenuBarController() {
         return menuBarController;
     }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		
+		ConfigurationMapService.getInstance().init();		
+	}
 
 }

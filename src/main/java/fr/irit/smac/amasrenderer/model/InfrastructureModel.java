@@ -1,5 +1,7 @@
 package fr.irit.smac.amasrenderer.model;
 
+import java.util.Map;
+
 import javafx.collections.ObservableList;
 
 /**
@@ -8,8 +10,9 @@ import javafx.collections.ObservableList;
 public class InfrastructureModel {
 
     private ObservableList<String> infrastructure;
+	private String infrastructureClassname;
 
-    /**
+	/**
      * Sets the infrastructure.
      *
      * @param label
@@ -35,8 +38,15 @@ public class InfrastructureModel {
      *            the name
      */
     public void editInfrastructure(String name) {
-        infrastructure.clear();
         infrastructure.add(0, name);
     }
 
+	public String getInfrastureClassname() {
+
+		return this.infrastructureClassname;
+	}
+	
+    public void setInfrastructureClassname(String infrastructureClassname) {
+		this.infrastructureClassname = infrastructureClassname;
+	}
 }

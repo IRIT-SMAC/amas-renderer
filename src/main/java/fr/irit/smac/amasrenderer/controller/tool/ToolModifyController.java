@@ -2,6 +2,7 @@ package fr.irit.smac.amasrenderer.controller.tool;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -11,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
@@ -38,17 +38,11 @@ public class ToolModifyController implements Initializable {
     @FXML
     private TreeView<String> tree;
 
-    private TreeItem<String> value;
-
     private Stage dialogStage;
 
     private String key;
 
     private ListView<String> list;
-
-    private String baseRootName;
-
-    private String newServiceName = null;
 
     /**
      * Sets the stage.
@@ -71,16 +65,6 @@ public class ToolModifyController implements Initializable {
     }
 
     /**
-     * Sets the map of the attributes
-     * 
-     * @param attributeMap
-     *            the attributeMap
-     */
-    public void setAttributeMap(Map<String, TreeItem<String>> attributeMap) {
-        ToolService.getInstance().setAttributesMap(attributeMap);
-    }
-
-    /**
      * Initialize the controller
      * 
      * @param attributeMap
@@ -88,21 +72,44 @@ public class ToolModifyController implements Initializable {
      * @param list
      *            the list of tools
      */
-    public void init(Map<String, TreeItem<String>> attributeMap, ListView<String> list) {
-        setAttributeMap(attributeMap);
+    public void init(ListView<String> list, String name) {
         setKey(list.getSelectionModel().getSelectedItem());
         this.list = list;
-        tree.setRoot(deepcopy(attributeMap.get(key)));
-        baseRootName = key;
+        
+		TreeItem<String> myItem = new TreeItem<>(name);
+		tree.setRoot(myItem);
+		HashMap<String, Object> service = (HashMap<String, Object>) ToolService.getInstance().getServicesMap().get(name);
+		fillAgentAttributes(service, myItem);
     }
 
+	@SuppressWarnings("unchecked")
+	private void fillAgentAttributes(HashMap<String, Object> service, TreeItem<String> parent) {
+
+		Iterator<Map.Entry<String, Object>> attributeIterator = service.entrySet().iterator();
+		while (attributeIterator.hasNext()) {
+			Map.Entry<String, Object> attribute = attributeIterator.next();
+			String name = attribute.getKey();
+			Object value = attribute.getValue();
+
+			if (value instanceof HashMap<?, ?>) {
+				TreeItem<String> item = new TreeItem<>();
+				item.setValue(name);
+				fillAgentAttributes((HashMap<String, Object>) value, item);
+				parent.getChildren().add(item);
+			} else {
+				TreeItem<String> item = new TreeItem<>();
+				item.setValue(name + " : " + value);
+				parent.getChildren().add(item);
+			}
+		}
+	}
+	
     /**
      * deletes the service ( no confirmation )
      */
     @FXML
     public void deleteButton() {
         list.getItems().remove(key);
-        ToolService.getInstance().getAttributes().remove(key);
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
@@ -112,17 +119,8 @@ public class ToolModifyController implements Initializable {
      */
     @FXML
     public void confirmButton() {
-        value = tree.getRoot();
-        ToolService.getInstance().getAttributes().put(key, value);
-        newServiceName = tree.getRoot().getValue();
-        if (newServiceName != baseRootName) {
-            list.getItems().remove(key);
-            key = newServiceName;
-            list.getItems().add(key);
-            System.out.println(key);
-            ToolService.getInstance().getAttributes().put(key,
-                ToolService.getInstance().getAttributes().remove(baseRootName));
-        }
+        tree.getRoot();
+		ToolService.getInstance().updateServiceMap(tree.getRoot().getValue(), tree.getRoot());
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
@@ -134,22 +132,6 @@ public class ToolModifyController implements Initializable {
     public void cancelButton() {
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
-    }
-
-    /**
-     * Deepcopy. recursively copies the tree, to be able to modify it without
-     * changing the original
-     * 
-     * @param item
-     *            the the tree to copy
-     * @return a copy of the tree item the tree item
-     */
-    private TreeItem<String> deepcopy(TreeItem<String> item) {
-        TreeItem<String> copy = new TreeItem<>(item.getValue());
-        for (TreeItem<String> child : item.getChildren()) {
-            copy.getChildren().add(deepcopy(child));
-        }
-        return copy;
     }
 
     @Override

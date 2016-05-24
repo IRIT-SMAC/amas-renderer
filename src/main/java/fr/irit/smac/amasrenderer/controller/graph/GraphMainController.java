@@ -450,7 +450,7 @@ public class GraphMainController implements Initializable, GraphAddDelController
     private void addEdge(MouseEvent e) {
 
         if (getEdge(e) == null && target != null) {
-            this.graphNodeService.addEdge(source.getId(), target.getId());
+            this.graphNodeService.addEdgeGraphModel(source.getId(), target.getId());
         }
         unselectSource();
     }
@@ -516,9 +516,9 @@ public class GraphMainController implements Initializable, GraphAddDelController
             dialogStage.setX(x);
             dialogStage.setY(y);
 
-            treeModifyController.setStage(dialogStage);
-            treeModifyController.setStock(node.getAttribute(Const.NODE_CONTENT));
+            treeModifyController.init(node.getId());
             treeModifyController.setNode(node);
+            treeModifyController.setStage(dialogStage);
 
             dialogStage.showAndWait();
         }

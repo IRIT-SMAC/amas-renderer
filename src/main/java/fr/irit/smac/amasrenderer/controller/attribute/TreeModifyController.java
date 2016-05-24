@@ -1,12 +1,17 @@
 package fr.irit.smac.amasrenderer.controller.attribute;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.graphstream.graph.Node;
 
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.StockModel;
+import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -24,154 +29,154 @@ import javafx.util.converter.DefaultStringConverter;
  */
 public class TreeModifyController implements Initializable {
 
-    @FXML
-    private Button confButton;
+	@FXML
+	private Button confButton;
 
-    @FXML
-    private Button cancButton;
+	@FXML
+	private Button cancButton;
 
-    @FXML
-    private TreeView<String> tree;
+	@FXML
+	private TreeView<String> tree;
 
-    private TreeItem<String> oldTree;
+	private Stage dialogStage;
 
-    private StockModel stock;
+	private String baseAgentName;
 
-    private Stage dialogStage;
+	private Node node;
 
-    private String baseAgentName;
+	private String newAgentName = null;
 
-    private Node node;
+	/**
+	 * Sets the stage.
+	 *
+	 * @param stage
+	 *            the new stage
+	 */
+	public void setStage(Stage stage) {
+		dialogStage = stage;
+	}
 
-    private String newAgentName = null;
+	/**
+	 * Sets the node to be modified
+	 * 
+	 * @param node
+	 *            the node to modify
+	 */
+	public void setNode(Node node) {
+		this.node = node;
+	}
 
-    /**
-     * Sets the stage.
-     *
-     * @param stage
-     *            the new stage
-     */
-    public void setStage(Stage stage) {
-        dialogStage = stage;
-    }
+	public void init(String id) {
 
-    /**
-     * Sets the node to be modified
-     * 
-     * @param node
-     *            the node to modify
-     */
-    public void setNode(Node node) {
-        this.node = node;
-    }
+		@SuppressWarnings("unchecked")
+		HashMap<String, Object> agent = (HashMap<String, Object>) GraphService.getInstance().getModel().getAgentMap()
+				.get(id);
 
-    /**
-     * Sets the stock.
-     *
-     * @param s
-     *            the new stock
-     */
-    public void setStock(StockModel s) {
-        baseAgentName = s.getRoot().getValue();
-        stock = s;
-        tree.setRoot(deepcopy(s.getRoot()));
-        this.oldTree = new TreeItem<>();
-        this.oldTree = deepcopy(tree.getRoot());
-        tree.getRoot().setExpanded(true);
-    }
+		TreeItem<String> myItem = new TreeItem<>(id);
+		tree.setRoot(myItem);
 
-    /**
-     * Confirm button. Sets the new tree as the node tree, and exit this window
-     */
-    public void confirmButton() {
-        stock.setRoot(tree.getRoot());
-        newAgentName = tree.getRoot().getValue();
-        if (newAgentName != baseAgentName) {
-            node.setAttribute("ui.label", newAgentName);
-        }
-        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
-        dialogStage.close();
-    }
+		fillAgentAttributes(agent, myItem);
 
-    /**
-     * Cancel button. Just exit this window
-     */
-    @FXML
-    public void cancelButton() {
-        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
-        dialogStage.close();
-        this.tree.setRoot(deepcopy(oldTree));
-    }
+		this.tree.setEditable(true);
 
-    /**
-     * Deepcopy. recursively copies the tree, to be able to modify it without
-     * changing the original
-     * 
-     * @param item
-     *            the the tree to copy
-     * @return a copy of the tree item the tree item
-     */
-    private TreeItem<String> deepcopy(TreeItem<String> item) {
-        TreeItem<String> copy = new TreeItem<>(item.getValue());
-        for (TreeItem<String> child : item.getChildren()) {
-            copy.getChildren().add(deepcopy(child));
-        }
-        return copy;
-    }
+		tree.setCellFactory(p -> new MenuAttributesTreeCell());
+	}
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+	@SuppressWarnings("unchecked")
+	private void fillAgentAttributes(HashMap<String, Object> agent, TreeItem<String> parent) {
 
-        this.tree.setEditable(true);
+		Iterator<Map.Entry<String, Object>> attributeIterator = agent.entrySet().iterator();
+		while (attributeIterator.hasNext()) {
+			Map.Entry<String, Object> attribute = attributeIterator.next();
+			String name = attribute.getKey();
+			Object value = attribute.getValue();
 
-        tree.setCellFactory(p -> new MenuAttributesTreeCell());
+			if (value instanceof HashMap<?, ?>) {
+				TreeItem<String> item = new TreeItem<>();
+				item.setValue(name);
+				fillAgentAttributes((HashMap<String, Object>) value, item);
+				parent.getChildren().add(item);
+			} else {
+				TreeItem<String> item = new TreeItem<>();
+				item.setValue(name + " : " + value);
+				parent.getChildren().add(item);
+			}
+		}
+	}
 
-    }
+	/**
+	 * Confirm button. Sets the new tree as the node tree, and exit this window
+	 */
+	public void confirmButton() {
 
-    private static class MenuAttributesTreeCell extends TextFieldTreeCell<String> {
-        private ContextMenu menu = new ContextMenu();
+		GraphService.getInstance().updateAgentMap(tree.getRoot().getValue(), tree.getRoot());
 
-        @SuppressWarnings({ "rawtypes", "unchecked" })
-        public MenuAttributesTreeCell() {
-            super(new DefaultStringConverter());
+		newAgentName = tree.getRoot().getValue();
+		if (newAgentName != baseAgentName) {
+			node.setAttribute("ui.label", newAgentName);
+		}
+		Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
+		dialogStage.close();
+	}
 
-            menu.setId("treeAttributeItem");
-            MenuItem renameItem = new MenuItem("Renommer");
-            renameItem.setId("renameAttributeItem");
-            menu.getItems().add(renameItem);
-            renameItem.setOnAction(e -> startEdit());
+	/**
+	 * Cancel button. Just exit this window
+	 */
+	@FXML
+	public void cancelButton() {
+		Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
+		dialogStage.close();
+	}
 
-            MenuItem addItem = new MenuItem("Ajouter");
-            menu.getItems().add(addItem);
-            addItem.setId("addAttributeItem");
-            addItem.setOnAction(e -> {
-                TreeItem newItem = new TreeItem<String>("Nouvel attribut");
-                getTreeItem().getChildren().add(newItem);
-            });
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
 
-            MenuItem removeItem = new MenuItem("Supprimer");
-            menu.getItems().add(removeItem);
-            removeItem.setId("removeAttributeItem");
-            removeItem.setOnAction(e -> getTreeItem().getParent().getChildren().remove(getTreeItem()));
-        }
+	}
 
-        @Override
-        public void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
+	private static class MenuAttributesTreeCell extends TextFieldTreeCell<String> {
+		private ContextMenu menu = new ContextMenu();
 
-            if (!empty && !isEditing()) {
-                setContextMenu(menu);
-            }
-        }
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		public MenuAttributesTreeCell() {
+			super(new DefaultStringConverter());
 
-        @Override
-        public void commitEdit(String newValue) {
+			menu.setId("treeAttributeItem");
+			MenuItem renameItem = new MenuItem("Renommer");
+			renameItem.setId("renameAttributeItem");
+			menu.getItems().add(renameItem);
+			renameItem.setOnAction(e -> startEdit());
 
-            if (newValue.trim().isEmpty()) {
-                return;
-            }
-            super.commitEdit(newValue);
-        }
-    }
+			MenuItem addItem = new MenuItem("Ajouter");
+			menu.getItems().add(addItem);
+			addItem.setId("addAttributeItem");
+			addItem.setOnAction(e -> {
+				TreeItem newItem = new TreeItem<String>("Nouvel attribut");
+				getTreeItem().getChildren().add(newItem);
+			});
+
+			MenuItem removeItem = new MenuItem("Supprimer");
+			menu.getItems().add(removeItem);
+			removeItem.setId("removeAttributeItem");
+			removeItem.setOnAction(e -> getTreeItem().getParent().getChildren().remove(getTreeItem()));
+		}
+
+		@Override
+		public void updateItem(String item, boolean empty) {
+			super.updateItem(item, empty);
+
+			if (!empty && !isEditing()) {
+				setContextMenu(menu);
+			}
+		}
+
+		@Override
+		public void commitEdit(String newValue) {
+
+			if (newValue.trim().isEmpty()) {
+				return;
+			}
+			super.commitEdit(newValue);
+		}
+	}
 
 }

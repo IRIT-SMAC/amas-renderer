@@ -14,6 +14,7 @@ import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -56,14 +57,14 @@ public class ToolController implements Initializable {
     public void handleMouseClick() {
         String selectedLabel = listTool.getSelectionModel().getSelectedItem();
         if (selectedLabel != null && selectedLabel != "") {
-            Platform.runLater(() -> loadFxml());
+            Platform.runLater(() -> loadFxml(selectedLabel));
         }
     }
 
     /**
      * Load the services attributes fxml.
      */
-    public void loadFxml() {
+    public void loadFxml(String selectedLabel) {
 
         FXMLLoader loaderServices = new FXMLLoader();
         loaderServices.setLocation(Main.class.getResource("view/ServiceAttributes.fxml"));
@@ -94,7 +95,7 @@ public class ToolController implements Initializable {
             dialogStage.setY(y);
 
             serviceModifyController.setStage(dialogStage);
-            serviceModifyController.init(ToolService.getInstance().getAttributes(), listTool);
+            serviceModifyController.init(listTool, selectedLabel);
 
             dialogStage.showAndWait();
             listTool.getSelectionModel().clearSelection();
@@ -149,21 +150,22 @@ public class ToolController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         ArrayList<String> list = new ArrayList<>();
-        for (String tool : listTool.getItems()) {
-            list.add(tool);
-        }
+        ToolService tools = ToolService.getInstance();
+        tools.setTools(FXCollections.observableArrayList(list));
+        tools.getTools().addListener((ListChangeListener.Change<? extends String> e) -> {
 
-        ToolService.getInstance().setTools(FXCollections.observableArrayList(list));
-
-        ToolService.getInstance().getTools().addListener((ListChangeListener.Change<? extends String> e) -> {
-
-            if (ToolService.getInstance().getTools().size() > 0) {
+        	if (ToolService.getInstance().getTools().size() > 0) {
                 String newTool = ToolService.getInstance().getTools()
                     .get(ToolService.getInstance().getTools().size() - 1);
-                ToolService.getInstance().getAttributes().put(newTool, new TreeItem<String>(newTool));
                 listTool.getItems().add(newTool);
+            } else {
+            	listTool.getItems().clear();
             }
         });
+        
+
+        
+        
 
         InfrastructureService.getInstance().setInfrastructure(FXCollections.observableArrayList(new ArrayList<>()));
 

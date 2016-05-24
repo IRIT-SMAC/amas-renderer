@@ -1,7 +1,5 @@
 package fr.irit.smac.amasrenderer.service;
 
-import java.util.Map;
-
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
 import javafx.collections.ObservableList;
 
@@ -65,8 +63,18 @@ public class InfrastructureService {
      * @param map
      *            the map
      */
-    public void createInfrastructuresFromMap(Map<String, Object> map) {
-        this.model.editInfrastructure((String) map.get("className"));
+    public void createInfrastructure(String infrastructureClassname) {
+        this.model.editInfrastructure(infrastructureClassname);
     }
+
+	public String getInfrastructureClassname() {
+		
+		return this.model.getInfrastureClassname();
+	}
+
+	public void setInfrastructureClassname(String infrastructureClassname) {
+		
+		this.model.setInfrastructureClassname(infrastructureClassname);
+	}
 
 }
