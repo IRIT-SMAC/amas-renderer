@@ -33,7 +33,7 @@ import javafx.util.converter.DefaultStringConverter;
  * The Class TreeModifyController. Manage the modal window opening to modify
  * attributes
  */
-public class ToolModifyController implements Initializable {
+public class ToolAttributesController implements Initializable {
     
     @FXML
     private Button confButton;
@@ -90,13 +90,13 @@ public class ToolModifyController implements Initializable {
 		TreeItem<String> myItem = new TreeItem<>(name);
 		tree.setRoot(myItem);
 		HashMap<String, Object> service = (HashMap<String, Object>) ToolService.getInstance().getServicesMap().get(name);
-		fillAgentAttributes(service, myItem);
+		fillToolAttributes(service, myItem);
     }
 
 	@SuppressWarnings("unchecked")
-	private void fillAgentAttributes(HashMap<String, Object> service, TreeItem<String> parent) {
+	private void fillToolAttributes(HashMap<String, Object> tool, TreeItem<String> parent) {
 
-		Iterator<Map.Entry<String, Object>> attributeIterator = service.entrySet().iterator();
+		Iterator<Map.Entry<String, Object>> attributeIterator = tool.entrySet().iterator();
 		while (attributeIterator.hasNext()) {
 			Map.Entry<String, Object> attribute = attributeIterator.next();
 			String name = attribute.getKey();
@@ -105,7 +105,7 @@ public class ToolModifyController implements Initializable {
 			if (value instanceof HashMap<?, ?>) {
 				TreeItem<String> item = new TreeItem<>();
 				item.setValue(name);
-				fillAgentAttributes((HashMap<String, Object>) value, item);
+				fillToolAttributes((HashMap<String, Object>) value, item);
 				parent.getChildren().add(item);
 			} else {
 				TreeItem<String> item = new TreeItem<>();
@@ -130,7 +130,7 @@ public class ToolModifyController implements Initializable {
     @FXML
     public void confirmButton() {
         tree.getRoot();
-		ToolService.getInstance().updateServiceMap(tree.getRoot().getValue(), tree.getRoot());
+		ToolService.getInstance().updateToolsMap(tree.getRoot().getValue(), tree.getRoot());
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
@@ -271,7 +271,6 @@ public class ToolModifyController implements Initializable {
            
         } catch(IOException e){
             e.printStackTrace();
-            System.out.println("rage");
         }
     }
 

@@ -3,6 +3,7 @@ package fr.irit.smac.amasrenderer.controller.graph;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import fr.irit.smac.amasrenderer.EStateGraph;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;

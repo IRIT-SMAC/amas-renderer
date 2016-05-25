@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureAttributesController;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.application.Platform;
@@ -55,27 +56,75 @@ public class ToolController implements Initializable {
 
     @FXML
     private Label infrastructureLabel;
-    
+
     @FXML
     private Button infrastructureButton;
 
     @FXML
     private Label infrastructureWarningLabel;
-    
+
     @FXML
     private ImageView infrastructureWarningIcon;
-    
+
     @FXML
     private Button generateButton;
 
     private Stage stage;
 
-
-    
-
     private static final Logger LOGGER = Logger.getLogger(ToolController.class.getName());
 
-    
+    /**
+     * Handle mouse click.
+     */
+    @FXML
+    public void handleInfraClick() {
+        
+        Platform.runLater(() -> loadFxmlInfra());
+    }
+
+    /**
+     * Load the services attributes fxml.
+     */
+    public void loadFxmlInfra() {
+
+        FXMLLoader loaderServices = new FXMLLoader();
+        loaderServices.setLocation(Main.class.getResource("view/InfrastructureAttributes.fxml"));
+        BorderPane root;
+        try {
+            root = loaderServices.load();
+
+            Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
+
+            InfrastructureAttributesController treeInfrastructureController = loaderServices.getController();
+
+            Stage dialogStage = new Stage();
+
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+
+            Window window = buttonAddService.getScene().getWindow();
+            dialogStage.initOwner(window);
+            Scene miniScene = new Scene(root);
+            dialogStage.setScene(miniScene);
+            dialogStage.initStyle(StageStyle.UNDECORATED);
+            dialogStage.setMinHeight(380);
+            dialogStage.setMinWidth(440);
+
+            double x = window.getX() + (window.getWidth() - root.getPrefWidth()) / 2;
+            double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
+            dialogStage.setX(x);
+            dialogStage.setY(y);
+
+            treeInfrastructureController.setStage(dialogStage);
+            treeInfrastructureController.init(infrastructureLabel.getText());
+            miniScene.setFill(Color.BLACK);
+
+            dialogStage.showAndWait();
+        }
+        catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "The loading of the services attributes fxml failed", e);
+        }
+    }
+
     /**
      * Handle mouse click.
      */
@@ -100,13 +149,13 @@ public class ToolController implements Initializable {
 
             Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
 
-            ToolModifyController serviceModifyController = loaderServices.getController();
+            ToolAttributesController serviceModifyController = loaderServices.getController();
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Modification d'attribut");
 
             dialogStage.initModality(Modality.WINDOW_MODAL);
-            
+
             Window window = buttonAddService.getScene().getWindow();
             dialogStage.initOwner(window);
             Scene miniScene = new Scene(root);
@@ -119,7 +168,7 @@ public class ToolController implements Initializable {
             double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
             dialogStage.setX(x);
             dialogStage.setY(y);
-            
+
             serviceModifyController.setStage(dialogStage);
             serviceModifyController.init(listTool, selectedLabel);
             miniScene.setFill(Color.BLACK);
@@ -168,37 +217,41 @@ public class ToolController implements Initializable {
         stage.showAndWait();
     }
 
-  //---------------------------------------------------------------------------------- start Infrastructure functions
-    private void validateEntry(){
+    // ----------------------------------------------------------------------------------
+    // start Infrastructure functions
+    private void validateEntry() {
         String s = infrastructureTextField.getText();
-        if(!s.trim().isEmpty()){
+        if (!s.trim().isEmpty()) {
             hideInfrastructureError();
             infrastructureLabel.setText(infrastructureTextField.getText());
             infrastructureLabel.setVisible(true);
             infrastructureTextField.setVisible(false);
-        } else {
+        }
+        else {
             showInfrastructureError("Veuillez ne pas laisser ce champ vide.");
         }
     }
-    
-    private void showInfrastructureError(String message){
+
+    private void showInfrastructureError(String message) {
         infrastructureWarningLabel.setText(message);
         infrastructureWarningLabel.setVisible(true);
         infrastructureWarningIcon.setVisible(true);
     }
-    
-    private void hideInfrastructureError(){
+
+    private void hideInfrastructureError() {
         infrastructureWarningLabel.setVisible(false);
         infrastructureWarningIcon.setVisible(false);
     }
-    
-    public void activateTextField(){
+
+    public void activateTextField() {
         infrastructureTextField.setVisible(true);
         infrastructureTextField.setText(infrastructureLabel.getText());
         infrastructureLabel.setVisible(false);
         infrastructureTextField.requestFocus();
     }
-  //------------------------------------------------------------------------------------ end Infrastructure functions
+
+    // ------------------------------------------------------------------------------------
+    // end Infrastructure functions
     /*
      * (non-Javadoc)
      * 
@@ -207,77 +260,62 @@ public class ToolController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
-      //---------------------------------------------------------------------------------- start Infrastructure init
-        infrastructureTextField.setVisible(false);
-        infrastructureLabel.setStyle("-fx-border-color:crimson;-fx-background-color:aliceblue ");
-        
+
+        // ----------------------------------------------------------------------------------
+        // start Infrastructure init
+        // infrastructureTextField.setVisible(false);
+
         infrastructureLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                if(event.getClickCount() == 2){
-                    activateTextField();
+                if (event.getClickCount() == 2) {
+                    // activateTextField();
                 }
             };
         });
-        infrastructureButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                activateTextField();
-            }
-        });
-        infrastructureTextField.setOnAction(new EventHandler<ActionEvent>() {       
-            @Override
-            public void handle(ActionEvent event) {
-                validateEntry();
-            }
-        });
-        infrastructureTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            public void changed(javafx.beans.value.ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                //if focus off
-                if(!newValue){
-                    validateEntry();
-                }
-            };
-        });
-           
-        //------------------------------------------------------------------------------------ end Infrastructure init
-        
+        // infrastructureButton.setOnAction(new EventHandler<ActionEvent>() {
+        // @Override
+        // public void handle(ActionEvent event) {
+        // activateTextField();
+        // }
+        // });
+        // infrastructureTextField.setOnAction(new EventHandler<ActionEvent>() {
+        // @Override
+        // public void handle(ActionEvent event) {
+        // validateEntry();
+        // }
+        // });
+        // infrastructureTextField.focusedProperty().addListener(new
+        // ChangeListener<Boolean>() {
+        // public void changed(javafx.beans.value.ObservableValue<? extends
+        // Boolean> observable, Boolean oldValue, Boolean newValue) {
+        // //if focus off
+        // if(!newValue){
+        // validateEntry();
+        // }
+        // };
+        // });
+
+        // ------------------------------------------------------------------------------------
+        // end Infrastructure init
         ArrayList<String> list = new ArrayList<>();
-//<<<<<<< HEAD
-//        ToolService tools = ToolService.getInstance();
-//        tools.setTools(FXCollections.observableArrayList(list));
-//        tools.getTools().addListener((ListChangeListener.Change<? extends String> e) -> {
-//
-//        	if (ToolService.getInstance().getTools().size() > 0) {
-//                String newTool = ToolService.getInstance().getTools()
-//                    .get(ToolService.getInstance().getTools().size() - 1);
-//                listTool.getItems().add(newTool);
-//            } else {
-//            	listTool.getItems().clear();
-//            }
-//=======
+
         for (String tool : listTool.getItems()) {
             list.add(tool);
         }
         ToolService.getInstance().setTools(FXCollections.observableArrayList(list));
-        
+
         ToolService.getInstance().getTools().addListener((ListChangeListener.Change<? extends String> e) -> {
             String newTool = ToolService.getInstance().getTools()
                 .get(ToolService.getInstance().getTools().size() - 1);
             listTool.getItems().add(newTool);
-//>>>>>>> 0a303b9c28912fb46b147eb958a8d1ea7fa4c257
         });
-        
-
-        
-        
 
         InfrastructureService.getInstance().setInfrastructure(FXCollections.observableArrayList(new ArrayList<>()));
 
         InfrastructureService.getInstance().getInfrastructure()
             .addListener((ListChangeListener.Change<? extends String> c) -> {
                 String nouvelleInfrastructure = InfrastructureService.getInstance().getInfrastructure().get(0);
-                infrastructureTextField.setText(nouvelleInfrastructure);
+                infrastructureLabel.setText(nouvelleInfrastructure);
             }
 
         );

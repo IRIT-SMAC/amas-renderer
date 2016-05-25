@@ -1,5 +1,6 @@
 package fr.irit.smac.amasrenderer.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javafx.collections.ObservableList;
@@ -10,7 +11,7 @@ import javafx.collections.ObservableList;
 public class InfrastructureModel {
 
     private ObservableList<String> infrastructure;
-	private String infrastructureClassname;
+	private Map<String, Object> infrastructureMap = new HashMap<String,Object>();
 
 	/**
      * Sets the infrastructure.
@@ -41,12 +42,13 @@ public class InfrastructureModel {
         infrastructure.add(0, name);
     }
 
-	public String getInfrastureClassname() {
+	public Map<String, Object> getInfrastructureMap() {
 
-		return this.infrastructureClassname;
+		return this.infrastructureMap;
 	}
 	
-    public void setInfrastructureClassname(String infrastructureClassname) {
-		this.infrastructureClassname = infrastructureClassname;
+    public void setInfrastructureMap(Map<String, Object> infrastructureMap) {
+
+        this.infrastructureMap = infrastructureMap;
 	}
 }

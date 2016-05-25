@@ -22,8 +22,10 @@ public class ConfigurationMapService {
 
 		this.model.setConfigurationMap(configurationMap);
 
-		String infrastructureClassname = "fr.irit.smac.amasfactory.impl.BasicInfrastructure";
+		String infrastructureClassname = "BasicInfrastructure";
 		InfrastructureService.getInstance().editInfrastructure(infrastructureClassname);
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		InfrastructureService.getInstance().getInfrastructureMap().put(infrastructureClassname, map );
 
 		configurationMap.put("className", infrastructureClassname);
 		HashMap<String, Object> agentHandlerService = new HashMap<String, Object>();
@@ -60,7 +62,7 @@ public class ConfigurationMapService {
 		GraphService.getInstance().getModel().setAgentMap(agentMap);
 		ToolService.getInstance().setServicesMap(this.model.getConfigurationMap());
 		InfrastructureService.getInstance()
-				.setInfrastructureClassname(this.model.getConfigurationMap().get("className").toString());
+				.setInfrastructureMap(this.model.getConfigurationMap());
 
 	}
 }

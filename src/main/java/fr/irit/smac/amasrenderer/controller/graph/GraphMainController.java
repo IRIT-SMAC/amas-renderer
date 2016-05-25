@@ -16,8 +16,9 @@ import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
 import fr.irit.smac.amasrenderer.Const;
+import fr.irit.smac.amasrenderer.EStateGraph;
 import fr.irit.smac.amasrenderer.Main;
-import fr.irit.smac.amasrenderer.controller.attribute.TreeModifyController;
+import fr.irit.smac.amasrenderer.controller.attribute.NodeAttributesController;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
@@ -499,7 +500,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
 
             Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
 
-            TreeModifyController treeModifyController = loaderServices.getController();
+            NodeAttributesController treeModifyController = loaderServices.getController();
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Modification d'attribut");

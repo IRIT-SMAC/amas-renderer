@@ -47,7 +47,7 @@ class GraphInitializationTest extends Specification{
 		Map<String,Object> graphMap = GraphService.getInstance().getModel().getGraphMap();
 		graphNodeService.createAgentGraphFromMap(graphMap);
 		toolService.createServicesFromMap(graphMap);
-		infrastructureService.createInfrastructure(graphMap);
+		infrastructureService.createInfrastructureFromMap(graphMap);
 		
 		then:
 		graphNodeService.getModel().getNodeCount() == 12

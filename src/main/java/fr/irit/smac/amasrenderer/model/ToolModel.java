@@ -1,8 +1,10 @@
 package fr.irit.smac.amasrenderer.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -10,42 +12,43 @@ import javafx.collections.ObservableList;
  */
 public class ToolModel {
 
-	private ObservableList<String> tools;
+    private ObservableList<String> tools;
 
-	private Map<String, Object> servicesMap = new HashMap<String,Object>();
+    private Map<String, Object> servicesMap = new HashMap<String, Object>();
 
-	public ToolModel() {
+    public ToolModel() {
 
-	}
+    }
 
-	/**
-	 * Gets the tools.
-	 *
-	 * @return the tools
-	 */
-	public ObservableList<String> getTools() {
-		return tools;
-	}
+    /**
+     * Gets the tools.
+     *
+     * @return the tools
+     */
+    public ObservableList<String> getTools() {
+        return tools;
+    }
 
-	/**
-	 * Sets the tools.
-	 *
-	 * @param items
-	 *            the new tools
-	 */
-	public void setTools(ObservableList<String> items) {
-		this.tools = items;
-	}
+    /**
+     * Sets the tools.
+     *
+     * @param items
+     *            the new tools
+     */
+    public void setTools(ObservableList<String> items) {
+        this.tools = items;
+    }
 
-	public void addTool(String name) {
-		this.tools.add(name);
-	}
+    public void addTool(String name) {
 
-	public Map<String, Object> getServicesMap() {
-		return servicesMap;
-	}
+        this.tools.add(name);
+    }
 
-	public void setServicesMap(Map<String, Object> servicesMap) {
-		this.servicesMap = servicesMap;
-	}
+    public Map<String, Object> getServicesMap() {
+        return servicesMap;
+    }
+
+    public void setServicesMap(Map<String, Object> servicesMap) {
+        this.servicesMap = servicesMap;
+    }
 }

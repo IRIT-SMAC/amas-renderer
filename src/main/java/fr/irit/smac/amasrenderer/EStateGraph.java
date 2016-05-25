@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.controller.graph;
+package fr.irit.smac.amasrenderer;
 
 /**
  * All states of the graph and the graphButtons are in in this enumeration

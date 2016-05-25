@@ -26,7 +26,7 @@ import javafx.util.converter.DefaultStringConverter;
  * The Class TreeModifyController. Manage the modal window opening to modify
  * attributes
  */
-public class TreeModifyController implements Initializable {
+public class NodeAttributesController implements Initializable {
 
     @FXML
     private Button confButton;
