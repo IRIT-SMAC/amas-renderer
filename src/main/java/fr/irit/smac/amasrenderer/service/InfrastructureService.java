@@ -71,7 +71,7 @@ public class InfrastructureService {
      */
     public void createInfrastructureFromMap(Map<String, Object> map) {
 
-        this.model.getInfrastructure().clear();
+//        this.model.getInfrastructure().clear();
         
         for (Map.Entry<String, Object> pair : map.entrySet()) {
             
