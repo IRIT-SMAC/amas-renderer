@@ -217,9 +217,19 @@ public class ToolController implements Initializable {
         stage.showAndWait();
     }
 
-    // ----------------------------------------------------------------------------------
-    // start Infrastructure functions
-    private void validateEntry() {
+    @FXML
+    public void buttonActionPerformed(){
+        activateTextField();
+    }
+    
+    @FXML
+    public void textFieldActionPerformed(){
+        validateEntry();
+    }
+    
+    
+    
+    private void validateEntry(){
         String s = infrastructureTextField.getText();
         if (!s.trim().isEmpty()) {
             hideInfrastructureError();
@@ -261,42 +271,6 @@ public class ToolController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // ----------------------------------------------------------------------------------
-        // start Infrastructure init
-        // infrastructureTextField.setVisible(false);
-
-        infrastructureLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                if (event.getClickCount() == 2) {
-                    // activateTextField();
-                }
-            };
-        });
-        // infrastructureButton.setOnAction(new EventHandler<ActionEvent>() {
-        // @Override
-        // public void handle(ActionEvent event) {
-        // activateTextField();
-        // }
-        // });
-        // infrastructureTextField.setOnAction(new EventHandler<ActionEvent>() {
-        // @Override
-        // public void handle(ActionEvent event) {
-        // validateEntry();
-        // }
-        // });
-        // infrastructureTextField.focusedProperty().addListener(new
-        // ChangeListener<Boolean>() {
-        // public void changed(javafx.beans.value.ObservableValue<? extends
-        // Boolean> observable, Boolean oldValue, Boolean newValue) {
-        // //if focus off
-        // if(!newValue){
-        // validateEntry();
-        // }
-        // };
-        // });
-
-        // ------------------------------------------------------------------------------------
-        // end Infrastructure init
         ArrayList<String> list = new ArrayList<>();
 
         for (String tool : listTool.getItems()) {

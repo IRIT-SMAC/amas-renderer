@@ -191,19 +191,24 @@ public class ToolAttributesController implements Initializable {
          * @param newValue
          * @return
          */
-        private boolean isValidExpression(String newValue){
-            //checks if the new value has the good key-value separator ( and only one )
-            boolean isSemiColon = newValue.split(Const.KEY_VALUE_SEPARATOR).length == 2; 
-            boolean isEachSideNonEmpty = false;
-            if(isSemiColon) isEachSideNonEmpty = !newValue.split(Const.KEY_VALUE_SEPARATOR)[0].trim().isEmpty() && !newValue.split(Const.KEY_VALUE_SEPARATOR)[1].trim().isEmpty();
-            
+        private boolean isValidExpression(TreeItem<String> item, String newValue){
+            boolean isSemiColonCorrect = false;
+            boolean isValueKeyCorrect = false;
+            //checks if the new value has the good key-value séparator ( and only one )
+            if(item.getChildren().size() == 0){
+                isSemiColonCorrect = newValue.split(Const.KEY_VALUE_SEPARATOR).length == 2; 
+                if(isSemiColonCorrect) isValueKeyCorrect = !newValue.split(Const.KEY_VALUE_SEPARATOR)[0].trim().isEmpty() && !newValue.split(Const.KEY_VALUE_SEPARATOR)[1].trim().isEmpty();
+            } else { // if it has childs then its a complex attribute
+                isSemiColonCorrect = !(newValue.contains(":") || newValue.contains(" ")); 
+                isValueKeyCorrect = !newValue.trim().isEmpty();
+            }
             //checks if the new value contains an unauthorized string
             boolean containsNewUnauthorizedString = false;
             for(String str : Const.UNAUTHORISED_STRING){
                 containsNewUnauthorizedString = newValue.contains(str) ? true : containsNewUnauthorizedString; 
             }
             
-            return isSemiColon && isEachSideNonEmpty && !containsNewUnauthorizedString;
+            return isSemiColonCorrect && isValueKeyCorrect && !containsNewUnauthorizedString;
         }
         
         private boolean isProtectedField(String oldValue){
@@ -230,7 +235,7 @@ public class ToolAttributesController implements Initializable {
             if (newValue.trim().isEmpty()) {
                 return;
             }
-            else if(this.getTreeItem() != tree.getRoot() && !isValidExpression(newValue)){
+            else if(this.getTreeItem() != tree.getRoot() && !isValidExpression(getTreeItem(),newValue)){
                 return;
             }
             
