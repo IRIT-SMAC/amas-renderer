@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="243.0" prefWidth="503.0" styleClass="dialog" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.tool.ConfirmationDialogController">
+    <header>
+      <AnchorPane prefHeight="244.0" prefWidth="496.0">
+         <children>
+      		<Label alignment="CENTER" maxHeight="100.0" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="496.0" styleClass="title" text="Suppression du service" textFill="WHITE">
+            		</Label>
+            <Text layoutX="19.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="invalidField" text="Vous êtes sur le point de supprimer le service " textAlignment="CENTER" wrappingWidth="457.13671875">
+              </Text>
+            <Text layoutX="19.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="invalidField" text="Êtes vous sur?" textAlignment="CENTER" wrappingWidth="457.13671875" />
+            <Button fx:id="buttonCancelRemove" cancelButton="true" layoutX="63.0" layoutY="183.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickCancelRemove" prefHeight="50.0" prefWidth="180.0" styleClass="buttonDialog" text="Annuler" textOverrun="CLIP" />
+      				<Button fx:id="buttonConfirmRemove" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="247.0" layoutY="183.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickConfirmRemove" prefHeight="50.0" prefWidth="180.0" styleClass="buttonDialogOk" text="Confirmer" textAlignment="CENTER" textFill="WHITE">
+            				</Button>
+         </children>
+      </AnchorPane>
+    </header>
+    <content>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="99.0" prefWidth="496.0" />
+    </content>
+   <stylesheets>
+      <URL value="@../css/toolDialog.css" />
+      <URL value="@../css/dialog.css" />
+   </stylesheets>
+   <graphic>
+      <Pane prefHeight="200.0" prefWidth="200.0" />
+   </graphic>
+</DialogPane>

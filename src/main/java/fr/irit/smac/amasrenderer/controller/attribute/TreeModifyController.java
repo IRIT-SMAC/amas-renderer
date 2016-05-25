@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import org.graphstream.graph.Node;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.fxml.FXML;
@@ -27,154 +28,208 @@ import javafx.util.converter.DefaultStringConverter;
  */
 public class TreeModifyController implements Initializable {
 
-	@FXML
-	private Button confButton;
+    @FXML
+    private Button confButton;
 
-	@FXML
-	private Button cancButton;
+    @FXML
+    private Button cancButton;
 
-	@FXML
-	private TreeView<String> tree;
+    @FXML
+    private TreeView<String> tree;
 
-	private Stage dialogStage;
+    private Stage dialogStage;
 
-	private String baseAgentName;
+    private String baseAgentName;
 
-	private Node node;
+    private Node node;
 
-	private String newAgentName = null;
+    private String newAgentName = null;
 
-	/**
-	 * Sets the stage.
-	 *
-	 * @param stage
-	 *            the new stage
-	 */
-	public void setStage(Stage stage) {
-		dialogStage = stage;
-	}
+    /**
+     * Confirm button. Sets the new tree as the node tree, and exit this window
+     */
+    @FXML
+    public void confirmButton() {
 
-	/**
-	 * Sets the node to be modified
-	 * 
-	 * @param node
-	 *            the node to modify
-	 */
-	public void setNode(Node node) {
-		this.node = node;
-	}
+        GraphService.getInstance().updateAgentMap(tree.getRoot().getValue(), tree.getRoot());
 
-	public void init(String id) {
+        newAgentName = tree.getRoot().getValue();
+        if (newAgentName != baseAgentName) {
+            node.setAttribute("ui.label", newAgentName);
+        }
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
+        dialogStage.close();
+    }
 
-		@SuppressWarnings("unchecked")
-		HashMap<String, Object> agent = (HashMap<String, Object>) GraphService.getInstance().getModel().getAgentMap()
-				.get(id);
+    /**
+     * Cancel button. Just exit this window
+     */
+    @FXML
+    public void cancelButton() {
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
+        dialogStage.close();
+    }
 
-		TreeItem<String> myItem = new TreeItem<>(id);
-		tree.setRoot(myItem);
+    /**
+     * Sets the stage.
+     *
+     * @param stage
+     *            the new stage
+     */
+    public void setStage(Stage stage) {
+        dialogStage = stage;
+    }
 
-		fillAgentAttributes(agent, myItem);
+    /**
+     * Sets the node to be modified
+     * 
+     * @param node
+     *            the node to modify
+     */
+    public void setNode(Node node) {
+        this.node = node;
+    }
 
-		this.tree.setEditable(true);
+    public void init(String id) {
 
-		tree.setCellFactory(p -> new MenuAttributesTreeCell());
-	}
+        @SuppressWarnings("unchecked")
+        HashMap<String, Object> agent = (HashMap<String, Object>) GraphService.getInstance().getModel().getAgentMap()
+            .get(id);
 
-	@SuppressWarnings("unchecked")
-	private void fillAgentAttributes(HashMap<String, Object> agent, TreeItem<String> parent) {
+        TreeItem<String> myItem = new TreeItem<>(id);
+        tree.setRoot(myItem);
 
-		Iterator<Map.Entry<String, Object>> attributeIterator = agent.entrySet().iterator();
-		while (attributeIterator.hasNext()) {
-			Map.Entry<String, Object> attribute = attributeIterator.next();
-			String name = attribute.getKey();
-			Object value = attribute.getValue();
+        fillAgentAttributes(agent, myItem);
 
-			if (value instanceof HashMap<?, ?>) {
-				TreeItem<String> item = new TreeItem<>();
-				item.setValue(name);
-				fillAgentAttributes((HashMap<String, Object>) value, item);
-				parent.getChildren().add(item);
-			} else {
-				TreeItem<String> item = new TreeItem<>();
-				item.setValue(name + " : " + value);
-				parent.getChildren().add(item);
-			}
-		}
-	}
+    }
 
-	/**
-	 * Confirm button. Sets the new tree as the node tree, and exit this window
-	 */
-	public void confirmButton() {
+    @SuppressWarnings("unchecked")
+    private void fillAgentAttributes(HashMap<String, Object> agent, TreeItem<String> parent) {
 
-		GraphService.getInstance().updateAgentMap(tree.getRoot().getValue(), tree.getRoot());
+        Iterator<Map.Entry<String, Object>> attributeIterator = agent.entrySet().iterator();
+        while (attributeIterator.hasNext()) {
+            Map.Entry<String, Object> attribute = attributeIterator.next();
+            String name = attribute.getKey();
+            Object value = attribute.getValue();
 
-		newAgentName = tree.getRoot().getValue();
-		if (newAgentName != baseAgentName) {
-			node.setAttribute("ui.label", newAgentName);
-		}
-		Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
-		dialogStage.close();
-	}
+            if (value instanceof HashMap<?, ?>) {
+                TreeItem<String> item = new TreeItem<>();
+                item.setValue(name);
+                fillAgentAttributes((HashMap<String, Object>) value, item);
+                parent.getChildren().add(item);
+            }
+            else {
+                TreeItem<String> item = new TreeItem<>();
+                item.setValue(name + " : " + value);
+                parent.getChildren().add(item);
+            }
+        }
+    }
 
-	/**
-	 * Cancel button. Just exit this window
-	 */
-	@FXML
-	public void cancelButton() {
-		Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
-		dialogStage.close();
-	}
+    private static class MenuAttributesTreeCell extends TextFieldTreeCell<String> {
+        private ContextMenu      menu = new ContextMenu();
+        private TreeView<String> tree;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+        public MenuAttributesTreeCell(TreeView<String> tree) {
+            super(new DefaultStringConverter());
+            this.tree = tree;
+            menu.setId("treeAttributeItem");
+            MenuItem renameItem = new MenuItem("Renommer");
+            renameItem.setId("renameAttributeItem");
+            menu.getItems().add(renameItem);
+            renameItem.setOnAction(e -> startEdit());
 
-	}
+            MenuItem addItem = new MenuItem("Ajouter");
+            menu.getItems().add(addItem);
+            addItem.setId("addAttributeItem");
+            addItem.setOnAction(e -> {
+                TreeItem newItem = new TreeItem<String>("Nouvel attribut");
+                getTreeItem().getChildren().add(newItem);
+            });
 
-	private static class MenuAttributesTreeCell extends TextFieldTreeCell<String> {
-		private ContextMenu menu = new ContextMenu();
+            MenuItem removeItem = new MenuItem("Supprimer");
+            menu.getItems().add(removeItem);
+            removeItem.setId("removeAttributeItem");
+            removeItem.setOnAction(e -> {
+                if (!isProtectedField(getItem())) {
+                    getTreeItem().getParent().getChildren().remove(getTreeItem());
+                }
+            });
+        }
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public MenuAttributesTreeCell() {
-			super(new DefaultStringConverter());
+        /**
+         * test if the string new value is valid
+         * 
+         * @param newValue
+         * @return
+         */
+        private boolean isValidExpression(String newValue) {
+            // checks if the new value has the good key-value séparator ( and
+            // only one )
+            boolean isSemiColon = newValue.split(Const.KEY_VALUE_SEPARATOR).length == 2;
+            boolean isEachSideNonEmpty = false;
+            if (isSemiColon)
+                isEachSideNonEmpty = !newValue.split(Const.KEY_VALUE_SEPARATOR)[0].trim().isEmpty()
+                    && !newValue.split(Const.KEY_VALUE_SEPARATOR)[1].trim().isEmpty();
 
-			menu.setId("treeAttributeItem");
-			MenuItem renameItem = new MenuItem("Renommer");
-			renameItem.setId("renameAttributeItem");
-			menu.getItems().add(renameItem);
-			renameItem.setOnAction(e -> startEdit());
+            // checks if the new value contains an unauthorized string
+            boolean containsNewUnauthorizedString = false;
+            for (String str : Const.UNAUTHORISED_STRING) {
+                containsNewUnauthorizedString = newValue.contains(str) ? true : containsNewUnauthorizedString;
+            }
 
-			MenuItem addItem = new MenuItem("Ajouter");
-			menu.getItems().add(addItem);
-			addItem.setId("addAttributeItem");
-			addItem.setOnAction(e -> {
-				TreeItem newItem = new TreeItem<String>("Nouvel attribut");
-				getTreeItem().getChildren().add(newItem);
-			});
+            return isSemiColon && isEachSideNonEmpty && !containsNewUnauthorizedString;
+        }
 
-			MenuItem removeItem = new MenuItem("Supprimer");
-			menu.getItems().add(removeItem);
-			removeItem.setId("removeAttributeItem");
-			removeItem.setOnAction(e -> getTreeItem().getParent().getChildren().remove(getTreeItem()));
-		}
+        private boolean isProtectedField(String oldValue) {
+            // checks if the oldValue was protected
+            boolean oldContainsProtectedString = false;
+            for (String str : Const.PROTECTED_STRING) {
+                oldContainsProtectedString = oldValue.contains(str) ? true : oldContainsProtectedString;
+            }
+            return oldContainsProtectedString;
+        }
 
-		@Override
-		public void updateItem(String item, boolean empty) {
-			super.updateItem(item, empty);
+        @Override
+        public void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
 
-			if (!empty && !isEditing()) {
-				setContextMenu(menu);
-			}
-		}
+            if (!empty && !isEditing()) {
+                setContextMenu(menu);
+            }
+        }
 
-		@Override
-		public void commitEdit(String newValue) {
+        @Override
+        public void startEdit() {
+            if (isProtectedField(this.getItem())) {
+                this.cancelEdit();
+            }
+            else {
+                super.startEdit();
+            }
+        };
 
-			if (newValue.trim().isEmpty()) {
-				return;
-			}
-			super.commitEdit(newValue);
-		}
-	}
+        @Override
+        public void commitEdit(String newValue) {
+            if (newValue.trim().isEmpty()) {
+                return;
+            }
+            else if (this.getTreeItem() != tree.getRoot() && !isValidExpression(newValue)) {
+                return;
+            }
+
+            super.commitEdit(newValue);
+        }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        this.tree.setEditable(true);
+
+        tree.setCellFactory(p -> new MenuAttributesTreeCell(tree));
+
+    }
 
 }

@@ -8,6 +8,10 @@
     -fx-border-width: 4.0px;
 }
 
+.secondaryWindow {
+	 -fx-opacity: 0.7;
+}
+
 .title {
     -fx-background-color: linear-gradient( from 0 100 to 100 -100, #b4231f, #c34e4b);
     -fx-text-fill: #FFFFFF;
