@@ -25,16 +25,16 @@
                <children>
                   <AnchorPane>
                      <children>
-                        <TextField fx:id="infrastructureTextField" layoutX="7.0" layoutY="42.0" prefHeight="48.0" prefWidth="338.0" />
-                        <Label fx:id="infrastructureLabel" layoutX="7.0" layoutY="43.0" prefHeight="45.0" prefWidth="338.0" />
-                        <Button fx:id="infrastructureButton" layoutX="345.0" layoutY="41.0" mnemonicParsing="false" prefHeight="20" prefWidth="20.0" styleClass="buttonGraph" stylesheets="@../css/graphButtons.css">
+                        <TextField fx:id="infrastructureTextField" layoutX="7.0" layoutY="42.0" onAction="#textFieldActionPerformed" prefHeight="48.0" prefWidth="338.0" />
+                        <Label fx:id="infrastructureLabel" layoutX="7.0" layoutY="43.0" onMouseClicked="#labelMouseClicked" prefHeight="45.0" prefWidth="338.0" />
+                        <Button fx:id="infrastructureButton" layoutX="345.0" layoutY="41.0" mnemonicParsing="false" onAction="#buttonActionPerformed" prefHeight="20" prefWidth="20.0" styleClass="buttonGraph" stylesheets="@../css/graphButtons.css">
                         	<graphic>
                         		<ImageView fitHeight="28.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                         			<Image url="@../image/edit-icon.png" />
                         		</ImageView>
                         	</graphic>
                         </Button>
-                        <Label fx:id="infrastructureWarningLabel" layoutX="68.0" layoutY="109.0" prefHeight="32.0" prefWidth="318.0" style="-fx-font-size: 12pt;" text="Veuillez entrer un nom d'infrastructure." textFill="#e41d1d" visible="false" />
+                        <Label fx:id="infrastructureWarningLabel" layoutX="68.0" layoutY="109.0" onMouseClicked="#labelMouseClicked" prefHeight="32.0" prefWidth="318.0" style="-fx-font-size: 12pt;" text="Veuillez entrer un nom d'infrastructure." textFill="#e41d1d" visible="false" />
                         <ImageView fx:id="infrastructureWarningIcon" fitHeight="39.0" fitWidth="43.0" layoutX="14.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" visible="false">
                            <image>
                               <Image url="@../image/warning-icon.png" />

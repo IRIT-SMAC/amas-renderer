@@ -205,6 +205,27 @@ public class ToolController implements Initializable {
         }
     }
   //---------------------------------------------------------------------------------- start Infrastructure functions
+    
+    @FXML
+    public void labelMouseClicked(MouseEvent e){
+        if(e.getClickCount() == 2){
+            activateTextField();
+        }
+    }
+    
+    @FXML
+    public void buttonActionPerformed(){
+        activateTextField();
+    }
+    
+    @FXML
+    public void textFieldActionPerformed(){
+        validateEntry();
+    }
+    
+    
+    
+    
     private void validateEntry(){
         String s = infrastructureTextField.getText();
         if(!s.trim().isEmpty()){
@@ -248,25 +269,27 @@ public class ToolController implements Initializable {
         infrastructureTextField.setVisible(false);
         infrastructureLabel.setStyle("-fx-border-color:crimson;-fx-background-color:aliceblue ");
         
-        infrastructureLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                if(event.getClickCount() == 2){
-                    activateTextField();
-                }
-            };
-        });
-        infrastructureButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                activateTextField();
-            }
-        });
-        infrastructureTextField.setOnAction(new EventHandler<ActionEvent>() {       
-            @Override
-            public void handle(ActionEvent event) {
-                validateEntry();
-            }
-        });
+//        infrastructureLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            public void handle(MouseEvent event) {
+//                if(event.getClickCount() == 2){
+//                    activateTextField();
+//                }
+//            };
+//        });
+//        infrastructureButton.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                activateTextField();
+//            }
+//        });
+//        infrastructureTextField.setOnAction(new EventHandler<ActionEvent>() {       
+//            @Override
+//            public void handle(ActionEvent event) {
+//                validateEntry();
+//            }
+//        });
+        
+        //hides the textfield if he loses focus
         infrastructureTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
             public void changed(javafx.beans.value.ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 //if focus off
