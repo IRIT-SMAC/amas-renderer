@@ -178,60 +178,47 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
 
         handleButtonsAddDelState();
 
-        handleCtrlState(e);
-
-        handleShiftState(e);
+        handleShortcutState(e);
 
         handleGraphState(e);
     }
 
     public void handleButtonsAddDelState() {
 
-        switch (this.buttonsAddDelState) {
+        if (this.graphState != EStateGraph.READY_TO_ADD_EDGE_TARGET
+            && this.graphState != EStateGraph.READY_TO_DELETE_EDGE_TARGET) {
 
-            case BUTTON_ADD_NODE:
-                this.graphState = EStateGraph.READY_TO_ADD_NODE;
-                break;
+            switch (this.buttonsAddDelState) {
 
-            case BUTTON_DELETE_NODE:
-                this.graphState = EStateGraph.READY_TO_DELETE_NODE;
-                break;
+                case BUTTON_ADD_NODE:
+                    this.graphState = EStateGraph.READY_TO_ADD_NODE;
+                    break;
 
-            case BUTTON_ADD_EDGE:
-                if (this.graphState != EStateGraph.READY_TO_ADD_EDGE_TARGET
-                    && this.graphState != EStateGraph.READY_TO_DELETE_EDGE_TARGET) {
+                case BUTTON_DELETE_NODE:
+                    this.graphState = EStateGraph.READY_TO_DELETE_NODE;
+                    break;
+
+                case BUTTON_ADD_EDGE:
                     this.graphState = EStateGraph.READY_TO_ADD_EDGE_SOURCE;
-                }
-                break;
+                    break;
 
-            case BUTTON_DELETE_EDGE:
-                if (this.graphState != EStateGraph.READY_TO_ADD_EDGE_TARGET
-                    && this.graphState != EStateGraph.READY_TO_DELETE_EDGE_TARGET) {
+                case BUTTON_DELETE_EDGE:
                     this.graphState = EStateGraph.READY_TO_DELETE_EDGE_SOURCE;
-                }
-                break;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+            }
         }
     }
 
-    public void handleCtrlState(MouseEvent e) {
+    public void handleShortcutState(MouseEvent e) {
 
         switch (this.shortcutState) {
 
             case CTRL_DOWN:
-                createOrRemoveNode(e);
+                readyToAddOrDeleteNode(e);
                 break;
-
-            default:
-                break;
-        }
-    }
-
-    public void handleShiftState(MouseEvent e) {
-
-        switch (this.shortcutState) {
 
             case SHIFT_DOWN:
                 readyToAddOrDeleteEdgeShift(e);
@@ -293,14 +280,11 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
      */
     private void readyToAddOrDeleteEdgeShift(MouseEvent e) {
 
-        if (this.graphState != EStateGraph.READY_TO_ADD_EDGE_TARGET
-            && this.graphState != EStateGraph.READY_TO_DELETE_EDGE_TARGET) {
-            if (e.isPrimaryButtonDown()) {
-                this.graphState = EStateGraph.READY_TO_ADD_EDGE_SOURCE;
-            }
-            else if (e.isSecondaryButtonDown()) {
-                this.graphState = EStateGraph.READY_TO_DELETE_EDGE_SOURCE;
-            }
+        if (e.isPrimaryButtonDown() && this.graphState != EStateGraph.READY_TO_ADD_EDGE_TARGET) {
+            this.graphState = EStateGraph.READY_TO_ADD_EDGE_SOURCE;
+        }
+        else if (e.isSecondaryButtonDown() && this.graphState != EStateGraph.READY_TO_DELETE_EDGE_TARGET) {
+            this.graphState = EStateGraph.READY_TO_DELETE_EDGE_SOURCE;
         }
     }
 
@@ -327,7 +311,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
      * 
      * @param e
      */
-    private void createOrRemoveNode(MouseEvent e) {
+    private void readyToAddOrDeleteNode(MouseEvent e) {
 
         if (e.isPrimaryButtonDown()) {
             this.graphState = EStateGraph.READY_TO_ADD_NODE;
