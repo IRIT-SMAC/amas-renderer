@@ -85,6 +85,13 @@ public class GraphService {
 	 */
 	public void addNode(String id) {
 
+		Map<String,Object> mapNode = new HashMap<String,Object>();
+		mapNode.put("id", id);
+		this.model.getAgentMap().put(id, mapNode);
+		Map<String,Object> knowledgeMap = new HashMap<String,Object>();
+		mapNode.put("knowledge", knowledgeMap);
+		ArrayList<String> targets = new ArrayList<String>();
+		knowledgeMap.put("targets", targets);
 		model.addNode(id);
 		Node node = model.getNode(id);
 		node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);

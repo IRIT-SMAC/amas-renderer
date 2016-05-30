@@ -59,7 +59,6 @@ public class ConfigurationMapService {
             .get("agentHandlerService");
 
         HashMap<String, Object> agentMap = (HashMap<String, Object>) agentHandlerService.get("agentMap");
-
         GraphService.getInstance().getModel().setAgentMap(agentMap);
         ToolService.getInstance().setServicesMap(this.model.getConfigurationMap());
         InfrastructureService.getInstance()
