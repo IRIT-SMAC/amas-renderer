@@ -28,11 +28,9 @@ node {
 }
  
  node:clicked {
-     fill-color: #FF0000;
- 	 stroke-color: #E6E6E6;
+     fill-color: #cc9292;
 }
  
  node:selected {
-     fill-color: #FF0000;
- 	 stroke-color: #E6E6E6;
+     fill-color: #cc9292;
 }
