@@ -16,8 +16,11 @@ import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.EStateGraph;
 import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.controller.EButtonsAddDelState;
+import fr.irit.smac.amasrenderer.controller.EOthersButtonsState;
+import fr.irit.smac.amasrenderer.controller.EShortcutState;
+import fr.irit.smac.amasrenderer.controller.EStateGraph;
 import fr.irit.smac.amasrenderer.controller.attribute.NodeAttributesController;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.application.Platform;
@@ -69,18 +72,16 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
 
     private GraphicElement selectedElement;
 
-    private EStateGraph stateButtons;
-
     private EStateGraph graphState;
 
-    private EStateGraph ctrlState;
-
-    private EStateGraph shiftState;
+    private EShortcutState shortcutState;
 
     private static final Logger LOGGER = Logger.getLogger(GraphMainController.class.getName());
 
     @FXML
     private Label classNameLabel;
+
+    private EButtonsAddDelState buttonsAddDelState;
 
     /**
      * Handles the behavior of the graph when the user pressed a key
@@ -92,10 +93,10 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
     public void handleOnKeyPressed(KeyEvent e) {
 
         if (e.isControlDown()) {
-            this.ctrlState = EStateGraph.CTRL_DOWN;
+            this.shortcutState = EShortcutState.CTRL_DOWN;
         }
         else if (e.isShiftDown()) {
-            this.shiftState = EStateGraph.SHIFT_DOWN;
+            this.shortcutState = EShortcutState.SHIFT_DOWN;
         }
     }
 
@@ -108,18 +109,18 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
     @FXML
     public void handleOnKeyReleased(KeyEvent e) {
 
-        switch (this.ctrlState) {
+        switch (this.shortcutState) {
             case CTRL_DOWN:
-                this.ctrlState = EStateGraph.AT_EASE;
+                this.shortcutState = EShortcutState.AT_EASE;
                 break;
 
             default:
                 break;
         }
 
-        switch (this.shiftState) {
+        switch (this.shortcutState) {
             case SHIFT_DOWN:
-                this.shiftState = EStateGraph.AT_EASE;
+                this.shortcutState = EShortcutState.AT_EASE;
                 this.unselectSource();
                 break;
 
@@ -179,8 +180,8 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
     @FXML
     public void handleOnMousePressed(MouseEvent e) {
 
-        handleButtonState(e);
-
+        handleButtonsAddDelState();
+        
         handleCtrlState(e);
 
         handleShiftState(e);
@@ -188,9 +189,9 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
         handleGraphState(e);
     }
 
-    public void handleButtonState(MouseEvent e) {
-
-        switch (this.stateButtons) {
+    public void handleButtonsAddDelState() {
+        
+        switch (this.buttonsAddDelState) {
 
             case BUTTON_ADD_NODE:
                 this.graphState = EStateGraph.READY_TO_ADD_NODE;
@@ -218,10 +219,10 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
                 break;
         }
     }
-
+    
     public void handleCtrlState(MouseEvent e) {
 
-        switch (this.ctrlState) {
+        switch (this.shortcutState) {
 
             case CTRL_DOWN:
                 createOrRemoveNode(e);
@@ -234,7 +235,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
 
     public void handleShiftState(MouseEvent e) {
 
-        switch (this.shiftState) {
+        switch (this.shortcutState) {
 
             case SHIFT_DOWN:
                 readyToAddOrDeleteEdgeShift(e);
@@ -250,6 +251,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
         switch (this.graphState) {
 
             case AT_EASE:
+                this.graphState = EStateGraph.AT_EASE;
                 handleAttributesOrSelectNode(e);
                 break;
 
@@ -473,8 +475,8 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
     }
 
     /**
-     * Unselects a source when an edge is created, deleted, or when the target is
-     * not a node
+     * Unselects a source when an edge is created, deleted, or when the target
+     * is not a node
      */
     private void unselectSource() {
 
@@ -606,10 +608,9 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
             graphView.removeMouseListener(mouseListener);
         }
 
-        this.stateButtons = EStateGraph.AT_EASE;
         this.graphState = EStateGraph.AT_EASE;
-        this.ctrlState = EStateGraph.AT_EASE;
-        this.shiftState = EStateGraph.AT_EASE;
+        this.shortcutState = EShortcutState.AT_EASE;
+        this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
 
         graphToolboxController.setGraphButtonsState(this);
         graphNodeService.setQualityGraph();
@@ -617,14 +618,14 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
     }
 
     @Override
-    public void changedStateButtonsAddDel(EStateGraph state) {
+    public void changedStateButtonsAddDel(EButtonsAddDelState state) {
 
-        this.stateButtons = state;
         this.graphNode.requestFocus();
+        this.buttonsAddDelState = state;
     }
 
     @Override
-    public void changedStateOtherButtons(EStateGraph state) {
+    public void changedStateOtherButtons(EOthersButtonsState state) {
 
         this.graphNode.requestFocus();
 
@@ -633,31 +634,12 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
             case RESET_VIEW:
                 graphView.getCamera().resetView();
                 break;
-
-            case AUTO_LAYOUT:
-                viewer.disableAutoLayout();
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void changedStateAutoLayout(EStateGraph state) {
-
-        this.graphNode.requestFocus();
-
-        switch (state) {
-
             case AUTO_LAYOUT:
                 viewer.enableAutoLayout();
                 break;
-
-            case AT_EASE:
+            case NO_AUTO_LAYOUT:
                 viewer.disableAutoLayout();
                 break;
-
             default:
                 break;
         }
