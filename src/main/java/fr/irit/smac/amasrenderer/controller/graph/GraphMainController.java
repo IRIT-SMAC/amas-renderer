@@ -228,7 +228,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
             this.state = previousStateButtons;
         }
         else {
-            this.state = previousState;
+            this.state = EStateGraph.AT_EASE;
         }
     }
 
