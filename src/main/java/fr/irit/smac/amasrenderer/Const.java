@@ -25,6 +25,10 @@ public final class Const {
 
     public static final String NODE_WEIGHT = "layout.weight";
     
+    public static final String NODE_CLICKED = "ui.clicked";
+    
+    public static final String NODE_SELECTED = "ui.selected";
+
     public static final String NODE_LABEL = "ui.label";
         
     public static final String NODE_XY = "xy";

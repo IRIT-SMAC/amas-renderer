@@ -102,12 +102,9 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
 
     /**
      * Handles the behavior of the graph when the user released a key
-     * 
-     * @param e
-     *            the key event
      */
     @FXML
-    public void handleOnKeyReleased(KeyEvent e) {
+    public void handleOnKeyReleased() {
 
         switch (this.shortcutState) {
 
@@ -127,12 +124,9 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
 
     /**
      * Handles the behavior of the graph when the user released the mouse
-     * 
-     * @param e
-     *            the mouse event
      */
     @FXML
-    public void handleOnMouseReleased(MouseEvent e) {
+    public void handleOnMouseReleased() {
 
         if (this.graphState == EStateGraph.SELECTED_NODE) {
             this.graphState = EStateGraph.AT_EASE;
@@ -177,12 +171,14 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
     public void handleOnMousePressed(MouseEvent e) {
 
         handleButtonsAddDelState();
-
         handleShortcutState(e);
-
         handleGraphState(e);
     }
 
+    /**
+     * Updates the state of the graph depending on the state of the buttons
+     * AddDel
+     */
     public void handleButtonsAddDelState() {
 
         if (this.graphState != EStateGraph.READY_TO_ADD_EDGE_TARGET
@@ -212,6 +208,11 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
         }
     }
 
+    /**
+     * Updates the state of the graph depending on the state of the shorcut
+     * 
+     * @param e
+     */
     public void handleShortcutState(MouseEvent e) {
 
         switch (this.shortcutState) {
@@ -229,6 +230,12 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
         }
     }
 
+    /**
+     * Handles the behaviour of the graph
+     * 
+     * @param e
+     *            the mouse event
+     */
     public void handleGraphState(MouseEvent e) {
 
         switch (this.graphState) {
@@ -271,6 +278,34 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
         }
     }
 
+    @Override
+    public void changedStateButtonsAddDel(EButtonsAddDelState state) {
+
+        this.graphNode.requestFocus();
+        this.buttonsAddDelState = state;
+    }
+
+    @Override
+    public void changedStateOtherButtons(EOthersButtonsState state) {
+
+        this.graphNode.requestFocus();
+
+        switch (state) {
+
+            case RESET_VIEW:
+                graphView.getCamera().resetView();
+                break;
+            case AUTO_LAYOUT:
+                viewer.enableAutoLayout();
+                break;
+            case NO_AUTO_LAYOUT:
+                viewer.disableAutoLayout();
+                break;
+            default:
+                break;
+        }
+    }
+
     /**
      * Set the state to ready to add or delete an edge depending on the mouse
      * button edge
@@ -280,10 +315,12 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
      */
     private void readyToAddOrDeleteEdgeShift(MouseEvent e) {
 
-        if (e.isPrimaryButtonDown() && this.graphState != EStateGraph.READY_TO_ADD_EDGE_TARGET) {
+        if (e.isPrimaryButtonDown() && !(this.graphState == EStateGraph.READY_TO_ADD_EDGE_TARGET
+            || this.graphState == EStateGraph.READY_TO_DELETE_EDGE_TARGET)) {
             this.graphState = EStateGraph.READY_TO_ADD_EDGE_SOURCE;
         }
-        else if (e.isSecondaryButtonDown() && this.graphState != EStateGraph.READY_TO_DELETE_EDGE_TARGET) {
+        else if (e.isSecondaryButtonDown() && !(this.graphState == EStateGraph.READY_TO_ADD_EDGE_TARGET
+            || this.graphState == EStateGraph.READY_TO_DELETE_EDGE_TARGET)) {
             this.graphState = EStateGraph.READY_TO_DELETE_EDGE_SOURCE;
         }
     }
@@ -370,11 +407,11 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
             this.graphState = EStateGraph.SELECTED_NODE;
             graphView.requestFocus();
             for (Node node : GraphService.getInstance().getModel()) {
-                node.addAttribute("ui.clicked");
-                node.removeAttribute("ui.clicked");
+                node.addAttribute(Const.NODE_CLICKED);
+                node.removeAttribute(Const.NODE_CLICKED);
             }
             graphView.freezeElement(selectedElement, true);
-            selectedElement.addAttribute("ui.clicked");
+            selectedElement.addAttribute(Const.NODE_CLICKED);
         }
     }
 
@@ -448,8 +485,8 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
      */
     private void selectSource() {
 
-        if (source != null && !source.hasAttribute("ui.selected")) {
-            source.addAttribute("ui.selected");
+        if (source != null && !source.hasAttribute(Const.NODE_SELECTED)) {
+            source.addAttribute(Const.NODE_SELECTED);
         }
         target = null;
     }
@@ -461,7 +498,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
     private void unselectSource() {
 
         if (source != null) {
-            source.removeAttribute("ui.selected");
+            source.removeAttribute(Const.NODE_SELECTED);
             source = null;
         }
     }
@@ -510,6 +547,15 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
     }
 
     /**
+     * Gets the graph view.
+     *
+     * @return the graph view
+     */
+    public ViewPanel getGraphView() {
+        return graphView;
+    }
+
+    /**
      * Load the graph attributes fxml
      * 
      * @param node
@@ -552,15 +598,6 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
         }
     }
 
-    /**
-     * Gets the graph view.
-     *
-     * @return the graph view
-     */
-    public ViewPanel getGraphView() {
-        return graphView;
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -595,33 +632,5 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
         graphToolboxController.setGraphButtonsState(this);
         graphNodeService.setQualityGraph();
         graphNode.setContent(this.graphView);
-    }
-
-    @Override
-    public void changedStateButtonsAddDel(EButtonsAddDelState state) {
-
-        this.graphNode.requestFocus();
-        this.buttonsAddDelState = state;
-    }
-
-    @Override
-    public void changedStateOtherButtons(EOthersButtonsState state) {
-
-        this.graphNode.requestFocus();
-
-        switch (state) {
-
-            case RESET_VIEW:
-                graphView.getCamera().resetView();
-                break;
-            case AUTO_LAYOUT:
-                viewer.enableAutoLayout();
-                break;
-            case NO_AUTO_LAYOUT:
-                viewer.disableAutoLayout();
-                break;
-            default:
-                break;
-        }
     }
 }

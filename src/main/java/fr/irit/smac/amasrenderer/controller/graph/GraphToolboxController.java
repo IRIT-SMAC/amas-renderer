@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.EButtonsAddDelState;
 import fr.irit.smac.amasrenderer.controller.EOthersButtonsState;
-import fr.irit.smac.amasrenderer.controller.EStateGraph;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -124,12 +123,20 @@ public class GraphToolboxController implements Initializable {
         }
     }
 
+    /**
+     * Sets the state of the other buttons of the toolbox when the button
+     * ResetView is clicked
+     */
     @FXML
     public void buttonViewCenter() {
 
         graphToolboxState.changedStateOtherButtons(EOthersButtonsState.RESET_VIEW);
     }
 
+    /**
+     * Sets the state of the other buttons of the toolbox when the button
+     * AutoLayout is selected or unselected
+     */
     @FXML
     public void autoLayout() {
 
@@ -158,14 +165,20 @@ public class GraphToolboxController implements Initializable {
     public interface IGraphButtonsState {
 
         /**
-         * This method is called when the state of the graphButtons is updated
+         * This method is called when the state of the buttons AddDel is updated
          * 
          * @param state
          *            the new state of the graphButtons
          */
         public void changedStateButtonsAddDel(EButtonsAddDelState state);
 
+        /**
+         * This method is called when the state of the other buttons is updated
+         * 
+         * @param state
+         *            the new state of the graphButtons
+         */
         public void changedStateOtherButtons(EOthersButtonsState state);
-        
+
     }
 }
