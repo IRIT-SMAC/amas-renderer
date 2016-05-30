@@ -3,25 +3,24 @@ package fr.irit.smac.amasrenderer
 import java.lang.invoke.MethodHandleImpl.BindCaller.T
 
 import javafx.fxml.FXMLLoader
-import javafx.scene.control.Label
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
 
 import org.graphstream.ui.swingViewer.ViewPanel
 
-import spock.lang.IgnoreIf
+import spock.lang.Ignore
 import spock.lang.Shared
-import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.controller.MainController
 import fr.irit.smac.amasrenderer.controller.graph.GraphMainController
 import fr.irit.smac.amasrenderer.model.AgentGraphModel
 import fr.irit.smac.amasrenderer.service.GraphService
 
-@IgnoreIf({
-    System.getenv("TRAVIS") != null
-})
-@Stepwise
+//@IgnoreIf({
+//    System.getenv("TRAVIS") != null
+//})
+@Ignore
+//@Stepwise
 class GraphNodeAttributeTest extends GuiSpecification{
 
     @Shared

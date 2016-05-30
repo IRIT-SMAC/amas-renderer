@@ -6,11 +6,16 @@ import javafx.scene.control.TextField
 import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.BorderPane
+import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.service.GraphService
 
-@Stepwise
+//@IgnoreIf({
+//    System.getenv("TRAVIS") != null
+//})
+@Ignore
+//@Stepwise
 class InfrastructureTest extends GuiSpecification{
 
     @Shared

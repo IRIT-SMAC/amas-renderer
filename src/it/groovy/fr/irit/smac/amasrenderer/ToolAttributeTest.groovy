@@ -1,20 +1,18 @@
 package fr.irit.smac.amasrenderer
 
 import javafx.fxml.FXMLLoader
-import javafx.scene.control.Label
-import javafx.scene.input.KeyCode
 import javafx.scene.control.ListView
-import javafx.scene.control.TreeItem
+import javafx.scene.input.KeyCode
 import javafx.scene.layout.BorderPane
-import spock.lang.IgnoreIf
+import spock.lang.Ignore
 import spock.lang.Shared
-import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.service.GraphService
 
-@IgnoreIf({
-    System.getenv("TRAVIS") != null
-})
-@Stepwise
+//@IgnoreIf({
+//    System.getenv("TRAVIS") != null
+//})
+@Ignore
+//@Stepwise
 class ToolAttributeTest extends GuiSpecification{
 
     @Shared

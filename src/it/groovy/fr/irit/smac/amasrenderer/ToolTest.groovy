@@ -1,14 +1,17 @@
 package fr.irit.smac.amasrenderer
 
 import javafx.fxml.FXMLLoader
-import javafx.scene.control.Button
 import javafx.scene.control.ListView
 import javafx.scene.layout.BorderPane
+import spock.lang.Ignore
 import spock.lang.Shared
-import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.service.GraphService
 
-@Stepwise
+//@IgnoreIf({
+//    System.getenv("TRAVIS") != null
+//})
+@Ignore
+//@Stepwise
 class ToolTest extends GuiSpecification{
 
     @Shared
