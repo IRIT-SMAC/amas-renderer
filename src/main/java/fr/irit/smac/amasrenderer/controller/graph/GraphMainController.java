@@ -110,15 +110,11 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
     public void handleOnKeyReleased(KeyEvent e) {
 
         switch (this.shortcutState) {
+
             case CTRL_DOWN:
                 this.shortcutState = EShortcutState.AT_EASE;
                 break;
 
-            default:
-                break;
-        }
-
-        switch (this.shortcutState) {
             case SHIFT_DOWN:
                 this.shortcutState = EShortcutState.AT_EASE;
                 this.unselectSource();
@@ -181,7 +177,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
     public void handleOnMousePressed(MouseEvent e) {
 
         handleButtonsAddDelState();
-        
+
         handleCtrlState(e);
 
         handleShiftState(e);
@@ -190,7 +186,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
     }
 
     public void handleButtonsAddDelState() {
-        
+
         switch (this.buttonsAddDelState) {
 
             case BUTTON_ADD_NODE:
@@ -219,7 +215,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
                 break;
         }
     }
-    
+
     public void handleCtrlState(MouseEvent e) {
 
         switch (this.shortcutState) {

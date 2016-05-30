@@ -87,7 +87,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
 
         when:
         fx.clickOn("#buttonAddAgent").clickOn(graphId)
-        sleep(2000)
+        sleep(1000)
 
         then:
         model.getNodeCount() == (nbNoeud+1)
@@ -101,23 +101,39 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
 
         when:
         fx.press(KeyCode.CONTROL).clickOn(graphId).release(KeyCode.CONTROL)
-        sleep(2000)
+        sleep(1000)
 
         then:
         model.getNodeCount() == (nbNoeud+1)
     }
 
+    def "check if an agent is added by doing the corresponding shortcut whereas one of the button AddDel are selected"(String button) {
+
+        given:
+        AgentGraphModel model = graphService.getModel()
+        int nbNoeud = model.getNodeCount()
+        fx.clickOn(button)
+        fx.press(KeyCode.CONTROL).clickOn(graphId).release(KeyCode.CONTROL)
+        sleep(1000)
+
+        expect:
+        model.getNodeCount() == (nbNoeud+1)
+
+
+        where:
+        button << ["#buttonAddAgent", "#buttonDelAgent", "#buttonAddEdge", "#buttonDelEdge"]
+    }
 
     def "check if an agent is removed by clicking on the corresponding button"() {
 
         given:
         AgentGraphModel model = graphService.getModel()
         graphService.addNode("ag1")
-        sleep(2000)
+        sleep(1000)
 
         when:
         fx.clickOn("#buttonDelAgent").clickOn(graphId)
-        sleep(2000)
+        sleep(1000)
 
         then:
         model.getNodeCount() == 0
@@ -128,14 +144,32 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         given:
         AgentGraphModel model = graphService.getModel()
         graphService.addNode("ag1")
-        sleep(2000)
+        sleep(1000)
 
         when:
         fx.press(KeyCode.CONTROL).rightClickOn(graphId).release(KeyCode.CONTROL)
-        sleep(2000)
+        sleep(1000)
 
         then:
         model.getNodeCount() == 0
+    }
+
+    def "check if an agent is removed by doing the corresponding shortcut whereas one of the button AddDel are selected"(String button) {
+
+        given:
+        AgentGraphModel model = graphService.getModel()
+        graphService.addNode("ag1")
+        fx.clickOn(button)
+        sleep(1000)
+        fx.press(KeyCode.CONTROL).rightClickOn(graphId).release(KeyCode.CONTROL)
+        sleep(1000)
+
+        expect:
+        model.getNodeCount() == 0
+
+
+        where:
+        button << ["#buttonAddAgent", "#buttonDelAgent", "#buttonAddEdge", "#buttonDelEdge"]
     }
 
     def "check if an edge is added by clicking on the corresponding button"() {
@@ -174,6 +208,29 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
 
         then:
         graphService.getModel().getEdgeCount() == nbEdge+1 && graphService.getModel().getNodeCount() == 2
+    }
+
+    def "check if an edge is added by doing the corresponding shortcut whereas one of the button AddDel are selected"(String button) {
+
+        given:
+        int nbEdge = graphService.getModel().getEdgeCount()
+        graphService.addNode("ag1",0.0,positionUp)
+        graphService.addNode("ag2",0.0,positionDown)
+        sleep(2000)
+        fx.clickOn(button)
+        fx.moveTo(graphId).moveBy(0.0,positionUp)
+                        .press(KeyCode.SHIFT)
+                        .clickOn()
+                        .moveBy(0.0,positionDown)
+                        .clickOn()
+                        .release(KeyCode.SHIFT)
+        sleep(2000)
+
+        expect:
+        graphService.getModel().getEdgeCount() == nbEdge+1 && graphService.getModel().getNodeCount() == 2
+
+        where:
+        button << ["#buttonAddAgent", "#buttonDelAgent", "#buttonAddEdge", "#buttonDelEdge"]
     }
 
     def "check if an edge is removed by clicking on the corresponding button"() {
@@ -219,5 +276,31 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
 
         then:
         graphService.getModel().getEdgeCount() == 0 &&  graphService.getModel().getNodeCount() == 2 && oneEdge == 1
+    }
+
+    def "check if an edge is removed by doing the corresponding shortcut whereas one of the button AddDel are selected"(String button) {
+
+        given:
+        int nbEdge = graphService.getModel().getEdgeCount()
+        graphService.addNode("ag1",0.0,positionUp)
+        graphService.addNode("ag2",0.0,positionDown)
+        graphService.addEdgeGraphModel("ag1","ag2")
+        int oneEdge = graphService.getModel().getEdgeCount()
+        sleep(2000)
+        fx.clickOn(button)
+        fx.moveTo(graphId)
+                        .moveBy(0.0,positionUpEdge)
+                        .press(KeyCode.SHIFT)
+                        .rightClickOn()
+                        .moveBy(0.0,positionDownEdge)
+                        .rightClickOn()
+                        .release(KeyCode.SHIFT)
+        sleep(2000)
+
+        expect:
+        graphService.getModel().getEdgeCount() == 0 &&  graphService.getModel().getNodeCount() == 2 && oneEdge == 1
+
+        where:
+        button << ["#buttonAddAgent", "#buttonDelAgent", "#buttonAddEdge", "#buttonDelEdge"]
     }
 }
