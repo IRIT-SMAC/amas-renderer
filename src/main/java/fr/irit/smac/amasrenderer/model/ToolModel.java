@@ -20,6 +20,7 @@ public class ToolModel {
         this.name = name;
     }
     
+    @SuppressWarnings("unchecked")
     public ToolModel(String name, Object map) {
         super();
         this.name = name;

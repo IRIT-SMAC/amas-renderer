@@ -52,8 +52,8 @@ public class ToolService {
     public void addTool(ToolModel tool) {
 
         this.tools.add(tool);
-        ConfigurationMapService.getInstance().getModel().getConfigurationMap().put(tool.getName(), tool.getAttributesMap());
-        System.out.println(ConfigurationMapService.getInstance().getModel().getConfigurationMap());
+        ConfigurationMapService.getInstance().getConfigurationMap().getConfigurationMap().put(tool.getName(), tool.getAttributesMap());
+        System.out.println(ConfigurationMapService.getInstance().getConfigurationMap().getConfigurationMap());
     }
     
     /**

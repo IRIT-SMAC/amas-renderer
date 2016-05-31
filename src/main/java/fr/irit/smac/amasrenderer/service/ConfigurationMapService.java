@@ -3,11 +3,10 @@ package fr.irit.smac.amasrenderer.service;
 import java.util.HashMap;
 
 import fr.irit.smac.amasrenderer.model.ConfigurationMapModel;
-import javafx.scene.control.TreeItem;
 
 public class ConfigurationMapService {
 
-    private ConfigurationMapModel model;
+    private ConfigurationMapModel configurationMap;
 
     private static ConfigurationMapService instance = new ConfigurationMapService();
 
@@ -15,15 +14,18 @@ public class ConfigurationMapService {
 
     }
 
+    public static ConfigurationMapService getInstance() {
+        return instance;
+    }
+    
     public void init() {
 
-        this.model = new ConfigurationMapModel();
+        this.configurationMap = new ConfigurationMapModel();
         HashMap<String, Object> configurationMap = new HashMap<String, Object>();
 
-        this.model.setConfigurationMap(configurationMap);
+        this.configurationMap.setConfigurationMap(configurationMap);
 
         String infrastructureClassname = "BasicInfrastructure";
-        HashMap<String, Object> map = new HashMap<String, Object>();
 
         configurationMap.put("className", infrastructureClassname);
         HashMap<String, Object> agentHandlerService = new HashMap<String, Object>();
@@ -32,39 +34,28 @@ public class ConfigurationMapService {
         agentHandlerService.put("className", "fr.irit.smac.amasfactory.service.agenthandler.impl.BasicAgentHandler");
         agentHandlerService.put("agentMap", agentMap);
         configurationMap.put("agentHandlerService", agentHandlerService);
-//        ToolService.getInstance().setAttributesMap(this.model.getConfigurationMap());
-//        InfrastructureService.getInstance().setInfrastructureMap(configurationMap);
-        
-        
+
         ToolService.getInstance().createServicesFromMap(configurationMap);
         InfrastructureService.getInstance()
             .createInfrastructureFromMap(configurationMap);
-        GraphService.getInstance().getModel().setAgentMap(agentMap);
+        GraphService.getInstance().getGraph().setAgentMap(agentMap);
 
-        GraphService.getInstance().getModel().setAgentMap(agentMap);
     }
 
-    public static ConfigurationMapService getInstance() {
-        return instance;
-    }
-
-    public ConfigurationMapModel getModel() {
-        return model;
+    public ConfigurationMapModel getConfigurationMap() {
+        return configurationMap;
     }
 
     @SuppressWarnings("unchecked")
-    public void setModel(ConfigurationMapModel model) {
-        this.model = model;
+    public void setModel(ConfigurationMapModel configurationMap) {
+        
+        this.configurationMap = configurationMap;
 
-        HashMap<String, Object> agentHandlerService = (HashMap<String, Object>) model.getConfigurationMap()
+        HashMap<String, Object> agentHandlerService = (HashMap<String, Object>) configurationMap.getConfigurationMap()
             .get("agentHandlerService");
 
         HashMap<String, Object> agentMap = (HashMap<String, Object>) agentHandlerService.get("agentMap");
 
-        GraphService.getInstance().getModel().setAgentMap(agentMap);
-//        ToolService.getInstance().setAttributesMap(this.model.getConfigurationMap());
-//        InfrastructureService.getInstance()
-//            .setInfrastructureMap(this.model.getConfigurationMap());
-
+        GraphService.getInstance().getGraph().setAgentMap(agentMap);
     }
 }

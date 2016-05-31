@@ -47,10 +47,10 @@ public class MenuBarController {
 
 			ConfigurationMapModel tmp = mapper.readValue(file, ConfigurationMapModel.class);
 			ConfigurationMapService.getInstance().setModel(tmp);
-			Map<String, Object> graphMap = GraphService.getInstance().getModel().getAgentMap();
-//			graphService.createAgentGraphFromMap(graphMap);
-			toolService.createServicesFromMap(ConfigurationMapService.getInstance().getModel().getConfigurationMap());
-			infrastructureService.createInfrastructureFromMap(ConfigurationMapService.getInstance().getModel().getConfigurationMap());
+			Map<String, Object> graphMap = GraphService.getInstance().getGraph().getAgentMap();
+			graphService.createAgentGraphFromMap(graphMap);
+			toolService.createServicesFromMap(ConfigurationMapService.getInstance().getConfigurationMap().getConfigurationMap());
+			infrastructureService.createInfrastructureFromMap(ConfigurationMapService.getInstance().getConfigurationMap().getConfigurationMap());
             GraphService.getInstance().setQualityGraph();
 			
 		} catch (IOException e) {
@@ -78,7 +78,7 @@ public class MenuBarController {
 
 		try {
 			if(file != null)
-				mapper.writeValue(file, ConfigurationMapService.getInstance().getModel().getConfigurationMap());
+				mapper.writeValue(file, ConfigurationMapService.getInstance().getConfigurationMap().getConfigurationMap());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

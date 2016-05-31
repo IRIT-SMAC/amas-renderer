@@ -25,7 +25,7 @@ public class ConfirmationDialogController {
     public void clickConfirmRemove() {
 
         ToolService.getInstance().getTools().remove(toolIndex);
-        ConfigurationMapService.getInstance().getModel().getConfigurationMap().remove(toolName);
+        ConfigurationMapService.getInstance().getConfigurationMap().getConfigurationMap().remove(toolName);
         dialogStage.getScene().lookup("#attributesServiceDialog").getStyleClass().remove("secondaryWindow");
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();

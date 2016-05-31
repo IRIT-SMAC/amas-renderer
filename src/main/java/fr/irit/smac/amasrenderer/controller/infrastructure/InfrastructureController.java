@@ -42,16 +42,6 @@ public class InfrastructureController implements Initializable {
     private ImageView infrastructureWarningIcon;
 
     private static final Logger LOGGER = Logger.getLogger(InfrastructureController.class.getName());
-
-    @FXML
-    public void buttonActionPerformed(){
-        activateTextField();
-    }
-    
-    @FXML
-    public void textFieldActionPerformed(){
-        validateEntry();
-    }
     
     /**
      * Handle mouse click.
@@ -95,7 +85,7 @@ public class InfrastructureController implements Initializable {
             dialogStage.setY(y);
 
             treeInfrastructureController.setStage(dialogStage);
-            treeInfrastructureController.init(infrastructureLabel, infrastructureLabel.getItems().get(0));
+            treeInfrastructureController.init(infrastructureLabel.getItems().get(0));
             miniScene.setFill(Color.BLACK);
 
             dialogStage.showAndWait();
@@ -103,38 +93,6 @@ public class InfrastructureController implements Initializable {
         catch (IOException e) {
             LOGGER.log(Level.SEVERE, "The loading of the services attributes fxml failed", e);
         }
-    }
-
-    
-    private void validateEntry(){
-//        String s = infrastructureTextField.getText();
-//        if (!s.trim().isEmpty()) {
-//            hideInfrastructureError();
-////            infrastructureLabel.setText(infrastructureTextField.getText());
-//            infrastructureLabel.setVisible(true);
-////            infrastructureTextField.setVisible(false);
-//        }
-//        else {
-//            showInfrastructureError("Veuillez ne pas laisser ce champ vide.");
-//        }
-    }
-
-    private void showInfrastructureError(String message) {
-        infrastructureWarningLabel.setText(message);
-        infrastructureWarningLabel.setVisible(true);
-        infrastructureWarningIcon.setVisible(true);
-    }
-
-    private void hideInfrastructureError() {
-        infrastructureWarningLabel.setVisible(false);
-        infrastructureWarningIcon.setVisible(false);
-    }
-
-    public void activateTextField() {
-//        infrastructureTextField.setVisible(true);
-//        infrastructureTextField.setText(infrastructureLabel.getText());
-        infrastructureLabel.setVisible(false);
-//        infrastructureTextField.requestFocus();
     }
 
     @Override

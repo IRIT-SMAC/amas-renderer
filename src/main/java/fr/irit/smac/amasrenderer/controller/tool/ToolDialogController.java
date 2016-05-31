@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -21,15 +20,12 @@ import javafx.stage.Stage;
  */
 public class ToolDialogController implements Initializable {
 
-    /** The confirm button */
     @FXML
     private Button buttonConfirm;
 
-    /** The cancel button */
     @FXML
     private Button buttonCancel;
 
-    /** The new service textfield */
     @FXML
     private TextField textfieldTool;
     
@@ -59,7 +55,7 @@ public class ToolDialogController implements Initializable {
 
             if (!found) {
               ToolService.getInstance().getTools().add(newTool);
-              ConfigurationMapService.getInstance().getModel().getConfigurationMap().put(newTool.getName(), newTool.getAttributesMap());
+              ConfigurationMapService.getInstance().getConfigurationMap().getConfigurationMap().put(newTool.getName(), newTool.getAttributesMap());
             }
 
             Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");

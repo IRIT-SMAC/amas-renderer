@@ -43,14 +43,14 @@ class GraphInitializationTest extends Specification{
 		InputStream json = ClassLoader.getSystemResourceAsStream("./1infra5services12agents.json")
 		ObjectMapper mapper = new ObjectMapper()
 		GraphModel tmp = mapper.readValue(json,GraphModel.class);
-		GraphService.getInstance().getModel().setGraphMap(tmp.getGraphMap());
-		Map<String,Object> graphMap = GraphService.getInstance().getModel().getGraphMap();
+		GraphService.getInstance().getGraph().setGraphMap(tmp.getGraphMap());
+		Map<String,Object> graphMap = GraphService.getInstance().getGraph().getGraphMap();
 		graphNodeService.createAgentGraphFromMap(graphMap);
 		toolService.createServicesFromMap(graphMap);
 		infrastructureService.createInfrastructureFromMap(graphMap);
 		
 		then:
-		graphNodeService.getModel().getNodeCount() == 12
+		graphNodeService.getGraph().getNodeCount() == 12
 		infrastructureService.getInfrastructure().get(0) == "fr.irit.smac.amasfactory.impl.BasicInfrastructure"
 		toolService.getTools().size() == 5
 	}

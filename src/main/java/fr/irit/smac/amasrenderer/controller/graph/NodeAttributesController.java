@@ -93,7 +93,7 @@ public class NodeAttributesController implements Initializable {
     public void init(String id) {
 
         @SuppressWarnings("unchecked")
-        HashMap<String, Object> agent = (HashMap<String, Object>) GraphService.getInstance().getModel().getAgentMap()
+        HashMap<String, Object> agent = (HashMap<String, Object>) GraphService.getInstance().getGraph().getAgentMap()
             .get(id);
 
         TreeItem<String> myItem = new TreeItem<>(id);

@@ -50,8 +50,6 @@ public class ToolAttributesController implements Initializable {
 
     private Stage dialogStage;
 
-    private String key;
-
     private ListView<ToolModel> list;
 
     private ToolModel tool;
@@ -65,17 +63,7 @@ public class ToolAttributesController implements Initializable {
     public void setStage(Stage stage) {
         dialogStage = stage;
     }
-
-    /**
-     * sets the node to be modified
-     * 
-     * @param node
-     *            the node to modify
-     */
-    public void setKey(String label) {
-        this.key = label;
-    }
-
+    
     /**
      * Initialize the controller
      * 
@@ -85,10 +73,9 @@ public class ToolAttributesController implements Initializable {
      *            the list of tools
      */
     public void init(ListView<ToolModel> list, String name, ToolModel tool) {
-        setKey(list.getSelectionModel().getSelectedItem().getName());
+
         this.list = list;
         this.tool = tool;
-        
 		TreeItem<String> myItem = new TreeItem<>(name);
 		tree.setRoot(myItem);
 		HashMap<String, Object> service = (HashMap<String, Object>) tool.getAttributesMap();

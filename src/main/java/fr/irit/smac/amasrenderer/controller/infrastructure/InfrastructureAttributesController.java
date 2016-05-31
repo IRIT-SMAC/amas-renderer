@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import javax.swing.text.LabelView;
-
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
@@ -16,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -39,9 +36,6 @@ public class InfrastructureAttributesController implements Initializable{
 
     private InfrastructureModel infra;
 
-    private LabelView label;
-
-    private ListView<InfrastructureModel> infrastructureModel;
     /**
      * Confirm button. Sets the new tree as the node tree, and exit this window
      */
@@ -72,10 +66,9 @@ public class InfrastructureAttributesController implements Initializable{
         dialogStage = stage;
     }
     
-    public void init(ListView<InfrastructureModel> infrastructureModel, InfrastructureModel infra) {
-        this.infra = infra;
+    public void init(InfrastructureModel infra) {
         
-        this.infrastructureModel = infrastructureModel;
+        this.infra = infra;
         TreeItem<String> myItem = new TreeItem<>(infra.getName());
         tree.setRoot(myItem);
         HashMap<String, Object> infrastructure = (HashMap<String, Object>) InfrastructureService.getInstance().getInfrastructure().get(0).getAttributesMap();

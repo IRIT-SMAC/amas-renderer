@@ -61,7 +61,7 @@ class GraphNodeAttributeTest extends GuiSpecification{
         sleep(1000) //time for the graph to be initialized
         graphService = GraphService.getInstance()
 
-        GraphModel model = graphService.getModel()
+        GraphModel model = graphService.getGraph()
         graphService.addNode("ag1")
 
         double height = 450
@@ -76,7 +76,7 @@ class GraphNodeAttributeTest extends GuiSpecification{
     def "check if adding an attribute works with alt+rightClick"() {
 
         given:
-        Object<T> tree = graphService.getModel().getNode(0).getAttribute("ui.stocked-info")
+        Object<T> tree = graphService.getGraph().getNode(0).getAttribute("ui.stocked-info")
         int nbChildren = tree.getRoot().getChildren().size()
 
         when:
@@ -106,7 +106,7 @@ class GraphNodeAttributeTest extends GuiSpecification{
                         .clickOn("#confButton")
 
         then:
-        String value = graphService.getModel().getNode(0).getAttribute("ui.stocked-info").getRoot().getValue()
+        String value = graphService.getGraph().getNode(0).getAttribute("ui.stocked-info").getRoot().getValue()
         value == "e" || value == "E"
     }
 
@@ -129,7 +129,7 @@ class GraphNodeAttributeTest extends GuiSpecification{
                         .clickOn("#confButton")
 
         then:
-        Object<T> tree = graphService.getModel().getNode(0).getAttribute("ui.stocked-info")
+        Object<T> tree = graphService.getGraph().getNode(0).getAttribute("ui.stocked-info")
         tree.getRoot().getChildren().size() == nbChildren - 1
     }
 }

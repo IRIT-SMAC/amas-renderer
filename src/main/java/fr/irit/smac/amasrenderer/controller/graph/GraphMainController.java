@@ -405,7 +405,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
         if (selectedElement != null) {
             this.graphState = EStateGraph.SELECTED_NODE;
             graphView.requestFocus();
-            for (Node node : GraphService.getInstance().getModel()) {
+            for (Node node : GraphService.getInstance().getGraph()) {
                 node.addAttribute(Const.NODE_CLICKED);
                 node.removeAttribute(Const.NODE_CLICKED);
             }
@@ -540,7 +540,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
         Edge edge = null;
         target = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (target != null) {
-            edge = this.graphNodeService.getModel().getEdge(source + "" + target);
+            edge = this.graphNodeService.getGraph().getEdge(source + "" + target);
         }
         return edge;
     }
@@ -610,7 +610,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
         this.graphNodeService.createAgentGraph();
 
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-        viewer = new Viewer(this.graphNodeService.getModel(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+        viewer = new Viewer(this.graphNodeService.getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         viewer.enableAutoLayout();
         this.graphView = viewer.addDefaultView(false);
 

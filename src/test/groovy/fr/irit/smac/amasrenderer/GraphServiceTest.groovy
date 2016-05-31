@@ -37,7 +37,7 @@ class GraphServiceTest extends Specification{
         graphNodeService.addNode("agent1",5.0,10.0)
 
         then:
-        SingleNode node = graphNodeService.getModel().getNode("agent1")
+        SingleNode node = graphNodeService.getGraph().getNode("agent1")
         node.getId()
         node.getAttribute("xy") == [5.0, 10.0]
         node.getAttribute("layout.weight") == Const.LAYOUT_WEIGHT_NODE
@@ -46,7 +46,7 @@ class GraphServiceTest extends Specification{
         graphNodeService.removeNode(node)
         
         then:
-        graphNodeService.getModel().getNode("agent1") == null
+        graphNodeService.getGraph().getNode("agent1") == null
     }
     
     /**
@@ -58,15 +58,15 @@ class GraphServiceTest extends Specification{
         when:
         graphNodeService.addNode("agent1",5.0,10.0)
         graphNodeService.addNode("agent2",10.0,5.0)
-        graphNodeService.getModel().addEdge("agent1-agent2","agent1","agent2")
+        graphNodeService.getGraph().addEdge("agent1-agent2","agent1","agent2")
 
         then:
-        graphNodeService.getModel().getEdge("agent1-agent2") != null
+        graphNodeService.getGraph().getEdge("agent1-agent2") != null
         
         when:
-        graphNodeService.getModel().removeEdge("agent1-agent2")
+        graphNodeService.getGraph().removeEdge("agent1-agent2")
         
         then:
-        graphNodeService.getModel().getEdge("agent1-agent2") == null
+        graphNodeService.getGraph().getEdge("agent1-agent2") == null
     }
 }
