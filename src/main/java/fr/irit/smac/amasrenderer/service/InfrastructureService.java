@@ -1,11 +1,9 @@
 package fr.irit.smac.amasrenderer.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
@@ -14,7 +12,7 @@ import javafx.scene.control.TreeItem;
  */
 public class InfrastructureService {
 
-    private InfrastructureModel model;
+    private ObservableList<InfrastructureModel> infrastructure;
 
     private static InfrastructureService instance = new InfrastructureService();
 
@@ -22,7 +20,6 @@ public class InfrastructureService {
      * Instantiates a new infrastructure service.
      */
     private InfrastructureService() {
-        model = new InfrastructureModel();
     }
 
     /**
@@ -39,28 +36,28 @@ public class InfrastructureService {
      *
      * @return the infrastructure
      */
-    public ObservableList<String> getInfrastructure() {
-        return this.model.getInfrastructure();
+    public ObservableList<InfrastructureModel> getInfrastructure() {
+        return this.infrastructure;
     }
 
     /**
      * Edits the infrastructure.
      *
-     * @param name
-     *            the name
+     * @param infrastructure
+     *            the infrastructure
      */
-    public void editInfrastructure(String name) {
-        this.model.editInfrastructure(name);
+    public void editInfrastructure(InfrastructureModel infrastructure) {
+        this.infrastructure.add(0, infrastructure);
     }
 
     /**
      * Sets the infrastructure.
      *
-     * @param list
+     * @param infrastructure
      *            the new infrastructure
      */
-    public void setInfrastructure(ObservableList<String> list) {
-        this.model.setInfrastructure(list);
+    public void setInfrastructure(ObservableList<InfrastructureModel> infrastructure) {
+        this.infrastructure = infrastructure;
     }
 
     /**
@@ -71,30 +68,21 @@ public class InfrastructureService {
      */
     public void createInfrastructureFromMap(Map<String, Object> map) {
 
-//        this.model.getInfrastructure().clear();
-        
-        for (Map.Entry<String, Object> pair : map.entrySet()) {
-            
-            if (!pair.getKey().contains("Service")) {
-                if (pair.getKey().contains("className")) {
-                    String[] splitItem = ((String) pair.getValue()).split("\\.");
-                    this.model.editInfrastructure(splitItem[splitItem.length-1]);
-                }
-            }
-            this.model.getInfrastructureMap().put(pair.getKey(), pair.getValue());
+        this.infrastructure.clear();
+        this.editInfrastructure(new InfrastructureModel("infra", (Map<String, Object>) map));
+    }
 
+    public void updateInfrastructureMap(String id, TreeItem<String> item, InfrastructureModel infrastructure) {
+
+        infrastructure.getAttributesMap().clear();
+        for (TreeItem<String> subItem : item.getChildren()) {
+
+            String[] splitItem = ((String) subItem.getValue()).split(" : ");
+            String keyItem = splitItem[0];
+            this.updateSingleAttributeInfrastructure(subItem, infrastructure.getAttributesMap(), keyItem);
         }
     }
 
-    public void updateInfrastructureMap(String id, TreeItem<String> item) {
-
-        this.model.getInfrastructureMap().remove(id);
-        Map<String, Object> singleServiceMap = new HashMap<String, Object>();
-
-        this.updateSingleAttributeInfrastructure(item, singleServiceMap, id);
-        this.model.getInfrastructureMap().put(id, singleServiceMap.get(id));
-    }
-    
     public void updateSingleAttributeInfrastructure(TreeItem<String> item, Map<String, Object> map, String key) {
 
         ObservableList<TreeItem<String>> node = item.getChildren();
@@ -110,23 +98,13 @@ public class InfrastructureService {
             }
             map.put(key, newServiceMap);
 
-        } else {
+        }
+        else {
 
             String[] splitItem = ((String) item.getValue()).split(" : ");
             String value = splitItem[1];
             map.put(key, value);
         }
-    }
-    
-    public Map<String, Object> getInfrastructureMap() {
-
-        return this.model.getInfrastructureMap();
-    }
-
-    public void setInfrastructureMap(Map<String, Object> infrastructureMap) {
-
-        System.out.println(infrastructureMap);
-        this.model.setInfrastructureMap(infrastructureMap);
     }
 
 }

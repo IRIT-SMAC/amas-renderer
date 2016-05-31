@@ -50,7 +50,7 @@ public class MenuBarController {
 			Map<String, Object> graphMap = GraphService.getInstance().getModel().getAgentMap();
 //			graphService.createAgentGraphFromMap(graphMap);
 			toolService.createServicesFromMap(ConfigurationMapService.getInstance().getModel().getConfigurationMap());
-//			infrastructureService.createInfrastructureFromMap(InfrastructureService.getInstance().getInfrastructureMap());
+			infrastructureService.createInfrastructureFromMap(ConfigurationMapService.getInstance().getModel().getConfigurationMap());
             GraphService.getInstance().setQualityGraph();
 			
 		} catch (IOException e) {

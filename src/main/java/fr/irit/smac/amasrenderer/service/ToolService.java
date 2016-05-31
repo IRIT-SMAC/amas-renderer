@@ -76,6 +76,8 @@ public class ToolService {
 
     public void updateToolsMap(String id, TreeItem<String> item, ToolModel tool) {
 
+        tool.getAttributesMap().clear();
+
         for (TreeItem<String> subItem : item.getChildren()) {
             
             String[] splitItem = ((String) subItem.getValue()).split(" : ");

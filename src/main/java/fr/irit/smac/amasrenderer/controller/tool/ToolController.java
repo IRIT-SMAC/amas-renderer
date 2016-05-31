@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureAttributesController;
+import fr.irit.smac.amasrenderer.model.InfrastructureModel;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.ConfigurationMapService;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
@@ -57,7 +58,7 @@ public class ToolController implements Initializable {
     private TextField infrastructureTextField;
 
     @FXML
-    private Label infrastructureLabel;
+    private ListView<InfrastructureModel> infrastructureLabel;
 
     @FXML
     private Button infrastructureButton;
@@ -117,7 +118,7 @@ public class ToolController implements Initializable {
             dialogStage.setY(y);
 
             treeInfrastructureController.setStage(dialogStage);
-            treeInfrastructureController.init(infrastructureLabel.getText());
+            treeInfrastructureController.init(infrastructureLabel, infrastructureLabel.getItems().get(0));
             miniScene.setFill(Color.BLACK);
 
             dialogStage.showAndWait();
@@ -235,7 +236,7 @@ public class ToolController implements Initializable {
         String s = infrastructureTextField.getText();
         if (!s.trim().isEmpty()) {
             hideInfrastructureError();
-            infrastructureLabel.setText(infrastructureTextField.getText());
+//            infrastructureLabel.setText(infrastructureTextField.getText());
             infrastructureLabel.setVisible(true);
             infrastructureTextField.setVisible(false);
         }
@@ -257,7 +258,7 @@ public class ToolController implements Initializable {
 
     public void activateTextField() {
         infrastructureTextField.setVisible(true);
-        infrastructureTextField.setText(infrastructureLabel.getText());
+//        infrastructureTextField.setText(infrastructureLabel.getText());
         infrastructureLabel.setVisible(false);
         infrastructureTextField.requestFocus();
     }
@@ -281,20 +282,10 @@ public class ToolController implements Initializable {
         ToolService.getInstance().setTools(FXCollections.observableArrayList(list));
 
         listTool.setItems(ToolService.getInstance().getTools());
-//        ToolService.getInstance().getTools().addListener((ListChangeListener.Change<? extends ToolModel> e) -> {
-//            ConfigurationMapService.getInstance().getModel().getConfigurationMap().put(listTool.getItems().getName(), tool.getAttributesMap());
-//
-//        });
-
-        InfrastructureService.getInstance().setInfrastructure(FXCollections.observableArrayList(new ArrayList<>()));
-
-        InfrastructureService.getInstance().getInfrastructure()
-            .addListener((ListChangeListener.Change<? extends String> c) -> {
-                String nouvelleInfrastructure = InfrastructureService.getInstance().getInfrastructure().get(0);
-                infrastructureLabel.setText(nouvelleInfrastructure);
-            }
-
-        );
+        ArrayList<InfrastructureModel> list2 = new ArrayList<>();
+        
+        InfrastructureService.getInstance().setInfrastructure(FXCollections.observableArrayList(list2));
+        infrastructureLabel.setItems(InfrastructureService.getInstance().getInfrastructure());
     }
 
 }

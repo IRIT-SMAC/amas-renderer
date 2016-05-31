@@ -32,12 +32,13 @@ public class ConfigurationMapService {
         agentHandlerService.put("className", "fr.irit.smac.amasfactory.service.agenthandler.impl.BasicAgentHandler");
         agentHandlerService.put("agentMap", agentMap);
         configurationMap.put("agentHandlerService", agentHandlerService);
-        
 //        ToolService.getInstance().setAttributesMap(this.model.getConfigurationMap());
-        InfrastructureService.getInstance().setInfrastructureMap(configurationMap);
+//        InfrastructureService.getInstance().setInfrastructureMap(configurationMap);
+        
+        
         ToolService.getInstance().createServicesFromMap(configurationMap);
         InfrastructureService.getInstance()
-            .createInfrastructureFromMap(InfrastructureService.getInstance().getInfrastructureMap());
+            .createInfrastructureFromMap(configurationMap);
         GraphService.getInstance().getModel().setAgentMap(agentMap);
 
         GraphService.getInstance().getModel().setAgentMap(agentMap);
@@ -62,8 +63,8 @@ public class ConfigurationMapService {
 
         GraphService.getInstance().getModel().setAgentMap(agentMap);
 //        ToolService.getInstance().setAttributesMap(this.model.getConfigurationMap());
-        InfrastructureService.getInstance()
-            .setInfrastructureMap(this.model.getConfigurationMap());
+//        InfrastructureService.getInstance()
+//            .setInfrastructureMap(this.model.getConfigurationMap());
 
     }
 }
