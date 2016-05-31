@@ -4,9 +4,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.graph.GraphMainController;
+import fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureController;
 import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
 import fr.irit.smac.amasrenderer.controller.tool.ToolController;
-import fr.irit.smac.amasrenderer.model.ConfigurationMapModel;
 import fr.irit.smac.amasrenderer.service.ConfigurationMapService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,7 +15,7 @@ import javafx.scene.layout.BorderPane;
 /**
  * The Class MainController.
  */
-public class MainController implements Initializable{
+public class MainController implements Initializable {
 
     @FXML
     private GraphMainController graphMainController;
@@ -27,8 +27,11 @@ public class MainController implements Initializable{
     private MenuBarController menuBarController;
 
     @FXML
+    private InfrastructureController infrastructureController;
+
+    @FXML
     private BorderPane rootLayout;
-    
+
     /**
      * Gets the graph main controller (contains all of the sub controllers about
      * the graph).
@@ -57,10 +60,19 @@ public class MainController implements Initializable{
         return menuBarController;
     }
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
-		ConfigurationMapService.getInstance().init();		
-	}
+    /**
+     * Gets the infrastructure controller.
+     *
+     * @return the infrastructure controller
+     */
+    public InfrastructureController getInfrastructureController() {
+        return infrastructureController;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        ConfigurationMapService.getInstance().init();
+    }
 
 }
