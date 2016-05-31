@@ -255,7 +255,7 @@ public class ToolAttributesController implements Initializable {
         dialogStage.getScene().lookup("#attributesServiceDialog").getStyleClass().add("secondaryWindow");
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("view/ConfirmationDialog.fxml"));
+        loader.setLocation(Main.class.getResource("view/tool/ConfirmationDialog.fxml"));
         try{
             
             DialogPane root = (DialogPane) loader.load();

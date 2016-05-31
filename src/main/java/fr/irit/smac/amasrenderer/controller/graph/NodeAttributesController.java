@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.controller.attribute;
+package fr.irit.smac.amasrenderer.controller.graph;
 
 import java.net.URL;
 import java.util.HashMap;

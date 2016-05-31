@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="attributesAgentDialog" prefHeight="450.0" prefWidth="630.0" styleClass="dialog" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.attribute.NodeAttributesController">
+<BorderPane fx:id="attributesAgentDialog" prefHeight="450.0" prefWidth="630.0" styleClass="dialog" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.NodeAttributesController">
    <top>
       <Label fx:id="attributesAgentTitle" prefHeight="42.0" prefWidth="630.0" styleClass="title" text="Attributs de l'agent" BorderPane.alignment="CENTER" />
    </top>
@@ -29,7 +29,7 @@
       </AnchorPane>
    </bottom>
    <stylesheets>
-      <URL value="@../css/dialog.css" />
-      <URL value="@../css/tree.css" />
+      <URL value="@../../css/dialog.css" />
+      <URL value="@../../css/tree.css" />
    </stylesheets>
 </BorderPane>

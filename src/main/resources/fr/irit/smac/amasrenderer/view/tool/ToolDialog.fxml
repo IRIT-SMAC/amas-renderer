@@ -38,8 +38,8 @@
       </AnchorPane>
     </content>
    <stylesheets>
-      <URL value="@../css/toolDialog.css" />
-      <URL value="@../css/dialog.css" />
+      <URL value="@../../css/toolDialog.css" />
+      <URL value="@../../css/dialog.css" />
    </stylesheets>
    <graphic>
       <Pane prefHeight="200.0" prefWidth="200.0" />

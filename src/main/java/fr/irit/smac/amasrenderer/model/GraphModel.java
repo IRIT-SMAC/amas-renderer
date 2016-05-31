@@ -1,16 +1,13 @@
 package fr.irit.smac.amasrenderer.model;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.graphstream.graph.implementations.SingleGraph;
 
-import javafx.scene.control.TreeItem;
-
 /**
  * The Class AgentGraph. Represents a graph of agents
  */
-public class AgentGraphModel extends SingleGraph {
+public class GraphModel extends SingleGraph {
 
 	private Map<String, Object> agentMap;
 
@@ -20,7 +17,7 @@ public class AgentGraphModel extends SingleGraph {
      * @param id
      *            the id of the graph
      */
-    public AgentGraphModel(String id) {
+    public GraphModel(String id) {
         super(id);
     }
     

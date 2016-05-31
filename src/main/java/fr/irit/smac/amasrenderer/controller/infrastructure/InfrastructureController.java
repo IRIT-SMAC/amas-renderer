@@ -68,7 +68,7 @@ public class InfrastructureController implements Initializable {
     public void loadFxmlInfra() {
 
         FXMLLoader loaderServices = new FXMLLoader();
-        loaderServices.setLocation(Main.class.getResource("view/InfrastructureAttributes.fxml"));
+        loaderServices.setLocation(Main.class.getResource("view/infrastructure/InfrastructureAttributes.fxml"));
         BorderPane root;
         try {
             root = loaderServices.load();

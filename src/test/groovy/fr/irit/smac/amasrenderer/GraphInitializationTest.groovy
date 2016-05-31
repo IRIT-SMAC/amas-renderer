@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 import com.fasterxml.jackson.databind.ObjectMapper
 
-import fr.irit.smac.amasrenderer.model.AgentGraphModel
+import fr.irit.smac.amasrenderer.model.GraphModel
 import fr.irit.smac.amasrenderer.service.GraphService
 import fr.irit.smac.amasrenderer.service.InfrastructureService
 import fr.irit.smac.amasrenderer.service.ToolService
@@ -42,7 +42,7 @@ class GraphInitializationTest extends Specification{
 		when:
 		InputStream json = ClassLoader.getSystemResourceAsStream("./1infra5services12agents.json")
 		ObjectMapper mapper = new ObjectMapper()
-		AgentGraphModel tmp = mapper.readValue(json,AgentGraphModel.class);
+		GraphModel tmp = mapper.readValue(json,GraphModel.class);
 		GraphService.getInstance().getModel().setGraphMap(tmp.getGraphMap());
 		Map<String,Object> graphMap = GraphService.getInstance().getModel().getGraphMap();
 		graphNodeService.createAgentGraphFromMap(graphMap);

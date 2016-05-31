@@ -9,7 +9,7 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.AgentGraphModel;
+import fr.irit.smac.amasrenderer.model.GraphModel;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
@@ -19,7 +19,7 @@ import javafx.scene.control.TreeItem;
 public class GraphService {
 
 	/** The model. */
-	private AgentGraphModel model;
+	private GraphModel model;
 
 	/** The instance. */
 	private static GraphService instance = new GraphService();
@@ -46,7 +46,7 @@ public class GraphService {
 	 * Creates and initialise the agent graph.
 	 */
 	public void createAgentGraph() {
-		this.model = new AgentGraphModel("AMAS Rendering");
+		this.model = new GraphModel("AMAS Rendering");
 		this.model.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
 	}
 
@@ -177,7 +177,7 @@ public class GraphService {
 	 *
 	 * @return the model
 	 */
-	public AgentGraphModel getModel() {
+	public GraphModel getModel() {
 		return this.model;
 	}
 
@@ -187,7 +187,7 @@ public class GraphService {
 	 * @param model
 	 *            the new model
 	 */
-	public void setModel(AgentGraphModel model) {
+	public void setModel(GraphModel model) {
 		this.model = model;
 	}
 

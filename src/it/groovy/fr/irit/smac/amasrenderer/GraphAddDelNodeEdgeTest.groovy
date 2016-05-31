@@ -14,7 +14,7 @@ import spock.lang.Shared
 import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.controller.MainController
 import fr.irit.smac.amasrenderer.controller.graph.GraphMainController
-import fr.irit.smac.amasrenderer.model.AgentGraphModel
+import fr.irit.smac.amasrenderer.model.GraphModel
 import fr.irit.smac.amasrenderer.service.GraphService
 
 @IgnoreIf({
@@ -82,7 +82,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is added by clicking on the corresponding button"() {
 
         given:
-        AgentGraphModel model = graphService.getModel()
+        GraphModel model = graphService.getModel()
         int nbNoeud = model.getNodeCount()
 
         when:
@@ -96,7 +96,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is added by doing the corresponding shortcut"() {
 
         given:
-        AgentGraphModel model = graphService.getModel()
+        GraphModel model = graphService.getModel()
         int nbNoeud = model.getNodeCount()
 
         when:
@@ -110,7 +110,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is added by doing the corresponding shortcut whereas one of the button AddDel are selected"(String button) {
 
         given:
-        AgentGraphModel model = graphService.getModel()
+        GraphModel model = graphService.getModel()
         int nbNoeud = model.getNodeCount()
         fx.clickOn(button)
         fx.press(KeyCode.CONTROL).clickOn(graphId).release(KeyCode.CONTROL)
@@ -127,7 +127,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is removed by clicking on the corresponding button"() {
 
         given:
-        AgentGraphModel model = graphService.getModel()
+        GraphModel model = graphService.getModel()
         graphService.addNode("ag1")
         sleep(1000)
 
@@ -142,7 +142,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is removed by doing the corresponding shortcut"() {
 
         given:
-        AgentGraphModel model = graphService.getModel()
+        GraphModel model = graphService.getModel()
         graphService.addNode("ag1")
         sleep(1000)
 
@@ -157,7 +157,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is removed by doing the corresponding shortcut whereas one of the button AddDel are selected"(String button) {
 
         given:
-        AgentGraphModel model = graphService.getModel()
+        GraphModel model = graphService.getModel()
         graphService.addNode("ag1")
         fx.clickOn(button)
         sleep(1000)

@@ -13,7 +13,7 @@ import spock.lang.Ignore
 import spock.lang.Shared
 import fr.irit.smac.amasrenderer.controller.MainController
 import fr.irit.smac.amasrenderer.controller.graph.GraphMainController
-import fr.irit.smac.amasrenderer.model.AgentGraphModel
+import fr.irit.smac.amasrenderer.model.GraphModel
 import fr.irit.smac.amasrenderer.service.GraphService
 
 //@IgnoreIf({
@@ -61,7 +61,7 @@ class GraphNodeAttributeTest extends GuiSpecification{
         sleep(1000) //time for the graph to be initialized
         graphService = GraphService.getInstance()
 
-        AgentGraphModel model = graphService.getModel()
+        GraphModel model = graphService.getModel()
         graphService.addNode("ag1")
 
         double height = 450

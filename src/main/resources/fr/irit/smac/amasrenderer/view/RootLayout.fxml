@@ -9,19 +9,19 @@
 	xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="fr.irit.smac.amasrenderer.controller.MainController">
 	<top>
-		<fx:include fx:id="menuBar" source="MenuBar.fxml" />
+		<fx:include fx:id="menuBar" source="menu/MenuBar.fxml" />
 	</top>
 	<left>
 		<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
 			prefHeight="900.0" prefWidth="382.0" VBox.vgrow="ALWAYS">
-			<fx:include fx:id="infrastructure" source="Infrastructure.fxml" />
-			<fx:include fx:id="tool" source="Tool.fxml" />
+			<fx:include fx:id="infrastructure" source="infrastructure/Infrastructure.fxml" />
+			<fx:include fx:id="tool" source="tool/Tool.fxml" />
 		</VBox>
 	</left>
 	<center>
 		<AnchorPane prefWidth="818.0" BorderPane.alignment="CENTER">
 			<children>
-				<fx:include fx:id="graphMain" source="GraphAgents.fxml"
+				<fx:include fx:id="graphMain" source="graph/GraphAgents.fxml"
 					AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 					AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 			</children>

@@ -21,7 +21,6 @@ import fr.irit.smac.amasrenderer.controller.EButtonsAddDelState;
 import fr.irit.smac.amasrenderer.controller.EOthersButtonsState;
 import fr.irit.smac.amasrenderer.controller.EShortcutState;
 import fr.irit.smac.amasrenderer.controller.EStateGraph;
-import fr.irit.smac.amasrenderer.controller.attribute.NodeAttributesController;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
@@ -564,7 +563,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
     private void loadFxml(Node node) {
         FXMLLoader loaderServices = new FXMLLoader();
 
-        loaderServices.setLocation(Main.class.getResource("view/GraphAttributes.fxml"));
+        loaderServices.setLocation(Main.class.getResource("view/graph/GraphAttributes.fxml"));
         try {
             BorderPane root = loaderServices.load();
 

@@ -59,7 +59,7 @@ public class ToolController implements Initializable {
     public void loadFxml(String selectedLabel, ToolModel tool) {
 
         FXMLLoader loaderServices = new FXMLLoader();
-        loaderServices.setLocation(Main.class.getResource("view/ServiceAttributes.fxml"));
+        loaderServices.setLocation(Main.class.getResource("view/tool/ServiceAttributes.fxml"));
         BorderPane root;
         try {
             root = loaderServices.load();
@@ -114,7 +114,7 @@ public class ToolController implements Initializable {
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("view/ToolDialog.fxml"));
+        loader.setLocation(Main.class.getResource("view/tool/ToolDialog.fxml"));
         DialogPane root = (DialogPane) loader.load();
         stage.initModality(Modality.WINDOW_MODAL);
         Window window = buttonAddService.getScene().getWindow();
