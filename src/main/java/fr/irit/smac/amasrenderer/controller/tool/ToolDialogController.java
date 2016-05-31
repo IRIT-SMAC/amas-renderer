@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.ToolModel;
+import fr.irit.smac.amasrenderer.service.ConfigurationMapService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -46,7 +47,7 @@ public class ToolDialogController implements Initializable {
 				&& !textfieldTool.getText().trim().isEmpty()
 				&& !textfieldTool.getText().trim().contains(" ")){
 
-		    ToolModel newTool = new ToolModel(textfieldTool.getText().trim());
+		    ToolModel newTool = new ToolModel(textfieldTool.getText().trim(), new HashMap<String,Object>());
             
             boolean found = false;
 
@@ -58,6 +59,7 @@ public class ToolDialogController implements Initializable {
 
             if (!found) {
               ToolService.getInstance().getTools().add(newTool);
+              ConfigurationMapService.getInstance().getModel().getConfigurationMap().put(newTool.getName(), newTool.getAttributesMap());
             }
 
             Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");

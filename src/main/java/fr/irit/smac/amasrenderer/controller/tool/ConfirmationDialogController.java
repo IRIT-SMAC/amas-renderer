@@ -1,6 +1,7 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
 import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.service.ConfigurationMapService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,6 +17,7 @@ public class ConfirmationDialogController {
 
     private Stage dialogStage;
 
+    private String toolName;
     
     private int toolIndex;
 
@@ -23,6 +25,7 @@ public class ConfirmationDialogController {
     public void clickConfirmRemove() {
 
         ToolService.getInstance().getTools().remove(toolIndex);
+        ConfigurationMapService.getInstance().getModel().getConfigurationMap().remove(toolName);
         dialogStage.getScene().lookup("#attributesServiceDialog").getStyleClass().remove("secondaryWindow");
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
@@ -35,8 +38,9 @@ public class ConfirmationDialogController {
         ((Stage) buttonCancelRemove.getScene().getWindow()).close();
     }
 
-    public void init(Stage dialogStage, int toolIndex) {
+    public void init(Stage dialogStage, int toolIndex, String toolName) {
         
+        this.toolName = toolName;
         this.toolIndex = toolIndex;
         this.dialogStage = dialogStage;
     }

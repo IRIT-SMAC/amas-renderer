@@ -19,6 +19,12 @@ public class ToolModel {
         super();
         this.name = name;
     }
+    
+    public ToolModel(String name, Object map) {
+        super();
+        this.name = name;
+        this.attributesMap = (Map<String, Object>) map;
+    }
 
     public Map<String, Object> getAttributesMap() {
         return attributesMap;

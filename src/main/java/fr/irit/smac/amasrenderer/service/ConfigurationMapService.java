@@ -35,7 +35,7 @@ public class ConfigurationMapService {
         
 //        ToolService.getInstance().setAttributesMap(this.model.getConfigurationMap());
         InfrastructureService.getInstance().setInfrastructureMap(configurationMap);
-//        ToolService.getInstance().createServicesFromMap(ToolService.getInstance().getAttributesMap());
+        ToolService.getInstance().createServicesFromMap(configurationMap);
         InfrastructureService.getInstance()
             .createInfrastructureFromMap(InfrastructureService.getInstance().getInfrastructureMap());
         GraphService.getInstance().getModel().setAgentMap(agentMap);

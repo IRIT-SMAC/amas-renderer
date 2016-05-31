@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureAttributesController;
 import fr.irit.smac.amasrenderer.model.ToolModel;
+import fr.irit.smac.amasrenderer.service.ConfigurationMapService;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.application.Platform;
@@ -280,6 +281,10 @@ public class ToolController implements Initializable {
         ToolService.getInstance().setTools(FXCollections.observableArrayList(list));
 
         listTool.setItems(ToolService.getInstance().getTools());
+//        ToolService.getInstance().getTools().addListener((ListChangeListener.Change<? extends ToolModel> e) -> {
+//            ConfigurationMapService.getInstance().getModel().getConfigurationMap().put(listTool.getItems().getName(), tool.getAttributesMap());
+//
+//        });
 
         InfrastructureService.getInstance().setInfrastructure(FXCollections.observableArrayList(new ArrayList<>()));
 

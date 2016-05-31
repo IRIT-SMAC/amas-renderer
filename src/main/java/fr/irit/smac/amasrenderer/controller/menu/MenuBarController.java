@@ -49,7 +49,7 @@ public class MenuBarController {
 			ConfigurationMapService.getInstance().setModel(tmp);
 			Map<String, Object> graphMap = GraphService.getInstance().getModel().getAgentMap();
 //			graphService.createAgentGraphFromMap(graphMap);
-//			toolService.createServicesFromMap(ToolService.getInstance().getAttributesMap());
+			toolService.createServicesFromMap(ConfigurationMapService.getInstance().getModel().getConfigurationMap());
 //			infrastructureService.createInfrastructureFromMap(InfrastructureService.getInstance().getInfrastructureMap());
             GraphService.getInstance().setQualityGraph();
 			

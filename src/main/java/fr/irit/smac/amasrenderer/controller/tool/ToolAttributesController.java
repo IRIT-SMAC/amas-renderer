@@ -270,7 +270,7 @@ public class ToolAttributesController implements Initializable {
             double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
             stage.setX(x);
             stage.setY(y);
-            confimDialogController.init(dialogStage, list.getSelectionModel().getSelectedIndex());
+            confimDialogController.init(dialogStage, list.getSelectionModel().getSelectedIndex(), list.getSelectionModel().getSelectedItem().getName());
             stage.setScene(myScene);
             
             stage.showAndWait();

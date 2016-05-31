@@ -49,9 +49,11 @@ public class ToolService {
         this.tools = tools;
     }
 
-    public void addTool(String name) {
+    public void addTool(ToolModel tool) {
 
-        this.tools.add(new ToolModel(name));
+        this.tools.add(tool);
+        ConfigurationMapService.getInstance().getModel().getConfigurationMap().put(tool.getName(), tool.getAttributesMap());
+        System.out.println(ConfigurationMapService.getInstance().getModel().getConfigurationMap());
     }
     
     /**
@@ -66,7 +68,7 @@ public class ToolService {
 
         for (Map.Entry<String, Object> pair : map.entrySet()) {
             if (pair.getKey() != "className") {
-                this.addTool(pair.getKey());
+                this.addTool(new ToolModel(pair.getKey(),pair.getValue()));
             }
         }
 
