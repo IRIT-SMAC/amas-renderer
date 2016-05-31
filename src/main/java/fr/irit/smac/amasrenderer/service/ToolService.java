@@ -1,11 +1,9 @@
 package fr.irit.smac.amasrenderer.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import fr.irit.smac.amasrenderer.model.ToolModel;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
@@ -14,15 +12,13 @@ import javafx.scene.control.TreeItem;
  */
 public class ToolService {
 
-    private ToolModel model;
-
     private static ToolService instance = new ToolService();
+    private ObservableList<ToolModel> tools;
 
     /**
      * Instantiates a new tool service.
      */
     private ToolService() {
-        model = new ToolModel();
     }
 
     /**
@@ -39,8 +35,8 @@ public class ToolService {
      *
      * @return the tools
      */
-    public ObservableList<String> getTools() {
-        return this.model.getTools();
+    public ObservableList<ToolModel> getTools() {
+        return this.tools;
     }
 
     /**
@@ -49,10 +45,15 @@ public class ToolService {
      * @param items
      *            the new tools
      */
-    public void setTools(ObservableList<String> items) {
-        this.model.setTools(items);
+    public void setTools(ObservableList<ToolModel> tools) {
+        this.tools = tools;
     }
 
+    public void addTool(String name) {
+
+        this.tools.add(new ToolModel(name));
+    }
+    
     /**
      * Creates the services from a map.
      *
@@ -61,36 +62,32 @@ public class ToolService {
      */
     public void createServicesFromMap(Map<String, Object> map) {
 
-        this.model.getTools().clear();
+        this.getTools().clear();
 
         for (Map.Entry<String, Object> pair : map.entrySet()) {
             if (pair.getKey() != "className") {
-                this.model.addTool(pair.getKey());
+                this.addTool(pair.getKey());
             }
         }
 
     }
 
-    public Map<String, Object> getServicesMap() {
-        return this.model.getServicesMap();
-    }
+    public void updateToolsMap(String id, TreeItem<String> item, ToolModel tool) {
 
-    public void setServicesMap(Map<String, Object> servicesMap) {
-        this.model.setServicesMap(servicesMap);
-    }
+        for (TreeItem<String> subItem : item.getChildren()) {
+            
+            String[] splitItem = ((String) subItem.getValue()).split(" : ");
+            String keyItem = splitItem[0];
+            this.updateSingleToolMap(subItem, tool.getAttributesMap(), keyItem);
+        }
 
-    public void updateToolsMap(String id, TreeItem<String> item) {
-        this.model.getServicesMap().remove(id);
-
-        Map<String, Object> singleServiceMap = new HashMap<String, Object>();
-        this.updateSingleToolMap(item, singleServiceMap, id);
-        this.model.getServicesMap().put(id, singleServiceMap.get(id));
     }
 
     public void updateSingleToolMap(TreeItem<String> item, Map<String, Object> map, String key) {
 
         ObservableList<TreeItem<String>> node = item.getChildren();
 
+        
         if (node.size() > 0) {
             Map<String, Object> newServiceMap = new HashMap<String, Object>();
             for (TreeItem<String> subItem : node) {

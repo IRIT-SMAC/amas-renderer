@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureAttributesController;
+import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.application.Platform;
@@ -49,7 +50,7 @@ public class ToolController implements Initializable {
     private Button buttonAddService;
 
     @FXML
-    private ListView<String> listTool;
+    private ListView<ToolModel> listTool;
 
     @FXML
     private TextField infrastructureTextField;
@@ -130,16 +131,16 @@ public class ToolController implements Initializable {
      */
     @FXML
     public void handleMouseClick() {
-        String selectedLabel = listTool.getSelectionModel().getSelectedItem();
-        if (selectedLabel != null && selectedLabel != "") {
-            Platform.runLater(() -> loadFxml(selectedLabel));
+        ToolModel selectedLabel = listTool.getSelectionModel().getSelectedItem();
+        if (selectedLabel != null && selectedLabel.getName() != "") {
+            Platform.runLater(() -> loadFxml(selectedLabel.getName(), selectedLabel));
         }
     }
 
     /**
      * Load the services attributes fxml.
      */
-    public void loadFxml(String selectedLabel) {
+    public void loadFxml(String selectedLabel, ToolModel tool) {
 
         FXMLLoader loaderServices = new FXMLLoader();
         loaderServices.setLocation(Main.class.getResource("view/ServiceAttributes.fxml"));
@@ -170,7 +171,7 @@ public class ToolController implements Initializable {
             dialogStage.setY(y);
 
             serviceModifyController.setStage(dialogStage);
-            serviceModifyController.init(listTool, selectedLabel);
+            serviceModifyController.init(listTool, selectedLabel, tool);
             miniScene.setFill(Color.BLACK);
 
             dialogStage.showAndWait();
@@ -271,18 +272,14 @@ public class ToolController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<ToolModel> list = new ArrayList<>();
 
-        for (String tool : listTool.getItems()) {
+        for (ToolModel tool : listTool.getItems()) {
             list.add(tool);
         }
         ToolService.getInstance().setTools(FXCollections.observableArrayList(list));
 
-        ToolService.getInstance().getTools().addListener((ListChangeListener.Change<? extends String> e) -> {
-            String newTool = ToolService.getInstance().getTools()
-                .get(ToolService.getInstance().getTools().size() - 1);
-            listTool.getItems().add(newTool);
-        });
+        listTool.setItems(ToolService.getInstance().getTools());
 
         InfrastructureService.getInstance().setInfrastructure(FXCollections.observableArrayList(new ArrayList<>()));
 

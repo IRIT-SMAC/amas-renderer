@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -51,9 +52,9 @@ public class ToolAttributesController implements Initializable {
 
     private String key;
 
-    private ListView<String> list;
+    private ListView<ToolModel> list;
 
-    private String baseRootName;
+    private ToolModel tool;
 
     /**
      * Sets the stage.
@@ -83,13 +84,14 @@ public class ToolAttributesController implements Initializable {
      * @param list
      *            the list of tools
      */
-    public void init(ListView<String> list, String name) {
-        setKey(list.getSelectionModel().getSelectedItem());
+    public void init(ListView<ToolModel> list, String name, ToolModel tool) {
+        setKey(list.getSelectionModel().getSelectedItem().getName());
         this.list = list;
+        this.tool = tool;
         
 		TreeItem<String> myItem = new TreeItem<>(name);
 		tree.setRoot(myItem);
-		HashMap<String, Object> service = (HashMap<String, Object>) ToolService.getInstance().getServicesMap().get(name);
+		HashMap<String, Object> service = (HashMap<String, Object>) tool.getAttributesMap();
 		fillToolAttributes(service, myItem);
     }
 
@@ -130,7 +132,8 @@ public class ToolAttributesController implements Initializable {
     @FXML
     public void confirmButton() {
         tree.getRoot();
-		ToolService.getInstance().updateToolsMap(tree.getRoot().getValue(), tree.getRoot());
+		
+        ToolService.getInstance().updateToolsMap(tree.getRoot().getValue(), tree.getRoot(), tool);
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
@@ -267,9 +270,7 @@ public class ToolAttributesController implements Initializable {
             double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
             stage.setX(x);
             stage.setY(y);
-            confimDialogController.setList(list);
-            confimDialogController.setKey(key);
-            confimDialogController.setDialogStage(dialogStage);
+            confimDialogController.init(dialogStage, list.getSelectionModel().getSelectedIndex());
             stage.setScene(myScene);
             
             stage.showAndWait();

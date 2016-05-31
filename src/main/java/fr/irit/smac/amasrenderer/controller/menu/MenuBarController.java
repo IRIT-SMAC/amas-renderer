@@ -48,9 +48,9 @@ public class MenuBarController {
 			ConfigurationMapModel tmp = mapper.readValue(file, ConfigurationMapModel.class);
 			ConfigurationMapService.getInstance().setModel(tmp);
 			Map<String, Object> graphMap = GraphService.getInstance().getModel().getAgentMap();
-			graphService.createAgentGraphFromMap(graphMap);
-			toolService.createServicesFromMap(ToolService.getInstance().getServicesMap());
-			infrastructureService.createInfrastructureFromMap(InfrastructureService.getInstance().getInfrastructureMap());
+//			graphService.createAgentGraphFromMap(graphMap);
+//			toolService.createServicesFromMap(ToolService.getInstance().getAttributesMap());
+//			infrastructureService.createInfrastructureFromMap(InfrastructureService.getInstance().getInfrastructureMap());
             GraphService.getInstance().setQualityGraph();
 			
 		} catch (IOException e) {

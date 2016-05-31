@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,8 +32,6 @@ public class ToolDialogController implements Initializable {
     @FXML
     private TextField textfieldTool;
     
-    private HashMap<String,TreeItem<String>> map;
-
     @FXML
     private Text invalidField;
 
@@ -47,20 +46,17 @@ public class ToolDialogController implements Initializable {
 				&& !textfieldTool.getText().trim().isEmpty()
 				&& !textfieldTool.getText().trim().contains(" ")){
 
-            String newTool = textfieldTool.getText().trim();
-//            newTool.setFont(new Font("OpenSymbol", Const.FONT_SIZE));
+		    ToolModel newTool = new ToolModel(textfieldTool.getText().trim());
             
             boolean found = false;
 
-            for (String item : ToolService.getInstance().getTools()) {
-                if (item.equals(newTool)) {
+            for (ToolModel item : ToolService.getInstance().getTools()) {
+                if (item.getName().equals(newTool.getName())) {
                     found = true;
                 }
             }
 
             if (!found) {
-              HashMap<String,Object> map = new HashMap<String,Object>();
-              ToolService.getInstance().getServicesMap().put(newTool, map );
               ToolService.getInstance().getTools().add(newTool);
             }
 

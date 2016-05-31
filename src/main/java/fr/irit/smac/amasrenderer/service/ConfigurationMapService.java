@@ -33,9 +33,9 @@ public class ConfigurationMapService {
         agentHandlerService.put("agentMap", agentMap);
         configurationMap.put("agentHandlerService", agentHandlerService);
         
-        ToolService.getInstance().setServicesMap(this.model.getConfigurationMap());
+//        ToolService.getInstance().setAttributesMap(this.model.getConfigurationMap());
         InfrastructureService.getInstance().setInfrastructureMap(configurationMap);
-        ToolService.getInstance().createServicesFromMap(ToolService.getInstance().getServicesMap());
+//        ToolService.getInstance().createServicesFromMap(ToolService.getInstance().getAttributesMap());
         InfrastructureService.getInstance()
             .createInfrastructureFromMap(InfrastructureService.getInstance().getInfrastructureMap());
         GraphService.getInstance().getModel().setAgentMap(agentMap);
@@ -61,7 +61,7 @@ public class ConfigurationMapService {
         HashMap<String, Object> agentMap = (HashMap<String, Object>) agentHandlerService.get("agentMap");
 
         GraphService.getInstance().getModel().setAgentMap(agentMap);
-        ToolService.getInstance().setServicesMap(this.model.getConfigurationMap());
+//        ToolService.getInstance().setAttributesMap(this.model.getConfigurationMap());
         InfrastructureService.getInstance()
             .setInfrastructureMap(this.model.getConfigurationMap());
 
