@@ -7,7 +7,7 @@ import fr.irit.smac.amasrenderer.controller.graph.GraphMainController;
 import fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureController;
 import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
 import fr.irit.smac.amasrenderer.controller.tool.ToolController;
-import fr.irit.smac.amasrenderer.service.ConfigurationMapService;
+import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
@@ -72,7 +72,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        ConfigurationMapService.getInstance().init();
+        InfrastructureService.getInstance().init();
     }
 
 }

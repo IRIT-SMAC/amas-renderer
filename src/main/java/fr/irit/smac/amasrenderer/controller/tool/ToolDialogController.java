@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.ToolModel;
-import fr.irit.smac.amasrenderer.service.ConfigurationMapService;
+import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -55,7 +55,7 @@ public class ToolDialogController implements Initializable {
 
             if (!found) {
               ToolService.getInstance().getTools().add(newTool);
-              ConfigurationMapService.getInstance().getConfigurationMap().getConfigurationMap().put(newTool.getName(), newTool.getAttributesMap());
+              InfrastructureService.getInstance().getInfrastructure().get(0).getAttributesMap().put(newTool.getName(), newTool.getAttributesMap());
             }
 
             Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");

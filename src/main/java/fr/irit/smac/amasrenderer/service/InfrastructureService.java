@@ -106,5 +106,23 @@ public class InfrastructureService {
             map.put(key, value);
         }
     }
+    
+    public void init() {
+        
+        this.infrastructure.add(new InfrastructureModel("lala", new HashMap<String, Object>()));
+
+        String infrastructureClassname = "BasicInfrastructure";
+        Map<String,Object> map = this.infrastructure.get(0).getAttributesMap();
+        map.put("className", infrastructureClassname);
+        HashMap<String, Object> agentHandlerService = new HashMap<String, Object>();
+        HashMap<String, Object> agentMap = new HashMap<String, Object>();
+
+        agentHandlerService.put("className", "fr.irit.smac.amasfactory.service.agenthandler.impl.BasicAgentHandler");
+        agentHandlerService.put("agentMap", agentMap);
+        map.put("agentHandlerService", agentHandlerService);
+
+        ToolService.getInstance().createServicesFromMap(map);
+        GraphService.getInstance().getGraph().setAgentMap(agentMap);
+    }
 
 }

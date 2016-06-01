@@ -83,6 +83,13 @@ public class GraphService {
      */
     public void addNode(String id) {
 
+        Map<String, Object> mapNode = new HashMap<String, Object>();
+        mapNode.put("id", id);
+        this.graph.getAgentMap().put(id, mapNode);
+        Map<String, Object> knowledgeMap = new HashMap<String, Object>();
+        mapNode.put("knowledge", knowledgeMap);
+        ArrayList<String> targets = new ArrayList<String>();
+        knowledgeMap.put("targets", targets);
         graph.addNode(id);
         Node node = graph.getNode(id);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
@@ -202,8 +209,11 @@ public class GraphService {
         fillAgentMap(map);
         Iterator<Map.Entry<String, Object>> agents = map.entrySet().iterator();
 
+        
         while (agents.hasNext()) {
             Map.Entry<String, Object> currentAgentMap = agents.next();
+            System.out.println(currentAgentMap);
+
             HashMap<String, Object> currentAgent = (HashMap<String, Object>) currentAgentMap.getValue();
             fillAgentTargets(currentAgent);
         }
