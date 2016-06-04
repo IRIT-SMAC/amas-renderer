@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 /**
  * The Class ServiceDialogController This controller manages the popup form
  */
-public class ToolDialogController implements Initializable {
+public class ToolDialogAdditionController implements Initializable {
 
     @FXML
     private Button buttonConfirm;

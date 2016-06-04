@@ -130,7 +130,7 @@ public class ToolAttributesController implements Initializable {
             Window window = delButton.getScene().getWindow();
             stage.initOwner(delButton.getScene().getWindow());
             stage.initStyle(StageStyle.UNDECORATED);
-            ConfirmationDialogController confimDialogController = loader.getController();
+            ToolDialogDeletionController confimDialogController = loader.getController();
             Scene myScene = new Scene(root);
             
             double x = window.getX() + (window.getWidth() - root.getPrefWidth()) / 2;

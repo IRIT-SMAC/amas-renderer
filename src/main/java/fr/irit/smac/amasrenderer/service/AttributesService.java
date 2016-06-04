@@ -21,11 +21,11 @@ public class AttributesService {
 
             String[] splitItem = ((String) subItem.getValue()).split(" : ");
             String keyItem = splitItem[0];
-            this.updateSingleAttributeMap(subItem, attributesMap, keyItem);
+            this.updateChildrenAttributesMap(subItem, attributesMap, keyItem);
         }
     }
 
-    public void updateSingleAttributeMap(TreeItem<String> item, Map<String, Object> map, String key) {
+    public void updateChildrenAttributesMap(TreeItem<String> item, Map<String, Object> map, String key) {
 
         ObservableList<TreeItem<String>> node = item.getChildren();
 
@@ -35,7 +35,7 @@ public class AttributesService {
 
                 String[] splitItem = ((String) subItem.getValue()).split(" : ");
                 String keyItem = splitItem[0];
-                updateSingleAttributeMap(subItem, newServiceMap, keyItem);
+                updateChildrenAttributesMap(subItem, newServiceMap, keyItem);
             }
             map.put(key, newServiceMap);
         }
