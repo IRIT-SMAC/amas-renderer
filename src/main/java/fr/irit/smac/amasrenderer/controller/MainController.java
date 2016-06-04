@@ -3,7 +3,7 @@ package fr.irit.smac.amasrenderer.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import fr.irit.smac.amasrenderer.controller.graph.GraphMainController;
+import fr.irit.smac.amasrenderer.controller.graph.GraphController;
 import fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureController;
 import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
 import fr.irit.smac.amasrenderer.controller.tool.ToolController;
@@ -18,7 +18,7 @@ import javafx.scene.layout.BorderPane;
 public class MainController implements Initializable {
 
     @FXML
-    private GraphMainController graphMainController;
+    private GraphController graphMainController;
 
     @FXML
     private ToolController toolController;
@@ -38,7 +38,7 @@ public class MainController implements Initializable {
      *
      * @return the graph main controller
      */
-    public GraphMainController getGraphMainController() {
+    public GraphController getGraphMainController() {
         return graphMainController;
     }
 

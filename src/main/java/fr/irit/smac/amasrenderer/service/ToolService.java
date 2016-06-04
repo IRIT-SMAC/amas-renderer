@@ -1,11 +1,9 @@
 package fr.irit.smac.amasrenderer.service;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TreeItem;
 
 /**
  * The Class ToolService.
@@ -71,43 +69,5 @@ public class ToolService {
             }
         }
 
-    }
-
-    public void updateToolsMap(String id, TreeItem<String> item, ToolModel tool) {
-
-        tool.getAttributesMap().clear();
-
-        for (TreeItem<String> subItem : item.getChildren()) {
-            
-            String[] splitItem = ((String) subItem.getValue()).split(" : ");
-            String keyItem = splitItem[0];
-            this.updateSingleToolMap(subItem, tool.getAttributesMap(), keyItem);
-        }
-
-    }
-
-    public void updateSingleToolMap(TreeItem<String> item, Map<String, Object> map, String key) {
-
-        ObservableList<TreeItem<String>> node = item.getChildren();
-
-        
-        if (node.size() > 0) {
-            Map<String, Object> newServiceMap = new HashMap<String, Object>();
-            for (TreeItem<String> subItem : node) {
-
-                String[] splitItem = ((String) subItem.getValue()).split(" : ");
-                String keyItem = splitItem[0];
-                updateSingleToolMap(subItem, newServiceMap, keyItem);
-
-            }
-            map.put(key, newServiceMap);
-
-        }
-        else {
-
-            String[] splitItem = ((String) item.getValue()).split(" : ");
-            String value = splitItem[1];
-            map.put(key, value);
-        }
     }
 }

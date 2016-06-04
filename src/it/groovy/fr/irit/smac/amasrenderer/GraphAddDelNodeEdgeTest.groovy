@@ -13,7 +13,7 @@ import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.controller.MainController
-import fr.irit.smac.amasrenderer.controller.graph.GraphMainController
+import fr.irit.smac.amasrenderer.controller.graph.GraphController
 import fr.irit.smac.amasrenderer.model.GraphModel
 import fr.irit.smac.amasrenderer.service.GraphService
 
@@ -57,7 +57,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
             loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
             rootLayout = (BorderPane) loaderRootLayout.load()
             MainController mainController = loaderRootLayout.getController()
-            GraphMainController graphMainController = mainController.getGraphMainController()
+            GraphController graphMainController = mainController.getGraphMainController()
             graphView = graphMainController.getGraphView()
 
             return rootLayout

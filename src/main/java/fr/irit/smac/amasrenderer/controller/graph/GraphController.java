@@ -17,10 +17,6 @@ import org.graphstream.ui.view.Viewer;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
-import fr.irit.smac.amasrenderer.controller.EButtonsAddDelState;
-import fr.irit.smac.amasrenderer.controller.EOthersButtonsState;
-import fr.irit.smac.amasrenderer.controller.EShortcutState;
-import fr.irit.smac.amasrenderer.controller.EStateGraph;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
@@ -43,7 +39,7 @@ import javafx.stage.Window;
 /**
  * The Class
  */
-public class GraphMainController implements Initializable, GraphToolboxController.IGraphButtonsState {
+public class GraphController implements Initializable, GraphToolboxController.IGraphButtonsState {
 
     @FXML
     private StackPane stackPaneGraphNode;
@@ -75,7 +71,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
 
     private EShortcutState shortcutState;
 
-    private static final Logger LOGGER = Logger.getLogger(GraphMainController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GraphController.class.getName());
 
     @FXML
     private Label classNameLabel;
@@ -511,7 +507,7 @@ public class GraphMainController implements Initializable, GraphToolboxControlle
     private void addEdge(MouseEvent e) {
 
         if (getEdge(e) == null && source != null && target != null) {
-            this.graphNodeService.addEdgeGraphModel(source.getId(), target.getId());
+            this.graphNodeService.addEdgeGraph(source.getId(), target.getId());
         }
         unselectSource();
     }

@@ -6,11 +6,14 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.graphstream.graph.Edge;
+import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
+import org.graphstream.graph.NodeFactory;
+import org.graphstream.graph.implementations.AbstractGraph;
+import org.graphstream.graph.implementations.SingleGraph;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.GraphModel;
-import javafx.collections.ObservableList;
+import fr.irit.smac.amasrenderer.model.AgentModel;
 import javafx.scene.control.TreeItem;
 
 /**
@@ -18,16 +21,18 @@ import javafx.scene.control.TreeItem;
  */
 public class GraphService {
 
-    private GraphModel graph;
+    private SingleGraph graph;
 
     private static GraphService instance = new GraphService();
+    
+    private Map<String,Object> agentMap;
 
     /**
      * Instantiates a new graph service. to hide the constructor, use
      * getInstance to initiate it
      */
     private GraphService() {
-
+        
     }
 
     /**
@@ -44,8 +49,17 @@ public class GraphService {
      * Creates and initialise the agent graph.
      */
     public void createAgentGraph() {
-        this.graph = new GraphModel("AMAS Rendering");
+        this.graph = new SingleGraph("AMAS Rendering");
         this.graph.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
+        
+        this.graph.setNodeFactory(new NodeFactory<Node>() {
+
+            @Override
+            public Node newInstance(String id, Graph graph) {
+
+                return new AgentModel((AbstractGraph) graph, id);
+            }
+        });
     }
 
     /**
@@ -60,19 +74,10 @@ public class GraphService {
      */
     public void addNode(String id, double x, double y) {
 
-        Map<String, Object> mapNode = new HashMap<String, Object>();
-        mapNode.put("id", id);
-        this.graph.getAgentMap().put(id, mapNode);
-        Map<String, Object> knowledgeMap = new HashMap<String, Object>();
-        mapNode.put("knowledge", knowledgeMap);
-        ArrayList<String> targets = new ArrayList<String>();
-        knowledgeMap.put("targets", targets);
-        this.graph.addNode(id);
-        Node node = graph.getNode(id);
+        Node node = this.graph.addNode(id);
         node.changeAttribute(Const.NODE_XY, x, y);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.NODE_LABEL, id);
-
     }
 
     /**
@@ -83,15 +88,7 @@ public class GraphService {
      */
     public void addNode(String id) {
 
-        Map<String, Object> mapNode = new HashMap<String, Object>();
-        mapNode.put("id", id);
-        this.graph.getAgentMap().put(id, mapNode);
-        Map<String, Object> knowledgeMap = new HashMap<String, Object>();
-        mapNode.put("knowledge", knowledgeMap);
-        ArrayList<String> targets = new ArrayList<String>();
-        knowledgeMap.put("targets", targets);
-        graph.addNode(id);
-        Node node = graph.getNode(id);
+        Node node = this.graph.addNode(id);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.NODE_LABEL, id);
     }
@@ -108,26 +105,8 @@ public class GraphService {
 
         graph.addEdge(source + target, source, target, true);
         graph.getEdge(source + target).setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_EDGE);
-    }
+        ((AgentModel) this.graph.getNode(source)).addTarget(target);
 
-    /**
-     * Add a directed edge from the source to the target
-     * 
-     * @param source
-     *            the id of the source node
-     * @param target
-     *            the id of the target node
-     */
-    @SuppressWarnings("unchecked")
-    public void addEdgeGraphModel(String source, String target) {
-
-        Map<String, Object> sourceMap = (Map<String, Object>) this.graph.getAgentMap().get(source);
-        Map<String, Object> knowledgeSourceMap = (Map<String, Object>) sourceMap.get("knowledge");
-
-        ArrayList<String> targetSourceSet = (ArrayList<String>) knowledgeSourceMap.get("targets");
-        targetSourceSet.add(target);
-
-        addEdgeGraph(source, target);
     }
 
     /**
@@ -175,7 +154,7 @@ public class GraphService {
             }
         }
         this.graph.removeNode(n.getId());
-        this.graph.getAgentMap().remove(n.getId());
+        this.agentMap.remove(n.getId());
     }
 
     /**
@@ -183,7 +162,7 @@ public class GraphService {
      *
      * @return the model
      */
-    public GraphModel getGraph() {
+    public SingleGraph getGraph() {
         return this.graph;
     }
 
@@ -193,7 +172,7 @@ public class GraphService {
      * @param graph
      *            the new model
      */
-    public void setGraph(GraphModel graph) {
+    public void setGraph(SingleGraph graph) {
         this.graph = graph;
     }
 
@@ -209,11 +188,8 @@ public class GraphService {
         fillAgentMap(map);
         Iterator<Map.Entry<String, Object>> agents = map.entrySet().iterator();
 
-        
         while (agents.hasNext()) {
             Map.Entry<String, Object> currentAgentMap = agents.next();
-            System.out.println(currentAgentMap);
-
             HashMap<String, Object> currentAgent = (HashMap<String, Object>) currentAgentMap.getValue();
             fillAgentTargets(currentAgent);
         }
@@ -242,6 +218,7 @@ public class GraphService {
      */
     @SuppressWarnings("unchecked")
     private void fillAgentTargets(HashMap<String, Object> agent) {
+        System.out.println(agent);
         HashMap<String, Object> knowledgeMap = (HashMap<String, Object>) agent.get("knowledge");
 
         ArrayList<String> targets = (ArrayList<String>) knowledgeMap.get("targets");
@@ -254,8 +231,8 @@ public class GraphService {
      * Empty the graph and reset the stylesheet
      */
     private void clearGraph() {
-        this.getGraph().clear();
-        this.getGraph().addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
+        this.graph.clear();
+        this.graph.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
     }
 
     /**
@@ -263,41 +240,16 @@ public class GraphService {
      */
     public void setQualityGraph() {
 
-        this.getGraph().addAttribute("ui.quality");
-        this.getGraph().addAttribute("layout.quality", 4);
-        this.getGraph().addAttribute("ui.antialias");
+        this.graph.addAttribute("ui.quality");
+        this.graph.addAttribute("layout.quality", 4);
+        this.graph.addAttribute("ui.antialias");
+    }
+    
+    public Map<String, Object> getAgentMap() {
+        return agentMap;
     }
 
-    public void updateAgentMap(String id, TreeItem<String> item) {
-
-        this.graph.getAgentMap().remove(id);
-        Map<String, Object> singleAgentMap = new HashMap<String, Object>();
-        this.updateAgentMap(item, singleAgentMap, id);
-        this.graph.getAgentMap().put(id, singleAgentMap.get(id));
+    public void setAgentMap(Map<String, Object> agentMap) {
+        this.agentMap = agentMap;
     }
-
-    public void updateAgentMap(TreeItem<String> item, Map<String, Object> map, String key) {
-
-        ObservableList<TreeItem<String>> node = item.getChildren();
-
-        if (node.size() > 0) {
-            Map<String, Object> newAgentMap = new HashMap<String, Object>();
-            for (TreeItem<String> subItem : node) {
-
-                String[] splitItem = ((String) subItem.getValue()).split(" : ");
-                String keyItem = splitItem[0];
-                updateAgentMap(subItem, newAgentMap, keyItem);
-
-            }
-            map.put(key, newAgentMap);
-
-        }
-        else {
-
-            String[] splitItem = ((String) item.getValue()).split(" : ");
-            String value = splitItem[1];
-            map.put(key, value);
-        }
-    }
-
 }

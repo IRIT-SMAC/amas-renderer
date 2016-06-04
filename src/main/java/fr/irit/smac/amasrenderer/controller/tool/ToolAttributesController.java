@@ -3,13 +3,12 @@ package fr.irit.smac.amasrenderer.controller.tool;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.ResourceBundle;
 
-import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.controller.menu.MenuAttributesTreeCellController;
 import fr.irit.smac.amasrenderer.model.ToolModel;
+import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -17,18 +16,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
-import javafx.util.converter.DefaultStringConverter;
 
 /**
  * The Class TreeModifyController. Manage the modal window opening to modify
@@ -79,30 +74,8 @@ public class ToolAttributesController implements Initializable {
 		TreeItem<String> myItem = new TreeItem<>(name);
 		tree.setRoot(myItem);
 		HashMap<String, Object> service = (HashMap<String, Object>) tool.getAttributesMap();
-		fillToolAttributes(service, myItem);
+		AttributesService.getInstance().fillAttributes(service, myItem);
     }
-
-	@SuppressWarnings("unchecked")
-	private void fillToolAttributes(HashMap<String, Object> tool, TreeItem<String> parent) {
-
-		Iterator<Map.Entry<String, Object>> attributeIterator = tool.entrySet().iterator();
-		while (attributeIterator.hasNext()) {
-			Map.Entry<String, Object> attribute = attributeIterator.next();
-			String name = attribute.getKey();
-			Object value = attribute.getValue();
-
-			if (value instanceof HashMap<?, ?>) {
-				TreeItem<String> item = new TreeItem<>();
-				item.setValue(name);
-				fillToolAttributes((HashMap<String, Object>) value, item);
-				parent.getChildren().add(item);
-			} else {
-				TreeItem<String> item = new TreeItem<>();
-				item.setValue(name + " : " + value);
-				parent.getChildren().add(item);
-			}
-		}
-	}
 	
     /**
      * deletes the service ( no confirmation )
@@ -120,7 +93,7 @@ public class ToolAttributesController implements Initializable {
     public void confirmButton() {
         tree.getRoot();
 		
-        ToolService.getInstance().updateToolsMap(tree.getRoot().getValue(), tree.getRoot(), tool);
+        AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(), tool.getAttributesMap());
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
@@ -138,102 +111,9 @@ public class ToolAttributesController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.tree.setEditable(true);
-        tree.setCellFactory(p -> new ToolAttributesTreeCell(tree));
+        tree.setCellFactory(p -> new MenuAttributesTreeCellController(tree));
     }
-
-    private static class ToolAttributesTreeCell extends TextFieldTreeCell<String> {
-        private ContextMenu menu = new ContextMenu();
-        private TreeView<String> tree;
-        public ToolAttributesTreeCell(TreeView<String> tree) {
-            super(new DefaultStringConverter());
-            this.tree = tree;
-            menu.setId("treeAttributeItem");
-            MenuItem renameItem = new MenuItem("Renommer");
-            renameItem.setId("renameAttributeItem");
-            menu.getItems().add(renameItem);
-
-            renameItem.setOnAction(e -> startEdit());
-
-            MenuItem addItem = new MenuItem("Ajouter");
-            menu.getItems().add(addItem);
-            addItem.setId("addAttributeItem");
-            addItem.setOnAction(e -> getTreeItem().getChildren().add(new TreeItem<String>("Nouvel attribut")));
-
-            MenuItem removeItem = new MenuItem("Supprimer");
-            menu.getItems().add(removeItem);
-            removeItem.setId("removeAttributeItem");
-            removeItem.setOnAction(e -> {
-                if(!isProtectedField(getItem())){
-                    getTreeItem().getParent().getChildren().remove(getTreeItem());
-                }
-            });
-        }
-
-        @Override
-        public void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
-            if (!isEditing()) {
-                setContextMenu(menu);
-            }
-        }
-        /**
-         * test if the string new value is valid
-         * @param newValue
-         * @return
-         */
-        private boolean isValidExpression(TreeItem<String> item, String newValue){
-            boolean isSemiColonCorrect = false;
-            boolean isValueKeyCorrect = false;
-            //checks if the new value has the good key-value séparator ( and only one )
-            if(item.getChildren().size() == 0){
-                isSemiColonCorrect = newValue.split(Const.KEY_VALUE_SEPARATOR).length == 2; 
-                if(isSemiColonCorrect) isValueKeyCorrect = !newValue.split(Const.KEY_VALUE_SEPARATOR)[0].trim().isEmpty() && !newValue.split(Const.KEY_VALUE_SEPARATOR)[1].trim().isEmpty();
-            } else { // if it has childs then its a complex attribute
-                isSemiColonCorrect = !(newValue.contains(":") || newValue.contains(" ")); 
-                isValueKeyCorrect = !newValue.trim().isEmpty();
-            }
-            //checks if the new value contains an unauthorized string
-            boolean containsNewUnauthorizedString = false;
-            for(String str : Const.UNAUTHORISED_STRING){
-                containsNewUnauthorizedString = newValue.contains(str) ? true : containsNewUnauthorizedString; 
-            }
-            
-            return isSemiColonCorrect && isValueKeyCorrect && !containsNewUnauthorizedString;
-        }
-        
-        private boolean isProtectedField(String oldValue){
-          //checks if the oldValue was protected
-            boolean oldContainsProtectedString = false;
-            for(String str : Const.PROTECTED_STRING){
-                oldContainsProtectedString = oldValue.contains(str) ? true : oldContainsProtectedString;
-            }
-            return oldContainsProtectedString;
-        }
-        
-        @Override
-        public void startEdit() {
-            if(isProtectedField(this.getItem())){
-                this.cancelEdit();
-            }
-            else{
-                super.startEdit();
-            }
-        };
-        
-        @Override
-        public void commitEdit(String newValue) {
-            if (newValue.trim().isEmpty()) {
-                return;
-            }
-            else if(this.getTreeItem() != tree.getRoot() && !isValidExpression(getTreeItem(),newValue)){
-                return;
-            }
-            
-            super.commitEdit(newValue);
-        }
-
-    }
-    
+   
     public void loadFxml(){
         Stage stage = new Stage();
         stage.setTitle("Ajouter un service");
