@@ -50,7 +50,7 @@ public class ToolService {
     public void addTool(ToolModel tool) {
 
         this.tools.add(tool);
-        InfrastructureService.getInstance().getInfrastructure().get(0).getAttributesMap().put(tool.getName(), tool.getAttributesMap());
+        InfrastructureService.getInstance().getInfrastructure().getAttributesMap().put(tool.getName(), tool.getAttributesMap());
     }
     
     /**
@@ -68,6 +68,5 @@ public class ToolService {
                 this.addTool(new ToolModel(pair.getKey(),pair.getValue()));
             }
         }
-
     }
 }

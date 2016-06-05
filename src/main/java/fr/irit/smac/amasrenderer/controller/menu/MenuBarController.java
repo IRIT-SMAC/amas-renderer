@@ -23,8 +23,10 @@ import javafx.stage.FileChooser;
  */
 public class MenuBarController {
 
-    private GraphService          graphService          = GraphService.getInstance();
-    private ToolService           toolService           = ToolService.getInstance();
+    private GraphService graphService = GraphService.getInstance();
+
+    private ToolService toolService = ToolService.getInstance();
+
     private InfrastructureService infrastructureService = InfrastructureService.getInstance();
 
     private static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
@@ -36,6 +38,7 @@ public class MenuBarController {
      */
     @FXML
     public void clickMenuCharger() {
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choisir un fichier de configuration");
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
@@ -43,17 +46,17 @@ public class MenuBarController {
         File file = fileChooser.showOpenDialog(Main.getMainStage());
         ObjectMapper mapper = new ObjectMapper();
         try {
-            InfrastructureModel tmp = mapper.readValue(file, InfrastructureModel.class);
-            InfrastructureService.getInstance().editInfrastructure(tmp);
-            HashMap<String, Object> agentHandlerService = (HashMap<String, Object>) InfrastructureService.getInstance().getInfrastructure().get(0).getAttributesMap()
+            InfrastructureModel infrastructure = mapper.readValue(file, InfrastructureModel.class);
+            InfrastructureService.getInstance().setInfrastructure(infrastructure);
+            HashMap<String, Object> agentHandlerService = (HashMap<String, Object>) InfrastructureService.getInstance()
+                .getInfrastructure().getAttributesMap()
                 .get("agentHandlerService");
-
             HashMap<String, Object> agentMap = (HashMap<String, Object>) agentHandlerService.get("agentMap");
             graphService.createAgentGraphFromMap(agentMap);
             toolService.createServicesFromMap(
-                InfrastructureService.getInstance().getInfrastructure().get(0).getAttributesMap());
+                InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
             infrastructureService.createInfrastructureFromMap(
-                InfrastructureService.getInstance().getInfrastructure().get(0).getAttributesMap());
+                InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
             GraphService.getInstance().setQualityGraph();
         }
         catch (IOException e) {
@@ -67,6 +70,7 @@ public class MenuBarController {
      */
     @FXML
     public void clickMenuFermer() {
+
         Platform.exit();
         System.exit(0);
     }
@@ -82,7 +86,7 @@ public class MenuBarController {
         try {
             if (file != null)
                 mapper.writeValue(file,
-                    InfrastructureService.getInstance().getInfrastructure().get(0).getAttributesMap());
+                    InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
         }
         catch (IOException e) {
             e.printStackTrace();

@@ -47,6 +47,7 @@ public class InfrastructureAttributesController implements Initializable{
      */
     @FXML
     public void cancelButton() {
+        
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
@@ -61,12 +62,12 @@ public class InfrastructureAttributesController implements Initializable{
         dialogStage = stage;
     }
     
-    public void init(InfrastructureModel infra) {
+    public void init() {
         
-        this.infra = infra;
+        this.infra = InfrastructureService.getInstance().getInfrastructure();
         TreeItem<String> myItem = new TreeItem<>(infra.getName());
         tree.setRoot(myItem);
-        HashMap<String, Object> infrastructure = (HashMap<String, Object>) InfrastructureService.getInstance().getInfrastructure().get(0).getAttributesMap();
+        HashMap<String, Object> infrastructure = (HashMap<String, Object>) InfrastructureService.getInstance().getInfrastructure().getAttributesMap();
         AttributesService.getInstance().fillAttributes(infrastructure, myItem);
     }  
     
@@ -74,8 +75,6 @@ public class InfrastructureAttributesController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         this.tree.setEditable(true);
-
         tree.setCellFactory(p -> new MenuAttributesTreeCellController(tree));
-
     }
 }

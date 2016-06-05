@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
 public class AttributesService {
+    
     private static AttributesService instance = new AttributesService();
     
     public static AttributesService getInstance() {

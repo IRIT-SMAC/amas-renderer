@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class ToolDialogDeletionController {
+public class ToolDeletionController {
 
     @FXML
     private Button buttonConfirmRemove;
@@ -25,7 +25,7 @@ public class ToolDialogDeletionController {
     public void clickConfirmRemove() {
 
         ToolService.getInstance().getTools().remove(toolIndex);
-        InfrastructureService.getInstance().getInfrastructure().get(0).getAttributesMap().remove(toolName);
+        InfrastructureService.getInstance().getInfrastructure().getAttributesMap().remove(toolName);
         dialogStage.getScene().lookup("#attributesServiceDialog").getStyleClass().remove("secondaryWindow");
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();

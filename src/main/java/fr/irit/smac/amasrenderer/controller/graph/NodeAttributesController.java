@@ -9,7 +9,6 @@ import org.graphstream.graph.Node;
 
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.menu.MenuAttributesTreeCellController;
-import fr.irit.smac.amasrenderer.model.AgentModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.fxml.FXML;
@@ -26,23 +25,16 @@ import javafx.stage.Stage;
 public class NodeAttributesController implements Initializable {
 
     @FXML
-    private Button confButton;
-
+    private Button           confButton;
     @FXML
-    private Button cancButton;
-
+    private Button           cancButton;
     @FXML
     private TreeView<String> tree;
-
-    private Stage dialogStage;
-
-    private String baseAgentName;
-
-    private Node node;
-
-    private String newAgentName = null;
-
-    private String id;
+    private Stage            dialogStage;
+    private String           baseAgentName;
+    private Node             node;
+    private String           newAgentName = null;
+    private String           id;
 
     /**
      * Confirm button. Sets the new tree as the node tree, and exit this window
@@ -50,7 +42,8 @@ public class NodeAttributesController implements Initializable {
     @FXML
     public void confirmButton() {
 
-        AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(), (Map<String, Object>) GraphService.getInstance().getAgentMap().get(id));
+        AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
+            (Map<String, Object>) GraphService.getInstance().getAgentMap().get(id));
 
         newAgentName = tree.getRoot().getValue();
         if (newAgentName != baseAgentName) {
@@ -95,10 +88,8 @@ public class NodeAttributesController implements Initializable {
         HashMap<String, Object> agent = (HashMap<String, Object>) GraphService.getInstance().getAgentMap()
             .get(id);
         this.id = id;
-
         TreeItem<String> myItem = new TreeItem<>(id);
         tree.setRoot(myItem);
-
         AttributesService.getInstance().fillAttributes(agent, myItem);
     }
 

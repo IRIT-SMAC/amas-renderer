@@ -1,20 +1,16 @@
 package fr.irit.smac.amasrenderer
 
-import javafx.application.Platform
 import javafx.fxml.FXMLLoader
 import javafx.scene.input.KeyCode
-import javafx.scene.input.MouseButton
 import javafx.scene.layout.BorderPane
 
 import org.graphstream.ui.swingViewer.ViewPanel
 
-import spock.lang.AutoCleanup
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.controller.MainController
 import fr.irit.smac.amasrenderer.controller.graph.GraphController
-import fr.irit.smac.amasrenderer.model.GraphModel
 import fr.irit.smac.amasrenderer.service.GraphService
 
 @IgnoreIf({

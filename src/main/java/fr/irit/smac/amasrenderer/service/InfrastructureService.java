@@ -4,14 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
-import javafx.collections.ObservableList;
 
 /**
  * The Class InfrastructureService.
  */
 public class InfrastructureService {
 
-    private ObservableList<InfrastructureModel> infrastructure;
+    private InfrastructureModel infrastructure;
 
     private static InfrastructureService instance = new InfrastructureService();
 
@@ -35,27 +34,17 @@ public class InfrastructureService {
      *
      * @return the infrastructure
      */
-    public ObservableList<InfrastructureModel> getInfrastructure() {
+    public InfrastructureModel getInfrastructure() {
         return this.infrastructure;
     }
-
-    /**
-     * Edits the infrastructure.
-     *
-     * @param infrastructure
-     *            the infrastructure
-     */
-    public void editInfrastructure(InfrastructureModel infrastructure) {
-        this.infrastructure.add(0, infrastructure);
-    }
-
+    
     /**
      * Sets the infrastructure.
      *
      * @param infrastructure
      *            the new infrastructure
      */
-    public void setInfrastructure(ObservableList<InfrastructureModel> infrastructure) {
+    public void setInfrastructure(InfrastructureModel infrastructure) {
         this.infrastructure = infrastructure;
     }
 
@@ -67,16 +56,15 @@ public class InfrastructureService {
      */
     public void createInfrastructureFromMap(Map<String, Object> map) {
 
-        this.infrastructure.clear();
-        this.editInfrastructure(new InfrastructureModel("infra", (Map<String, Object>) map));
+        this.setInfrastructure(new InfrastructureModel("infra", (Map<String, Object>) map));
     }
     
     public void init() {
         
-        this.infrastructure.add(new InfrastructureModel("lala", new HashMap<String, Object>()));
+        this.infrastructure = new InfrastructureModel("lala", new HashMap<String, Object>());
 
         String infrastructureClassname = "BasicInfrastructure";
-        Map<String,Object> map = this.infrastructure.get(0).getAttributesMap();
+        Map<String,Object> map = this.infrastructure.getAttributesMap();
         map.put("className", infrastructureClassname);
         HashMap<String, Object> agentHandlerService = new HashMap<String, Object>();
         HashMap<String, Object> agentMap = new HashMap<String, Object>();

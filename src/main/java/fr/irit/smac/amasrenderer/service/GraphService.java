@@ -24,15 +24,15 @@ public class GraphService {
     private SingleGraph graph;
 
     private static GraphService instance = new GraphService();
-    
-    private Map<String,Object> agentMap;
+
+    private Map<String, Object> agentMap;
 
     /**
      * Instantiates a new graph service. to hide the constructor, use
      * getInstance to initiate it
      */
     private GraphService() {
-        
+
     }
 
     /**
@@ -49,17 +49,11 @@ public class GraphService {
      * Creates and initialise the agent graph.
      */
     public void createAgentGraph() {
+
         this.graph = new SingleGraph("AMAS Rendering");
         this.graph.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
-        
-        this.graph.setNodeFactory(new NodeFactory<Node>() {
-
-            @Override
-            public Node newInstance(String id, Graph graph) {
-
-                return new AgentModel((AbstractGraph) graph, id);
-            }
-        });
+        this.graph.setNodeFactory((id, graph) -> new AgentModel((AbstractGraph) graph, id));
+        this.setQualityGraph();
     }
 
     /**
@@ -101,7 +95,7 @@ public class GraphService {
      * @param target
      *            the id of the target node
      */
-    public void addEdgeGraph(String source, String target) {
+    public void addEdge(String source, String target) {
 
         graph.addEdge(source + target, source, target, true);
         graph.getEdge(source + target).setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_EDGE);
@@ -118,25 +112,6 @@ public class GraphService {
     public void removeEdge(Edge edge) {
 
         graph.removeEdge(edge);
-    }
-
-    /**
-     * Add or update an attribute on a node
-     * 
-     * @param id
-     *            the node id
-     * @param attribute
-     *            the attribute
-     * @param value
-     *            the value
-     * @param parent
-     *            the parent node
-     */
-    public void setNodeAttribute(String attribute, Object value, TreeItem<String> parent) {
-
-        TreeItem<String> item = new TreeItem<>();
-        item.setValue(attribute + " : " + value);
-        parent.getChildren().add(item);
     }
 
     /**
@@ -177,13 +152,14 @@ public class GraphService {
     }
 
     /**
-     * Create the agent graph from a map
+     * Creates the agent graph from a map
      * 
      * @param map
      *            the map
      */
     @SuppressWarnings("unchecked")
     public void createAgentGraphFromMap(Map<String, Object> map) {
+        
         this.clearGraph();
         fillAgentMap(map);
         Iterator<Map.Entry<String, Object>> agents = map.entrySet().iterator();
@@ -193,16 +169,16 @@ public class GraphService {
             HashMap<String, Object> currentAgent = (HashMap<String, Object>) currentAgentMap.getValue();
             fillAgentTargets(currentAgent);
         }
-
     }
 
     /**
-     * Create as many nodes as agents in the map
+     * Creates as many nodes as agents in the map
      * 
      * @param map
      *            the agent map
      */
     private void fillAgentMap(Map<String, Object> map) {
+        
         Iterator<Map.Entry<String, Object>> it = map.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, Object> agent = it.next();
@@ -218,12 +194,11 @@ public class GraphService {
      */
     @SuppressWarnings("unchecked")
     private void fillAgentTargets(HashMap<String, Object> agent) {
-        System.out.println(agent);
-        HashMap<String, Object> knowledgeMap = (HashMap<String, Object>) agent.get("knowledge");
 
+        HashMap<String, Object> knowledgeMap = (HashMap<String, Object>) agent.get("knowledge");
         ArrayList<String> targets = (ArrayList<String>) knowledgeMap.get("targets");
         for (String target : targets) {
-            this.addEdgeGraph((String) agent.get("id"), target);
+            this.addEdge((String) agent.get("id"), target);
         }
     }
 
@@ -231,6 +206,7 @@ public class GraphService {
      * Empty the graph and reset the stylesheet
      */
     private void clearGraph() {
+        
         this.graph.clear();
         this.graph.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
     }
@@ -244,7 +220,7 @@ public class GraphService {
         this.graph.addAttribute("layout.quality", 4);
         this.graph.addAttribute("ui.antialias");
     }
-    
+
     public Map<String, Object> getAgentMap() {
         return agentMap;
     }

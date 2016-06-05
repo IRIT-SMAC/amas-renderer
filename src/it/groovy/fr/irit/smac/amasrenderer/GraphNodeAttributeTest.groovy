@@ -13,7 +13,6 @@ import spock.lang.Ignore
 import spock.lang.Shared
 import fr.irit.smac.amasrenderer.controller.MainController
 import fr.irit.smac.amasrenderer.controller.graph.GraphController
-import fr.irit.smac.amasrenderer.model.GraphModel
 import fr.irit.smac.amasrenderer.service.GraphService
 
 //@IgnoreIf({

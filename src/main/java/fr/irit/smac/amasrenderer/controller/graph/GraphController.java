@@ -5,7 +5,6 @@ import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.graphstream.graph.Edge;
@@ -16,30 +15,24 @@ import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.controller.LoadWindowModalController;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.Window;
 
 /**
  * The Class
  */
-public class GraphController implements Initializable, GraphToolboxController.IGraphButtonsState {
+public class GraphController extends LoadWindowModalController
+    implements Initializable, GraphToolboxController.IGraphButtonsState {
 
     @FXML
     private StackPane stackPaneGraphNode;
@@ -59,6 +52,8 @@ public class GraphController implements Initializable, GraphToolboxController.IG
 
     private Viewer viewer;
 
+    private Node node;
+    
     private int currentNodeId;
 
     private Node source = null;
@@ -414,7 +409,7 @@ public class GraphController implements Initializable, GraphToolboxController.IG
 
         GraphicElement elt = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (elt != null && elt instanceof Node) {
-            Platform.runLater(() -> loadFxml((Node) elt));
+            Platform.runLater(() -> loadFxmlAttributes((Node) elt));
         }
     }
 
@@ -507,7 +502,7 @@ public class GraphController implements Initializable, GraphToolboxController.IG
     private void addEdge(MouseEvent e) {
 
         if (getEdge(e) == null && source != null && target != null) {
-            this.graphNodeService.addEdgeGraph(source.getId(), target.getId());
+            this.graphNodeService.addEdge(source.getId(), target.getId());
         }
         unselectSource();
     }
@@ -556,41 +551,10 @@ public class GraphController implements Initializable, GraphToolboxController.IG
      * @param node
      *            the node
      */
-    private void loadFxml(Node node) {
-        FXMLLoader loaderServices = new FXMLLoader();
+    private void loadFxmlAttributes(Node node) {
 
-        loaderServices.setLocation(Main.class.getResource("view/graph/GraphAttributes.fxml"));
-        try {
-            BorderPane root = loaderServices.load();
-
-            Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
-
-            NodeAttributesController treeModifyController = loaderServices.getController();
-
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Modification d'attribut");
-
-            Window window = graphNode.getScene().getWindow();
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(window);
-            Scene miniScene = new Scene(root);
-            dialogStage.setScene(miniScene);
-            dialogStage.initStyle(StageStyle.UNDECORATED);
-
-            double x = window.getX() + (window.getWidth() - root.getPrefWidth()) / 2;
-            double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
-            dialogStage.setX(x);
-            dialogStage.setY(y);
-
-            treeModifyController.init(node.getId());
-            treeModifyController.setNode(node);
-            treeModifyController.setStage(dialogStage);
-
-            dialogStage.showAndWait();
-        }
-        catch (IOException e2) {
-            LOGGER.log(Level.SEVERE, "The loading of the graph attributes fxml failed", e2);
-        }
+        this.node = node;
+        this.loadFxml(graphNode.getScene().getWindow(), "view/graph/GraphAttributes.fxml");
     }
 
     /*
@@ -625,7 +589,15 @@ public class GraphController implements Initializable, GraphToolboxController.IG
         this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
 
         graphToolboxController.setGraphButtonsState(this);
-        graphNodeService.setQualityGraph();
         graphNode.setContent(this.graphView);
+    }
+
+    @Override
+    public void initDialogModalController() throws IOException {
+
+        NodeAttributesController controller = loaderWindowModal.getController();
+        controller.init(node.getId());
+        controller.setNode(node);
+        controller.setStage(stageWindowModal);
     }
 }

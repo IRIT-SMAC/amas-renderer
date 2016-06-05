@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 /**
  * The Class ServiceDialogController This controller manages the popup form
  */
-public class ToolDialogAdditionController implements Initializable {
+public class ToolAdditionController implements Initializable {
 
     @FXML
     private Button buttonConfirm;
@@ -55,7 +55,7 @@ public class ToolDialogAdditionController implements Initializable {
 
             if (!found) {
               ToolService.getInstance().getTools().add(newTool);
-              InfrastructureService.getInstance().getInfrastructure().get(0).getAttributesMap().put(newTool.getName(), newTool.getAttributesMap());
+              InfrastructureService.getInstance().getInfrastructure().getAttributesMap().put(newTool.getName(), newTool.getAttributesMap());
             }
 
             Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");

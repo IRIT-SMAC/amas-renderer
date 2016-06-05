@@ -4,33 +4,21 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.controller.LoadWindowModalController;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.ToolService;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.Window;
 
 /**
  * The Class ServicesController. This controller handles the service part of the
  * main UI
  */
-public class ToolController implements Initializable {
+public class ToolController extends LoadWindowModalController implements Initializable {
 
     @FXML
     private Button buttonAddService;
@@ -38,63 +26,25 @@ public class ToolController implements Initializable {
     @FXML
     private ListView<ToolModel> listTool;
 
-    private Stage stage;
+    private ToolModel selectedLabel;
 
-    private static final Logger LOGGER = Logger.getLogger(ToolController.class.getName());
+    private EControllerState currentController;
+
+    private enum EControllerState {
+        TOOL_ATTRIBUTES_CONTROLLER, TOOL_ADDITION_CONTROLLER
+    }
 
     /**
      * Handle mouse click.
      */
     @FXML
     public void handleMouseClick() {
-        ToolModel selectedLabel = listTool.getSelectionModel().getSelectedItem();
+
+        selectedLabel = listTool.getSelectionModel().getSelectedItem();
         if (selectedLabel != null && selectedLabel.getName() != "") {
-            Platform.runLater(() -> loadFxml(selectedLabel.getName(), selectedLabel));
-        }
-    }
-
-    /**
-     * Load the services attributes fxml.
-     */
-    public void loadFxml(String selectedLabel, ToolModel tool) {
-
-        FXMLLoader loaderServices = new FXMLLoader();
-        loaderServices.setLocation(Main.class.getResource("view/tool/ServiceAttributes.fxml"));
-        BorderPane root;
-        try {
-            root = loaderServices.load();
-
-            Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
-
-            ToolAttributesController serviceModifyController = loaderServices.getController();
-
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Modification d'attribut");
-
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-
-            Window window = buttonAddService.getScene().getWindow();
-            dialogStage.initOwner(window);
-            Scene miniScene = new Scene(root);
-            dialogStage.setScene(miniScene);
-            dialogStage.initStyle(StageStyle.UNDECORATED);
-            dialogStage.setMinHeight(380);
-            dialogStage.setMinWidth(440);
-
-            double x = window.getX() + (window.getWidth() - root.getPrefWidth()) / 2;
-            double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
-            dialogStage.setX(x);
-            dialogStage.setY(y);
-
-            serviceModifyController.setStage(dialogStage);
-            serviceModifyController.init(listTool, selectedLabel, tool);
-            miniScene.setFill(Color.BLACK);
-
-            dialogStage.showAndWait();
+            currentController = EControllerState.TOOL_ATTRIBUTES_CONTROLLER;
+            this.loadFxml(buttonAddService.getScene().getWindow(), "view/tool/ServiceAttributes.fxml");
             listTool.getSelectionModel().clearSelection();
-        }
-        catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "The loading of the services attributes fxml failed", e);
         }
     }
 
@@ -107,30 +57,8 @@ public class ToolController implements Initializable {
     @FXML
     public void addTool() throws IOException {
 
-        stage = new Stage();
-        stage.setTitle("Ajouter un service");
-        stage.setResizable(false);
-
-        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("view/tool/ToolDialog.fxml"));
-        DialogPane root = (DialogPane) loader.load();
-        stage.initModality(Modality.WINDOW_MODAL);
-        Window window = buttonAddService.getScene().getWindow();
-        stage.initOwner(buttonAddService.getScene().getWindow());
-        stage.initStyle(StageStyle.UNDECORATED);
-
-        Scene myScene = new Scene(root);
-
-        double x = window.getX() + (window.getWidth() - root.getPrefWidth()) / 2;
-        double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
-        stage.setX(x);
-        stage.setY(y);
-
-        stage.setScene(myScene);
-
-        stage.showAndWait();
+        currentController = EControllerState.TOOL_ADDITION_CONTROLLER;
+        this.loadFxml(buttonAddService.getScene().getWindow(), "view/tool/ToolDialog.fxml");
     }
 
     /*
@@ -143,13 +71,21 @@ public class ToolController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         ArrayList<ToolModel> list = new ArrayList<>();
-
         for (ToolModel tool : listTool.getItems()) {
             list.add(tool);
         }
         ToolService.getInstance().setTools(FXCollections.observableArrayList(list));
-
         listTool.setItems(ToolService.getInstance().getTools());
     }
 
+    @Override
+    public void initDialogModalController() throws IOException {
+
+        if (currentController == EControllerState.TOOL_ATTRIBUTES_CONTROLLER) {
+            ToolAttributesController controller;
+            controller = (ToolAttributesController) loaderWindowModal.getController();
+            controller.setStage(this.stageWindowModal);
+            controller.init(listTool, selectedLabel.getName(), selectedLabel);
+        }
+    }
 }

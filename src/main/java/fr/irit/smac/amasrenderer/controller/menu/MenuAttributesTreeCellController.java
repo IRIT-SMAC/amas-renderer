@@ -10,7 +10,8 @@ import javafx.util.converter.DefaultStringConverter;
 
 public class MenuAttributesTreeCellController extends TextFieldTreeCell<String> {
 
-    private ContextMenu      menu = new ContextMenu();
+    private ContextMenu menu = new ContextMenu();
+
     private TreeView<String> tree;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

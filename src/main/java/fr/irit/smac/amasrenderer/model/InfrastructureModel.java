@@ -12,13 +12,13 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 public class InfrastructureModel {
 
     private Map<String, Object> attributesMap = new HashMap<String, Object>();
-    
+
     private String name;
-    
+
     public InfrastructureModel() {
-        
+
     }
-    
+
     public InfrastructureModel(String name) {
         this.name = name;
     }
@@ -34,12 +34,8 @@ public class InfrastructureModel {
     }
 
     @JsonAnySetter
-    public void set(String name, Object value) {
+    public void setAttributesMap(String name, Object value) {
         this.attributesMap.put(name, value);
-    }
-    
-    public void setAttributesMap(Map<String, Object> attributesMap) {
-        this.attributesMap = attributesMap;
     }
 
     public String getName() {
@@ -49,7 +45,7 @@ public class InfrastructureModel {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public String toString() {
         return this.name;
     }

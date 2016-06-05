@@ -13,8 +13,8 @@ public class AgentModel extends SingleNode {
 
     private Map<String, Object> attributesMap;
     Map<String, Object>         knowledgeMap = new HashMap<String, Object>();
-    ArrayList<String> targets;
-    
+    ArrayList<String>           targets;
+
     public AgentModel(AbstractGraph graph, String id) {
 
         super(graph, id);
@@ -30,7 +30,7 @@ public class AgentModel extends SingleNode {
     public ArrayList<String> getTargets() {
         return targets;
     }
-    
+
     public void addTarget(String target) {
         this.targets.add(target);
     }
