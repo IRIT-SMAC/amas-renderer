@@ -7,4 +7,6 @@ public interface IConstraintFields {
     String[] getProtectedValue();
     
     String[] getNotExpanded();
+    
+    String[] getRequiredKeyComplex();
 }

@@ -1,5 +1,7 @@
 package fr.irit.smac.amasrenderer.controller.menu;
 
+import java.util.Arrays;
+
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.AgentModel;
@@ -18,66 +20,67 @@ public class MenuAttributesTreeCellController extends TextFieldTreeCell<String> 
 
     private ContextMenu menu = new ContextMenu();
 
-    private TreeView<String> tree;
-
     private boolean isRequired = false;
 
     private boolean isProtected;
 
     private IConstraintFields node;
 
+    private boolean isRequiredKeyComplex;
+
+    private MenuItem renameItem;
+
+    private MenuItem addItem;
+
+    private MenuItem removeItem;
+
+    private boolean isParentSingleNode;
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public MenuAttributesTreeCellController(TreeView<String> tree, IConstraintFields node) {
+
         super(new DefaultStringConverter());
-        this.tree = tree;
         this.node = node;
 
         menu.setId("treeAttributeItem");
-        MenuItem renameItem = new MenuItem("Renommer");
+        renameItem = new MenuItem("Renommer");
         renameItem.setId("renameAttributeItem");
-        menu.getItems().add(renameItem);
 
         renameItem.setOnAction(e -> startEdit());
 
-        MenuItem addItem = new MenuItem("Ajouter");
-        menu.getItems().add(addItem);
+        addItem = new MenuItem("Ajouter");
         addItem.setId("addAttributeItem");
         addItem.setOnAction(e -> {
             TreeItem newItem = new TreeItem<String>("Nouvel attribut");
             getTreeItem().getChildren().add(newItem);
         });
 
-        MenuItem removeItem = new MenuItem("Supprimer");
-        menu.getItems().add(removeItem);
+        removeItem = new MenuItem("Supprimer");
         removeItem.setId("removeAttributeItem");
         removeItem.setOnAction(e -> {
             getTreeItem().getParent().getChildren().remove(getTreeItem());
         });
+
     }
 
-    /**
-     * test if the string new value is valid
-     * 
-     * @param newValue
-     * @return
-     */
-    private boolean isValidExpression(TreeItem<String> item, String newValue) {
+    private void checkNode(String item) {
 
         isRequired = false;
         isProtected = false;
-        for (String requiredField : node.getRequiredKey()) {
-            if (requiredField.equals(newValue)) {
-                isRequired = true;
-            }
-        }
+        isRequiredKeyComplex = false;
+        isParentSingleNode = false;
 
-        for (String protectedField : node.getProtectedValue()) {
-            if (protectedField.equals(newValue)) {
-                isProtected = true;
+        if (node != null) {
+            isRequired = Arrays.asList(node.getRequiredKey()).contains(item);
+            if (this.getTreeItem().getParent() != null) {
+                isParentSingleNode = Arrays.asList(node.getRequiredKey())
+                    .contains(this.getTreeItem().getParent().getValue());
+                isProtected = Arrays.asList(node.getProtectedValue())
+                    .contains(this.getTreeItem().getParent().getValue());
             }
-        }
 
-        return !isProtected && !isRequired;
+            isRequiredKeyComplex = Arrays.asList(node.getRequiredKeyComplex()).contains(item);
+        }
     }
 
     @Override
@@ -85,33 +88,24 @@ public class MenuAttributesTreeCellController extends TextFieldTreeCell<String> 
         super.updateItem(item, empty);
 
         if (!empty && !isEditing()) {
-            isRequired = false;
-            isProtected = false;
-
-            if (node != null) {
-                for (String requiredField : node.getRequiredKey()) {
-
-                    if (item.equals(requiredField)) {
-                        isRequired = true;
-                    }
-                }
-
-                for (String protectedField : node.getProtectedValue()) {
-
-                    if (this.getTreeItem().getParent() != null
-                        && this.getTreeItem().getParent().getValue().equals(protectedField)) {
-                        isProtected = true;
-                    }
-                }
-            }
-            else {
-                isRequired = true;
-                isProtected = true;
-            }
+            checkNode(item);
 
             if (!isRequired && !isProtected) {
                 ImageView imgView = new ImageView(new Image(Main.class.getResource("image/edit.png").toExternalForm()));
                 this.getTreeItem().setGraphic(imgView);
+
+                if (isRequiredKeyComplex) {
+                    menu.getItems().add(addItem);
+                }
+                else if (isParentSingleNode) {
+                    menu.getItems().add(renameItem);
+                }
+                else {
+                    menu.getItems().add(renameItem);
+                    menu.getItems().add(removeItem);
+                    menu.getItems().add(addItem);
+                }
+
                 setContextMenu(menu);
             }
         }
@@ -120,7 +114,7 @@ public class MenuAttributesTreeCellController extends TextFieldTreeCell<String> 
 
     @Override
     public void startEdit() {
-        if (isRequired || isProtected) {
+        if (isRequired || isProtected || isRequiredKeyComplex) {
             this.cancelEdit();
         }
         else {
@@ -133,7 +127,9 @@ public class MenuAttributesTreeCellController extends TextFieldTreeCell<String> 
         if (newValue.trim().isEmpty()) {
             return;
         }
-        else if (!isValidExpression(getTreeItem(), newValue)) {
+        else if (Arrays.asList(node.getRequiredKeyComplex()).contains(newValue)
+            || Arrays.asList(node.getRequiredKey()).contains(newValue)
+            || Arrays.asList(node.getProtectedValue()).contains(newValue)) {
             return;
         }
 

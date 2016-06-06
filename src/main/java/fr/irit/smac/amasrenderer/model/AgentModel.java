@@ -10,15 +10,19 @@ import org.graphstream.graph.implementations.SingleNode;
 
 import fr.irit.smac.amasrenderer.service.GraphService;
 
-public class AgentModel extends SingleNode implements Node, IConstraintFields{
+public class AgentModel extends SingleNode implements Node, IConstraintFields {
 
     private Map<String, Object> attributesMap;
-    Map<String, Object>         knowledgeMap = new HashMap<String, Object>();
-    ArrayList<String>           targets;
-    private String[] REQUIRED_KEY = {"knowledge", "id", "targets"};
-    private String[] PROTECTED_VALUE = {"targets"}; 
-    private String[] NOT_EXPANDED = {};
-    
+
+    private Map<String, Object> knowledgeMap = new HashMap<String, Object>();
+
+    private ArrayList<String> targets;
+
+    private final String[] requiredKey       = { "id", "targets" };
+    private final String[] protectedValue     = { "targets" };
+    private final String[] notExpanded        = {};
+    private final String[] requiredKeyComplex = { "knowledge" };
+
     public AgentModel(AbstractGraph graph, String id) {
 
         super(graph, id);
@@ -42,17 +46,21 @@ public class AgentModel extends SingleNode implements Node, IConstraintFields{
     public Map<String, Object> getAttributesMap() {
         return attributesMap;
     }
-    
+
     public String[] getRequiredKey() {
-        return REQUIRED_KEY;
+        return requiredKey;
     }
-    
+
     public String[] getProtectedValue() {
-        return PROTECTED_VALUE;
+        return protectedValue;
     }
 
     @Override
     public String[] getNotExpanded() {
-        return this.NOT_EXPANDED;
+        return this.notExpanded;
+    }
+
+    public String[] getRequiredKeyComplex() {
+        return this.requiredKeyComplex;
     }
 }

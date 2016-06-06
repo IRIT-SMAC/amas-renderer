@@ -9,12 +9,14 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 /**
  * The Class InfrastructureModel.
  */
-public class InfrastructureModel implements IConstraintFields{
+public class InfrastructureModel implements IConstraintFields {
 
     private Map<String, Object> attributesMap = new HashMap<String, Object>();
-    private String[] REQUIRED_KEY = {"className"};
-    private String[] PROTECTED_VALUE = {}; 
-    private String[] NOT_EXPANDED = {"Service"};
+
+    private final String[] requiredKey       = { "className" };
+    private final String[] protectedValue     = {};
+    private final String[] notExpanded        = { "Service" };
+    private final String[] requiredKeyComplex = {};
 
     private String name;
 
@@ -55,16 +57,21 @@ public class InfrastructureModel implements IConstraintFields{
 
     @Override
     public String[] getRequiredKey() {
-        return this.REQUIRED_KEY;
+        return this.requiredKey;
     }
 
     @Override
     public String[] getProtectedValue() {
-        return this.PROTECTED_VALUE;
+        return this.protectedValue;
     }
 
     @Override
     public String[] getNotExpanded() {
-        return this.NOT_EXPANDED;
+        return this.notExpanded;
+    }
+
+    @Override
+    public String[] getRequiredKeyComplex() {
+        return this.requiredKeyComplex;
     }
 }

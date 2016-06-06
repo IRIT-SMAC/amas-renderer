@@ -9,20 +9,23 @@ import java.util.Map;
 public class ToolModel implements IConstraintFields {
 
     private String name;
+
     private Map<String, Object> attributesMap = new HashMap<String, Object>();
-    private String[] REQUIRED_KEY = {"agentMap", "className"};
-    private String[] PROTECTED_VALUE = {}; 
-    private String[] NOT_EXPANDED = {"agentMap"};
-    
+
+    private final String[] requiredKey        = { "agentMap", "className" };
+    private final String[] protectedValue     = {};
+    private final String[] notExpanded        = { "agentMap" };
+    private final String[] requiredKeyComplex = {};
+
     public ToolModel() {
 
     }
-    
+
     public ToolModel(String name) {
         super();
         this.name = name;
     }
-    
+
     @SuppressWarnings("unchecked")
     public ToolModel(String name, Object map) {
         super();
@@ -37,7 +40,7 @@ public class ToolModel implements IConstraintFields {
     public void setAttributesMap(Map<String, Object> servicesMap) {
         this.attributesMap = servicesMap;
     }
-    
+
     public String toString() {
         return name;
     }
@@ -52,16 +55,21 @@ public class ToolModel implements IConstraintFields {
 
     @Override
     public String[] getRequiredKey() {
-        return this.REQUIRED_KEY;
+        return this.requiredKey;
     }
 
     @Override
     public String[] getProtectedValue() {
-        return this.PROTECTED_VALUE;
+        return this.protectedValue;
     }
 
     @Override
     public String[] getNotExpanded() {
-        return NOT_EXPANDED;
+        return notExpanded;
+    }
+
+    @Override
+    public String[] getRequiredKeyComplex() {
+        return this.requiredKeyComplex;
     }
 }
