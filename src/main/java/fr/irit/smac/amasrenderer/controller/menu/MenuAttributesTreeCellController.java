@@ -43,24 +43,25 @@ public class MenuAttributesTreeCellController extends TextFieldTreeCell<String> 
         this.node = node;
 
         menu.setId("treeAttributeItem");
-        renameItem = new MenuItem("Renommer");
-        renameItem.setId("renameAttributeItem");
-
-        renameItem.setOnAction(e -> startEdit());
-
         addItem = new MenuItem("Ajouter");
         addItem.setId("addAttributeItem");
         addItem.setOnAction(e -> {
             TreeItem newItem = new TreeItem<String>("Nouvel attribut");
             getTreeItem().getChildren().add(newItem);
         });
+        menu.getItems().add(addItem);
 
         removeItem = new MenuItem("Supprimer");
         removeItem.setId("removeAttributeItem");
         removeItem.setOnAction(e -> {
             getTreeItem().getParent().getChildren().remove(getTreeItem());
         });
+        menu.getItems().add(removeItem);
 
+        renameItem = new MenuItem("Renommer");
+        renameItem.setId("renameAttributeItem");
+        renameItem.setOnAction(e -> startEdit());
+        menu.getItems().add(renameItem);
     }
 
     private void checkNode(String item) {
@@ -95,19 +96,22 @@ public class MenuAttributesTreeCellController extends TextFieldTreeCell<String> 
                 this.getTreeItem().setGraphic(imgView);
 
                 if (isRequiredKeyComplex) {
-                    menu.getItems().add(addItem);
+                    renameItem.setDisable(true);
+                    removeItem.setDisable(true);
                 }
                 else if (isParentSingleNode) {
-                    menu.getItems().add(renameItem);
+                    removeItem.setDisable(true);
+                    addItem.setDisable(true);
                 }
-                else {
-                    menu.getItems().add(renameItem);
-                    menu.getItems().add(removeItem);
-                    menu.getItems().add(addItem);
-                }
-
-                setContextMenu(menu);
             }
+            else {
+                renameItem.setDisable(true);
+                removeItem.setDisable(true);
+                addItem.setDisable(true);
+            }
+
+            setContextMenu(menu);
+
         }
 
     }

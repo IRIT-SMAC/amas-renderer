@@ -20,10 +20,7 @@ public class AttributesService {
 
         attributesMap.clear();
         for (TreeItem<String> subItem : item.getChildren()) {
-
-            String[] splitItem = ((String) subItem.getValue()).split(" : ");
-            String keyItem = splitItem[0];
-            this.updateChildrenAttributesMap(subItem, attributesMap, keyItem);
+            this.updateChildrenAttributesMap(subItem, attributesMap, subItem.getValue());
         }
     }
 
@@ -31,20 +28,25 @@ public class AttributesService {
 
         ObservableList<TreeItem<String>> node = item.getChildren();
 
-        if (node.size() > 0) {
+        System.out.println(key);
+        if (node.size() > 1 || (node.size() == 1 && !node.get(0).getChildren().isEmpty())) {
+            System.out.println("----");
+            System.out.println("children node " + node.get(0).getChildren());
+            
             Map<String, Object> newServiceMap = new HashMap<String, Object>();
             for (TreeItem<String> subItem : node) {
-
-                String[] splitItem = ((String) subItem.getValue()).split(" : ");
-                String keyItem = splitItem[0];
-                updateChildrenAttributesMap(subItem, newServiceMap, keyItem);
+                updateChildrenAttributesMap(subItem, newServiceMap, subItem.getValue());
             }
             map.put(key, newServiceMap);
         }
-        else {
-            String[] splitItem = ((String) item.getValue()).split(" : ");
-            String value = splitItem[1];
-            map.put(key, value);
+        else if (node.size() > 0) {
+
+//            System.out.println(node.get(0).getChildren());
+            map.put(item.getValue(), node.get(0).getValue());
+        } else {
+            System.out.println("***");
+            System.out.println(item);
+            System.out.println(item.getChildren());
         }
     }
 
