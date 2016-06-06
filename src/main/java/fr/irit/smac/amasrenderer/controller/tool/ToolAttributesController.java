@@ -10,6 +10,7 @@ import fr.irit.smac.amasrenderer.controller.LoadWindowModalController;
 import fr.irit.smac.amasrenderer.controller.menu.MenuAttributesTreeCellController;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
+import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -67,7 +68,7 @@ public class ToolAttributesController extends LoadWindowModalController implemen
 		TreeItem<String> myItem = new TreeItem<>(name);
 		tree.setRoot(myItem);
 		HashMap<String, Object> service = (HashMap<String, Object>) tool.getAttributesMap();
-		AttributesService.getInstance().fillAttributes(service, myItem);
+		AttributesService.getInstance().fillAttributes(service, myItem, tool);
     }
 	
     /**
@@ -105,7 +106,7 @@ public class ToolAttributesController extends LoadWindowModalController implemen
     public void initialize(URL location, ResourceBundle resources) {
 
         this.tree.setEditable(true);
-        tree.setCellFactory(p -> new MenuAttributesTreeCellController(tree));
+        tree.setCellFactory(p -> new MenuAttributesTreeCellController(tree, tool));
     }
    
     public void initDialogModalController() throws IOException {

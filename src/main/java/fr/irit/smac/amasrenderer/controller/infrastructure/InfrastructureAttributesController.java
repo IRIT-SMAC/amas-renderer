@@ -68,13 +68,13 @@ public class InfrastructureAttributesController implements Initializable{
         TreeItem<String> myItem = new TreeItem<>(infra.getName());
         tree.setRoot(myItem);
         HashMap<String, Object> infrastructure = (HashMap<String, Object>) InfrastructureService.getInstance().getInfrastructure().getAttributesMap();
-        AttributesService.getInstance().fillAttributes(infrastructure, myItem);
+        AttributesService.getInstance().fillAttributes(infrastructure, myItem, infra);
     }  
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         this.tree.setEditable(true);
-        tree.setCellFactory(p -> new MenuAttributesTreeCellController(tree));
+        tree.setCellFactory(p -> new MenuAttributesTreeCellController(tree, infra));
     }
 }

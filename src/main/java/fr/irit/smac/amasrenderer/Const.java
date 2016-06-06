@@ -35,16 +35,6 @@ public final class Const {
     
     public static final String KEY_VALUE_SEPARATOR = " : ";
     
-    public static final String[] UNAUTHORISED_STRING = 
-    {
-        "j'aime pas amas-renderer",
-        "graph stream",
-        "graphstream",
-        "GraphStream"
-    }; 
-    
-    public static final String[] PROTECTED_STRING = {"michel c'est le bresil","il danse la samba"}; 
-    
     /**
      * Instantiates a new const (just to hide the constructor).
      */

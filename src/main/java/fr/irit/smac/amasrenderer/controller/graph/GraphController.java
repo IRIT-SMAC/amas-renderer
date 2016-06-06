@@ -4,6 +4,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -16,6 +17,7 @@ import org.graphstream.ui.view.Viewer;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.LoadWindowModalController;
+import fr.irit.smac.amasrenderer.model.AgentModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
@@ -52,7 +54,7 @@ public class GraphController extends LoadWindowModalController
 
     private Viewer viewer;
 
-    private Node node;
+    private AgentModel node;
     
     private int currentNodeId;
 
@@ -553,7 +555,7 @@ public class GraphController extends LoadWindowModalController
      */
     private void loadFxmlAttributes(Node node) {
 
-        this.node = node;
+        this.node = GraphService.getInstance().getGraph().getNode(node.getId());
         this.loadFxml(graphNode.getScene().getWindow(), "view/graph/GraphAttributes.fxml");
     }
 

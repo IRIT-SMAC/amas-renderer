@@ -1,11 +1,17 @@
 package fr.irit.smac.amasrenderer.controller.menu;
 
 import fr.irit.smac.amasrenderer.Const;
+import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.model.AgentModel;
+import fr.irit.smac.amasrenderer.model.IConstraintFields;
+import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TextFieldTreeCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.converter.DefaultStringConverter;
 
 public class MenuAttributesTreeCellController extends TextFieldTreeCell<String> {
@@ -14,14 +20,23 @@ public class MenuAttributesTreeCellController extends TextFieldTreeCell<String> 
 
     private TreeView<String> tree;
 
+    private boolean isRequired = false;
+
+    private boolean isProtected;
+
+    private IConstraintFields node;
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public MenuAttributesTreeCellController(TreeView<String> tree) {
+    public MenuAttributesTreeCellController(TreeView<String> tree, IConstraintFields node) {
         super(new DefaultStringConverter());
         this.tree = tree;
+        this.node = node;
+
         menu.setId("treeAttributeItem");
         MenuItem renameItem = new MenuItem("Renommer");
         renameItem.setId("renameAttributeItem");
         menu.getItems().add(renameItem);
+
         renameItem.setOnAction(e -> startEdit());
 
         MenuItem addItem = new MenuItem("Ajouter");
@@ -36,9 +51,7 @@ public class MenuAttributesTreeCellController extends TextFieldTreeCell<String> 
         menu.getItems().add(removeItem);
         removeItem.setId("removeAttributeItem");
         removeItem.setOnAction(e -> {
-            if (!isProtectedField(getItem())) {
-                getTreeItem().getParent().getChildren().remove(getTreeItem());
-            }
+            getTreeItem().getParent().getChildren().remove(getTreeItem());
         });
     }
 
@@ -49,36 +62,22 @@ public class MenuAttributesTreeCellController extends TextFieldTreeCell<String> 
      * @return
      */
     private boolean isValidExpression(TreeItem<String> item, String newValue) {
-        boolean isSemiColonCorrect = false;
-        boolean isValueKeyCorrect = false;
-        // checks if the new value has the good key-value séparator ( and
-        // only one )
-        if (item.getChildren().size() == 0) {
-            isSemiColonCorrect = newValue.split(Const.KEY_VALUE_SEPARATOR).length == 2;
-            if (isSemiColonCorrect)
-                isValueKeyCorrect = !newValue.split(Const.KEY_VALUE_SEPARATOR)[0].trim().isEmpty()
-                    && !newValue.split(Const.KEY_VALUE_SEPARATOR)[1].trim().isEmpty();
-        }
-        else {
-            isSemiColonCorrect = !(newValue.contains(":") || newValue.contains(" "));
-            isValueKeyCorrect = !newValue.trim().isEmpty();
-        }
-        // checks if the new value contains an unauthorized string
-        boolean containsNewUnauthorizedString = false;
-        for (String str : Const.UNAUTHORISED_STRING) {
-            containsNewUnauthorizedString = newValue.contains(str) ? true : containsNewUnauthorizedString;
+
+        isRequired = false;
+        isProtected = false;
+        for (String requiredField : node.getRequiredKey()) {
+            if (requiredField.equals(newValue)) {
+                isRequired = true;
+            }
         }
 
-        return isSemiColonCorrect && isValueKeyCorrect && !containsNewUnauthorizedString;
-    }
-
-    private boolean isProtectedField(String oldValue) {
-        // checks if the oldValue was protected
-        boolean oldContainsProtectedString = false;
-        for (String str : Const.PROTECTED_STRING) {
-            oldContainsProtectedString = oldValue.contains(str) ? true : oldContainsProtectedString;
+        for (String protectedField : node.getProtectedValue()) {
+            if (protectedField.equals(newValue)) {
+                isProtected = true;
+            }
         }
-        return oldContainsProtectedString;
+
+        return !isProtected && !isRequired;
     }
 
     @Override
@@ -86,13 +85,42 @@ public class MenuAttributesTreeCellController extends TextFieldTreeCell<String> 
         super.updateItem(item, empty);
 
         if (!empty && !isEditing()) {
-            setContextMenu(menu);
+            isRequired = false;
+            isProtected = false;
+
+            if (node != null) {
+                for (String requiredField : node.getRequiredKey()) {
+
+                    if (item.equals(requiredField)) {
+                        isRequired = true;
+                    }
+                }
+
+                for (String protectedField : node.getProtectedValue()) {
+
+                    if (this.getTreeItem().getParent() != null
+                        && this.getTreeItem().getParent().getValue().equals(protectedField)) {
+                        isProtected = true;
+                    }
+                }
+            }
+            else {
+                isRequired = true;
+                isProtected = true;
+            }
+
+            if (!isRequired && !isProtected) {
+                ImageView imgView = new ImageView(new Image(Main.class.getResource("image/edit.png").toExternalForm()));
+                this.getTreeItem().setGraphic(imgView);
+                setContextMenu(menu);
+            }
         }
+
     }
 
     @Override
     public void startEdit() {
-        if (isProtectedField(this.getItem())) {
+        if (isRequired || isProtected) {
             this.cancelEdit();
         }
         else {
@@ -105,7 +133,7 @@ public class MenuAttributesTreeCellController extends TextFieldTreeCell<String> 
         if (newValue.trim().isEmpty()) {
             return;
         }
-        else if (this.getTreeItem() != tree.getRoot() && !isValidExpression(getTreeItem(), newValue)) {
+        else if (!isValidExpression(getTreeItem(), newValue)) {
             return;
         }
 

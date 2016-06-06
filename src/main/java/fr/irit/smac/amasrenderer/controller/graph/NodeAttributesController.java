@@ -9,6 +9,8 @@ import org.graphstream.graph.Node;
 
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.menu.MenuAttributesTreeCellController;
+import fr.irit.smac.amasrenderer.model.AgentModel;
+import fr.irit.smac.amasrenderer.model.IConstraintFields;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.fxml.FXML;
@@ -32,7 +34,7 @@ public class NodeAttributesController implements Initializable {
     private TreeView<String> tree;
     private Stage            dialogStage;
     private String           baseAgentName;
-    private Node             node;
+    private AgentModel             node;
     private String           newAgentName = null;
     private String           id;
 
@@ -78,7 +80,7 @@ public class NodeAttributesController implements Initializable {
      * @param node
      *            the node to modify
      */
-    public void setNode(Node node) {
+    public void setNode(AgentModel node) {
         this.node = node;
     }
 
@@ -90,14 +92,15 @@ public class NodeAttributesController implements Initializable {
         this.id = id;
         TreeItem<String> myItem = new TreeItem<>(id);
         tree.setRoot(myItem);
-        AttributesService.getInstance().fillAttributes(agent, myItem);
+        AttributesService.getInstance().fillAttributes(agent, myItem, (IConstraintFields) node);
+        this.tree.setCellFactory(p -> new MenuAttributesTreeCellController(tree, (IConstraintFields) node));
+
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         this.tree.setEditable(true);
-        tree.setCellFactory(p -> new MenuAttributesTreeCellController(tree));
     }
 
 }

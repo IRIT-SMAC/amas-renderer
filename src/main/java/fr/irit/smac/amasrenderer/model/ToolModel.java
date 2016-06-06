@@ -6,11 +6,14 @@ import java.util.Map;
 /**
  * The Class ToolModel.
  */
-public class ToolModel {
+public class ToolModel implements IConstraintFields {
 
     private String name;
     private Map<String, Object> attributesMap = new HashMap<String, Object>();
-
+    private String[] REQUIRED_KEY = {"agentMap", "className"};
+    private String[] PROTECTED_VALUE = {}; 
+    private String[] NOT_EXPANDED = {"agentMap"};
+    
     public ToolModel() {
 
     }
@@ -46,6 +49,19 @@ public class ToolModel {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
+    @Override
+    public String[] getRequiredKey() {
+        return this.REQUIRED_KEY;
+    }
+
+    @Override
+    public String[] getProtectedValue() {
+        return this.PROTECTED_VALUE;
+    }
+
+    @Override
+    public String[] getNotExpanded() {
+        return NOT_EXPANDED;
+    }
 }
