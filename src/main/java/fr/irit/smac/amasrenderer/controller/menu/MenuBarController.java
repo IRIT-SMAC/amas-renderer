@@ -23,12 +23,6 @@ import javafx.stage.FileChooser;
  */
 public class MenuBarController {
 
-    private GraphService graphService = GraphService.getInstance();
-
-    private ToolService toolService = ToolService.getInstance();
-
-    private InfrastructureService infrastructureService = InfrastructureService.getInstance();
-
     private static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
 
     /**
@@ -47,17 +41,7 @@ public class MenuBarController {
         ObjectMapper mapper = new ObjectMapper();
         try {
             InfrastructureModel infrastructure = mapper.readValue(file, InfrastructureModel.class);
-            InfrastructureService.getInstance().setInfrastructure(infrastructure);
-            HashMap<String, Object> agentHandlerService = (HashMap<String, Object>) InfrastructureService.getInstance()
-                .getInfrastructure().getAttributesMap()
-                .get("agentHandlerService");
-            HashMap<String, Object> agentMap = (HashMap<String, Object>) agentHandlerService.get("agentMap");
-            graphService.createAgentGraphFromMap(agentMap);
-            toolService.createServicesFromMap(
-                InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
-            infrastructureService.createInfrastructureFromMap(
-                InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
-            GraphService.getInstance().setQualityGraph();
+            InfrastructureService.getInstance().updateInfrastructureFromModel(infrastructure);
         }
         catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.", e);

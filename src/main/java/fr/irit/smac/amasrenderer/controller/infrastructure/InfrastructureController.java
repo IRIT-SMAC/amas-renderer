@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import fr.irit.smac.amasrenderer.model.InfrastructureModel;
 
 public class InfrastructureController extends LoadWindowModalController implements Initializable {
 
@@ -40,6 +41,7 @@ public class InfrastructureController extends LoadWindowModalController implemen
     public void initialize(URL location, ResourceBundle resources) {
 
         InfrastructureService.getInstance().init();
+        
         InfrastructureService.getInstance().getInfrastructure().nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
                 infrastructureLabel.setText(newValue);

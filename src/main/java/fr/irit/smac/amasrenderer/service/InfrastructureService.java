@@ -37,7 +37,7 @@ public class InfrastructureService {
     public InfrastructureModel getInfrastructure() {
         return this.infrastructure;
     }
-    
+
     /**
      * Sets the infrastructure.
      *
@@ -48,23 +48,27 @@ public class InfrastructureService {
         this.infrastructure = infrastructure;
     }
 
-    /**
-     * Creates the infrastructures from map.
-     *
-     * @param map
-     *            the map
-     */
-    public void createInfrastructureFromMap(Map<String, Object> map) {
+    public void updateInfrastructureFromModel(InfrastructureModel infrastructureFile) {
 
-        this.setInfrastructure(new InfrastructureModel("infra", (Map<String, Object>) map));
+        String[] infrastructureName = infrastructureFile.getAttributesMap().get("className").toString().split("\\.");
+        InfrastructureService.getInstance().getInfrastructure()
+            .setName(infrastructureName[infrastructureName.length - 1]);
+        InfrastructureService.getInstance().getInfrastructure().setAttributes(infrastructureFile.getAttributesMap());
+        Map<String, Object> agentHandlerService = (HashMap<String, Object>) this.infrastructure.getAttributesMap()
+            .get("agentHandlerService");
+        Map<String, Object> agentMap = (HashMap<String, Object>) agentHandlerService.get("agentMap");
+        GraphService.getInstance().createAgentGraphFromMap(agentMap);
+        ToolService.getInstance().createServicesFromMap(
+            InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
+        GraphService.getInstance().setQualityGraph();
     }
-    
+
     public void init() {
-        
+
         this.infrastructure = new InfrastructureModel("lala", new HashMap<String, Object>());
 
         String infrastructureClassname = "BasicInfrastructure";
-        Map<String,Object> map = this.infrastructure.getAttributesMap();
+        Map<String, Object> map = this.infrastructure.getAttributesMap();
         map.put("className", infrastructureClassname);
         HashMap<String, Object> agentHandlerService = new HashMap<String, Object>();
         HashMap<String, Object> agentMap = new HashMap<String, Object>();

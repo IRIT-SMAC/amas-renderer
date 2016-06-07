@@ -62,6 +62,10 @@ public class InfrastructureModel implements IConstraintFields {
     public void setAttributesMap(String name, Object value) {
         this.attributesMap.put(name, value);
     }
+    
+    public void setAttributes(Map<String,Object> attributesMap) {
+        this.attributesMap = attributesMap;
+    }
 
     @Override
     public String[] getRequiredKeySingle() {
