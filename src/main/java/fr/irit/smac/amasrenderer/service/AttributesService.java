@@ -1,5 +1,6 @@
 package fr.irit.smac.amasrenderer.service;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -16,9 +17,14 @@ public class AttributesService {
         return instance;
     }
 
-    public void updateAttributesMap(String id, TreeItem<String> item, Map<String, Object> attributesMap) {
+    public void updateAttributesMap(String id, TreeItem<String> item, Map<String, Object> attributesMap,
+        IConstraintFields model) {
 
+        Map<String, Object> map = new HashMap<>();
+        Arrays.asList(model.getNotExpanded()).forEach(i -> map.put(i, attributesMap.get(i)));
         attributesMap.clear();
+        map.forEach((k, v) -> attributesMap.put(k, v));
+
         for (TreeItem<String> subItem : item.getChildren()) {
             this.updateChildrenAttributesMap(subItem, attributesMap, subItem.getValue());
         }
@@ -28,11 +34,7 @@ public class AttributesService {
 
         ObservableList<TreeItem<String>> node = item.getChildren();
 
-        System.out.println(key);
         if (node.size() > 1 || (node.size() == 1 && !node.get(0).getChildren().isEmpty())) {
-            System.out.println("----");
-            System.out.println("children node " + node.get(0).getChildren());
-            
             Map<String, Object> newServiceMap = new HashMap<String, Object>();
             for (TreeItem<String> subItem : node) {
                 updateChildrenAttributesMap(subItem, newServiceMap, subItem.getValue());
@@ -40,20 +42,12 @@ public class AttributesService {
             map.put(key, newServiceMap);
         }
         else if (node.size() > 0) {
-
-//            System.out.println(node.get(0).getChildren());
             map.put(item.getValue(), node.get(0).getValue());
-        } else {
-            System.out.println("***");
-            System.out.println(item);
-            System.out.println(item.getChildren());
         }
     }
 
     @SuppressWarnings("unchecked")
     public void fillAttributes(HashMap<String, Object> tool, TreeItem<String> parent, IConstraintFields model) {
-
-        String nameParent = parent.getValue();
 
         parent.setExpanded(true);
         Iterator<Map.Entry<String, Object>> attributeIterator = tool.entrySet().iterator();

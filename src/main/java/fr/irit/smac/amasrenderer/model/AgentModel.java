@@ -14,11 +14,11 @@ public class AgentModel extends SingleNode implements Node, IConstraintFields {
 
     private Map<String, Object> attributesMap;
 
-    private Map<String, Object> knowledgeMap = new HashMap<String, Object>();
+    private Map<String, Object> knowledgeMap = new HashMap<>();
 
     private ArrayList<String> targets;
 
-    private final String[] requiredKey       = { "id", "targets" };
+    private final String[] requiredKeySingle  = { "id", "targets" };
     private final String[] protectedValue     = { "targets" };
     private final String[] notExpanded        = {};
     private final String[] requiredKeyComplex = { "knowledge" };
@@ -47,10 +47,12 @@ public class AgentModel extends SingleNode implements Node, IConstraintFields {
         return attributesMap;
     }
 
-    public String[] getRequiredKey() {
-        return requiredKey;
+    @Override
+    public String[] getRequiredKeySingle() {
+        return requiredKeySingle;
     }
 
+    @Override
     public String[] getProtectedValue() {
         return protectedValue;
     }
@@ -60,6 +62,7 @@ public class AgentModel extends SingleNode implements Node, IConstraintFields {
         return this.notExpanded;
     }
 
+    @Override
     public String[] getRequiredKeyComplex() {
         return this.requiredKeyComplex;
     }

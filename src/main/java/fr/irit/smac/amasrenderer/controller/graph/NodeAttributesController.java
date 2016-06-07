@@ -5,10 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.graphstream.graph.Node;
+import org.graphstream.graph.Graph;
 
 import fr.irit.smac.amasrenderer.Main;
-import fr.irit.smac.amasrenderer.controller.menu.MenuAttributesTreeCellController;
+import fr.irit.smac.amasrenderer.controller.attributes.AttributesContextMenu;
+import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
 import fr.irit.smac.amasrenderer.model.AgentModel;
 import fr.irit.smac.amasrenderer.model.IConstraintFields;
 import fr.irit.smac.amasrenderer.service.AttributesService;
@@ -16,9 +17,13 @@ import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
+import javafx.util.converter.DefaultStringConverter;
 
 /**
  * The Class TreeModifyController. Manage the modal window opening to modify
@@ -34,7 +39,7 @@ public class NodeAttributesController implements Initializable {
     private TreeView<String> tree;
     private Stage            dialogStage;
     private String           baseAgentName;
-    private AgentModel             node;
+    private AgentModel       node;
     private String           newAgentName = null;
     private String           id;
 
@@ -45,7 +50,7 @@ public class NodeAttributesController implements Initializable {
     public void confirmButton() {
 
         AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
-            (Map<String, Object>) GraphService.getInstance().getAgentMap().get(id));
+            (Map<String, Object>) GraphService.getInstance().getAgentMap().get(id), node);
 
         newAgentName = tree.getRoot().getValue();
         if (newAgentName != baseAgentName) {
@@ -93,8 +98,17 @@ public class NodeAttributesController implements Initializable {
         TreeItem<String> myItem = new TreeItem<>(id);
         tree.setRoot(myItem);
         AttributesService.getInstance().fillAttributes(agent, myItem, (IConstraintFields) node);
-        this.tree.setCellFactory(p -> new MenuAttributesTreeCellController(tree, (IConstraintFields) node));
+        tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
+            private final AttributesContextMenu contextMenu = new AttributesContextMenu();
+            private final StringConverter converter = new DefaultStringConverter();
+
+            @Override
+            public TreeCell<String> call(TreeView<String> param) {
+                return new AttributesTreeCell(contextMenu, converter, node);
+            }
+
+        });
     }
 
     @Override

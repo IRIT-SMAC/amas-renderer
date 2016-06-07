@@ -7,7 +7,8 @@ import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.LoadWindowModalController;
-import fr.irit.smac.amasrenderer.controller.menu.MenuAttributesTreeCellController;
+import fr.irit.smac.amasrenderer.controller.attributes.AttributesContextMenu;
+import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.ToolService;
@@ -15,9 +16,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
+import javafx.util.converter.DefaultStringConverter;
 
 /**
  * The Class TreeModifyController. Manage the modal window opening to modify
@@ -87,7 +92,7 @@ public class ToolAttributesController extends LoadWindowModalController implemen
     public void confirmButton() {
         
         tree.getRoot();
-        AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(), tool.getAttributesMap());
+        AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(), tool.getAttributesMap(), tool);
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
@@ -106,7 +111,17 @@ public class ToolAttributesController extends LoadWindowModalController implemen
     public void initialize(URL location, ResourceBundle resources) {
 
         this.tree.setEditable(true);
-        tree.setCellFactory(p -> new MenuAttributesTreeCellController(tree, tool));
+        tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+
+            private final AttributesContextMenu contextMenu = new AttributesContextMenu();
+            private final StringConverter converter = new DefaultStringConverter();
+
+            @Override
+            public TreeCell<String> call(TreeView<String> param) {
+                return new AttributesTreeCell(contextMenu, converter, tool);
+            }
+
+        });
     }
    
     public void initDialogModalController() throws IOException {
