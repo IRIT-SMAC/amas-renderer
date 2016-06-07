@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import org.graphstream.graph.Graph;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
@@ -54,7 +55,7 @@ public class NodeAttributesController implements Initializable {
 
         newAgentName = tree.getRoot().getValue();
         if (newAgentName != baseAgentName) {
-            node.setAttribute("ui.label", newAgentName);
+            node.setAttribute(Const.NODE_LABEL, newAgentName);
         }
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();

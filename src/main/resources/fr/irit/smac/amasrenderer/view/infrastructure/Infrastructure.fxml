@@ -34,7 +34,7 @@
 										<Image url="@../image/warning-icon.png" />
 									</image>
 								</ImageView>
-                        <Label layoutX="64.0" layoutY="45.0" prefHeight="48.0" prefWidth="287.0" text="Label" />
+                        <Label fx:id="infrastructureLabel" layoutX="64.0" layoutY="45.0" prefHeight="48.0" prefWidth="287.0" text="Label" />
 							</children>
 						</AnchorPane>
 					</children>

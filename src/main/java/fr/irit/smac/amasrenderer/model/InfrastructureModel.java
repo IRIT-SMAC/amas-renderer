@@ -6,6 +6,9 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  * The Class InfrastructureModel.
  */
@@ -18,21 +21,38 @@ public class InfrastructureModel implements IConstraintFields {
     private final String[] notExpanded        = { "Service" };
     private final String[] requiredKeyComplex = {};
 
-    private String name;
+    private StringProperty name;
 
     public InfrastructureModel() {
 
     }
 
     public InfrastructureModel(String name) {
-        this.name = name;
+        this.name = new SimpleStringProperty(name);
     }
 
     public InfrastructureModel(String key, Map<String, Object> value) {
-        this.name = key;
+        this.name = new SimpleStringProperty(key);
         this.attributesMap = value;
     }
 
+    public String toString() {
+        return name.get().toString();
+    }
+
+    public String getName() {
+        return name.get();
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name.set(name);
+    }
+    
+    public StringProperty nameProperty() {
+        return name;
+    }
+    
     @JsonAnyGetter
     public Map<String, Object> getAttributesMap() {
         return this.attributesMap;
@@ -41,18 +61,6 @@ public class InfrastructureModel implements IConstraintFields {
     @JsonAnySetter
     public void setAttributesMap(String name, Object value) {
         this.attributesMap.put(name, value);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String toString() {
-        return this.name;
     }
 
     @Override

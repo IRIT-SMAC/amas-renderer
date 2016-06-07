@@ -1,6 +1,5 @@
 package fr.irit.smac.amasrenderer.service;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -21,13 +20,20 @@ public class AttributesService {
         IConstraintFields model) {
 
         Map<String, Object> map = new HashMap<>();
-        Arrays.asList(model.getNotExpanded()).forEach(i -> map.put(i, attributesMap.get(i)));
+        for (String notExpanded : model.getNotExpanded()) {
+            for (Map.Entry<String, Object> entry : attributesMap.entrySet()) {
+                if (entry.getKey().toString().contains(notExpanded)) {
+                    map.put(entry.getKey(), entry.getValue());
+                }
+            }
+        }
         attributesMap.clear();
         map.forEach((k, v) -> attributesMap.put(k, v));
 
         for (TreeItem<String> subItem : item.getChildren()) {
             this.updateChildrenAttributesMap(subItem, attributesMap, subItem.getValue());
         }
+        model.setName(id);
     }
 
     public void updateChildrenAttributesMap(TreeItem<String> item, Map<String, Object> map, String key) {

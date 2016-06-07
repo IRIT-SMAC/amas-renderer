@@ -4,9 +4,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
@@ -67,8 +65,6 @@ public class GraphController extends LoadWindowModalController
     private EStateGraph graphState;
 
     private EShortcutState shortcutState;
-
-    private static final Logger LOGGER = Logger.getLogger(GraphController.class.getName());
 
     @FXML
     private Label classNameLabel;
@@ -598,7 +594,7 @@ public class GraphController extends LoadWindowModalController
     public void initDialogModalController() throws IOException {
 
         NodeAttributesController controller = loaderWindowModal.getController();
-        controller.init(node.getId());
+        controller.init(node.getAttribute(Const.NODE_LABEL));
         controller.setNode(node);
         controller.setStage(stageWindowModal);
     }

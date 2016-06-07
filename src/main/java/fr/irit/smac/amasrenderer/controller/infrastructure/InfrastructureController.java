@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.LoadWindowModalController;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -38,7 +39,11 @@ public class InfrastructureController extends LoadWindowModalController implemen
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        InfrastructureService.getInstance().getInfrastructure();
+        InfrastructureService.getInstance().init();
+        InfrastructureService.getInstance().getInfrastructure().nameProperty()
+            .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+                infrastructureLabel.setText(newValue);
+            });
     }
 
     @Override

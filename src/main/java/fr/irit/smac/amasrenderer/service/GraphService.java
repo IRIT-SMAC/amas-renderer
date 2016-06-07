@@ -6,15 +6,12 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.graphstream.graph.Edge;
-import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
-import org.graphstream.graph.NodeFactory;
 import org.graphstream.graph.implementations.AbstractGraph;
 import org.graphstream.graph.implementations.SingleGraph;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentModel;
-import javafx.scene.control.TreeItem;
 
 /**
  * The Class GraphService.

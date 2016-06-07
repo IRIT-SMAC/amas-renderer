@@ -91,7 +91,6 @@ public class ToolAttributesController extends LoadWindowModalController implemen
     @FXML
     public void confirmButton() {
         
-        tree.getRoot();
         AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(), tool.getAttributesMap(), tool);
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();

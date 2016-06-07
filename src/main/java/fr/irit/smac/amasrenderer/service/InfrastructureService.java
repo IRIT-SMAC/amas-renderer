@@ -73,7 +73,6 @@ public class InfrastructureService {
         agentHandlerService.put("agentMap", agentMap);
         map.put("agentHandlerService", agentHandlerService);
 
-        ToolService.getInstance().createServicesFromMap(map);
         GraphService.getInstance().setAgentMap(agentMap);
     }
 

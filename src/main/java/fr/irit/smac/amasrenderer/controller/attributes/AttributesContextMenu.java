@@ -11,8 +11,11 @@ public class AttributesContextMenu {
 
     public AttributesContextMenu() {
         this.add = new MenuItem("Ajouter");
+        this.add.setId("addAttributeItem");
         this.delete = new MenuItem("Supprimer");
+        this.delete.setId("removeAttributeItem");
         this.rename = new MenuItem("Renommer");
+        this.rename.setId("renameAttributeItem");
         this.contextMenu = new ContextMenu(add, delete, rename);
     }
 

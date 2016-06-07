@@ -3,12 +3,15 @@ package fr.irit.smac.amasrenderer.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  * The Class ToolModel.
  */
 public class ToolModel implements IConstraintFields {
 
-    private String name;
+    private StringProperty name;
 
     private Map<String, Object> attributesMap = new HashMap<String, Object>();
 
@@ -23,13 +26,13 @@ public class ToolModel implements IConstraintFields {
 
     public ToolModel(String name) {
         super();
-        this.name = name;
+        this.name = new SimpleStringProperty(name);
     }
 
     @SuppressWarnings("unchecked")
     public ToolModel(String name, Object map) {
         super();
-        this.name = name;
+        this.name = new SimpleStringProperty(name);
         this.attributesMap = (Map<String, Object>) map;
     }
 
@@ -42,15 +45,19 @@ public class ToolModel implements IConstraintFields {
     }
 
     public String toString() {
-        return name;
+        return name.get().toString();
     }
 
     public String getName() {
-        return name;
+        return name.get();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
+    }
+    
+    public StringProperty nameProperty() {
+        return name;
     }
 
     @Override

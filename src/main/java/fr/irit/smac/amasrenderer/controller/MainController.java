@@ -1,21 +1,16 @@
 package fr.irit.smac.amasrenderer.controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import fr.irit.smac.amasrenderer.controller.graph.GraphController;
 import fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureController;
 import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
 import fr.irit.smac.amasrenderer.controller.tool.ToolController;
-import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
 
 /**
  * The Class MainController.
  */
-public class MainController implements Initializable {
+public class MainController {
 
     @FXML
     private GraphController graphMainController;
@@ -31,7 +26,7 @@ public class MainController implements Initializable {
 
     @FXML
     private BorderPane rootLayout;
-
+    
     /**
      * Gets the graph main controller (contains all of the sub controllers about
      * the graph).
@@ -68,11 +63,4 @@ public class MainController implements Initializable {
     public InfrastructureController getInfrastructureController() {
         return infrastructureController;
     }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        InfrastructureService.getInstance().init();
-    }
-
 }

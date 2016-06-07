@@ -7,19 +7,21 @@ import javafx.scene.input.KeyCode
 import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
 
+import org.graphstream.graph.implementations.SingleGraph
 import org.graphstream.ui.swingViewer.ViewPanel
 
-import spock.lang.Ignore
+import spock.lang.IgnoreIf
 import spock.lang.Shared
+import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.controller.MainController
 import fr.irit.smac.amasrenderer.controller.graph.GraphController
+import fr.irit.smac.amasrenderer.model.AgentModel
 import fr.irit.smac.amasrenderer.service.GraphService
 
-//@IgnoreIf({
-//    System.getenv("TRAVIS") != null
-//})
-@Ignore
-//@Stepwise
+@IgnoreIf({
+    System.getenv("TRAVIS") != null
+})
+@Stepwise
 class GraphNodeAttributeTest extends GuiSpecification{
 
     @Shared
@@ -42,6 +44,9 @@ class GraphNodeAttributeTest extends GuiSpecification{
     @Shared
     double positionY
 
+    @Shared
+    double gapLastAttribute
+
     def setup() {
         setupStage { stage ->
 
@@ -60,43 +65,45 @@ class GraphNodeAttributeTest extends GuiSpecification{
         sleep(1000) //time for the graph to be initialized
         graphService = GraphService.getInstance()
 
-        GraphModel model = graphService.getGraph()
+        SingleGraph model = graphService.getGraph()
         graphService.addNode("ag1")
 
         double height = 450
         double width = 630
         positionX = -(width/2)+20
         positionY = -(height/2) + 70
+        gapLastAttribute = 360
 
         sleep(2000)
 
     }
 
-    def "check if adding an attribute works with alt+rightClick"() {
+    def "check if an attribute is correctly added"() {
 
         given:
-        Object<T> tree = graphService.getGraph().getNode(0).getAttribute("ui.stocked-info")
-        int nbChildren = tree.getRoot().getChildren().size()
+        Map<String,Object> agent = GraphService.getInstance().getAgentMap().get("ag1")
+        int nbChildren = agent.size()
 
         when:
         fx.rightClickOn(graphId)
                         .clickOn("#tree")
-                        .doubleClickOn("#tree")
                         .moveBy(positionX, positionY)
+                        .rightClickOn()
+                        .clickOn("#addAttributeItem")
+                        .moveBy(0, positionY + gapLastAttribute)
                         .rightClickOn()
                         .clickOn("#addAttributeItem")
                         .clickOn("#confButton")
 
         then:
-        tree.getRoot().getChildren().size() == nbChildren + 1
+        agent.size() == nbChildren + 1
     }
 
-    def "check if modifying an attribute works with alt+rightClick"() {
+    def "check if an attribute is correctly updated"() {
 
         when:
         fx.rightClickOn(graphId)
                         .clickOn("#tree")
-                        .doubleClickOn("#tree")
                         .moveBy(positionX,positionY)
                         .rightClickOn()
                         .clickOn("#renameAttributeItem")
@@ -105,30 +112,33 @@ class GraphNodeAttributeTest extends GuiSpecification{
                         .clickOn("#confButton")
 
         then:
-        String value = graphService.getGraph().getNode(0).getAttribute("ui.stocked-info").getRoot().getValue()
-        value == "e" || value == "E"
+        GraphService.getInstance().getAgentMap().get("e") || GraphService.getInstance().getAgentMap().get("E")
     }
 
-    def "check if deleting an attribute works with alt+rightClick"() {
+    def "check if an attribute is correctly deleted"() {
 
         given:
         fx.rightClickOn(graphId)
                         .clickOn("#tree")
-                        .doubleClickOn("#tree")
                         .moveBy(positionX, positionY)
                         .rightClickOn()
                         .clickOn("#addAttributeItem")
-        int nbChildren = 1
+                        .moveBy(0, positionY + gapLastAttribute)
+                        .rightClickOn()
+                        .clickOn("#addAttributeItem")
+                        .clickOn("#confButton")
+        Map<String,Object> agent = GraphService.getInstance().getAgentMap().get("ag1")
+        int nbChildren = agent.size()
 
         when:
-        fx.clickOn("#tree")
-                        .moveBy(positionX+20, positionY+40)
+        fx.rightClickOn(graphId)
+                        .clickOn("#tree")
+                        .moveBy(0, -40)
                         .rightClickOn()
                         .clickOn("#removeAttributeItem")
                         .clickOn("#confButton")
 
         then:
-        Object<T> tree = graphService.getGraph().getNode(0).getAttribute("ui.stocked-info")
-        tree.getRoot().getChildren().size() == nbChildren - 1
+        GraphService.getInstance().getAgentMap().get("ag1").size() == nbChildren - 1
     }
 }

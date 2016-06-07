@@ -6,8 +6,13 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.LoadWindowModalController;
+import fr.irit.smac.amasrenderer.model.AgentModel;
 import fr.irit.smac.amasrenderer.model.ToolModel;
+import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -74,8 +79,10 @@ public class ToolController extends LoadWindowModalController implements Initial
         for (ToolModel tool : listTool.getItems()) {
             list.add(tool);
         }
-        ToolService.getInstance().setTools(FXCollections.observableArrayList(list));
+        ToolService.getInstance()
+            .setTools(FXCollections.observableArrayList(actionStep -> new Observable[] { actionStep.nameProperty() }));
         listTool.setItems(ToolService.getInstance().getTools());
+        ToolService.getInstance().createServicesFromMap(InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
     }
 
     @Override
