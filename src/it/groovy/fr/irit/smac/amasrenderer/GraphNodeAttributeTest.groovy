@@ -73,7 +73,7 @@ class GraphNodeAttributeTest extends GuiSpecification{
         SingleGraph model = graphService.getGraph()
         graphService.addNode(0,0)
 
-        sleep(1000)
+        sleep(2000)
 
     }
 
@@ -97,16 +97,20 @@ class GraphNodeAttributeTest extends GuiSpecification{
 
     def "check if an attribute is correctly updated"() {
 
+        given:
+        String extraName = "Hello"
+
         when:
         fx.rightClickOn(graphId)
                         .rightClickOn(agentId)
                         .clickOn(renameItem)
-                        .type(KeyCode.E)
+                        .clickOn(agentId)
+                        .write(extraName)
                         .type(KeyCode.ENTER)
                         .clickOn(confButton)
 
         then:
-        GraphService.getInstance().getAgentMap().get("e") || GraphService.getInstance().getAgentMap().get("E")
+        GraphService.getInstance().getAgentMap().get(agentId + extraName)
     }
 
     def "check if an attribute is correctly deleted"() {

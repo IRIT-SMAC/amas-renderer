@@ -21,6 +21,9 @@ class InfrastructureTest extends GuiSpecification{
     @Shared
     InfrastructureService infrastructureService
 
+    @Shared
+    String itemId = "className"
+
     def setup() {
         setupStage { stage ->
 
@@ -39,18 +42,21 @@ class InfrastructureTest extends GuiSpecification{
 
     def "check if the infrastructure is modified by doubleclicking on the textfield"() {
 
+        given:
+        String extraName = "Hello"
+
         when:
         fx.doubleClickOn("#editInfrastructure")
                         .clickOn("#tree")
-                        .rightClickOn("className")
+                        .rightClickOn(itemId)
                         .clickOn("#renameAttributeItem")
-                        .type(KeyCode.E)
+                        .clickOn(itemId)
+                        .write(extraName)
                         .type(KeyCode.ENTER)
                         .clickOn("#confButton")
 
         then:
         Map<String,Object> infrastructure = infrastructureService.getInfrastructure().getAttributesMap()
-        infrastructure.get("e") != null || infrastructure.get("E") != null
-
+        infrastructure.get(itemId + extraName) != null
     }
 }

@@ -19,7 +19,7 @@ class ToolAttributeTest extends GuiSpecification{
 
     @Shared
     String service = "messagingService"
-    
+
     @Shared
     String addItem = "#addAttributeItem"
 
@@ -70,16 +70,20 @@ class ToolAttributeTest extends GuiSpecification{
 
     def "check if modifying an attribute works"() {
 
+        given:
+        String extraName = "Hello"
+
         when:
         fx.clickOn(service)
                         .rightClickOn(itemId)
                         .clickOn(renameItem)
-                        .type(KeyCode.E)
+                        .clickOn(itemId)
+                        .write(extraName)
                         .type(KeyCode.ENTER)
                         .clickOn(confButton)
 
         then:
-        toolService.getTools().get(1).getAttributesMap().get("E") != null || ToolService.getInstance().getTools().get(1).getAttributesMap().get("e") != null
+        toolService.getTools().get(1).getAttributesMap().get(itemId + extraName) != null
     }
 
     def "check if deleting an attribute works"() {

@@ -3,19 +3,19 @@ package fr.irit.smac.amasrenderer
 import javafx.fxml.FXMLLoader
 import javafx.scene.control.ListView
 import javafx.scene.layout.BorderPane
-import spock.lang.Ignore
 import spock.lang.Shared
-import fr.irit.smac.amasrenderer.service.GraphService
+import spock.lang.Stepwise
+import fr.irit.smac.amasrenderer.model.ToolModel
+import fr.irit.smac.amasrenderer.service.ToolService
 
 //@IgnoreIf({
 //    System.getenv("TRAVIS") != null
 //})
-@Ignore
-//@Stepwise
+@Stepwise
 class ToolTest extends GuiSpecification{
 
     @Shared
-    graphService
+    ToolService toolService
 
     @Shared
     BorderPane rootLayout
@@ -26,7 +26,6 @@ class ToolTest extends GuiSpecification{
             FXMLLoader loaderRootLayout = new FXMLLoader()
             loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
             BorderPane rootLayout = (BorderPane) loaderRootLayout.load()
-            this.rootLayout = rootLayout
             Main.mainStage = stage
 
             return rootLayout
@@ -34,41 +33,37 @@ class ToolTest extends GuiSpecification{
 
 
         sleep(1000) //time for the graph to be initialized
-        graphService = GraphService.getInstance()
+        toolService = ToolService.getInstance()
 
     }
 
     def "check if a tool is added by clicking on the corresponding button and filling the form"() {
 
         when:
-        println "addition of a service - toggle button + click"
         fx.clickOn("#buttonAddService")
                         .clickOn("#textfieldTool")
-                        .write("dancingService")
+                        .write("messaging")
                         .clickOn("#buttonConfirm")
 
         then:
-        String service = ((ListView<String>) rootLayout.lookup("#listTool")).getItems().get(0)
-        service == "dancingService"
+        toolService.getTools().get(1).getName() == "messagingService"
     }
 
     def "check if a tool is deleted by clicking on the corresponding button"() {
+
         given:
-        println "new - addition of a service - toggle button + click"
         fx.clickOn("#buttonAddService")
                         .clickOn("#textfieldTool")
-                        .write("dancingService")
+                        .write("messaging")
                         .clickOn("#buttonConfirm")
+        int nbTools = toolService.getTools().size()
+
         when:
-        int beforeDelSize = ((ListView<String>) rootLayout.lookup("#listTool")).getItems().size()
-        String service = ((ListView<String>) rootLayout.lookup("#listTool")).getItems().get(0)
-       // Button button = ((Button) rootLayout.lookup("#buttonConfirmRemove"))
-        //println "bouton = "+button
-        fx.clickOn(service)
+        fx.clickOn("messagingService")
                         .clickOn("#delButton")
                         .clickOn("#buttonConfirmRemove")
-                        
+
         then:
-        ((ListView<String>) rootLayout.lookup("#listTool")).getItems().size() == beforeDelSize - 1
+        toolService.getTools().size() == nbTools - 1
     }
 }
