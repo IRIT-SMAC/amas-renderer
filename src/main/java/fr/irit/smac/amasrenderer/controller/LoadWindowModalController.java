@@ -54,9 +54,5 @@ public abstract class LoadWindowModalController {
         }
     }
 
-    public Pane getRoot() {
-        return root;
-    }
-
     public abstract void initDialogModalController() throws IOException;
 }
