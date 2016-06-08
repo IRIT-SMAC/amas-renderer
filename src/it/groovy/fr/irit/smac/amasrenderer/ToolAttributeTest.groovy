@@ -3,6 +3,7 @@ package fr.irit.smac.amasrenderer
 import javafx.fxml.FXMLLoader
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.BorderPane
+import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.model.ToolModel
@@ -68,6 +69,9 @@ class ToolAttributeTest extends GuiSpecification{
         toolService.getTools().get(1).getAttributesMap().get(itemId).size() == 2
     }
 
+    @IgnoreIf({
+        System.getenv("TRAVIS") != null
+    })
     def "check if modifying an attribute works"() {
 
         given:

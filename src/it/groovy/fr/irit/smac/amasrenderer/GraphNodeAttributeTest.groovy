@@ -18,9 +18,6 @@ import fr.irit.smac.amasrenderer.controller.graph.GraphController
 import fr.irit.smac.amasrenderer.model.AgentModel
 import fr.irit.smac.amasrenderer.service.GraphService
 
-@IgnoreIf({
-    System.getenv("TRAVIS") != null
-})
 @Stepwise
 class GraphNodeAttributeTest extends GuiSpecification{
 
@@ -95,6 +92,9 @@ class GraphNodeAttributeTest extends GuiSpecification{
         agent.size() == nbChildren + 1
     }
 
+    @IgnoreIf({
+        System.getenv("TRAVIS") != null
+    })
     def "check if an attribute is correctly updated"() {
 
         given:

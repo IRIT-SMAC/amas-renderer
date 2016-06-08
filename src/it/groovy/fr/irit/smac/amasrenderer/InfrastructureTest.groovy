@@ -40,6 +40,9 @@ class InfrastructureTest extends GuiSpecification{
         infrastructureService = InfrastructureService.getInstance()
     }
 
+    @IgnoreIf({
+        System.getenv("TRAVIS") != null
+    })
     def "check if the infrastructure is modified by doubleclicking on the textfield"() {
 
         given:
