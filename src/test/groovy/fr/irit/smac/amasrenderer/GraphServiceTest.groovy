@@ -2,71 +2,55 @@ package fr.irit.smac.amasrenderer
 
 import org.graphstream.graph.implementations.SingleNode
 
-import spock.lang.Ignore;
+import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Specification
 import fr.irit.smac.amasrenderer.service.GraphService
 
-/**
- * The Class GraphServiceTest.
- */
-@Ignore
 class GraphServiceTest extends Specification{
 
-    @Shared GraphService graphNodeService
-    
-    /**
-     * Setup spec.
-     *
-     * @return the java.lang. object
-     */
+    @Shared GraphService graphService
+    @Shared String agentId = "0"
+    @Shared String agentId2 = "1"
+
     def setupSpec() {
 
-        graphNodeService = GraphService.getInstance()
-        graphNodeService.createAgentGraph()
+        graphService = GraphService.getInstance()
+        graphService.createAgentGraph()
+        graphService.setAgentMap(new HashMap<String,Object>())
     }
 
-    /**
-     * Check if an agent is added and removed.
-     *
-     * @return the object
-     */
     def 'check if an agent is added and removed'() {
 
-        when:        
-        graphNodeService.addNode("agent1",5.0,10.0)
+        when:
+        graphService.addNode(5.0,10.0)
 
         then:
-        SingleNode node = graphNodeService.getGraph().getNode("agent1")
-        node.getId()
+        SingleNode node = graphService.getGraph().getNode(agentId)
+        node.getId() == agentId
         node.getAttribute("xy") == [5.0, 10.0]
         node.getAttribute("layout.weight") == Const.LAYOUT_WEIGHT_NODE
-        
+
         when:
-        graphNodeService.removeNode(node)
-        
-        then:
-        graphNodeService.getGraph().getNode("agent1") == null
-    }
-    
-    /**
-     * Check if an edge is added and removed.
-     *
-     * @return the object
-     */
-    def 'check if an edge is added and removed'() {
-        when:
-        graphNodeService.addNode("agent1",5.0,10.0)
-        graphNodeService.addNode("agent2",10.0,5.0)
-        graphNodeService.getGraph().addEdge("agent1-agent2","agent1","agent2")
+        graphService.removeNode(node)
 
         then:
-        graphNodeService.getGraph().getEdge("agent1-agent2") != null
-        
+        graphService.getGraph().getNode(agentId) == null
+    }
+
+    def 'check if an edge is added and removed'() {
         when:
-        graphNodeService.getGraph().removeEdge("agent1-agent2")
-        
+        graphService.addNode(5.0,10.0)
+        graphService.addNode(10.0,5.0)
+        graphService.addEdge(agentId, agentId2)
+
         then:
-        graphNodeService.getGraph().getEdge("agent1-agent2") == null
+        graphService.getGraph().getEdge(agentId + agentId2) != null
+
+        when:
+        graphService.getGraph().removeEdge(agentId + agentId2)
+
+        then:
+        graphService.getGraph().getEdge(agentId + agentId2) == null
     }
 }

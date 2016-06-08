@@ -11,20 +11,12 @@ import fr.irit.smac.amasrenderer.service.GraphService
 import fr.irit.smac.amasrenderer.service.InfrastructureService
 import fr.irit.smac.amasrenderer.service.ToolService
 
-/**
- * The Class GraphServiceTest.
- */
 class GraphInitializationTest extends Specification{
 
     @Shared GraphService graphNodeService
     @Shared ToolService toolService
     @Shared InfrastructureService infrastructureService
 
-    /**
-     * Setup spec.
-     *
-     * @return the java.lang. object
-     */
     def setupSpec() {
 
         graphNodeService = GraphService.getInstance()
