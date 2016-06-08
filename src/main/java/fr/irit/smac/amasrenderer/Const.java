@@ -35,6 +35,12 @@ public final class Const {
     
     public static final String KEY_VALUE_SEPARATOR = " : ";
     
+    public static final String CLASSNAME = "className";
+    
+    public static final String TARGETS = "targets";
+    
+    public static final String SECONDARY_WINDOW = "secondaryWindow";
+    
     /**
      * Instantiates a new const (just to hide the constructor).
      */

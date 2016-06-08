@@ -2,6 +2,7 @@ package fr.irit.smac.amasrenderer.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.graphstream.graph.Node;
@@ -13,7 +14,7 @@ import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class AgentModel extends SingleNode implements Node, IConstraintFields {
+public class AgentModel extends SingleNode implements Node, IModel {
 
     private StringProperty name;
 
@@ -21,27 +22,27 @@ public class AgentModel extends SingleNode implements Node, IConstraintFields {
 
     private Map<String, Object> knowledgeMap = new HashMap<>();
 
-    private ArrayList<String> targets;
+    private List<String> targets;
 
-    private final String[] requiredKeySingle  = { "targets" };
-    private final String[] protectedValue     = { "targets" };
-    private final String[] notExpanded        = {};
-    private final String[] requiredKeyComplex = { "knowledge" };
+    private static final String[] REQUIRED_KEY_SINGLE  = { Const.TARGETS };
+    private static final String[] PROTECTED_VALUE     = { Const.TARGETS };
+    private static final String[] NOT_EXPANDED        = {};
+    private static final String[] REQUIRED_KEY_COMPLEX = { "knowledge" };
 
     public AgentModel(AbstractGraph graph, String id) {
 
         super(graph, id);
         this.name = new SimpleStringProperty(id);
-        attributesMap = new HashMap<String, Object>();
+        attributesMap = new HashMap<>();
         attributesMap.put("id", id);
-        Map<String, Object> knowledgeMap = new HashMap<String, Object>();
-        attributesMap.put("knowledge", knowledgeMap);
-        targets = new ArrayList<String>();
-        knowledgeMap.put("targets", targets);
+        Map<String, Object> knowledge = new HashMap<>();
+        attributesMap.put("knowledge", knowledge);
+        targets = new ArrayList<>();
+        knowledge.put(Const.TARGETS, targets);
         GraphService.getInstance().getAgentMap().put(id, attributesMap);
     }
 
-    public ArrayList<String> getTargets() {
+    public List<String> getTargets() {
         return targets;
     }
 
@@ -55,22 +56,22 @@ public class AgentModel extends SingleNode implements Node, IConstraintFields {
 
     @Override
     public String[] getRequiredKeySingle() {
-        return requiredKeySingle;
+        return REQUIRED_KEY_SINGLE;
     }
 
     @Override
     public String[] getProtectedValue() {
-        return protectedValue;
+        return PROTECTED_VALUE;
     }
 
     @Override
     public String[] getNotExpanded() {
-        return this.notExpanded;
+        return NOT_EXPANDED;
     }
 
     @Override
     public String[] getRequiredKeyComplex() {
-        return this.requiredKeyComplex;
+        return REQUIRED_KEY_COMPLEX;
     }
 
     public String getName() {
@@ -79,13 +80,7 @@ public class AgentModel extends SingleNode implements Node, IConstraintFields {
 
     @Override
     public void setName(String name) {
-
-        if (!this.getName().equals(name)) {
-            GraphService.getInstance().getAgentMap().remove(this.getName());
-            this.name.set(name);
-            this.setAttribute(Const.NODE_LABEL, name);
-            GraphService.getInstance().getAgentMap().put(name, attributesMap);
-        }
+        this.name.set(name);
     }
 
     public StringProperty nameProperty() {

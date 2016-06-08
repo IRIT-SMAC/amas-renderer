@@ -3,6 +3,7 @@ package fr.irit.smac.amasrenderer.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
 
 /**
@@ -50,7 +51,7 @@ public class InfrastructureService {
 
     public void updateInfrastructureFromModel(InfrastructureModel infrastructureFile) {
 
-        String[] infrastructureName = infrastructureFile.getAttributesMap().get("className").toString().split("\\.");
+        String[] infrastructureName = infrastructureFile.getAttributesMap().get(Const.CLASSNAME).toString().split("\\.");
         InfrastructureService.getInstance().getInfrastructure()
             .setName(infrastructureName[infrastructureName.length - 1]);
         InfrastructureService.getInstance().getInfrastructure().setAttributes(infrastructureFile.getAttributesMap());
@@ -69,11 +70,11 @@ public class InfrastructureService {
 
         String infrastructureClassname = "BasicInfrastructure";
         Map<String, Object> map = this.infrastructure.getAttributesMap();
-        map.put("className", infrastructureClassname);
-        HashMap<String, Object> agentHandlerService = new HashMap<String, Object>();
-        HashMap<String, Object> agentMap = new HashMap<String, Object>();
+        map.put(Const.CLASSNAME, infrastructureClassname);
+        Map<String, Object> agentHandlerService = new HashMap<>();
+        Map<String, Object> agentMap = new HashMap<>();
 
-        agentHandlerService.put("className", "fr.irit.smac.amasfactory.service.agenthandler.impl.BasicAgentHandler");
+        agentHandlerService.put(Const.CLASSNAME, "fr.irit.smac.amasfactory.service.agenthandler.impl.BasicAgentHandler");
         agentHandlerService.put("agentMap", agentMap);
         map.put("agentHandlerService", agentHandlerService);
 

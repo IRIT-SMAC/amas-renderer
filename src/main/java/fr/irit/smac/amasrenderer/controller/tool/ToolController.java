@@ -6,13 +6,10 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.LoadWindowModalController;
-import fr.irit.smac.amasrenderer.model.AgentModel;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

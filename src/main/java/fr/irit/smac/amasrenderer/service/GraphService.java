@@ -12,6 +12,7 @@ import org.graphstream.graph.implementations.SingleGraph;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentModel;
+import javafx.beans.value.ObservableValue;
 
 /**
  * The Class GraphService.
@@ -49,7 +50,7 @@ public class GraphService {
 
         this.graph = new SingleGraph("AMAS Rendering");
         this.graph.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
-        this.graph.setNodeFactory((id, graph) -> new AgentModel((AbstractGraph) graph, id));
+        this.graph.setNodeFactory((id, g) -> new AgentModel((AbstractGraph) g, id));
         this.setQualityGraph();
     }
 
@@ -65,10 +66,15 @@ public class GraphService {
      */
     public void addNode(String id, double x, double y) {
 
-        Node node = this.graph.addNode(id);
+        AgentModel node = this.graph.addNode(id);
         node.changeAttribute(Const.NODE_XY, x, y);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.NODE_LABEL, id);
+        
+        node.nameProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            GraphService.getInstance().getAgentMap().remove(oldValue);
+            GraphService.getInstance().getAgentMap().put(newValue, node.getAttributesMap());
+        });
     }
 
     /**
@@ -79,9 +85,14 @@ public class GraphService {
      */
     public void addNode(String id) {
 
-        Node node = this.graph.addNode(id);
+        AgentModel node = this.graph.addNode(id);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.NODE_LABEL, id);
+        
+        node.nameProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            GraphService.getInstance().getAgentMap().remove(oldValue);
+            GraphService.getInstance().getAgentMap().put(newValue, node.getAttributesMap());
+        });
     }
 
     /**

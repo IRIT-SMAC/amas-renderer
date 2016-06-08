@@ -9,20 +9,16 @@ import javafx.beans.property.StringProperty;
 /**
  * The Class ToolModel.
  */
-public class ToolModel implements IConstraintFields {
+public class ToolModel implements IModel {
 
     private StringProperty name;
 
-    private Map<String, Object> attributesMap = new HashMap<String, Object>();
+    private Map<String, Object> attributesMap = new HashMap<>();
 
-    private final String[] requiredKeySingle  = {};
-    private final String[] protectedValue     = {};
-    private final String[] notExpanded        = { "agentMap" };
-    private final String[] requiredKeyComplex = {};
-
-    public ToolModel() {
-
-    }
+    private static final String[] REQUIRED_KEY_SINGLE  = {};
+    private static final String[] PROTECTED_VALUE      = {};
+    private static final String[] NOT_EXPANDED         = { "agentMap" };
+    private static final String[] REQUIRED_KEY_COMPLEX = {};
 
     public ToolModel(String name) {
         super();
@@ -44,14 +40,16 @@ public class ToolModel implements IConstraintFields {
         this.attributesMap = servicesMap;
     }
 
+    @Override
     public String toString() {
-        return this.name.get().toString();
+        return this.name.get();
     }
 
     public String getName() {
         return this.name.get();
     }
 
+    @Override
     public void setName(String name) {
         this.name.set(name);
     }
@@ -62,21 +60,21 @@ public class ToolModel implements IConstraintFields {
 
     @Override
     public String[] getRequiredKeySingle() {
-        return this.requiredKeySingle;
+        return REQUIRED_KEY_SINGLE;
     }
 
     @Override
     public String[] getProtectedValue() {
-        return this.protectedValue;
+        return PROTECTED_VALUE;
     }
 
     @Override
     public String[] getNotExpanded() {
-        return this.notExpanded;
+        return NOT_EXPANDED;
     }
 
     @Override
     public String[] getRequiredKeyComplex() {
-        return this.requiredKeyComplex;
+        return REQUIRED_KEY_COMPLEX;
     }
 }

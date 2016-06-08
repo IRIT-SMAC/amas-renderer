@@ -11,7 +11,6 @@ import fr.irit.smac.amasrenderer.controller.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
-import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -29,7 +28,7 @@ import javafx.util.converter.DefaultStringConverter;
  * attributes
  */
 public class ToolAttributesController extends LoadWindowModalController implements Initializable {
-    
+
     @FXML
     private Button confButton;
 
@@ -57,7 +56,7 @@ public class ToolAttributesController extends LoadWindowModalController implemen
     public void setStage(Stage stage) {
         dialogStage = stage;
     }
-    
+
     /**
      * Initialize the controller
      * 
@@ -70,18 +69,18 @@ public class ToolAttributesController extends LoadWindowModalController implemen
 
         this.list = list;
         this.tool = tool;
-		TreeItem<String> myItem = new TreeItem<>(name);
-		tree.setRoot(myItem);
-		HashMap<String, Object> service = (HashMap<String, Object>) tool.getAttributesMap();
-		AttributesService.getInstance().fillAttributes(service, myItem, tool);
+        TreeItem<String> myItem = new TreeItem<>(name);
+        tree.setRoot(myItem);
+        HashMap<String, Object> service = (HashMap<String, Object>) tool.getAttributesMap();
+        AttributesService.getInstance().fillAttributes(service, myItem, tool);
     }
-	
+
     /**
      * deletes the service ( no confirmation )
      */
     @FXML
     public void deleteButton() {
-        
+
         this.loadFxml(delButton.getScene().getWindow(), "view/tool/ConfirmationDialog.fxml");
     }
 
@@ -90,8 +89,9 @@ public class ToolAttributesController extends LoadWindowModalController implemen
      */
     @FXML
     public void confirmButton() {
-        
-        AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(), tool.getAttributesMap(), tool);
+
+        AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
+            tool.getAttributesMap(), tool);
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
@@ -101,7 +101,7 @@ public class ToolAttributesController extends LoadWindowModalController implemen
      */
     @FXML
     public void cancelButton() {
-        
+
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
@@ -122,11 +122,13 @@ public class ToolAttributesController extends LoadWindowModalController implemen
 
         });
     }
-   
+
+    @Override
     public void initDialogModalController() throws IOException {
-        
+
         ToolDeletionController controller;
         controller = (ToolDeletionController) loaderWindowModal.getController();
-        controller.init(dialogStage, list.getSelectionModel().getSelectedIndex(), list.getSelectionModel().getSelectedItem().getName());
+        controller.init(dialogStage, list.getSelectionModel().getSelectedIndex(),
+            list.getSelectionModel().getSelectedItem().getName());
     }
 }

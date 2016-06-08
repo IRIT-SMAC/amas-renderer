@@ -5,14 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.graphstream.graph.Graph;
-
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
 import fr.irit.smac.amasrenderer.model.AgentModel;
-import fr.irit.smac.amasrenderer.model.IConstraintFields;
+import fr.irit.smac.amasrenderer.model.IModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.fxml.FXML;
@@ -98,7 +96,7 @@ public class NodeAttributesController implements Initializable {
         this.id = id;
         TreeItem<String> myItem = new TreeItem<>(id);
         tree.setRoot(myItem);
-        AttributesService.getInstance().fillAttributes(agent, myItem, (IConstraintFields) node);
+        AttributesService.getInstance().fillAttributes(agent, myItem, (IModel) node);
         tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
             private final AttributesContextMenu contextMenu = new AttributesContextMenu();

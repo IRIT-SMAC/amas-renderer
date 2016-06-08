@@ -1,5 +1,6 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
@@ -26,15 +27,15 @@ public class ToolDeletionController {
 
         ToolService.getInstance().getTools().remove(toolIndex);
         InfrastructureService.getInstance().getInfrastructure().getAttributesMap().remove(toolName);
-        dialogStage.getScene().lookup("#attributesServiceDialog").getStyleClass().remove("secondaryWindow");
-        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
+        dialogStage.getScene().lookup("#attributesServiceDialog").getStyleClass().remove(Const.SECONDARY_WINDOW);
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove(Const.SECONDARY_WINDOW);
         dialogStage.close();
     }
 
     @FXML
     public void clickCancelRemove() {
 
-        dialogStage.getScene().lookup("#attributesServiceDialog").getStyleClass().remove("secondaryWindow");
+        dialogStage.getScene().lookup("#attributesServiceDialog").getStyleClass().remove(Const.SECONDARY_WINDOW);
         ((Stage) buttonCancelRemove.getScene().getWindow()).close();
     }
 

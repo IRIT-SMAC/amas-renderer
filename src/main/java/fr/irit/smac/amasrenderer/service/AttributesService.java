@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import fr.irit.smac.amasrenderer.model.IConstraintFields;
+import fr.irit.smac.amasrenderer.model.IModel;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
@@ -17,12 +17,12 @@ public class AttributesService {
     }
 
     public void updateAttributesMap(String id, TreeItem<String> item, Map<String, Object> attributesMap,
-        IConstraintFields model) {
+        IModel model) {
 
         Map<String, Object> map = new HashMap<>();
         for (String notExpanded : model.getNotExpanded()) {
             for (Map.Entry<String, Object> entry : attributesMap.entrySet()) {
-                if (entry.getKey().toString().contains(notExpanded)) {
+                if (entry.getKey().contains(notExpanded)) {
                     map.put(entry.getKey(), entry.getValue());
                 }
             }
@@ -41,19 +41,19 @@ public class AttributesService {
         ObservableList<TreeItem<String>> node = item.getChildren();
 
         if (node.size() > 1 || (node.size() == 1 && !node.get(0).getChildren().isEmpty())) {
-            Map<String, Object> newServiceMap = new HashMap<String, Object>();
+            Map<String, Object> newServiceMap = new HashMap<>();
             for (TreeItem<String> subItem : node) {
                 updateChildrenAttributesMap(subItem, newServiceMap, subItem.getValue());
             }
             map.put(key, newServiceMap);
         }
-        else if (node.size() > 0) {
+        else if (!node.isEmpty()) {
             map.put(item.getValue(), node.get(0).getValue());
         }
     }
 
     @SuppressWarnings("unchecked")
-    public void fillAttributes(HashMap<String, Object> tool, TreeItem<String> parent, IConstraintFields model) {
+    public void fillAttributes(Map<String, Object> tool, TreeItem<String> parent, IModel model) {
 
         parent.setExpanded(true);
         Iterator<Map.Entry<String, Object>> attributeIterator = tool.entrySet().iterator();

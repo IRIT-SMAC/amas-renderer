@@ -52,7 +52,7 @@ public class GraphController extends LoadWindowModalController
 
     private Viewer viewer;
 
-    private AgentModel node;
+    private AgentModel agent;
     
     private int currentNodeId;
 
@@ -551,7 +551,7 @@ public class GraphController extends LoadWindowModalController
      */
     private void loadFxmlAttributes(Node node) {
 
-        this.node = GraphService.getInstance().getGraph().getNode(node.getId());
+        this.agent = GraphService.getInstance().getGraph().getNode(node.getId());
         this.loadFxml(graphNode.getScene().getWindow(), "view/graph/GraphAttributes.fxml");
     }
 
@@ -594,8 +594,8 @@ public class GraphController extends LoadWindowModalController
     public void initDialogModalController() throws IOException {
 
         NodeAttributesController controller = loaderWindowModal.getController();
-        controller.init(node.getAttribute(Const.NODE_LABEL));
-        controller.setNode(node);
+        controller.init(agent.getAttribute(Const.NODE_LABEL));
+        controller.setNode(agent);
         controller.setStage(stageWindowModal);
     }
 }

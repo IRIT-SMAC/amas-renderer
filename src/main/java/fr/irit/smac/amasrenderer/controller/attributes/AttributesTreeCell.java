@@ -2,7 +2,7 @@ package fr.irit.smac.amasrenderer.controller.attributes;
 
 import java.util.Arrays;
 
-import fr.irit.smac.amasrenderer.model.IConstraintFields;
+import fr.irit.smac.amasrenderer.model.IModel;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.cell.TextFieldTreeCell;
@@ -17,10 +17,10 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
     private boolean isProtected;
     private boolean isParentSingleNode;
 
-    private IConstraintFields node;
+    private IModel node;
 
     public AttributesTreeCell(AttributesContextMenu contextMenu, StringConverter<String> converter,
-        IConstraintFields node) {
+        IModel node) {
         super(converter);
         this.node = node;
         if (contextMenu == null) {
@@ -135,7 +135,8 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         else if (Arrays.asList(node.getRequiredKeyComplex()).contains(newValue)
             || Arrays.asList(node.getRequiredKeySingle()).contains(newValue)
             || Arrays.asList(node.getProtectedValue()).contains(newValue)
-            || Arrays.stream(node.getNotExpanded()).allMatch(s -> newValue.contains(s))) {
+            || (Arrays.stream(node.getNotExpanded()).allMatch(s -> newValue.contains(s))
+                && node.getNotExpanded().length > 0)) {
             return;
         }
 

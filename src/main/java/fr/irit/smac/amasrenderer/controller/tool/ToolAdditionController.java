@@ -28,23 +28,23 @@ public class ToolAdditionController implements Initializable {
 
     @FXML
     private TextField textfieldTool;
-    
+
     @FXML
     private Text invalidField;
 
-	
     /**
      * Click on the confirm button handler
      */
-	@FXML
-	public void clickConfirm(){
-	    
-		if(textfieldTool.getText() != null 
-				&& !textfieldTool.getText().trim().isEmpty()
-				&& !textfieldTool.getText().trim().contains(" ")){
+    @FXML
+    public void clickConfirm() {
 
-		    ToolModel newTool = new ToolModel(textfieldTool.getText().trim().concat("Service"), new HashMap<String,Object>());
-            
+        if (textfieldTool.getText() != null
+            && !textfieldTool.getText().trim().isEmpty()
+            && !textfieldTool.getText().trim().contains(" ")) {
+
+            ToolModel newTool = new ToolModel(textfieldTool.getText().trim().concat("Service"),
+                new HashMap<String, Object>());
+
             boolean found = false;
 
             for (ToolModel item : ToolService.getInstance().getTools()) {
@@ -54,19 +54,20 @@ public class ToolAdditionController implements Initializable {
             }
 
             if (!found) {
-              ToolService.getInstance().getTools().add(newTool);
-              InfrastructureService.getInstance().getInfrastructure().getAttributesMap().put(newTool.getName(), newTool.getAttributesMap());
+                ToolService.getInstance().getTools().add(newTool);
+                InfrastructureService.getInstance().getInfrastructure().getAttributesMap().put(newTool.getName(),
+                    newTool.getAttributesMap());
             }
 
             Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
 
             ((Stage) buttonConfirm.getScene().getWindow()).close();
-        } else {
-		    invalidField.setVisible(true);
+        }
+        else {
+            invalidField.setVisible(true);
 
         }
-		
-		
+
     }
 
     /**
@@ -78,9 +79,8 @@ public class ToolAdditionController implements Initializable {
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {  
+    public void initialize(URL location, ResourceBundle resources) {
         invalidField.setVisible(false);
-        
-        
+
     }
 }

@@ -10,8 +10,6 @@ import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;

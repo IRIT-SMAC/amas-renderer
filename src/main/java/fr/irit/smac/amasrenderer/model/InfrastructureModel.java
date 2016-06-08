@@ -12,19 +12,19 @@ import javafx.beans.property.StringProperty;
 /**
  * The Class InfrastructureModel.
  */
-public class InfrastructureModel implements IConstraintFields {
+public class InfrastructureModel implements IModel {
 
-    private Map<String, Object> attributesMap = new HashMap<String, Object>();
+    private Map<String, Object> attributesMap = new HashMap<>();
 
-    private final String[] requiredKeySingle  = {};
-    private final String[] protectedValue     = {};
-    private final String[] notExpanded        = { "Service" };
-    private final String[] requiredKeyComplex = {};
+    private static final String[] REQUIRED_KEY_SINGLE  = {};
+    private static final String[] PROTECTED_VALUE     = {};
+    private static final String[] NOT_EXPANDED        = { "Service" };
+    private static final String[] REQUIRED_KEY_COMPLEX = {};
 
     private StringProperty name;
 
     public InfrastructureModel() {
-
+        // Required for Jackson
     }
 
     public InfrastructureModel(String name) {
@@ -36,8 +36,9 @@ public class InfrastructureModel implements IConstraintFields {
         this.attributesMap = value;
     }
 
+    @Override
     public String toString() {
-        return name.get().toString();
+        return this.name.get();
     }
 
     public String getName() {
@@ -66,24 +67,24 @@ public class InfrastructureModel implements IConstraintFields {
     public void setAttributes(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
     }
-
+    
     @Override
     public String[] getRequiredKeySingle() {
-        return this.requiredKeySingle;
+        return REQUIRED_KEY_SINGLE;
     }
 
     @Override
     public String[] getProtectedValue() {
-        return this.protectedValue;
+        return PROTECTED_VALUE;
     }
 
     @Override
     public String[] getNotExpanded() {
-        return this.notExpanded;
+        return NOT_EXPANDED;
     }
 
     @Override
     public String[] getRequiredKeyComplex() {
-        return this.requiredKeyComplex;
+        return REQUIRED_KEY_COMPLEX;
     }
 }

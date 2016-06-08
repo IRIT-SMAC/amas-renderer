@@ -2,7 +2,6 @@ package fr.irit.smac.amasrenderer.controller.menu;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,9 +10,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
-import fr.irit.smac.amasrenderer.service.GraphService;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
-import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
