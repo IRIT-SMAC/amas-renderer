@@ -15,7 +15,22 @@ class ToolAttributeTest extends GuiSpecification{
     ToolService toolService
 
     @Shared
-    BorderPane rootLayout
+    String itemId = "complexNode"
+
+    @Shared
+    String service = "messagingService"
+    
+    @Shared
+    String addItem = "#addAttributeItem"
+
+    @Shared
+    String renameItem = "#renameAttributeItem"
+
+    @Shared
+    String removeItem = "#removeAttributeItem"
+
+    @Shared
+    String confButton = "#confButton"
 
     def setup() {
 
@@ -26,13 +41,13 @@ class ToolAttributeTest extends GuiSpecification{
             FXMLLoader loaderRootLayout = new FXMLLoader()
             loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
             BorderPane rootLayout = (BorderPane) loaderRootLayout.load()
-            this.rootLayout = rootLayout
-            Main.mainStage = stage
             Map<String,Object> map = new HashMap<>()
             Map<String,Object> complexNodeMap = new HashMap<>()
             complexNodeMap.put("node1", "value1")
-            map.put("complexNode", complexNodeMap)
-            toolService.addTool(new ToolModel("messagingService", map))
+            map.put(itemId, complexNodeMap)
+            toolService.addTool(new ToolModel(service, map))
+            Main.mainStage = stage
+
             return rootLayout
         }
 
@@ -42,26 +57,26 @@ class ToolAttributeTest extends GuiSpecification{
     def "check if adding an attribute works"() {
 
         when:
-        fx.clickOn("messagingService")
-                        .rightClickOn("complexNode")
-                        .clickOn("#addAttributeItem")
+        fx.clickOn(service)
+                        .rightClickOn(itemId)
+                        .clickOn(addItem)
                         .rightClickOn("item")
-                        .clickOn("#addAttributeItem")
-                        .clickOn("#confButton")
+                        .clickOn(addItem)
+                        .clickOn(confButton)
 
         then:
-        toolService.getTools().get(1).getAttributesMap().get("complexNode").size() == 2
+        toolService.getTools().get(1).getAttributesMap().get(itemId).size() == 2
     }
 
     def "check if modifying an attribute works"() {
 
         when:
-        fx.clickOn("messagingService")
-                        .rightClickOn("complexNode")
-                        .clickOn("#renameAttributeItem")
+        fx.clickOn(service)
+                        .rightClickOn(itemId)
+                        .clickOn(renameItem)
                         .type(KeyCode.E)
                         .type(KeyCode.ENTER)
-                        .clickOn("#confButton")
+                        .clickOn(confButton)
 
         then:
         toolService.getTools().get(1).getAttributesMap().get("E") != null || ToolService.getInstance().getTools().get(1).getAttributesMap().get("e") != null
@@ -70,10 +85,10 @@ class ToolAttributeTest extends GuiSpecification{
     def "check if deleting an attribute works"() {
 
         when:
-        fx.clickOn("messagingService")
-                        .rightClickOn("complexNode")
-                        .clickOn("#removeAttributeItem")
-                        .clickOn("#confButton")
+        fx.clickOn(service)
+                        .rightClickOn(itemId)
+                        .clickOn(removeItem)
+                        .clickOn(confButton)
 
         then:
         toolService.getTools().get(1).getAttributesMap().size() == 0

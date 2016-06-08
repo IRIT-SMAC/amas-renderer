@@ -33,19 +33,25 @@ class GraphNodeAttributeTest extends GuiSpecification{
     @Shared
     String graphId = "#graphNode"
 
+    @Shared
+    String agentId = "0"
+
+    @Shared
+    String defaultNameItem = "item"
+
+    @Shared
+    String addItem = "#addAttributeItem"
+
+    @Shared
+    String renameItem = "#renameAttributeItem"
+
+    @Shared
+    String removeItem = "#removeAttributeItem"
+
+    @Shared
+    String confButton = "#confButton"
+
     GraphController graphMainController
-
-    @Shared
-    Stage mainStage
-
-    @Shared
-    double positionX
-
-    @Shared
-    double positionY
-
-    @Shared
-    double gapLastAttribute
 
     def setup() {
         setupStage { stage ->
@@ -57,7 +63,6 @@ class GraphNodeAttributeTest extends GuiSpecification{
             graphMainController = mainController.getGraphMainController()
             graphView = graphMainController.getGraphView()
             Main.mainStage = stage
-            mainStage = stage
 
             return rootLayout
         }
@@ -66,34 +71,25 @@ class GraphNodeAttributeTest extends GuiSpecification{
         graphService = GraphService.getInstance()
 
         SingleGraph model = graphService.getGraph()
-        graphService.addNode("ag1")
+        graphService.addNode(0,0)
 
-        double height = 450
-        double width = 630
-        positionX = -(width/2)+20
-        positionY = -(height/2) + 70
-        gapLastAttribute = 360
-
-        sleep(2000)
+        sleep(1000)
 
     }
 
     def "check if an attribute is correctly added"() {
 
         given:
-        Map<String,Object> agent = GraphService.getInstance().getAgentMap().get("ag1")
+        Map<String,Object> agent = GraphService.getInstance().getAgentMap().get(agentId)
         int nbChildren = agent.size()
 
         when:
         fx.rightClickOn(graphId)
-                        .clickOn("#tree")
-                        .moveBy(positionX, positionY)
-                        .rightClickOn()
-                        .clickOn("#addAttributeItem")
-                        .moveBy(0, positionY + gapLastAttribute)
-                        .rightClickOn()
-                        .clickOn("#addAttributeItem")
-                        .clickOn("#confButton")
+                        .rightClickOn(agentId)
+                        .clickOn(addItem)
+                        .rightClickOn(defaultNameItem)
+                        .clickOn(addItem)
+                        .clickOn(confButton)
 
         then:
         agent.size() == nbChildren + 1
@@ -103,13 +99,11 @@ class GraphNodeAttributeTest extends GuiSpecification{
 
         when:
         fx.rightClickOn(graphId)
-                        .clickOn("#tree")
-                        .moveBy(positionX,positionY)
-                        .rightClickOn()
-                        .clickOn("#renameAttributeItem")
+                        .rightClickOn(agentId)
+                        .clickOn(renameItem)
                         .type(KeyCode.E)
                         .type(KeyCode.ENTER)
-                        .clickOn("#confButton")
+                        .clickOn(confButton)
 
         then:
         GraphService.getInstance().getAgentMap().get("e") || GraphService.getInstance().getAgentMap().get("E")
@@ -119,26 +113,22 @@ class GraphNodeAttributeTest extends GuiSpecification{
 
         given:
         fx.rightClickOn(graphId)
-                        .clickOn("#tree")
-                        .moveBy(positionX, positionY)
-                        .rightClickOn()
-                        .clickOn("#addAttributeItem")
-                        .moveBy(0, positionY + gapLastAttribute)
-                        .rightClickOn()
-                        .clickOn("#addAttributeItem")
-                        .clickOn("#confButton")
-        Map<String,Object> agent = GraphService.getInstance().getAgentMap().get("ag1")
+                        .rightClickOn(agentId)
+                        .clickOn(addItem)
+                        .rightClickOn(defaultNameItem)
+                        .clickOn(addItem)
+                        .clickOn(confButton)
+        Map<String,Object> agent = GraphService.getInstance().getAgentMap().get(agentId)
         int nbChildren = agent.size()
+        sleep(2000)
 
         when:
         fx.rightClickOn(graphId)
-                        .clickOn("#tree")
-                        .moveBy(0, -40)
-                        .rightClickOn()
-                        .clickOn("#removeAttributeItem")
-                        .clickOn("#confButton")
+                        .rightClickOn(defaultNameItem)
+                        .clickOn(removeItem)
+                        .clickOn(confButton)
 
         then:
-        GraphService.getInstance().getAgentMap().get("ag1").size() == nbChildren - 1
+        GraphService.getInstance().getAgentMap().get(agentId).size() == nbChildren - 1
     }
 }
