@@ -6,16 +6,16 @@ import javafx.scene.control.TextField
 import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.BorderPane
-import spock.lang.Ignore
+import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.service.GraphService
+import fr.irit.smac.amasrenderer.service.InfrastructureService
 
-//@IgnoreIf({
-//    System.getenv("TRAVIS") != null
-//})
-@Ignore
-//@Stepwise
+@IgnoreIf({
+    System.getenv("TRAVIS") != null
+})
+@Stepwise
 class InfrastructureTest extends GuiSpecification{
 
     @Shared
@@ -23,6 +23,15 @@ class InfrastructureTest extends GuiSpecification{
 
     @Shared
     BorderPane rootLayout
+
+    @Shared
+    double positionX
+
+    @Shared
+    double positionY
+
+    @Shared
+    double gapLastAttribute
 
     def setup() {
         setupStage { stage ->
@@ -40,46 +49,28 @@ class InfrastructureTest extends GuiSpecification{
         sleep(1000) //time for the graph to be initialized
         graphService = GraphService.getInstance()
 
+        double height = 450
+        double width = 630
+        positionX = -(width/2)+20
+        positionY = -(height/2) + 70
+        gapLastAttribute = 360
+
     }
 
     def "check if the infrastructure is modified by doubleclicking on the textfield"() {
 
         when:
-        println "infrastructure through textfield"
-        fx.doubleClickOn("#infrastructureLabel")
-                        .write("Michel c'est le Bresil!")
+        fx.doubleClickOn("#editInfrastructure")
+                        .clickOn("#tree")
+                        .moveBy(positionX, positionY)
+                        .rightClickOn()
+                        .clickOn("#renameAttributeItem")
+                        .type(KeyCode.E)
                         .type(KeyCode.ENTER)
+                        .clickOn("#confButton")
 
         then:
-        Label label = (Label) rootLayout.lookup("#infrastructureLabel")
-        TextField txtField = (TextField) rootLayout.lookup("#infrastructureTextField")
-        "Michel c'est le Bresil!" == label.getText() && label.getText() == txtField.getText()
-    }
-    
-    def "check if the infrastructure is modified by using the button"() {
-        
-        when:
-        println "infrastructure through textfield"
-        fx.clickOn("#infrastructureButton")
-                        .write("Il danse la Samba!")
-                        .type(KeyCode.ENTER)
-
-        then:
-        Label label = (Label) rootLayout.lookup("#infrastructureLabel")
-        TextField txtField = (TextField) rootLayout.lookup("#infrastructureTextField")
-        "Il danse la Samba!" == label.getText() && label.getText() == txtField.getText()
-    }
-    def "check if the infrastructure warning shows if empty entry"() {
-        
-        when:
-        println "infrastructure through textfield"
-        fx.clickOn("#infrastructureButton")
-                        .write("")
-                        .type(KeyCode.ENTER)
-
-        then:
-        ImageView icon = (ImageView) rootLayout.lookup("#infrastructureWarningIcon")
-        Label label = (Label) rootLayout.lookup("#infrastructureWarningLabel")
-        icon.isVisible() && label.isVisible()
+        String infrastructureName = InfrastructureService.getInstance().getInfrastructure().getName()
+        infrastructureName == "e" ||  infrastructureName == "E"
     }
 }

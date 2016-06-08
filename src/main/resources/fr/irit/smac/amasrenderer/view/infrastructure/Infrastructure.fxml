@@ -24,7 +24,7 @@
 							<children>
 								<Button id="buttonEditInfra" fx:id="infrastructureButton" focusTraversable="false" layoutX="6.0" layoutY="3.0" mnemonicParsing="false" onAction="#handleInfraClick" prefHeight="44.0" prefWidth="52.0" stylesheets="@../../css/graphButtons.css">
 									<graphic>
-                  										<ImageView fitHeight="28.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                  										<ImageView fx:id="editInfrastructure" fitHeight="28.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                   											<Image url="@../../image/edit-icon.png" />
                   										</ImageView>
 									</graphic>
