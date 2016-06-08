@@ -23,7 +23,7 @@ public class AgentModel extends SingleNode implements Node, IConstraintFields {
 
     private ArrayList<String> targets;
 
-    private final String[] requiredKeySingle  = { "id", "targets" };
+    private final String[] requiredKeySingle  = { "targets" };
     private final String[] protectedValue     = { "targets" };
     private final String[] notExpanded        = {};
     private final String[] requiredKeyComplex = { "knowledge" };

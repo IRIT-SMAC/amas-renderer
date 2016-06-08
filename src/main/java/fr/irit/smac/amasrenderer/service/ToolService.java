@@ -64,7 +64,7 @@ public class ToolService {
         this.getTools().clear();
 
         for (Map.Entry<String, Object> pair : map.entrySet()) {
-            if (pair.getKey() != "className") {
+            if (pair.getKey().contains("Service")) {
                 this.addTool(new ToolModel(pair.getKey(),pair.getValue()));
             }
         }

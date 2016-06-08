@@ -43,7 +43,7 @@ public class ToolAdditionController implements Initializable {
 				&& !textfieldTool.getText().trim().isEmpty()
 				&& !textfieldTool.getText().trim().contains(" ")){
 
-		    ToolModel newTool = new ToolModel(textfieldTool.getText().trim(), new HashMap<String,Object>());
+		    ToolModel newTool = new ToolModel(textfieldTool.getText().trim().concat("Service"), new HashMap<String,Object>());
             
             boolean found = false;
 

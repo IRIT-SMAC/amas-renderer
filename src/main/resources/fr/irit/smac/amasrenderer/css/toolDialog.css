@@ -3,4 +3,18 @@
 	-fx-fill: #CA2723;
 }
 
+#endOfService {
+	-fx-text-fill: darkgray;
+}
+
+.text-input {
+	-fx-padding: 10px 90px 10px 10px;
+}
 .text-input, .text-input:focused { -fx-prompt-text-fill: darkgray; }
+
+.text-field:focused {
+    -fx-background-color: -fx-focus-color, -fx-text-box-border, -fx-control-inner-background;
+    -fx-background-insets: -0.4, 1, 2;
+    -fx-background-radius: 3.4, 2, 2;
+}
+

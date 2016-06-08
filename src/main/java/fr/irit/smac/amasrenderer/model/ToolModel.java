@@ -15,7 +15,7 @@ public class ToolModel implements IConstraintFields {
 
     private Map<String, Object> attributesMap = new HashMap<String, Object>();
 
-    private final String[] requiredKeySingle        = { "className" };
+    private final String[] requiredKeySingle  = {};
     private final String[] protectedValue     = {};
     private final String[] notExpanded        = { "agentMap" };
     private final String[] requiredKeyComplex = {};
@@ -45,19 +45,19 @@ public class ToolModel implements IConstraintFields {
     }
 
     public String toString() {
-        return name.get().toString();
+        return this.name.get().toString();
     }
 
     public String getName() {
-        return name.get();
+        return this.name.get();
     }
 
     public void setName(String name) {
         this.name.set(name);
     }
-    
+
     public StringProperty nameProperty() {
-        return name;
+        return this.name;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ToolModel implements IConstraintFields {
 
     @Override
     public String[] getNotExpanded() {
-        return notExpanded;
+        return this.notExpanded;
     }
 
     @Override

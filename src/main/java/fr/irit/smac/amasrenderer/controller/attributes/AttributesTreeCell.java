@@ -113,7 +113,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
                 isProtected = Arrays.asList(node.getProtectedValue())
                     .contains(parent.getValue());
             }
-            isRequiredKeyComplex = Arrays.asList(node.getRequiredKeyComplex()).contains(item);
+            isRequiredKeyComplex = Arrays.asList(node.getRequiredKeyComplex()).contains(item.getValue());
         }
     }
 
@@ -134,7 +134,8 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         }
         else if (Arrays.asList(node.getRequiredKeyComplex()).contains(newValue)
             || Arrays.asList(node.getRequiredKeySingle()).contains(newValue)
-            || Arrays.asList(node.getProtectedValue()).contains(newValue)) {
+            || Arrays.asList(node.getProtectedValue()).contains(newValue)
+            || Arrays.stream(node.getNotExpanded()).allMatch(s -> newValue.contains(s))) {
             return;
         }
 

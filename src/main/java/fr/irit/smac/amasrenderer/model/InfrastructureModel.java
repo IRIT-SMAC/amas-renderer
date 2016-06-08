@@ -16,7 +16,7 @@ public class InfrastructureModel implements IConstraintFields {
 
     private Map<String, Object> attributesMap = new HashMap<String, Object>();
 
-    private final String[] requiredKeySingle  = { "className" };
+    private final String[] requiredKeySingle  = {};
     private final String[] protectedValue     = {};
     private final String[] notExpanded        = { "Service" };
     private final String[] requiredKeyComplex = {};
@@ -48,11 +48,11 @@ public class InfrastructureModel implements IConstraintFields {
     public void setName(String name) {
         this.name.set(name);
     }
-    
+
     public StringProperty nameProperty() {
         return name;
     }
-    
+
     @JsonAnyGetter
     public Map<String, Object> getAttributesMap() {
         return this.attributesMap;
@@ -62,8 +62,8 @@ public class InfrastructureModel implements IConstraintFields {
     public void setAttributesMap(String name, Object value) {
         this.attributesMap.put(name, value);
     }
-    
-    public void setAttributes(Map<String,Object> attributesMap) {
+
+    public void setAttributes(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
     }
 
