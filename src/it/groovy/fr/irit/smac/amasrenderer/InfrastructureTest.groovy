@@ -30,9 +30,6 @@ class InfrastructureTest extends GuiSpecification{
     @Shared
     double positionY
 
-    @Shared
-    double gapLastAttribute
-
     def setup() {
         setupStage { stage ->
 
@@ -53,8 +50,6 @@ class InfrastructureTest extends GuiSpecification{
         double width = 630
         positionX = -(width/2)+20
         positionY = -(height/2) + 70
-        gapLastAttribute = 360
-
     }
 
     def "check if the infrastructure is modified by doubleclicking on the textfield"() {

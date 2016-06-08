@@ -20,13 +20,14 @@ public abstract class LoadWindowModalController {
 
     protected FXMLLoader loaderWindowModal;
 
+    private Pane root;
+
     private static final Logger LOGGER = Logger.getLogger(LoadWindowModalController.class.getName());
 
     public void loadFxml(Window window, String resourcePath) {
 
         loaderWindowModal = new FXMLLoader();
         loaderWindowModal.setLocation(Main.class.getResource(resourcePath));
-        Pane root;
 
         try {
             root = loaderWindowModal.load();
@@ -51,6 +52,10 @@ public abstract class LoadWindowModalController {
         catch (IOException e) {
             LOGGER.log(Level.SEVERE, "The loading of the fxml has failed", e);
         }
+    }
+
+    public Pane getRoot() {
+        return root;
     }
 
     public abstract void initDialogModalController() throws IOException;

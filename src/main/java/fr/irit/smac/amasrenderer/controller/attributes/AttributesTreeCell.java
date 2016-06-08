@@ -3,7 +3,6 @@ package fr.irit.smac.amasrenderer.controller.attributes;
 import java.util.Arrays;
 
 import fr.irit.smac.amasrenderer.model.IModel;
-import fr.irit.smac.amasrenderer.model.ToolModel;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.cell.TextFieldTreeCell;
@@ -52,7 +51,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
             }
 
             add.setOnAction(evt -> {
-                item.getChildren().add(new TreeItem<>("..."));
+                item.getChildren().add(new TreeItem<>("item"));
                 contextMenu.freeActionListeners();
             });
 
