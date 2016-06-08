@@ -19,16 +19,7 @@ import fr.irit.smac.amasrenderer.service.InfrastructureService
 class InfrastructureTest extends GuiSpecification{
 
     @Shared
-    graphService
-
-    @Shared
-    BorderPane rootLayout
-
-    @Shared
-    double positionX
-
-    @Shared
-    double positionY
+    InfrastructureService infrastructureService
 
     def setup() {
         setupStage { stage ->
@@ -36,7 +27,6 @@ class InfrastructureTest extends GuiSpecification{
             FXMLLoader loaderRootLayout = new FXMLLoader()
             loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
             BorderPane rootLayout = (BorderPane) loaderRootLayout.load()
-            this.rootLayout = rootLayout
             Main.mainStage = stage
 
             return rootLayout
@@ -44,12 +34,7 @@ class InfrastructureTest extends GuiSpecification{
 
 
         sleep(1000) //time for the graph to be initialized
-        graphService = GraphService.getInstance()
-
-        double height = 450
-        double width = 630
-        positionX = -(width/2)+20
-        positionY = -(height/2) + 70
+        infrastructureService = InfrastructureService.getInstance()
     }
 
     def "check if the infrastructure is modified by doubleclicking on the textfield"() {
@@ -57,15 +42,15 @@ class InfrastructureTest extends GuiSpecification{
         when:
         fx.doubleClickOn("#editInfrastructure")
                         .clickOn("#tree")
-                        .moveBy(positionX, positionY)
-                        .rightClickOn()
+                        .rightClickOn("className")
                         .clickOn("#renameAttributeItem")
                         .type(KeyCode.E)
                         .type(KeyCode.ENTER)
                         .clickOn("#confButton")
 
         then:
-        String infrastructureName = InfrastructureService.getInstance().getInfrastructure().getName()
-        infrastructureName == "e" ||  infrastructureName == "E"
+        Map<String,Object> infrastructure = infrastructureService.getInfrastructure().getAttributesMap()
+        infrastructure.get("e") != null || infrastructure.get("E") != null
+
     }
 }
