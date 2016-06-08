@@ -20,8 +20,6 @@ public abstract class LoadWindowModalController {
 
     protected FXMLLoader loaderWindowModal;
 
-    private Pane root;
-
     private static final Logger LOGGER = Logger.getLogger(LoadWindowModalController.class.getName());
 
     public void loadFxml(Window window, String resourcePath) {
@@ -29,6 +27,8 @@ public abstract class LoadWindowModalController {
         loaderWindowModal = new FXMLLoader();
         loaderWindowModal.setLocation(Main.class.getResource(resourcePath));
 
+        Pane root = null;
+        
         try {
             root = loaderWindowModal.load();
             Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
