@@ -96,7 +96,7 @@
             </ImageView>
          </graphic>
          <tooltip>
-            <Tooltip text="Réinitialiser la vue" />
+            <Tooltip text="Réinitialiser le graphe" />
          </tooltip>
          <styleClass>
             <String fx:value="buttonGraph" />

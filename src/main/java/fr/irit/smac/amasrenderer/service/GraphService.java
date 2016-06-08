@@ -236,6 +236,7 @@ public class GraphService {
         this.agentMap.clear();
         this.graph.clear();
         this.graph.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
+        this.setQualityGraph();
     }
 
     /**
