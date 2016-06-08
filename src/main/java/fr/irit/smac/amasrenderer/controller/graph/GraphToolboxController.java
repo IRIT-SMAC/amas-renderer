@@ -36,6 +36,9 @@ public class GraphToolboxController implements Initializable {
     @FXML
     private ToggleButton buttonAutoLayout;
 
+    @FXML
+    private ToggleButton buttonResetGraph;
+
     private EButtonsAddDelState buttonsAddDelState;
 
     private EOthersButtonsState autoLayoutState;
@@ -129,6 +132,16 @@ public class GraphToolboxController implements Initializable {
     public void buttonViewCenter() {
 
         graphToolboxState.changedStateOtherButtons(EOthersButtonsState.RESET_VIEW);
+    }
+
+    /**
+     * Sets the state of the other buttons of the toolbox when the button
+     * ResetGraph is clicked
+     */
+    @FXML
+    public void buttonResetGraph() {
+
+        graphToolboxState.changedStateOtherButtons(EOthersButtonsState.RESET_GRAPH);
     }
 
     /**

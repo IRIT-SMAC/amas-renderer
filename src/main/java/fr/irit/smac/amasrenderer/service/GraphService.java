@@ -65,8 +65,9 @@ public class GraphService {
      * @param y
      *            the y location of the node
      */
-    public void addNode(String id, double x, double y) {
+    public void addNode(double x, double y) {
 
+        String id = Integer.toString(agentMap.size());
         AgentModel node = this.graph.addNode(id);
         node.changeAttribute(Const.NODE_XY, x, y);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
@@ -230,8 +231,9 @@ public class GraphService {
     /**
      * Empty the graph and reset the stylesheet
      */
-    private void clearGraph() {
+    public void clearGraph() {
 
+        this.agentMap.clear();
         this.graph.clear();
         this.graph.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
     }

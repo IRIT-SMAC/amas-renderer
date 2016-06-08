@@ -75,7 +75,7 @@
             <Tooltip text="Réinitialiser la vue" />
          </tooltip>
       </Button>
-      <ToggleButton fx:id="buttonAutoLayout" mnemonicParsing="false" onAction="#autoLayout" selected="true">
+      <ToggleButton fx:id="buttonAutoLayout" mnemonicParsing="false" onAction="#autoLayout" selected="true" styleClass="buttonGraph">
          <tooltip>
             <Tooltip text="Position des noeuds automatique" />
          </tooltip>
@@ -86,10 +86,22 @@
                </image>
             </ImageView>
          </graphic>
+      </ToggleButton>
+      <Button fx:id="resetGraph" mnemonicParsing="false" onAction="#buttonResetGraph" prefWidth="68.0">
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/buttonResetGraph.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Réinitialiser la vue" />
+         </tooltip>
          <styleClass>
             <String fx:value="buttonGraph" />
             <String fx:value="lastButtonGraph" />
          </styleClass>
-      </ToggleButton>
+      </Button>
 	</children>
 </VBox>

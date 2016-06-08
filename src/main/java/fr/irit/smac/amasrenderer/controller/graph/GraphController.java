@@ -53,8 +53,6 @@ public class GraphController extends LoadWindowModalController
     private Viewer viewer;
 
     private AgentModel agent;
-    
-    private int currentNodeId;
 
     private Node source = null;
 
@@ -289,6 +287,8 @@ public class GraphController extends LoadWindowModalController
             case NO_AUTO_LAYOUT:
                 viewer.disableAutoLayout();
                 break;
+            case RESET_GRAPH:
+                GraphService.getInstance().clearGraph();
             default:
                 break;
         }
@@ -448,10 +448,8 @@ public class GraphController extends LoadWindowModalController
      */
     private void createNode(MouseEvent e) {
 
-        String curId = Integer.toString(currentNodeId++);
         Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
-
-        this.graphNodeService.addNode(curId, clicLoc.x, clicLoc.y);
+        this.graphNodeService.addNode(clicLoc.x, clicLoc.y);
     }
 
     /**
