@@ -42,21 +42,21 @@ public class ToolAdditionController implements Initializable {
             && !textfieldTool.getText().trim().isEmpty()
             && !textfieldTool.getText().trim().contains(" ")) {
 
-            ToolModel newTool = new ToolModel(textfieldTool.getText().trim().concat("Service"),
+            ToolModel tool = new ToolModel(textfieldTool.getText().trim().concat("Service"),
                 new HashMap<String, Object>());
 
             boolean found = false;
 
             for (ToolModel item : ToolService.getInstance().getTools()) {
-                if (item.getName().equals(newTool.getName())) {
+                if (item.getName().equals(tool.getName())) {
                     found = true;
                 }
             }
 
             if (!found) {
-                ToolService.getInstance().getTools().add(newTool);
-                InfrastructureService.getInstance().getInfrastructure().getAttributesMap().put(newTool.getName(),
-                    newTool.getAttributesMap());
+                ToolService.getInstance().addTool(tool);
+                InfrastructureService.getInstance().getInfrastructure().getAttributesMap().put(tool.getName(),
+                    tool.getAttributesMap());
             }
 
             Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");

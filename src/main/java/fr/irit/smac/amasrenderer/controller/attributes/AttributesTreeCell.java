@@ -3,6 +3,7 @@ package fr.irit.smac.amasrenderer.controller.attributes;
 import java.util.Arrays;
 
 import fr.irit.smac.amasrenderer.model.IModel;
+import fr.irit.smac.amasrenderer.model.ToolModel;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.cell.TextFieldTreeCell;
@@ -17,12 +18,12 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
     private boolean isProtected;
     private boolean isParentSingleNode;
 
-    private IModel node;
+    private IModel model;
 
     public AttributesTreeCell(AttributesContextMenu contextMenu, StringConverter<String> converter,
         IModel node) {
         super(converter);
-        this.node = node;
+        this.model = node;
         if (contextMenu == null) {
             throw new NullPointerException();
         }
@@ -104,16 +105,16 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         isRequiredKeyComplex = false;
         isParentSingleNode = false;
 
-        if (node != null) {
-            isRequiredKeySingle = Arrays.asList(node.getRequiredKeySingle()).contains(item.getValue());
+        if (model != null) {
+            isRequiredKeySingle = Arrays.asList(model.getRequiredKeySingle()).contains(item.getValue());
             TreeItem<String> parent = item.getParent();
             if (parent != null) {
-                isParentSingleNode = Arrays.asList(node.getRequiredKeySingle())
+                isParentSingleNode = Arrays.asList(model.getRequiredKeySingle())
                     .contains(parent.getValue());
-                isProtected = Arrays.asList(node.getProtectedValue())
+                isProtected = Arrays.asList(model.getProtectedValue())
                     .contains(parent.getValue());
             }
-            isRequiredKeyComplex = Arrays.asList(node.getRequiredKeyComplex()).contains(item.getValue());
+            isRequiredKeyComplex = Arrays.asList(model.getRequiredKeyComplex()).contains(item.getValue());
         }
     }
 
@@ -129,18 +130,21 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
 
     @Override
     public void commitEdit(String newValue) {
-        if (newValue.trim().isEmpty()) {
-            return;
-        }
-        else if (Arrays.asList(node.getRequiredKeyComplex()).contains(newValue)
-            || Arrays.asList(node.getRequiredKeySingle()).contains(newValue)
-            || Arrays.asList(node.getProtectedValue()).contains(newValue)
-            || (Arrays.stream(node.getNotExpanded()).allMatch(s -> newValue.contains(s))
-                && node.getNotExpanded().length > 0)) {
-            return;
-        }
 
-        super.commitEdit(newValue);
+        boolean notEmpty = !newValue.trim().isEmpty();
+        boolean notRequiredComplex = !Arrays.asList(model.getRequiredKeyComplex()).contains(newValue);
+        boolean notRequiredKeySingle = !Arrays.asList(model.getRequiredKeySingle()).contains(newValue);
+        boolean notProtectedValue = !Arrays.asList(model.getProtectedValue()).contains(newValue);
+        boolean notExpanded = !Arrays.stream(model.getNotExpanded()).allMatch(s -> newValue.contains(s)) || model.getNotExpanded().length == 0;
+            
+        if (notEmpty && notRequiredComplex && notRequiredKeySingle && notProtectedValue && notExpanded) {
+            
+            if (getTreeItem().getParent() == null) {
+                super.commitEdit(this.model.getNewName(newValue));
+            } else {
+                super.commitEdit(newValue);
+            }
+        }
     }
 
 }

@@ -4,6 +4,8 @@ public interface IModel {
 
     public void setName(String name);
 
+    public String getNewName(String name);
+    
     public String[] getRequiredKeySingle();
 
     public String[] getProtectedValue();

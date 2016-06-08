@@ -3,6 +3,7 @@ package fr.irit.smac.amasrenderer.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.graphstream.graph.Edge;
@@ -70,11 +71,19 @@ public class GraphService {
         node.changeAttribute(Const.NODE_XY, x, y);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.NODE_LABEL, id);
-        
-        node.nameProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            GraphService.getInstance().getAgentMap().remove(oldValue);
-            GraphService.getInstance().getAgentMap().put(newValue, node.getAttributesMap());
-        });
+        HashMap<String, Object> attributesMap = new HashMap<>();
+        attributesMap.put("id", id);
+        Map<String, Object> knowledge = new HashMap<>();
+        attributesMap.put("knowledge", knowledge);
+        List<String> targets = new ArrayList<>();
+        knowledge.put(Const.TARGETS, targets);
+        node.setAttributesMap(attributesMap);
+
+        node.nameProperty()
+            .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+                GraphService.getInstance().getAgentMap().remove(oldValue);
+                GraphService.getInstance().getAgentMap().put(newValue, node.getAttributesMap());
+            });
     }
 
     /**
@@ -83,16 +92,18 @@ public class GraphService {
      * @param id
      *            the id of the node
      */
-    public void addNode(String id) {
+    public void addNode(String id, Map<String, Object> attributesMap) {
 
         AgentModel node = this.graph.addNode(id);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.NODE_LABEL, id);
-        
-        node.nameProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            GraphService.getInstance().getAgentMap().remove(oldValue);
-            GraphService.getInstance().getAgentMap().put(newValue, node.getAttributesMap());
-        });
+        node.setAttributesMap(attributesMap);
+
+        node.nameProperty()
+            .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+                GraphService.getInstance().getAgentMap().remove(oldValue);
+                GraphService.getInstance().getAgentMap().put(newValue, node.getAttributesMap());
+            });
     }
 
     /**
@@ -108,7 +119,11 @@ public class GraphService {
         graph.addEdge(source + target, source, target, true);
         graph.getEdge(source + target).setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_EDGE);
         ((AgentModel) this.graph.getNode(source)).addTarget(target);
+    }
 
+    public void addEdgeGraph(String source, String target) {
+        graph.addEdge(source + target, source, target, true);
+        graph.getEdge(source + target).setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_EDGE);
     }
 
     /**
@@ -167,7 +182,7 @@ public class GraphService {
      */
     @SuppressWarnings("unchecked")
     public void createAgentGraphFromMap(Map<String, Object> map) {
-        
+
         this.clearGraph();
         fillAgentMap(map);
         Iterator<Map.Entry<String, Object>> agents = map.entrySet().iterator();
@@ -186,11 +201,11 @@ public class GraphService {
      *            the agent map
      */
     private void fillAgentMap(Map<String, Object> map) {
-        
+
         Iterator<Map.Entry<String, Object>> it = map.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, Object> agent = it.next();
-            this.addNode(agent.getKey());
+            this.addNode(agent.getKey(), (Map<String, Object>) agent.getValue());
         }
     }
 
@@ -205,8 +220,10 @@ public class GraphService {
 
         HashMap<String, Object> knowledgeMap = (HashMap<String, Object>) agent.get("knowledge");
         ArrayList<String> targets = (ArrayList<String>) knowledgeMap.get("targets");
-        for (String target : targets) {
-            this.addEdge((String) agent.get("id"), target);
+        Iterator<String> it = targets.iterator();
+        while (it.hasNext()) {
+            String target = it.next();
+            this.addEdgeGraph((String) agent.get("id"), target);
         }
     }
 
@@ -214,7 +231,7 @@ public class GraphService {
      * Empty the graph and reset the stylesheet
      */
     private void clearGraph() {
-        
+
         this.graph.clear();
         this.graph.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
     }

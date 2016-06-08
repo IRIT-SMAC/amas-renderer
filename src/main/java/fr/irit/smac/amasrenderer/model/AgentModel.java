@@ -25,20 +25,14 @@ public class AgentModel extends SingleNode implements Node, IModel {
     private List<String> targets;
 
     private static final String[] REQUIRED_KEY_SINGLE  = { Const.TARGETS };
-    private static final String[] PROTECTED_VALUE     = { Const.TARGETS };
-    private static final String[] NOT_EXPANDED        = {};
+    private static final String[] PROTECTED_VALUE      = { Const.TARGETS };
+    private static final String[] NOT_EXPANDED         = {};
     private static final String[] REQUIRED_KEY_COMPLEX = { "knowledge" };
 
     public AgentModel(AbstractGraph graph, String id) {
 
         super(graph, id);
         this.name = new SimpleStringProperty(id);
-        attributesMap = new HashMap<>();
-        attributesMap.put("id", id);
-        Map<String, Object> knowledge = new HashMap<>();
-        attributesMap.put("knowledge", knowledge);
-        targets = new ArrayList<>();
-        knowledge.put(Const.TARGETS, targets);
         GraphService.getInstance().getAgentMap().put(id, attributesMap);
     }
 
@@ -52,6 +46,12 @@ public class AgentModel extends SingleNode implements Node, IModel {
 
     public Map<String, Object> getAttributesMap() {
         return attributesMap;
+    }
+
+    public void setAttributesMap(Map<String, Object> attributesMap) {
+        this.attributesMap = attributesMap;
+        this.targets = (List<String>) ((Map<String, Object>) attributesMap.get("knowledge")).get("targets");
+        GraphService.getInstance().getAgentMap().put(id, attributesMap);
     }
 
     @Override
@@ -84,6 +84,11 @@ public class AgentModel extends SingleNode implements Node, IModel {
     }
 
     public StringProperty nameProperty() {
+        return name;
+    }
+
+    @Override
+    public String getNewName(String name) {
         return name;
     }
 }

@@ -3,6 +3,8 @@ package fr.irit.smac.amasrenderer.service;
 import java.util.Map;
 
 import fr.irit.smac.amasrenderer.model.ToolModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 
 /**
@@ -10,7 +12,7 @@ import javafx.collections.ObservableList;
  */
 public class ToolService {
 
-    private static ToolService instance = new ToolService();
+    private static ToolService        instance = new ToolService();
     private ObservableList<ToolModel> tools;
 
     /**
@@ -50,9 +52,16 @@ public class ToolService {
     public void addTool(ToolModel tool) {
 
         this.tools.add(tool);
-        InfrastructureService.getInstance().getInfrastructure().getAttributesMap().put(tool.getName(), tool.getAttributesMap());
+        InfrastructureService.getInstance().getInfrastructure().getAttributesMap().put(tool.getName(),
+            tool.getAttributesMap());
+        tool.nameProperty()
+            .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+                InfrastructureService.getInstance().getInfrastructure().getAttributesMap().remove(oldValue);
+                InfrastructureService.getInstance().getInfrastructure().getAttributesMap().put(newValue,
+                    tool.getAttributesMap());
+            });
     }
-    
+
     /**
      * Creates the services from a map.
      *
@@ -65,7 +74,7 @@ public class ToolService {
 
         for (Map.Entry<String, Object> pair : map.entrySet()) {
             if (pair.getKey().contains("Service")) {
-                this.addTool(new ToolModel(pair.getKey(),pair.getValue()));
+                this.addTool(new ToolModel(pair.getKey(), pair.getValue()));
             }
         }
     }

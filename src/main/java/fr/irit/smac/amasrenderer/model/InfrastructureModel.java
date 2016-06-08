@@ -87,4 +87,9 @@ public class InfrastructureModel implements IModel {
     public String[] getRequiredKeyComplex() {
         return REQUIRED_KEY_COMPLEX;
     }
+
+    @Override
+    public String getNewName(String name) {
+        return name;
+    }
 }

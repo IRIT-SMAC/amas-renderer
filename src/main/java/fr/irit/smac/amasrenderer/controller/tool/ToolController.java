@@ -77,7 +77,7 @@ public class ToolController extends LoadWindowModalController implements Initial
             list.add(tool);
         }
         ToolService.getInstance()
-            .setTools(FXCollections.observableArrayList(actionStep -> new Observable[] { actionStep.nameProperty() }));
+            .setTools(FXCollections.observableArrayList(actionStep -> new Observable[] { actionStep.nameProperty()}));
         listTool.setItems(ToolService.getInstance().getTools());
         ToolService.getInstance().createServicesFromMap(InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
     }
