@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,10 +28,13 @@ public abstract class LoadWindowModalController {
         loaderWindowModal.setLocation(Main.class.getResource(resourcePath));
 
         Pane root = null;
-        
+
         try {
             root = loaderWindowModal.load();
-            Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add("secondaryWindow");
+            if (!Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass()
+                .contains(Const.SECONDARY_WINDOW)) {
+                Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add(Const.SECONDARY_WINDOW);
+            }
             stageWindowModal = new Stage();
             stageWindowModal.initModality(Modality.WINDOW_MODAL);
             stageWindowModal.initOwner(window);

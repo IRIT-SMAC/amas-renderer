@@ -75,6 +75,8 @@ public class ToolAdditionController implements Initializable {
      */
     @FXML
     public void clickCancel() {
+        
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         ((Stage) buttonCancel.getScene().getWindow()).close();
     }
 

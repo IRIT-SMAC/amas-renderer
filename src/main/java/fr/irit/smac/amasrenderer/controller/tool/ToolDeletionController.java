@@ -19,7 +19,7 @@ public class ToolDeletionController {
     private Stage dialogStage;
 
     private String toolName;
-    
+
     private int toolIndex;
 
     @FXML
@@ -27,7 +27,6 @@ public class ToolDeletionController {
 
         ToolService.getInstance().getTools().remove(toolIndex);
         InfrastructureService.getInstance().getInfrastructure().getAttributesMap().remove(toolName);
-        dialogStage.getScene().lookup("#attributesServiceDialog").getStyleClass().remove(Const.SECONDARY_WINDOW);
         Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove(Const.SECONDARY_WINDOW);
         dialogStage.close();
     }
@@ -40,7 +39,7 @@ public class ToolDeletionController {
     }
 
     public void init(Stage dialogStage, int toolIndex, String toolName) {
-        
+
         this.toolName = toolName;
         this.toolIndex = toolIndex;
         this.dialogStage = dialogStage;
