@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title></title>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/documentation.css">
+<script
+	src="../js/jquery.min.js"></script>
+<script
+	src="../js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="
+	panel-group" id="accordion">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion"
+						href="#collapse1"> Introduction</a>
+				</h4>
+			</div>
+			<div id="collapse1" class="panel-collapse collapse in">
+				<div class="panel-body">
+					<p>Amas-renderer est un outil permettant de cr&eacute;er un
+						fichier de configuration pour amas-factory de fa&ccedil;on
+						visuelle. Pour cela, il faut d&eacute;finir l'infrastructure, les
+						services et les agents du SMA. Les parties suivantes
+						pr&eacute;sentent plus en d&eacute;tails chacune de ces
+						entit&eacute;s.</p>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion"
+						href="#collapse2"> Infrastructure</a>
+				</h4>
+			</div>
+			<div id="collapse2" class="panel-collapse collapse">
+				<div class="panel-body">
+					<p>L'infrastructure permet d'interagir avec le SMA et de relier
+						l'environnement aux agents.</p>
+					<p>
+						Vous pouvez ajouter ou modifier les attributs de l'infrastructure
+						en cliquant sur l'ic&ocirc;ne <img src="../image/edit-icon.png"
+							height="20" width="20"> pr&egrave;s du nom de
+						l'infrastructure.
+					</p>
+					<p>Le fichier de configuration doit au moins avoir le chemin de
+						la classe de l'infrastructure utilis&eacute;e.</p>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion"
+						href="#collapse3"> Services</a>
+				</h4>
+			</div>
+			<div id="collapse3" class="panel-collapse collapse">
+				<div class="panel-body">
+					<p>Dans amas-factory, un service remplit une
+						fonctionnalit&eacute; du SMA. Plus concr&eacute;tement, il s'agit
+						par exemple de la communication entre agents ou de
+						l'ex&eacute;cution des agents. En g&eacute;n&eacute;ral, les
+						services utilis&eacute;s par amas-factory font partie de la
+						librairie agent-tooling.</p>
+					<p>Vous pouvez ajouter un service en cliquant sur le bouton
+						"Ajouter un service". Vous pouvez &eacute;galement modifier et
+						supprimer les services en cliquant sur leur nom respectif dans la
+						liste des services.</p>
+					<p>Le fichier de configuration doit contenir au moins le
+						service agentHandler qui contient l'ensemble des agents.</p>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion"
+						href="#collapse4"> Agents</a>
+				</h4>
+			</div>
+			<div id="collapse4" class="panel-collapse collapse">
+				<div class="panel-body">
+
+					<p>Le r&eacute;seau d'agents est repr&eacute;sent&eacute; sous
+						forme de graphe, dans la partie droite du programme. Un agent
+						correspond &agrave; un noeud et un lien de connaissance correspond
+						&agrave; un arc. Ainsi, l'agent source d'une ar&ecirc;te
+						orient&eacute;e conna&icirc;t l'agent destinataire de cette
+						m&ecirc;me ar&ecirc;te.</p>
+
+					<p class="miniTitle">Ajouter un agent :</p>
+					<p>
+						- Cliquez sur <img class="iconToolbox"
+							src="../image/buttonAdd.png" height="25" width="25"> dans
+						la barre d'outils. Faites un ou plusieurs clics gauche pour
+						ajouter un ou plusieurs agents.
+					</p>
+					Ou
+					<p>- Maintenez la touche Ctrl enfonc&eacute;e. Faites un ou
+						plusieurs clics gauche sur le graphe.</p>
+					<p class="miniTitle">Supprimer un agent :</p>
+					<p>
+						- Cliquez sur <img class="iconToolbox"
+							src="../image/buttonDelete.png" height="25" width="25">
+						dans la barre d'outils. Faites un ou plusieurs clics gauche sur
+						l'agent ou les agents &agrave; supprimer.
+					</p>
+					Ou
+					<p>- Maintenez la touche Ctrl enfonc&eacute;e. Faites un ou
+						plusieurs clics droit sur l'agent ou les agents &agrave supprimer.</p>
+					<p class="miniTitle">Ajouter un lien de connaissance entre deux
+						agents :</p>
+					<p>
+						- Cliquez sur <img class="iconToolbox"
+							src="../image/buttonAddEdge.png" height="25" width="25">
+						dans la barre d'outils. Faites un clic gauche sur l'agent source,
+						puis faites un clic gauche sur l'agent destinataire.
+					</p>
+					Ou
+					<p>- Maintenez la touche Maj enfonc&eacute;e. Faites un clic
+						gauche sur l'agent source, puis faites un clic gauche sur l'agent
+						destinaire.</p>
+					<p class="miniTitle">Supprimer un lien de connaissance entre
+						deux agents :</p>
+					<p>
+						- Cliquez sur <img class="iconToolbox"
+							src="../image/buttonDeleteEdge.png" height="25" width="25">
+						dans la barre d'outils. Faites un clic gauche sur l'agent source,
+						puis faites un clic gauche sur l'agent destinataire.
+					</p>
+					Ou
+					<p>- Maintenez la touche Maj enfonc&eacute;e. Faites un clic
+						droit sur l'agent source, puis faites un clic droit sur l'agent
+						destinaire.</p>
+					<p class="miniTitle">Modifier les attributs d'un agent :</p>
+					<p>- Faites un clic droit sur l'agent.</p>
+					<p class="miniTitle">D&eacute;placer un agent :</p>
+					<p>- Maintenez le clic gauche sur l'agent concern&eacute; et
+						d&eacute;placez la souris.</p>
+					<p class="miniTitle">R&eacute;initialiser la vue :</p>
+					<p>
+						- Cliquez sur <img class="iconToolbox"
+							src="../image/buttonResetView.png" height="25" width="25">.
+						La cam&eacute;ra va se positionner de fa&ccedil;on &agrave; ce que
+						tout le graphe soit visible.
+					</p>
+					<p class="miniTitle">Activer/d&eacute;sactiver l'auto-layout :</p>
+					<p>
+						- S&eacute;lectionnez ou d&eacute;selectionnez le bouton <img
+							class="iconToolbox" src="../image/buttonAutoLayout.png"
+							height="25" width="25">.
+					</p>
+					<p class="miniTitle">Supprimer tous les agents et liens du
+						graphe :</p>
+					<p>
+						- Cliquez sur <img class="iconToolbox"
+							src="../image/buttonResetGraph.png" height="25" width="25">.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
