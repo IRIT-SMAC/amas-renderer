@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="dialog" prefHeight="600.0" prefWidth="1000.0" styleClass="dialog" stylesheets="@../../css/dialog.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label prefWidth="884.0" styleClass="title" text="Documentation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Accordion fx:id="accordion" layoutX="8.0" prefWidth="932.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0">
+        <panes>
+            <TitledPane animated="false" styleClass="titlePaneDoc" text="Introduction">
+              <content>
+                  <ScrollPane fitToWidth="true">
+                     <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="253.0" prefWidth="990.0">
+                           <children>
+                              <Label styleClass="descriptionText" text="Amas-renderer est un outil permettant de créer un fichier de configuration de façon visuelle. Pour cela, il faut renseigner les informations nécessaires concernant l'infrastructure, les services et les agents. Les parties suivantes présentent plus en détails chacune de ces entités. " wrapText="true" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+              </content>
+            </TitledPane>
+          <TitledPane animated="false" styleClass="titlePaneDoc" text="Infrastructure">
+               <content>
+                  <ScrollPane fx:id="parent" fitToWidth="true" prefHeight="200.0">
+                    <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="1200.0">
+                           <children>
+                              <Label fx:id="labelInfrastructure" layoutX="0.0625" styleClass="descriptionText" text="Vous pouvez ajouter ou modifier les attributs de l'infrastructure en cliquant sur l'icône à côté du nom de l'infrastructure. Le fichier de configuration doit au moins avoir le className de l'infrastructure utilisée" wrapText="true" AnchorPane.leftAnchor="0.0625" AnchorPane.rightAnchor="0.9375" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+               </content>
+          </TitledPane>
+          <TitledPane animated="false" styleClass="titlePaneDoc" text="Services">
+            <content>
+                  <ScrollPane fitToWidth="true" prefHeight="200.0">
+                     <content>
+                        <AnchorPane prefHeight="163.0" prefWidth="1161.0">
+                           <children>
+                              <Label fx:id="labelService" layoutX="0.0625" styleClass="descriptionText" text="Vous pouvez ajouter, modifier et supprimer des services. Le fichier de configuration doit contenir au moins le service agentHandler qui contient l'ensemble des agents." wrapText="true" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" styleClass="titlePaneDoc" text="Agents">
+            <content>
+                  <ScrollPane fitToWidth="true">
+                     <content>
+                        <AnchorPane prefHeight="170.0" prefWidth="1167.0">
+                           <children>
+                              <Label styleClass="descriptionText" text="Un agent est représenté par un noeud. Un lien de connaissance est représenté par un arc." wrapText="true" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                              <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="18.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../image/buttonAdd.png" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="76.0" layoutY="58.0" prefHeight="23.0" prefWidth="1086.0" styleClass="descriptionText" text="Ajouter un agent" wrapText="true" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="5.0" />
+                              <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="18.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../image/buttonDelete.png" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="75.0" layoutY="111.0" prefHeight="23.0" prefWidth="1087.0" styleClass="descriptionText" text="Supprimer un agent" wrapText="true" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="5.0" />
+                              <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="18.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../image/buttonAddEdge.png" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="81.0" layoutY="168.0" prefHeight="23.0" prefWidth="1076.0" styleClass="descriptionText" text="Ajouter un lien de connaissance entre deux agents" wrapText="true" AnchorPane.leftAnchor="81.0" AnchorPane.rightAnchor="10.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+   </children>
+</AnchorPane>

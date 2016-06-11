@@ -5,6 +5,7 @@ import fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureControl
 import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
 import fr.irit.smac.amasrenderer.controller.tool.ToolController;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -26,6 +27,8 @@ public class MainController {
 
     @FXML
     private BorderPane rootLayout;
+
+    private Scene scene;
     
     /**
      * Gets the graph main controller (contains all of the sub controllers about
@@ -63,4 +66,10 @@ public class MainController {
     public InfrastructureController getInfrastructureController() {
         return infrastructureController;
     }
+    
+    public void init() {
+        this.scene = rootLayout.getScene();
+        menuBarController.setScene(scene);
+    }
+
 }

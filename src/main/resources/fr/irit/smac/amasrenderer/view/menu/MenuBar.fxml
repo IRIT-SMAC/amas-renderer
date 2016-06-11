@@ -4,7 +4,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 
-<MenuBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../../css/menuBar.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.menu.MenuBarController">
+<MenuBar fx:id="menuBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../../css/menuBar.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.menu.MenuBarController">
   <menus>
     <Menu mnemonicParsing="false" text="Fichier">
       <items>
@@ -17,7 +17,7 @@
     </Menu>
     <Menu mnemonicParsing="false" text="Aide">
       <items>
-        <MenuItem mnemonicParsing="false" onAction="#clickMenuAPropos" text="A propos" />
+        <MenuItem mnemonicParsing="false" onAction="#clickMenuAPropos" text="Documentation" />
       </items>
     </Menu>
   </menus>

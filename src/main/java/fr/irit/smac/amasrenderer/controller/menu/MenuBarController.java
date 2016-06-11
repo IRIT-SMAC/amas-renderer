@@ -13,7 +13,14 @@ import fr.irit.smac.amasrenderer.model.InfrastructureModel;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  * This controller manages the menu bar events
@@ -21,6 +28,7 @@ import javafx.stage.FileChooser;
 public class MenuBarController {
 
     private static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
+    private Scene               scene;
 
     /**
      * On click on the menu item "Charger" in the menu "Fichier". Open a file
@@ -80,7 +88,37 @@ public class MenuBarController {
      */
     @FXML
     public void clickMenuAPropos() {
-        // TODO Popup à propos
-        LOGGER.log(Level.INFO, "Popup à propos");
+        
+        Window window = scene.getWindow();
+        String resourcePath = "view/help/Documentation.fxml";
+        FXMLLoader loaderWindowModal = new FXMLLoader();
+        loaderWindowModal.setLocation(Main.class.getResource(resourcePath));
+
+        Pane root = null;
+        
+        try {
+            root = loaderWindowModal.load();
+            Stage stageWindowModal = new Stage();
+            stageWindowModal.initModality(Modality.WINDOW_MODAL);
+            Scene scene = new Scene(root);
+            stageWindowModal.setScene(scene);
+            stageWindowModal.setMinHeight(380);
+            stageWindowModal.setMinWidth(440);
+            double x = window.getX() + (window.getWidth() - root.getPrefWidth()) / 2;
+            double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
+            stageWindowModal.setX(x);
+            stageWindowModal.setY(y);
+            scene.setFill(Color.BLACK);
+            stageWindowModal.show();
+
+        }
+        catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "The loading of the fxml has failed", e);
+        }
+        
+    }
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
 }

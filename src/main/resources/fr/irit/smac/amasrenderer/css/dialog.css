@@ -1,5 +1,5 @@
 .root {
-    -fx-font-size: 16pt;
+    -fx-font-size: 16.0pt;
     -fx-font-family: "OpenSymbol";
 }
 
@@ -8,38 +8,51 @@
     -fx-border-width: 4.0px;
 }
 
+.titlePaneDoc > .title {
+	-fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #CCC, #DDD);
+	-fx-pref-height: 40.0;
+	-fx-font-size: 13pt;
+}
+
+.descriptionText{
+	-fx-font-size: 12pt;
+	-fx-line-spacing: 5pt;
+	-fx-text-alignment: justify;
+	-fx-padding: 1.5em;
+}
+
 .secondaryWindow {
 	 -fx-opacity: 0.7;
 }
 
 .title {
-    -fx-background-color: linear-gradient( from 0 100 to 100 -100, #b4231f, #c34e4b);
+    -fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #b4231f, #c34e4b);
     -fx-text-fill: #FFFFFF;
     -fx-alignment: center;
-    -fx-pref-height: 60;
+    -fx-pref-height: 60.0;
 }
 .buttonDialog {
-    -fx-background-color: linear-gradient( from 0 100 to 100 -100, #dbdbdb, #e0e0e0);
+    -fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #dbdbdb, #e0e0e0);
     -fx-background-radius: 5.0px;
     -fx-border-color: #404040;
     -fx-border-width: 0.0 0.0 0.0 0.0;
-    -fx-font-size: 15px;
+    -fx-font-size: 15.0px;
     -fx-font-weight: bold;
     -fx-text-fill: #000000;
-	-fx-pref-height: 50;
-	-fx-pref-width: 180;
+	-fx-pref-height: 50.0;
+	-fx-pref-width: 180.0;
 }
 .buttonDialogOk {
-    -fx-background-color: linear-gradient( from 0 100 to 100 -100, #b4231f, #c34e4b);
-    -fx-font-size: 15px;
+    -fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #b4231f, #c34e4b);
+    -fx-font-size: 15.0px;
     -fx-font-weight: bold;
     -fx-text-fill: #FFFFFF;
 }
 .buttonDialog:hover {
-    -fx-background-color: linear-gradient( from 0 100 to 100 -100, #cccccc, #d1d1d1);
+    -fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #cccccc, #d1d1d1);
     -fx-font-weight: bold;
 }
 
 .buttonDialogOk:hover {
-    -fx-background-color: linear-gradient( from 0 100 to 100 -100, #a21f1b, #901c18);
+    -fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #a21f1b, #901c18);
 }

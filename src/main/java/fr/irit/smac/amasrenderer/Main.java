@@ -2,6 +2,7 @@ package fr.irit.smac.amasrenderer;
 
 import java.util.logging.Logger;
 
+import fr.irit.smac.amasrenderer.controller.MainController;
 import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -32,6 +33,7 @@ public class Main extends Application {
         FXMLLoader loaderRootLayout = new FXMLLoader();
         loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"));
         BorderPane rootLayout = (BorderPane) loaderRootLayout.load();
+        MainController controller = loaderRootLayout.getController();
         Scene scene = new Scene(rootLayout);
         scene.setFill(Color.BLACK);
         primaryStage.setScene(scene);
@@ -41,7 +43,8 @@ public class Main extends Application {
             System.exit(0);
         });
         primaryStage.show();
-
+        
+        controller.init();
         Main.mainStage = primaryStage;
     }
 
