@@ -1,35 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
-<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="attributesAgentDialog" prefHeight="450.0" prefWidth="630.0" styleClass="dialog" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.NodeAttributesController">
-   <top>
-      <Label fx:id="attributesAgentTitle" prefHeight="42.0" prefWidth="630.0" styleClass="title" text="Attributs de l'agent" BorderPane.alignment="CENTER" />
-   </top>
-   <center>
-      <TreeView fx:id="tree" editable="true" focusTraversable="false" prefHeight="311.0" prefWidth="610.0" BorderPane.alignment="CENTER" />
-   </center>
-   <bottom>
-      <AnchorPane prefHeight="70.0" BorderPane.alignment="CENTER">
+
+<AnchorPane styleClass="dialog" stylesheets="@../../css/dialog.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.NodeAttributesController">
+   <children>
+      <Label fx:id="attributesAgentTitle" prefHeight="42.0" styleClass="title" text="Attributs de l'agent" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <TreeView fx:id="tree" editable="true" focusTraversable="false" prefHeight="311.0" prefWidth="610.0" stylesheets="@../../css/tree.css" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
+      <AnchorPane prefHeight="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button fx:id="confButton" layoutX="436.0" layoutY="10.0" mnemonicParsing="false" onAction="#confirmButton" prefHeight="33.0" prefWidth="106.0" text="Confirmer">
+            <Button fx:id="confButton" layoutX="436.0" layoutY="10.0" mnemonicParsing="false" onAction="#confirmButton" prefHeight="33.0" prefWidth="106.0" text="Confirmer" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="15.0">
                <styleClass>
                   <String fx:value="buttonDialogOk" />
                   <String fx:value="buttonDialog" />
                </styleClass>
             </Button>
-            <Button fx:id="cancButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="33.0" prefWidth="99.0" styleClass="buttonDialog" text="Annuler" />
+            <Button fx:id="cancButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="33.0" prefWidth="99.0" styleClass="buttonDialog" text="Annuler" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0" />
          </children>
       </AnchorPane>
-   </bottom>
-   <stylesheets>
-      <URL value="@../../css/dialog.css" />
-      <URL value="@../../css/tree.css" />
-   </stylesheets>
-</BorderPane>
+   </children>
+</AnchorPane>

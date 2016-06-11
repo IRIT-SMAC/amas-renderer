@@ -550,7 +550,7 @@ public class GraphController extends LoadWindowModalController
     private void loadFxmlAttributes(Node node) {
 
         this.agent = GraphService.getInstance().getGraph().getNode(node.getId());
-        this.loadFxml(graphNode.getScene().getWindow(), "view/graph/GraphAttributes.fxml");
+        this.loadFxml(graphNode.getScene().getWindow(), "view/graph/GraphAttributes.fxml", true);
     }
 
     /*

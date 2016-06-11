@@ -4,33 +4,29 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TreeView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="attributesServiceDialog" prefHeight="450.0" prefWidth="630.0" styleClass="dialog" stylesheets="@../../css/dialog.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.tool.ToolAttributesController">
-	<top>
-		<Label prefHeight="42.0" prefWidth="630.0" styleClass="title" text="Attributs du Service" BorderPane.alignment="CENTER" />
-	</top>
-	<center>
-		<TreeView fx:id="tree" editable="true" focusTraversable="false" prefHeight="303.0" prefWidth="31.0" BorderPane.alignment="CENTER" />
-	</center>
-	<bottom>
-		<AnchorPane prefHeight="70.0" prefWidth="630.0" BorderPane.alignment="CENTER">
+<AnchorPane fx:id="attributesServiceDialog" styleClass="dialog" stylesheets="@../../css/dialog.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.tool.ToolAttributesController">
+   <children>
+		<TreeView id="tree" fx:id="tree" editable="true" focusTraversable="false" prefHeight="303.0" prefWidth="608.0" stylesheets="@../../css/tree.css" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
+		<Label prefHeight="42.0" styleClass="title" text="Attributs du Service" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+		<AnchorPane prefHeight="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 			<children>
-				<Button fx:id="confButton" layoutX="428.0" layoutY="10.0" mnemonicParsing="false" onAction="#confirmButton" prefHeight="33.0" prefWidth="106.0" text="Confirmer">
+				<Button fx:id="confButton" layoutX="428.0" layoutY="10.0" mnemonicParsing="false" onAction="#confirmButton" prefHeight="33.0" prefWidth="106.0" text="Confirmer" AnchorPane.rightAnchor="15.0">
 					<styleClass>
 						<String fx:value="buttonDialogOk" />
 						<String fx:value="buttonDialog" />
 					</styleClass>
 				</Button>
-				<Button fx:id="cancButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="33.0" prefWidth="99.0" styleClass="buttonDialog" text="Annuler" />
-				<Button fx:id="delButton" layoutX="221.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteButton" prefHeight="33.0" prefWidth="106.0" text="Supprimer">
-					<styleClass>
-						<String fx:value="buttonDialogOk" />
-						<String fx:value="buttonDialog" />
-					</styleClass>
-				</Button>
+				<Button fx:id="cancButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="33.0" prefWidth="99.0" styleClass="buttonDialog" text="Annuler" AnchorPane.leftAnchor="15.0" />
 			</children>
 		</AnchorPane>
-	</bottom>
-</BorderPane>
+      <ImageView fx:id="delButton" fitWidth="40.0" layoutX="13.0" layoutY="8.0" onMouseClicked="#deleteButton" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="10.0">
+         <image>
+            <Image url="@../../image/buttonDeleteTool.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

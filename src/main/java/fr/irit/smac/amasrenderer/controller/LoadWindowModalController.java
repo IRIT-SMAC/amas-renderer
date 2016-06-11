@@ -11,7 +11,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
 public abstract class LoadWindowModalController {
@@ -22,7 +21,7 @@ public abstract class LoadWindowModalController {
 
     private static final Logger LOGGER = Logger.getLogger(LoadWindowModalController.class.getName());
 
-    public void loadFxml(Window window, String resourcePath) {
+    public void loadFxml(Window window, String resourcePath, boolean isResizable) {
 
         loaderWindowModal = new FXMLLoader();
         loaderWindowModal.setLocation(Main.class.getResource(resourcePath));
@@ -37,13 +36,7 @@ public abstract class LoadWindowModalController {
             stageWindowModal.initOwner(window);
             Scene scene = new Scene(root);
             stageWindowModal.setScene(scene);
-            stageWindowModal.initStyle(StageStyle.UNDECORATED);
-            stageWindowModal.setMinHeight(380);
-            stageWindowModal.setMinWidth(440);
-            double x = window.getX() + (window.getWidth() - root.getPrefWidth()) / 2;
-            double y = window.getY() + (window.getHeight() - root.getPrefHeight()) / 2;
-            stageWindowModal.setX(x);
-            stageWindowModal.setY(y);
+            stageWindowModal.setResizable(isResizable);
             scene.setFill(Color.BLACK);
             initDialogModalController();
             stageWindowModal.showAndWait();

@@ -33,7 +33,7 @@ public class InfrastructureController extends LoadWindowModalController implemen
     @FXML
     public void handleInfraClick() {
 
-        this.loadFxml(infrastructureButton.getScene().getWindow(), "view/infrastructure/InfrastructureAttributes.fxml");
+        this.loadFxml(infrastructureButton.getScene().getWindow(), "view/infrastructure/InfrastructureAttributes.fxml", true);
     }
 
     @Override

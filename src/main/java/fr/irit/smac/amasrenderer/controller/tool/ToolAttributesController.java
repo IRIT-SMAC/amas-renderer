@@ -18,6 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
@@ -36,7 +37,7 @@ public class ToolAttributesController extends LoadWindowModalController implemen
     private Button cancButton;
 
     @FXML
-    private Button delButton;
+    private ImageView delButton;
 
     @FXML
     private TreeView<String> tree;
@@ -81,7 +82,7 @@ public class ToolAttributesController extends LoadWindowModalController implemen
     @FXML
     public void deleteButton() {
 
-        this.loadFxml(delButton.getScene().getWindow(), "view/tool/ConfirmationDialog.fxml");
+        this.loadFxml(delButton.getScene().getWindow(), "view/tool/ConfirmationDialog.fxml", false);
     }
 
     /**
