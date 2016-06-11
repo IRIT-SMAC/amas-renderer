@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -13,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 
 public abstract class LoadWindowModalController {
 
@@ -43,6 +45,11 @@ public abstract class LoadWindowModalController {
             stageWindowModal.setResizable(isResizable);
             scene.setFill(Color.BLACK);
             initDialogModalController();
+
+            stageWindowModal.setOnCloseRequest(
+                e -> Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass()
+                    .remove(Const.SECONDARY_WINDOW));
+
             stageWindowModal.showAndWait();
 
         }

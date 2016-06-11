@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
@@ -59,7 +60,7 @@ public class ToolAdditionController implements Initializable {
                     tool.getAttributesMap());
             }
 
-            Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
+            Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove(Const.SECONDARY_WINDOW);
 
             ((Stage) buttonConfirm.getScene().getWindow()).close();
         }
@@ -75,8 +76,7 @@ public class ToolAdditionController implements Initializable {
      */
     @FXML
     public void clickCancel() {
-        
-        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
+        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove(Const.SECONDARY_WINDOW);
         ((Stage) buttonCancel.getScene().getWindow()).close();
     }
 
