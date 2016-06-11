@@ -8,9 +8,6 @@ import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.model.ToolModel
 import fr.irit.smac.amasrenderer.service.ToolService
 
-//@IgnoreIf({
-//    System.getenv("TRAVIS") != null
-//})
 @Stepwise
 class ToolTest extends GuiSpecification{
 
@@ -26,7 +23,6 @@ class ToolTest extends GuiSpecification{
             FXMLLoader loaderRootLayout = new FXMLLoader()
             loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
             BorderPane rootLayout = (BorderPane) loaderRootLayout.load()
-            Main.mainStage = stage
 
             return rootLayout
         }

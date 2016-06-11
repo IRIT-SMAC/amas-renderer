@@ -19,9 +19,6 @@ public class Main extends Application {
 
     public static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
 
-    /** The main stage of the application */
-    private static Stage mainStage;
-
     /**
      * (non-Javadoc)
      * 
@@ -45,11 +42,6 @@ public class Main extends Application {
         primaryStage.show();
         
         controller.init();
-        Main.mainStage = primaryStage;
-    }
-
-    public static Stage getMainStage() {
-        return mainStage;
     }
 
     /**

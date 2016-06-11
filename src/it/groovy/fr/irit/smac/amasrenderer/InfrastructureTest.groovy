@@ -30,7 +30,6 @@ class InfrastructureTest extends GuiSpecification{
             FXMLLoader loaderRootLayout = new FXMLLoader()
             loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
             BorderPane rootLayout = (BorderPane) loaderRootLayout.load()
-            Main.mainStage = stage
 
             return rootLayout
         }

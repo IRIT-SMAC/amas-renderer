@@ -47,7 +47,6 @@ class ToolAttributeTest extends GuiSpecification{
             complexNodeMap.put("node1", "value1")
             map.put(itemId, complexNodeMap)
             toolService.addTool(new ToolModel(service, map))
-            Main.mainStage = stage
 
             return rootLayout
         }

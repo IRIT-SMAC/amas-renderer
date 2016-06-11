@@ -44,7 +44,6 @@ public class InfrastructureAttributesController implements Initializable {
         
         AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
             infra.getAttributesMap(), infra);
-        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 
@@ -54,7 +53,6 @@ public class InfrastructureAttributesController implements Initializable {
     @FXML
     public void cancelButton() {
 
-        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 

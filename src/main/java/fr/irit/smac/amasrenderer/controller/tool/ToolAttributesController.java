@@ -93,7 +93,6 @@ public class ToolAttributesController extends LoadWindowModalController implemen
 
         AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
             tool.getAttributesMap(), tool);
-        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 
@@ -103,7 +102,6 @@ public class ToolAttributesController extends LoadWindowModalController implemen
     @FXML
     public void cancelButton() {
 
-        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 

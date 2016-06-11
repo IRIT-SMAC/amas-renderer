@@ -42,7 +42,7 @@ public class MenuBarController {
         fileChooser.setTitle("Choisir un fichier de configuration");
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
         fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showOpenDialog(Main.getMainStage());
+        File file = fileChooser.showOpenDialog(scene.getWindow());
         ObjectMapper mapper = new ObjectMapper();
         try {
             InfrastructureModel infrastructure = mapper.readValue(file, InfrastructureModel.class);
@@ -67,7 +67,7 @@ public class MenuBarController {
     @FXML
     public void clickMenuSave() {
 
-        File file = new FileChooser().showSaveDialog(Main.getMainStage().getScene().getWindow());
+        File file = new FileChooser().showSaveDialog(scene.getWindow());
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
