@@ -45,7 +45,7 @@ public class ToolController extends LoadWindowModalController implements Initial
         selectedLabel = listTool.getSelectionModel().getSelectedItem();
         if (selectedLabel != null && selectedLabel.getName() != "") {
             currentController = EControllerState.TOOL_ATTRIBUTES_CONTROLLER;
-            this.loadFxml(buttonAddService.getScene().getWindow(), "view/tool/ServiceAttributes.fxml", true);
+            this.loadFxml(buttonAddService.getScene().getWindow(), "view/tool/ToolAttributes.fxml", true);
             listTool.getSelectionModel().clearSelection();
         }
     }
@@ -60,7 +60,7 @@ public class ToolController extends LoadWindowModalController implements Initial
     public void addTool() throws IOException {
 
         currentController = EControllerState.TOOL_ADDITION_CONTROLLER;
-        this.loadFxml(buttonAddService.getScene().getWindow(), "view/tool/ToolDialog.fxml", false);
+        this.loadFxml(buttonAddService.getScene().getWindow(), "view/tool/ToolAddition.fxml", false);
     }
 
     /*
