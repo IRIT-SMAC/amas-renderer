@@ -55,7 +55,6 @@ public class NodeAttributesController implements Initializable {
         if (newAgentName != baseAgentName) {
             node.setAttribute(Const.NODE_LABEL, newAgentName);
         }
-        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 
@@ -64,7 +63,6 @@ public class NodeAttributesController implements Initializable {
      */
     @FXML
     public void cancelButton() {
-        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove("secondaryWindow");
         dialogStage.close();
     }
 

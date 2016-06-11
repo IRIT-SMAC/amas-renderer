@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.Main;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -14,7 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.stage.WindowEvent;
 
 public abstract class LoadWindowModalController {
 
@@ -23,6 +21,8 @@ public abstract class LoadWindowModalController {
     protected FXMLLoader loaderWindowModal;
 
     private static final Logger LOGGER = Logger.getLogger(LoadWindowModalController.class.getName());
+
+    private IParentStyle parentStyle;
 
     public void loadFxml(Window window, String resourcePath, boolean isResizable) {
 
@@ -33,10 +33,6 @@ public abstract class LoadWindowModalController {
 
         try {
             root = loaderWindowModal.load();
-            if (!Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass()
-                .contains(Const.SECONDARY_WINDOW)) {
-                Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().add(Const.SECONDARY_WINDOW);
-            }
             stageWindowModal = new Stage();
             stageWindowModal.initModality(Modality.WINDOW_MODAL);
             stageWindowModal.initOwner(window);
@@ -46,11 +42,18 @@ public abstract class LoadWindowModalController {
             scene.setFill(Color.BLACK);
             initDialogModalController();
 
-            stageWindowModal.setOnCloseRequest(
-                e -> Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass()
-                    .remove(Const.SECONDARY_WINDOW));
+            if (parentStyle != null) {
+                parentStyle.setBackground();
+
+                stageWindowModal.setOnCloseRequest(
+                    e -> parentStyle.setForeground());
+            }
 
             stageWindowModal.showAndWait();
+
+            if (parentStyle != null) {
+                parentStyle.setForeground();
+            }
 
         }
         catch (IOException e) {
@@ -58,5 +61,17 @@ public abstract class LoadWindowModalController {
         }
     }
 
+    public void setParentStyle(IParentStyle parentStyle) {
+        this.parentStyle = parentStyle;
+    }
+
     public abstract void initDialogModalController() throws IOException;
+
+    public interface IParentStyle {
+
+        public void setBackground();
+
+        public void setForeground();
+    }
+
 }

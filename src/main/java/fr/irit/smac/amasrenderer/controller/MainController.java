@@ -1,5 +1,7 @@
 package fr.irit.smac.amasrenderer.controller;
 
+import fr.irit.smac.amasrenderer.Const;
+import fr.irit.smac.amasrenderer.controller.LoadWindowModalController.IParentStyle;
 import fr.irit.smac.amasrenderer.controller.graph.GraphController;
 import fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureController;
 import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
@@ -11,7 +13,7 @@ import javafx.scene.layout.BorderPane;
 /**
  * The Class MainController.
  */
-public class MainController {
+public class MainController implements IParentStyle{
 
     @FXML
     private GraphController graphMainController;
@@ -69,7 +71,20 @@ public class MainController {
     
     public void init() {
         this.scene = rootLayout.getScene();
-        menuBarController.setScene(scene);
+        this.toolController.setParentStyle(this);
+        this.graphMainController.setParentStyle(this);
+        this.infrastructureController.setParentStyle(this);
+        this.menuBarController.setScene(scene);
+    }
+
+    @Override
+    public void setBackground() {
+        this.rootLayout.getStyleClass().add(Const.SECONDARY_WINDOW);
+    }
+
+    @Override
+    public void setForeground() {
+        this.rootLayout.getStyleClass().remove(Const.SECONDARY_WINDOW);
     }
 
 }

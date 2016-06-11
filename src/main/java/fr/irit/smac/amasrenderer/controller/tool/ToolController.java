@@ -35,7 +35,7 @@ public class ToolController extends LoadWindowModalController implements Initial
     private enum EControllerState {
         TOOL_ATTRIBUTES_CONTROLLER, TOOL_ADDITION_CONTROLLER
     }
-
+    
     /**
      * Handle mouse click.
      */

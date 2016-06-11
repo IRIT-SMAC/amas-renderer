@@ -27,14 +27,12 @@ public class ToolDeletionController {
 
         ToolService.getInstance().getTools().remove(toolIndex);
         InfrastructureService.getInstance().getInfrastructure().getAttributesMap().remove(toolName);
-        Main.getMainStage().getScene().lookup("#rootLayout").getStyleClass().remove(Const.SECONDARY_WINDOW);
         dialogStage.close();
     }
 
     @FXML
     public void clickCancelRemove() {
 
-        dialogStage.getScene().lookup("#attributesServiceDialog").getStyleClass().remove(Const.SECONDARY_WINDOW);
         ((Stage) buttonCancelRemove.getScene().getWindow()).close();
     }
 
