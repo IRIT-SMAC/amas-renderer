@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 /**
  * The Class Main. Launch the program
  */
-public class Main extends Application {
+public class AmasRenderer extends Application {
 
     public static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
 
@@ -28,7 +28,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         FXMLLoader loaderRootLayout = new FXMLLoader();
-        loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"));
+        loaderRootLayout.setLocation(AmasRenderer.class.getResource("view/RootLayout.fxml"));
         BorderPane rootLayout = (BorderPane) loaderRootLayout.load();
         MainController controller = loaderRootLayout.getController();
         Scene scene = new Scene(rootLayout);

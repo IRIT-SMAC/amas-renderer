@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.Main;
+import fr.irit.smac.amasrenderer.AmasRenderer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -29,7 +29,7 @@ public abstract class LoadWindowModalController {
     public void loadFxml(Window window, String resourcePath, boolean isResizable) {
 
         loaderWindowModal = new FXMLLoader();
-        loaderWindowModal.setLocation(Main.class.getResource(resourcePath));
+        loaderWindowModal.setLocation(AmasRenderer.class.getResource(resourcePath));
 
         Pane root = null;
 
@@ -66,7 +66,7 @@ public abstract class LoadWindowModalController {
     public void loadFxmlIndependent(Window window, String resourcePath, boolean isResizable) {
 
         FXMLLoader loaderWindowModal = new FXMLLoader();
-        loaderWindowModal.setLocation(Main.class.getResource(resourcePath));
+        loaderWindowModal.setLocation(LoadWindowModalController.class.getResource("../" + resourcePath));
 
         Pane root = null;
 

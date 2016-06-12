@@ -60,7 +60,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         setupStage { stage ->
 
             FXMLLoader loaderRootLayout = new FXMLLoader()
-            loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
+            loaderRootLayout.setLocation(AmasRenderer.class.getResource("view/RootLayout.fxml"))
             rootLayout = (BorderPane) loaderRootLayout.load()
             MainController mainController = loaderRootLayout.getController()
             GraphController graphMainController = mainController.getGraphController()

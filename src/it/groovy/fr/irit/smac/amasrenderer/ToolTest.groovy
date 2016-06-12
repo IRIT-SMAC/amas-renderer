@@ -21,7 +21,7 @@ class ToolTest extends GuiSpecification{
         setupStage { stage ->
 
             FXMLLoader loaderRootLayout = new FXMLLoader()
-            loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
+            loaderRootLayout.setLocation(AmasRenderer.class.getResource("view/RootLayout.fxml"))
             BorderPane rootLayout = (BorderPane) loaderRootLayout.load()
 
             return rootLayout

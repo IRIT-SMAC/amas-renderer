@@ -40,7 +40,7 @@ class ToolAttributeTest extends GuiSpecification{
         setupStage { stage ->
 
             FXMLLoader loaderRootLayout = new FXMLLoader()
-            loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
+            loaderRootLayout.setLocation(AmasRenderer.class.getResource("view/RootLayout.fxml"))
             BorderPane rootLayout = (BorderPane) loaderRootLayout.load()
             Map<String,Object> map = new HashMap<>()
             Map<String,Object> complexNodeMap = new HashMap<>()
