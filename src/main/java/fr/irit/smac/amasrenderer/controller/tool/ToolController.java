@@ -38,10 +38,10 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
     @FXML
     public void handleMouseClick() {
 
-        selectedLabel = listTool.getSelectionModel().getSelectedItem();
-        if (selectedLabel != null && selectedLabel.getName() != "") {
-            this.loadFxml(this.window, "view/tool/ToolAttributes.fxml", true, selectedLabel);
-            listTool.getSelectionModel().clearSelection();
+        this.selectedLabel = this.listTool.getSelectionModel().getSelectedItem();
+        if (this.selectedLabel != null && this.selectedLabel.getName() != "") {
+            this.loadFxml(this.window, "view/tool/ToolAttributes.fxml", true, this.selectedLabel);
+            this.listTool.getSelectionModel().clearSelection();
         }
     }
 
@@ -67,13 +67,13 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
     public void initialize(URL location, ResourceBundle resources) {
 
         ArrayList<ToolModel> list = new ArrayList<>();
-        for (ToolModel tool : listTool.getItems()) {
+        for (ToolModel tool : this.listTool.getItems()) {
             list.add(tool);
         }
-        toolService
+        this.toolService
             .setTools(FXCollections.observableArrayList(actionStep -> new Observable[] { actionStep.nameProperty() }));
-        listTool.setItems(toolService.getTools());
-        toolService
+        this.listTool.setItems(this.toolService.getTools());
+        this.toolService
             .createServicesFromMap(InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
     }
 }

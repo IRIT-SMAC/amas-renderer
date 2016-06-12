@@ -29,7 +29,8 @@ public class ToolModel implements IModel {
     @SuppressWarnings("unchecked")
     public ToolModel(String name, Object map) {
         super();
-        this.name = new SimpleStringProperty(name);
+        
+        this.name = new SimpleStringProperty(this.getNewName(name));
         this.attributesMap = (Map<String, Object>) map;
 
         if (this.attributesMap.get(Const.CLASSNAME) == null) {

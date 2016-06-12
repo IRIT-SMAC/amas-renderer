@@ -41,8 +41,6 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
 
     private Stage stage;
 
-    private String baseAgentName;
-
     private AgentModel node;
 
     private String newAgentName = null;
@@ -57,14 +55,12 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
     @FXML
     public void confirmButton() {
 
-        attributesService.updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
+        this.attributesService.updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
             (Map<String, Object>) GraphService.getInstance().getAgentMap().get(id), node);
 
-        newAgentName = tree.getRoot().getValue();
-        if (newAgentName != baseAgentName) {
-            node.setAttribute(Const.NODE_LABEL, newAgentName);
-        }
-        stage.close();
+        this.newAgentName = tree.getRoot().getValue();
+        this.node.setAttribute(Const.NODE_LABEL, newAgentName);
+        this.stage.close();
     }
 
     /**
@@ -75,26 +71,6 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
         stage.close();
     }
 
-    /**
-     * Sets the stage.
-     *
-     * @param stage
-     *            the new stage
-     */
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    /**
-     * Sets the node to be modified
-     * 
-     * @param node
-     *            the node to modify
-     */
-    public void setNode(AgentModel node) {
-        this.node = node;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -103,24 +79,26 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
 
     @Override
     public void init(Stage stage, Object... args) {
-        
+
+        AgentModel node = (AgentModel) args[0];
         this.stage = stage;
-        this.node = (AgentModel) args[0];
+        this.node = node;
+        this.id = node.getId();
         @SuppressWarnings("unchecked")
         HashMap<String, Object> agent = (HashMap<String, Object>) GraphService.getInstance().getAgentMap()
-            .get(node.getId());
-        this.id = node.getId();
-        TreeItem<String> myItem = new TreeItem<>(id);
-        tree.setRoot(myItem);
-        attributesService.fillAttributes(agent, myItem, (IModel) node);
-        tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+            .get(this.id);
+        TreeItem<String> root = new TreeItem<>(id);
+        this.tree.setRoot(root);
+        this.attributesService.fillAttributes(agent, root, (IModel) node);
+
+        this.tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
             private final AttributesContextMenu contextMenu = new AttributesContextMenu();
             private final StringConverter converter = new DefaultStringConverter();
 
             @Override
             public TreeCell<String> call(TreeView<String> param) {
-                return new AttributesTreeCell(contextMenu, converter, node);
+                return new AttributesTreeCell(this.contextMenu, this.converter, node);
             }
 
         });

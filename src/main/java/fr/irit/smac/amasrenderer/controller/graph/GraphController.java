@@ -552,6 +552,19 @@ public class GraphController extends LoadSecondaryWindowController
         this.loadFxml(window, "view/graph/GraphAttributes.fxml", true, this.selectedAgent);
     }
 
+    private void removeDefaultListeners() {
+        
+        MouseMotionListener[] mml = graphView.getMouseMotionListeners();
+        for (MouseMotionListener mouseMotionListener : mml) {
+            graphView.removeMouseMotionListener(mouseMotionListener);
+        }
+
+        MouseListener[] ml = graphView.getMouseListeners();
+        for (MouseListener mouseListener : ml) {
+            graphView.removeMouseListener(mouseListener);
+        }
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -562,26 +575,14 @@ public class GraphController extends LoadSecondaryWindowController
     public void initialize(URL location, ResourceBundle resources) {
 
         this.graphService.createAgentGraph();
-
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         this.viewer = new Viewer(this.graphService.getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         this.viewer.enableAutoLayout();
         this.graphView = this.viewer.addDefaultView(false);
-
-        MouseMotionListener[] mml = graphView.getMouseMotionListeners();
-        for (MouseMotionListener mouseMotionListener : mml) {
-            graphView.removeMouseMotionListener(mouseMotionListener);
-        }
-
-        MouseListener[] ml = graphView.getMouseListeners();
-        for (MouseListener mouseListener : ml) {
-            graphView.removeMouseListener(mouseListener);
-        }
-
+        this.removeDefaultListeners();
         this.graphState = EStateGraph.AT_EASE;
         this.shortcutState = EShortcutState.AT_EASE;
         this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
-
         this.graphToolboxController.setGraphButtonsState(this);
         this.graphNode.setContent(this.graphView);
         this.graphService.setAgentMap(new HashMap<String, Object>());

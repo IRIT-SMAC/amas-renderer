@@ -45,7 +45,7 @@ public class ToolAttributesController extends LoadSecondaryWindowController impl
     private Stage stage;
 
     private ToolModel tool;
-
+    
     private AttributesService attributesService = AttributesService.getInstance();
 
     /**
@@ -102,12 +102,13 @@ public class ToolAttributesController extends LoadSecondaryWindowController impl
     @Override
     public void init(Stage stage, Object... args) {
         
-        this.tool = (ToolModel) args[0];
+        ToolModel tool = (ToolModel) args[0];
+        this.tool = tool;
         this.stage = stage;
-        TreeItem<String> myItem = new TreeItem<>(this.tool.getName());
-        tree.setRoot(myItem);
-        HashMap<String, Object> service = (HashMap<String, Object>) this.tool.getAttributesMap();
-        attributesService.fillAttributes(service, myItem, tool);        
+        TreeItem<String> root = new TreeItem<>(tool.getName());
+        this.tree.setRoot(root);
+        HashMap<String, Object> service = (HashMap<String, Object>) tool.getAttributesMap();
+        this.attributesService.fillAttributes(service, root, tool);        
     }
 
 }

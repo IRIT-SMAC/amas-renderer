@@ -44,15 +44,15 @@ public class ToolAdditionController implements Initializable, ISecondaryWindowCo
     @FXML
     public void clickConfirm() {
 
-        if (textfieldTool.getText() != null
-            && !textfieldTool.getText().trim().isEmpty()
-            && !textfieldTool.getText().trim().contains(" ")) {
+        String toolName = textfieldTool.getText();
+        if (toolName != null
+            && !toolName.trim().isEmpty()
+            && !toolName.trim().contains(" ")) {
 
-            ToolModel tool = new ToolModel(textfieldTool.getText().trim().concat(Const.TOOL),
+            ToolModel tool = new ToolModel(toolName,
                 new HashMap<String, Object>());
 
             boolean found = false;
-
             for (ToolModel item : ToolService.getInstance().getTools()) {
                 if (item.getName().equals(tool.getName())) {
                     found = true;
@@ -66,10 +66,8 @@ public class ToolAdditionController implements Initializable, ISecondaryWindowCo
             this.stage.close();
         }
         else {
-            invalidField.setVisible(true);
-
+            this.invalidField.setVisible(true);
         }
-
     }
 
     /**
@@ -82,11 +80,11 @@ public class ToolAdditionController implements Initializable, ISecondaryWindowCo
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        invalidField.setVisible(false);
+        this.invalidField.setVisible(false);
     }
 
     @Override
     public void init(Stage stage, Object... args) {
-        this.stage = stage;        
+        this.stage = stage;
     }
 }

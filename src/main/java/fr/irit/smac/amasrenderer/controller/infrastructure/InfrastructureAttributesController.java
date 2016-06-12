@@ -36,7 +36,7 @@ public class InfrastructureAttributesController implements Initializable, ISecon
     private Stage stage;
 
     private InfrastructureModel infra;
-    
+
     private AttributesService attributesService = AttributesService.getInstance();
 
     /**
@@ -44,10 +44,10 @@ public class InfrastructureAttributesController implements Initializable, ISecon
      */
     @FXML
     public void confirmButton() {
-        
-        attributesService.updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
-            infra.getAttributesMap(), infra);
-        stage.close();
+
+        this.attributesService.updateAttributesMap(this.tree.getRoot().getValue(), this.tree.getRoot(),
+            infra.getAttributesMap(), this.infra);
+        this.stage.close();
     }
 
     /**
@@ -56,17 +56,7 @@ public class InfrastructureAttributesController implements Initializable, ISecon
     @FXML
     public void cancelButton() {
 
-        stage.close();
-    }
-
-    /**
-     * Sets the stage.
-     *
-     * @param stage
-     *            the new stage
-     */
-    public void setStage(Stage stage) {
-        this.stage = stage;
+        this.stage.close();
     }
 
     @Override
@@ -88,12 +78,13 @@ public class InfrastructureAttributesController implements Initializable, ISecon
 
     @Override
     public void init(Stage stage, Object... args) {
-        this.infra = (InfrastructureModel) args[0];
+
+        InfrastructureModel infra = (InfrastructureModel) args[0];
+        this.infra = infra;
         this.stage = stage;
-        TreeItem<String> myItem = new TreeItem<>(this.infra.getName());
-        tree.setRoot(myItem);
-        HashMap<String, Object> infrastructure = (HashMap<String, Object>) InfrastructureService.getInstance()
-            .getInfrastructure().getAttributesMap();
-        attributesService.fillAttributes(infrastructure, myItem, infra);        
+        TreeItem<String> root = new TreeItem<>(infra.getName());
+        this.tree.setRoot(root);
+        HashMap<String, Object> infrastructure = (HashMap<String, Object>) infra.getAttributesMap();
+        this.attributesService.fillAttributes(infrastructure, root, infra);
     }
 }

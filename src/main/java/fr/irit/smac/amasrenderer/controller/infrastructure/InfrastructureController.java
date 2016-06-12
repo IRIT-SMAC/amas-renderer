@@ -34,15 +34,15 @@ public class InfrastructureController extends LoadSecondaryWindowController impl
     @FXML
     public void handleInfraClick() {
 
-        this.loadFxml(this.window, "view/infrastructure/InfrastructureAttributes.fxml", true, infrastructureService.getInfrastructure());
+        this.loadFxml(this.window, "view/infrastructure/InfrastructureAttributes.fxml", true, this.infrastructureService.getInfrastructure());
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        infrastructureService.init();
+        this.infrastructureService.init();
 
-        infrastructureService.getInfrastructure().nameProperty()
+        this.infrastructureService.getInfrastructure().nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue,
                 String newValue) -> infrastructureLabel.setText(newValue));
     }

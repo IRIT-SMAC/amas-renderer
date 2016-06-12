@@ -24,11 +24,11 @@ public class MenuBarController extends LoadSecondaryWindowController {
     private static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
 
     private static final String FILE_CHOOSER = "Choisir un fichier de configuration";
-    
+
     private static final String EXTENSION_FILTER_DESCRIPTION = "JSON files (*.json)";
-    
+
     private static final String EXTENSION_FILTER_EXTENSION = "*.json";
-    
+
     @FXML
     MenuBar menuBar;
 
@@ -42,7 +42,8 @@ public class MenuBarController extends LoadSecondaryWindowController {
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(FILE_CHOOSER);
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(EXTENSION_FILTER_DESCRIPTION, EXTENSION_FILTER_EXTENSION);
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(EXTENSION_FILTER_DESCRIPTION,
+            EXTENSION_FILTER_EXTENSION);
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showOpenDialog(this.window);
         ObjectMapper mapper = new ObjectMapper();
@@ -51,7 +52,7 @@ public class MenuBarController extends LoadSecondaryWindowController {
             InfrastructureService.getInstance().updateInfrastructureFromModel(infrastructure);
         }
         catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Impossible de lire le fichier spécifié.", e);
+            LOGGER.log(Level.SEVERE, "Impossible to read this file.", e);
         }
     }
 
@@ -90,7 +91,7 @@ public class MenuBarController extends LoadSecondaryWindowController {
      */
     @FXML
     public void clickMenuAPropos() {
-        
-        this.loadFxmlIndependent(this.window,"view/help/Documentation.fxml", true);
+
+        this.loadFxmlIndependent(this.window, "view/help/Documentation.fxml", true);
     }
 }
