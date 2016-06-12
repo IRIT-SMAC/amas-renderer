@@ -1,20 +1,20 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
+import fr.irit.smac.amasrenderer.controller.IParentWindowModal;
 import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
-import fr.irit.smac.amasrenderer.controller.tool.ToolDeletionController.IParentWindowModal;
+import fr.irit.smac.amasrenderer.model.IModel;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -28,7 +28,7 @@ import javafx.util.converter.DefaultStringConverter;
  * The Class TreeModifyController. Manage the modal window opening to modify
  * attributes
  */
-public class ToolAttributesController extends LoadSecondaryWindowController implements Initializable, IParentWindowModal {
+public class ToolAttributesController extends LoadSecondaryWindowController implements Initializable, IParentWindowModal, ISecondaryWindowController {
 
     @FXML
     private Button confButton;
@@ -44,30 +44,9 @@ public class ToolAttributesController extends LoadSecondaryWindowController impl
 
     private Stage stage;
 
-    private ListView<ToolModel> list;
-
     private ToolModel tool;
 
     private AttributesService attributesService = AttributesService.getInstance();
-    
-    /**
-     * Initialize the controller
-     * 
-     * @param attributeMap
-     *            the map of attributes
-     * @param list
-     *            the list of tools
-     */
-    public void init(Stage stage, ListView<ToolModel> list, String name, ToolModel tool) {
-
-        this.list = list;
-        this.tool = tool;
-        this.stage = stage;
-        TreeItem<String> myItem = new TreeItem<>(name);
-        tree.setRoot(myItem);
-        HashMap<String, Object> service = (HashMap<String, Object>) tool.getAttributesMap();
-        attributesService.fillAttributes(service, myItem, tool);
-    }
 
     /**
      * deletes the service ( no confirmation )
@@ -75,7 +54,7 @@ public class ToolAttributesController extends LoadSecondaryWindowController impl
     @FXML
     public void deleteButton() {
 
-        this.loadFxml(this.window, "view/tool/ToolDeletion.fxml", false);
+        this.loadFxml(this.window, "view/tool/ToolDeletion.fxml", false, this, this.tool);
     }
 
     /**
@@ -116,18 +95,19 @@ public class ToolAttributesController extends LoadSecondaryWindowController impl
     }
 
     @Override
-    public void initDialogModalController() throws IOException {
-
-        ToolDeletionController controller;
-        controller = (ToolDeletionController) loaderSecondaryWindow.getController();
-        controller.init(this.stageSecondaryWindow, list.getSelectionModel().getSelectedIndex(),
-            list.getSelectionModel().getSelectedItem().getName());
-        controller.setParentWindowModal(this);
+    public void closeWindow() {
+        this.stage.close();
     }
 
     @Override
-    public void closeWindow() {
-        this.stage.close();
+    public void init(Stage stage, Object... args) {
+        
+        this.tool = (ToolModel) args[0];
+        this.stage = stage;
+        TreeItem<String> myItem = new TreeItem<>(this.tool.getName());
+        tree.setRoot(myItem);
+        HashMap<String, Object> service = (HashMap<String, Object>) this.tool.getAttributesMap();
+        attributesService.fillAttributes(service, myItem, tool);        
     }
 
 }

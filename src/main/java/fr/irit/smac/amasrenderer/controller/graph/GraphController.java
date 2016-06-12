@@ -2,7 +2,6 @@ package fr.irit.smac.amasrenderer.controller.graph;
 
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -550,7 +549,7 @@ public class GraphController extends LoadSecondaryWindowController
     private void loadFxmlAttributes(Node node) {
 
         this.selectedAgent = this.graphService.getGraph().getNode(node.getId());
-        this.loadFxml(window, "view/graph/GraphAttributes.fxml", true);
+        this.loadFxml(window, "view/graph/GraphAttributes.fxml", true, this.selectedAgent);
     }
 
     /*
@@ -590,14 +589,5 @@ public class GraphController extends LoadSecondaryWindowController
 
     public void setWindow(Window window) {
         this.window = window;
-    }
-
-    @Override
-    public void initDialogModalController() throws IOException {
-
-        NodeAttributesController controller = loaderSecondaryWindow.getController();
-        controller.init(this.selectedAgent.getAttribute(Const.NODE_LABEL));
-        controller.setNode(this.selectedAgent);
-        controller.setStage(this.stageSecondaryWindow);
     }
 }

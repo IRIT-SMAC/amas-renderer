@@ -4,8 +4,10 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
+import fr.irit.smac.amasrenderer.model.IModel;
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
@@ -20,7 +22,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
-public class InfrastructureAttributesController implements Initializable {
+public class InfrastructureAttributesController implements Initializable, ISecondaryWindowController {
 
     @FXML
     private Button confButton;
@@ -31,7 +33,7 @@ public class InfrastructureAttributesController implements Initializable {
     @FXML
     private TreeView<String> tree;
 
-    private Stage dialogStage;
+    private Stage stage;
 
     private InfrastructureModel infra;
     
@@ -45,7 +47,7 @@ public class InfrastructureAttributesController implements Initializable {
         
         attributesService.updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
             infra.getAttributesMap(), infra);
-        dialogStage.close();
+        stage.close();
     }
 
     /**
@@ -54,7 +56,7 @@ public class InfrastructureAttributesController implements Initializable {
     @FXML
     public void cancelButton() {
 
-        dialogStage.close();
+        stage.close();
     }
 
     /**
@@ -64,17 +66,7 @@ public class InfrastructureAttributesController implements Initializable {
      *            the new stage
      */
     public void setStage(Stage stage) {
-        dialogStage = stage;
-    }
-
-    public void init() {
-
-        this.infra = InfrastructureService.getInstance().getInfrastructure();
-        TreeItem<String> myItem = new TreeItem<>(infra.getName());
-        tree.setRoot(myItem);
-        HashMap<String, Object> infrastructure = (HashMap<String, Object>) InfrastructureService.getInstance()
-            .getInfrastructure().getAttributesMap();
-        attributesService.fillAttributes(infrastructure, myItem, infra);
+        this.stage = stage;
     }
 
     @Override
@@ -92,5 +84,16 @@ public class InfrastructureAttributesController implements Initializable {
             }
 
         });
+    }
+
+    @Override
+    public void init(Stage stage, Object... args) {
+        this.infra = (InfrastructureModel) args[0];
+        this.stage = stage;
+        TreeItem<String> myItem = new TreeItem<>(this.infra.getName());
+        tree.setRoot(myItem);
+        HashMap<String, Object> infrastructure = (HashMap<String, Object>) InfrastructureService.getInstance()
+            .getInfrastructure().getAttributesMap();
+        attributesService.fillAttributes(infrastructure, myItem, infra);        
     }
 }

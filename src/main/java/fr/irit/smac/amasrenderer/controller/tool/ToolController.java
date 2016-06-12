@@ -30,13 +30,7 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
 
     private ToolModel selectedLabel;
 
-    private EControllerWindowModalState currentWindowModalController;
-
     private ToolService toolService = ToolService.getInstance();
-    
-    private enum EControllerWindowModalState {
-        TOOL_ATTRIBUTES_CONTROLLER, TOOL_ADDITION_CONTROLLER
-    }
 
     /**
      * Handle mouse click.
@@ -46,8 +40,7 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
 
         selectedLabel = listTool.getSelectionModel().getSelectedItem();
         if (selectedLabel != null && selectedLabel.getName() != "") {
-            currentWindowModalController = EControllerWindowModalState.TOOL_ATTRIBUTES_CONTROLLER;
-            this.loadFxml(this.window, "view/tool/ToolAttributes.fxml", true);
+            this.loadFxml(this.window, "view/tool/ToolAttributes.fxml", true, selectedLabel);
             listTool.getSelectionModel().clearSelection();
         }
     }
@@ -61,7 +54,6 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
     @FXML
     public void addTool() throws IOException {
 
-        currentWindowModalController = EControllerWindowModalState.TOOL_ADDITION_CONTROLLER;
         this.loadFxml(this.window, "view/tool/ToolAddition.fxml", false);
     }
 
@@ -84,19 +76,4 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
         toolService
             .createServicesFromMap(InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
     }
-
-    @Override
-    public void initDialogModalController() throws IOException {
-
-        if (currentWindowModalController == EControllerWindowModalState.TOOL_ATTRIBUTES_CONTROLLER) {
-            ToolAttributesController controller = (ToolAttributesController) loaderSecondaryWindow.getController();
-            controller.init(this.stageSecondaryWindow, listTool, selectedLabel.getName(), selectedLabel);
-            controller.setWindow(this.stageSecondaryWindow.getScene().getWindow());
-        }
-        else if (currentWindowModalController == EControllerWindowModalState.TOOL_ADDITION_CONTROLLER) {
-            ToolAdditionController controller = (ToolAdditionController) loaderSecondaryWindow.getController();
-            controller.init(this.stageSecondaryWindow);
-        }
-    }
-
 }

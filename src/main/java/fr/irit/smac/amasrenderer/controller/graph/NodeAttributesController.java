@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Const;
+import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
 import fr.irit.smac.amasrenderer.model.AgentModel;
@@ -27,7 +28,7 @@ import javafx.util.converter.DefaultStringConverter;
  * The Class TreeModifyController. Manage the modal window opening to modify
  * attributes
  */
-public class NodeAttributesController implements Initializable {
+public class NodeAttributesController implements Initializable, ISecondaryWindowController {
 
     @FXML
     private Button confButton;
@@ -47,7 +48,7 @@ public class NodeAttributesController implements Initializable {
     private String newAgentName = null;
 
     private String id;
-    
+
     private AttributesService attributesService = AttributesService.getInstance();
 
     /**
@@ -94,12 +95,21 @@ public class NodeAttributesController implements Initializable {
         this.node = node;
     }
 
-    public void init(String id) {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
 
+        this.tree.setEditable(true);
+    }
+
+    @Override
+    public void init(Stage stage, Object... args) {
+        
+        this.stage = stage;
+        this.node = (AgentModel) args[0];
         @SuppressWarnings("unchecked")
         HashMap<String, Object> agent = (HashMap<String, Object>) GraphService.getInstance().getAgentMap()
-            .get(id);
-        this.id = id;
+            .get(node.getId());
+        this.id = node.getId();
         TreeItem<String> myItem = new TreeItem<>(id);
         tree.setRoot(myItem);
         attributesService.fillAttributes(agent, myItem, (IModel) node);
@@ -114,12 +124,6 @@ public class NodeAttributesController implements Initializable {
             }
 
         });
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        this.tree.setEditable(true);
     }
 
 }

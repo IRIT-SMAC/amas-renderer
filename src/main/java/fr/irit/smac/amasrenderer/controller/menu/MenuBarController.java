@@ -93,10 +93,4 @@ public class MenuBarController extends LoadSecondaryWindowController {
         
         this.loadFxmlIndependent(this.window,"view/help/Documentation.fxml", true);
     }
-
-    @Override
-    public void initDialogModalController() throws IOException {
-        
-        // No need to do custom instructions for the controller of the window modal which is showing        
-    }
 }

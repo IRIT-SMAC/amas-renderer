@@ -1,6 +1,5 @@
 package fr.irit.smac.amasrenderer.controller.infrastructure;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -35,7 +34,7 @@ public class InfrastructureController extends LoadSecondaryWindowController impl
     @FXML
     public void handleInfraClick() {
 
-        this.loadFxml(this.window, "view/infrastructure/InfrastructureAttributes.fxml", true);
+        this.loadFxml(this.window, "view/infrastructure/InfrastructureAttributes.fxml", true, infrastructureService.getInfrastructure());
     }
 
     @Override
@@ -46,13 +45,5 @@ public class InfrastructureController extends LoadSecondaryWindowController impl
         infrastructureService.getInfrastructure().nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue,
                 String newValue) -> infrastructureLabel.setText(newValue));
-    }
-
-    @Override
-    public void initDialogModalController() throws IOException {
-
-        InfrastructureAttributesController controller = this.loaderSecondaryWindow.getController();
-        controller.setStage(this.stageSecondaryWindow);
-        controller.init();
     }
 }

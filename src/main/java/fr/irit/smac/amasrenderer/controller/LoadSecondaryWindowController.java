@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import fr.irit.smac.amasrenderer.AmasRenderer;
+import fr.irit.smac.amasrenderer.model.IModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -21,41 +22,24 @@ public abstract class LoadSecondaryWindowController {
 
     private static final Logger LOGGER = Logger.getLogger(LoadSecondaryWindowController.class.getName());
 
-    private IParentStyle parentStyle;
-
     protected Window window;
 
-    public void loadFxml(Window window, String resourcePath, boolean isResizable) {
-
-        loaderSecondaryWindow = new FXMLLoader();
-        loaderSecondaryWindow.setLocation(AmasRenderer.class.getResource(resourcePath));
-
-        Pane root = null;
+    public void loadFxml(Window window, String resourcePath, boolean isResizable, Object... argsInit) {
 
         try {
-            root = loaderSecondaryWindow.load();
-            stageSecondaryWindow = new Stage();
-            stageSecondaryWindow.initModality(Modality.WINDOW_MODAL);
-            stageSecondaryWindow.initOwner(window);
+            this.loaderSecondaryWindow = new FXMLLoader();
+            this.loaderSecondaryWindow.setLocation(AmasRenderer.class.getResource(resourcePath));
+            Pane root = this.loaderSecondaryWindow.load();
+            this.stageSecondaryWindow = new Stage();
+            this.stageSecondaryWindow.initModality(Modality.WINDOW_MODAL);
+            this.stageSecondaryWindow.initOwner(window);
             Scene scene = new Scene(root);
-            stageSecondaryWindow.setScene(scene);
-            stageSecondaryWindow.setResizable(isResizable);
+            this.stageSecondaryWindow.setScene(scene);
+            this.stageSecondaryWindow.setResizable(isResizable);
             scene.setFill(Color.BLACK);
-            initDialogModalController();
-
-            if (parentStyle != null) {
-                parentStyle.setBackground();
-
-                stageSecondaryWindow.setOnCloseRequest(
-                    e -> parentStyle.setForeground());
-            }
-
-            stageSecondaryWindow.showAndWait();
-
-            if (parentStyle != null) {
-                parentStyle.setForeground();
-            }
-
+            ISecondaryWindowController controller = this.loaderSecondaryWindow.getController();
+            controller.init(this.stageSecondaryWindow, argsInit);
+            this.stageSecondaryWindow.showAndWait();
         }
         catch (IOException e) {
             LOGGER.log(Level.SEVERE, "The loading of the fxml has failed", e);
@@ -86,18 +70,5 @@ public abstract class LoadSecondaryWindowController {
 
     public void setWindow(Window window) {
         this.window = window;
-    }
-
-    public void setParentStyle(IParentStyle parentStyle) {
-        this.parentStyle = parentStyle;
-    }
-
-    public abstract void initDialogModalController() throws IOException;
-
-    public interface IParentStyle {
-
-        public void setBackground();
-
-        public void setForeground();
     }
 }

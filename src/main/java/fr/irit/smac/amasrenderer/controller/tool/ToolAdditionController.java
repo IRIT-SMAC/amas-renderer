@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Const;
+import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
+import fr.irit.smac.amasrenderer.controller.IParentWindowModal;
+import fr.irit.smac.amasrenderer.model.IModel;
 import fr.irit.smac.amasrenderer.model.ToolModel;
-import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,7 +20,7 @@ import javafx.stage.Stage;
 /**
  * The Class ServiceDialogController This controller manages the popup form
  */
-public class ToolAdditionController implements Initializable {
+public class ToolAdditionController implements Initializable, ISecondaryWindowController {
 
     @FXML
     private Button buttonConfirm;
@@ -35,7 +37,7 @@ public class ToolAdditionController implements Initializable {
     private Stage stage;
 
     private ToolService toolService = ToolService.getInstance();
-    
+
     /**
      * Click on the confirm button handler
      */
@@ -82,8 +84,9 @@ public class ToolAdditionController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         invalidField.setVisible(false);
     }
-    
-    public void init(Stage stage) {
-        this.stage = stage;
+
+    @Override
+    public void init(Stage stage, Object... args) {
+        this.stage = stage;        
     }
 }
