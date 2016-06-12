@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import fr.irit.smac.amasrenderer.controller.LoadWindowModalController;
+import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import javafx.application.Platform;
@@ -19,7 +19,7 @@ import javafx.stage.FileChooser;
 /**
  * This controller manages the menu bar events
  */
-public class MenuBarController extends LoadWindowModalController {
+public class MenuBarController extends LoadSecondaryWindowController {
 
     private static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
 

@@ -1,36 +1,36 @@
 graph {
-    canvas-color: #707070;
-    fill-mode: gradient-vertical;
-    fill-color: #808080, #909090, #A0A0A0;
-    padding: 130.0px, 50.0px;
+	canvas-color: #707070;
+	fill-mode: gradient-vertical;
+	fill-color: #808080, #909090, #A0A0A0;
+	padding: 130.0px, 50.0px;
 }
 
 node {
 	size-mode: fit;
 	shape: circle;
 	text-alignment: center;
-	text-size: 15px;
-	text-offset: 0px, 15px;
+	text-size: 15.0px;
+	text-offset: 0.0px, 15.0px;
 	text-color: #FFFFFF;
-	padding: 20px, 15px;
+	padding: 20.0px, 15.0px;
 	fill-color: #AA4A4A;
 	stroke-mode: plain;
 	stroke-color: #FFFFFF;
-	stroke-width: 1px;
+	stroke-width: 1.0px;
 }
 
- edge {
-     shape: angle;
-     fill-color: #FFF;
-     arrow-size: 10.0px, 6.0px;
-     z-index: 0.0;
-     size: 0.008gu;
+edge {
+	shape: angle;
+	fill-color: #FFF;
+	arrow-size: 10.0px, 6.0px;
+	z-index: 0.0;
+	size: 2px;
 }
- 
- node:clicked {
-     fill-color: #cc9292;
+
+node:clicked {
+	fill-color: #cc9292;
 }
- 
- node:selected {
-     fill-color: #cc9292;
+
+node:selected {
+	fill-color: #cc9292;
 }

@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import fr.irit.smac.amasrenderer.controller.LoadWindowModalController;
+import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
@@ -20,7 +20,7 @@ import javafx.scene.control.ListView;
  * The Class ServicesController. This controller handles the service part of the
  * main UI
  */
-public class ToolController extends LoadWindowModalController implements Initializable {
+public class ToolController extends LoadSecondaryWindowController implements Initializable {
 
     @FXML
     private Button buttonAddService;

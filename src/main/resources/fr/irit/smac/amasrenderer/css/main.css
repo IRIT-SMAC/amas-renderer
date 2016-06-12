@@ -3,44 +3,38 @@
     -fx-font-family: "OpenSymbol";
 }
 
-#buttonEditInfra {
-	-fx-background-color: none;	
-}
-
-#buttonEditInfra:hover {
-	-fx-background-color: #CCC;
-}
-
-.categoryTitle {
-	-fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #b4231f, #c34e4b);
-	-fx-font-size: 23.0px;
-    -fx-font-family: "OpenSans";
-}
-
-.innerCategory {
-	-fx-border-color: #e0e0e0;
-	-fx-border-width: 0.0 0.2em 0.0 0.2em;
-}
-
-.labelInfraService {
-	-fx-alignment: center;	
-}
-
-#generate {
-	-fx-font-size: 20.0px;
-    -fx-font-family: "OpenSans";
-	-fx-text-fill: #CA2723;
-	-fx-background-color: #e0e0e0;
-}
-
 .secondaryWindow {
 	 -fx-opacity: 0.7;
 }
 
-#buttonAddService {
+.mapTitle {
+	-fx-text-fill: #b4231f;
+	-fx-padding: 0.0 0.0 0.0 2.0em;
+}
+
+.categoryTitle {
+	-fx-background-color: linear-gradient(from 0.0 100.0 to 100.0 -100.0, #b4231f, #c34e4b);
+	-fx-font-size: 23.0px;
+}
+
+.innerCategory {
+	-fx-border-color: #e0e0e0;
+	-fx-border-width: 0.0 0.1em 0.0 0.1em;
+	-fx-alignment: center;
+}
+
+.buttonIcon1 {
+	-fx-background-color: none;
+}
+
+.buttonIcon1:hover {
+	-fx-background-color: #CCC;
+}
+
+.button1 {
 	-fx-background-color: #EEE;
 }
 
-#buttonAddService:hover {
+.button1:hover {
 	-fx-background-color: #DDD;
 }

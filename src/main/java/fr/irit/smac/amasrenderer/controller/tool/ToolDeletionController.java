@@ -1,6 +1,6 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
-import fr.irit.smac.amasrenderer.controller.LoadWindowModalController.IParentStyle;
+import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController.IParentStyle;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;

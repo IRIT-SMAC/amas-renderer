@@ -9,7 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="containerButtonGraph" stylesheets="@../../css/graphButtons.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphToolboxController">
+<VBox id="containerButtonGraph" stylesheets="@../../css/graphToolbox.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphToolboxController">
 	<children>
 		<ToggleButton fx:id="buttonAddAgent" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#buttonAddNode" styleClass="buttonGraph" textAlignment="CENTER">
 			<toggleGroup>

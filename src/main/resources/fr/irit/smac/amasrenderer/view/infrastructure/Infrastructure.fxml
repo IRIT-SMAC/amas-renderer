@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <VBox stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureController">
 	<children>
-		<VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="102.0" prefWidth="351.0" VBox.vgrow="ALWAYS">
-			<children>
 				<Label alignment="CENTER" focusTraversable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="45.0" prefWidth="382.0" styleClass="categoryTitle" text="INFRASTRUCTURE" textFill="WHITE" VBox.vgrow="ALWAYS">
 					<font>
 						<Font name="Open Sans" size="30.0" />
 					</font>
 				</Label>
-				<HBox prefHeight="70.0" prefWidth="351.0">
+				<HBox prefHeight="70.0" prefWidth="351.0" styleClass="innerCategory">
 					<children>
-						<AnchorPane prefHeight="123.0" prefWidth="351.0">
-							<children>
-								<Button id="buttonEditInfra" fx:id="infrastructureButton" focusTraversable="false" layoutX="6.0" layoutY="3.0" mnemonicParsing="false" onAction="#handleInfraClick" prefHeight="44.0" prefWidth="52.0" stylesheets="@../../css/graphButtons.css">
+								<Button fx:id="infrastructureButton" focusTraversable="false" mnemonicParsing="false" onAction="#handleInfraClick" prefHeight="44.0" prefWidth="52.0" styleClass="buttonIcon1">
 									<graphic>
-                  										<ImageView fx:id="editInfrastructure" fitHeight="28.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
-                  											<Image url="@../../image/edit-icon.png" />
-                  										</ImageView>
+      										<ImageView fx:id="editInfrastructure" fitHeight="28.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+      											<Image url="@../../image/buttonEdit.png" />
+      										</ImageView>
 									</graphic>
 								</Button>
-                        <Label fx:id="infrastructureLabel" layoutX="64.0" layoutY="3.0" prefHeight="48.0" prefWidth="287.0" text="Label" />
-							</children>
-						</AnchorPane>
+            <Label fx:id="infrastructureLabel" prefHeight="48.0" prefWidth="287.0" text="Label">
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+            </Label>
 					</children>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
 				</HBox>
-			</children>
-		</VBox>
 	</children>
 </VBox>

@@ -14,13 +14,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-public abstract class LoadWindowModalController {
+public abstract class LoadSecondaryWindowController {
 
     protected Stage stageWindowModal;
 
     protected FXMLLoader loaderWindowModal;
 
-    private static final Logger LOGGER = Logger.getLogger(LoadWindowModalController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LoadSecondaryWindowController.class.getName());
 
     private IParentStyle parentStyle;
 
@@ -66,7 +66,7 @@ public abstract class LoadWindowModalController {
     public void loadFxmlIndependent(Window window, String resourcePath, boolean isResizable) {
 
         FXMLLoader loaderWindowModal = new FXMLLoader();
-        loaderWindowModal.setLocation(LoadWindowModalController.class.getResource("../" + resourcePath));
+        loaderWindowModal.setLocation(LoadSecondaryWindowController.class.getResource("../" + resourcePath));
 
         Pane root = null;
 

@@ -5,8 +5,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import fr.irit.smac.amasrenderer.controller.LoadWindowModalController;
-import fr.irit.smac.amasrenderer.controller.LoadWindowModalController.IParentStyle;
+import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
+import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController.IParentStyle;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
 import fr.irit.smac.amasrenderer.controller.tool.ToolDeletionController.IParentWindowModal;
@@ -29,7 +29,7 @@ import javafx.util.converter.DefaultStringConverter;
  * The Class TreeModifyController. Manage the modal window opening to modify
  * attributes
  */
-public class ToolAttributesController extends LoadWindowModalController implements Initializable, IParentWindowModal {
+public class ToolAttributesController extends LoadSecondaryWindowController implements Initializable, IParentWindowModal {
 
     @FXML
     private Button confButton;

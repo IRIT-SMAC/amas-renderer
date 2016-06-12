@@ -1,7 +1,7 @@
 package fr.irit.smac.amasrenderer.controller;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.controller.LoadWindowModalController.IParentStyle;
+import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController.IParentStyle;
 import fr.irit.smac.amasrenderer.controller.graph.GraphController;
 import fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureController;
 import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;

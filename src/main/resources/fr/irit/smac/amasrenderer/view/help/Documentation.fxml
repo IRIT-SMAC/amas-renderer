@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane fx:id="dialog" prefHeight="600.0" prefWidth="1000.0" styleClass="dialog" stylesheets="@../../css/dialog.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.help.DocumentationController">
+<AnchorPane fx:id="dialog" prefHeight="600.0" prefWidth="1000.0" styleClass="secondaryWindow" stylesheets="@../../css/secondaryWindow.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.help.DocumentationController">
    <children>
       <Label prefWidth="884.0" styleClass="title" text="Documentation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <WebView fx:id="webView" layoutX="14.0" layoutY="64.0" maxHeight="-1.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />

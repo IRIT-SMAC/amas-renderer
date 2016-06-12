@@ -1,9 +1,4 @@
-.root {
-    -fx-font-size: 16.0pt;
-    -fx-font-family: "OpenSans";
-}
-
-.dialog {
+.secondaryWindow {
 	-fx-border-color: white;
     -fx-border-width: 4.0px;
     -fx-pref-height: 600.0;
@@ -12,11 +7,7 @@
     -fx-min-width: 500.0;
 }
 
-.invalidField {
-	-fx-font-size: 13.0pt;
-}
-
-.dialogDeletion {
+.littleSecondaryWindow {
 	-fx-border-color: white;
     -fx-border-width: 4.0px;
     -fx-pref-height: 250.0;
@@ -27,51 +18,61 @@
     -fx-max-width: 500.0;
 }
 
-.titlePaneDoc > .title {
-	-fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #CCC, #DDD);
-	-fx-pref-height: 40.0;
-	-fx-font-size: 13.0pt;
-}
-
-.descriptionText{
-	-fx-font-size: 12.0pt;
-	-fx-line-spacing: 5.0pt;
-	-fx-text-alignment: justify;
-	-fx-padding: 1.5em;
-}
-
-.secondaryWindow {
-	 -fx-opacity: 0.7;
-}
-
 .title {
     -fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #b4231f, #c34e4b);
     -fx-text-fill: #FFFFFF;
     -fx-alignment: center;
     -fx-pref-height: 60.0;
+    -fx-font-family: "OpenSymbol";
+    -fx-font-size: 16.0pt;
 }
-.buttonDialog {
-    -fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #dbdbdb, #e0e0e0);
+
+.buttonSecondaryWindow {
     -fx-background-radius: 5.0px;
-    -fx-border-color: #404040;
-    -fx-border-width: 0.0 0.0 0.0 0.0;
     -fx-font-size: 15.0px;
     -fx-font-weight: bold;
-    -fx-text-fill: #000000;
 	-fx-pref-height: 50.0;
 	-fx-pref-width: 180.0;
+	-fx-font-family: "Open Sans";
 }
-.buttonDialogOk {
+
+.buttonSecondaryWindowKo {
+	-fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #dbdbdb, #e0e0e0);
+	-fx-text-fill: #000000;
+}
+
+.buttonSecondaryWindowOk {
     -fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #b4231f, #c34e4b);
-    -fx-font-size: 15.0px;
-    -fx-font-weight: bold;
     -fx-text-fill: #FFFFFF;
 }
-.buttonDialog:hover {
+
+.buttonSecondaryWindow:hover {
     -fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #cccccc, #d1d1d1);
     -fx-font-weight: bold;
 }
 
-.buttonDialogOk:hover {
+.buttonSecondaryWindowOk:hover {
     -fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #a21f1b, #901c18);
+}
+
+.tree {
+	-fx-font-size: 12.0pt;
+    -fx-font-family: "Open Sans";
+}
+
+.invalidField {
+	-fx-font-size: 12.0pt;
+}
+
+.endOfInput {
+	-fx-text-fill: darkgray;
+	-fx-font-size: 15pt;
+}
+
+.text-input {
+	-fx-padding: 10.0px 90.0px 10.0px 10.0px;
+}
+
+.text-input, .text-input:focused {
+	-fx-prompt-text-fill: darkgray;
 }

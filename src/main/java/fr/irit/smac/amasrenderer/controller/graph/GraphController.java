@@ -14,7 +14,7 @@ import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.controller.LoadWindowModalController;
+import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.AgentModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.application.Platform;
@@ -32,7 +32,7 @@ import javafx.stage.Window;
 /**
  * The Class
  */
-public class GraphController extends LoadWindowModalController
+public class GraphController extends LoadSecondaryWindowController
     implements Initializable, GraphToolboxController.IGraphButtonsState {
 
     @FXML

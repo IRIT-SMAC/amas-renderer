@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane stylesheets="@../../css/graphTitle.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphController">
+<AnchorPane stylesheets="@../../css/graph.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphController">
 	<children>
-      <Label id="mapTitle" prefHeight="45.0" prefWidth="346.0" text="Graphe d'agents" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Label styleClass="mapTitle" prefHeight="45.0" prefWidth="346.0" text="Graphe d'agents" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
 		<StackPane fx:id="stackPaneGraphNode" layoutY="45.0" prefHeight="664.0" prefWidth="346.0" style="-fx-background-color: #707070;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
 			<children>
 				<SwingNode fx:id="graphNode" onKeyPressed="#handleOnKeyPressed" onKeyReleased="#handleOnKeyReleased" onMouseDragged="#handleOnMouseDragged" onMousePressed="#handleOnMousePressed" onMouseReleased="#handleOnMouseReleased" onScroll="#handleOnScroll" />

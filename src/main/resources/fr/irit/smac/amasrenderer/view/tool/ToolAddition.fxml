@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -7,8 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane styleClass="dialogDeletion" stylesheets="@../../css/dialog.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.tool.ToolAdditionController">
+<AnchorPane styleClass="littleSecondaryWindow" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.tool.ToolAdditionController">
    <children>
 		<Label alignment="CENTER" maxHeight="100.0" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="496.0" styleClass="title" text="Ajouter un service" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             		</Label>
@@ -19,10 +20,20 @@
       </TextField>
       <Text fx:id="invalidField" layoutX="79.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="invalidField" text="Veuillez saisir un nom valide." textAlignment="CENTER" wrappingWidth="334.13671875">
               </Text>
-      <Label id="endOfService" layoutX="339.0" layoutY="132.0" prefHeight="32.0" prefWidth="81.0" text="Service" />
-				<Button fx:id="buttonCancel" cancelButton="true" layoutX="15.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickCancel" prefHeight="50.0" prefWidth="180.0" styleClass="buttonDialog" text="Annuler" textOverrun="CLIP" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0">
-            				</Button>
-				<Button fx:id="buttonConfirm" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="301.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickConfirm" prefHeight="50.0" prefWidth="180.0" styleClass="buttonDialogOk" text="Confirmer" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="15.0">
-            				</Button>
+      <Label layoutX="339.0" layoutY="132.0" prefHeight="32.0" prefWidth="81.0" styleClass="endOfInput" text="Service" />
+				<Button fx:id="buttonCancel" cancelButton="true" layoutX="15.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickCancel" prefHeight="50.0" prefWidth="180.0" text="Annuler" textOverrun="CLIP" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0">
+         <styleClass>
+            <String fx:value="buttonSecondaryWindow" />
+            <String fx:value="buttonSecondaryWindowKo" />
+         </styleClass></Button>
+				<Button fx:id="buttonConfirm" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="301.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickConfirm" prefHeight="50.0" prefWidth="180.0" text="Confirmer" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="15.0">
+         <styleClass>
+            <String fx:value="buttonSecondaryWindow" />
+            <String fx:value="buttonSecondaryWindowOk" />
+         </styleClass></Button>
    </children>
+   <stylesheets>
+      <URL value="@../../css/secondaryWindow.css" />
+      <URL value="@../../css/main.css" />
+   </stylesheets>
 </AnchorPane>

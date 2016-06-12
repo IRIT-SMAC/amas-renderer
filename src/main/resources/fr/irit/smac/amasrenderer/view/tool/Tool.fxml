@@ -4,20 +4,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-	stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8.0.60"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.tool.ToolController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.tool.ToolController">
 	<children>
 		<VBox>
 			<children>
-				<Label alignment="CENTER" focusTraversable="false" maxHeight="-Infinity"
-					maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="45.0"
-					prefWidth="382.0" styleClass="categoryTitle" text="SERVICES"
-					textFill="WHITE">
+				<Label alignment="CENTER" focusTraversable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="45.0" prefWidth="382.0" styleClass="categoryTitle" text="SERVICES" textFill="WHITE">
 					<font>
 						<Font name="Open Sans" size="30.0" />
 					</font>
@@ -26,10 +20,7 @@
 		</VBox>
 		<VBox styleClass="innerCategory">
 			<children>
-				<Button id="buttonAddService" fx:id="buttonAddService"
-					focusTraversable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308"
-					minHeight="-Infinity" mnemonicParsing="false" onAction="#addTool"
-					prefHeight="52.0" prefWidth="382.0" text="Ajouter un service">
+				<Button fx:id="buttonAddService" focusTraversable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#addTool" prefHeight="52.0" prefWidth="335.0" styleClass="button1" text="Ajouter un service">
 					<font>
 						<Font name="OpenSymbol" size="20.0" />
 					</font>
@@ -37,11 +28,8 @@
 						<Cursor fx:constant="HAND" />
 					</cursor>
 				</Button>
-
-				<ListView fx:id="listTool" focusTraversable="false"
-					maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-					onMouseClicked="#handleMouseClick" prefHeight="683.0" prefWidth="382.0"
-					style="-fx-background-color: #F8F8F8;" styleClass="labelInfraService" />
+      
+      				<ListView fx:id="listTool" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#handleMouseClick" prefHeight="683.0" prefWidth="382.0" style="-fx-background-color: #F8F8F8;" styleClass="innerCategory" />
 			</children>
 		</VBox>
 	</children>

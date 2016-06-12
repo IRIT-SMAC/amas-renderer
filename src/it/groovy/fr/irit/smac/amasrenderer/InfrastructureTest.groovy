@@ -42,14 +42,13 @@ class InfrastructureTest extends GuiSpecification{
     @IgnoreIf({
         System.getenv("TRAVIS") != null
     })
-    def "check if the infrastructure is modified by doubleclicking on the textfield"() {
+    def "check if an attribute of the infrastructure is updated"() {
 
         given:
         String extraName = "Hello"
 
         when:
-        fx.doubleClickOn("#editInfrastructure")
-                        .clickOn("#tree")
+        fx.clickOn("#editInfrastructure")
                         .rightClickOn(itemId)
                         .clickOn("#renameAttributeItem")
                         .clickOn(itemId)
