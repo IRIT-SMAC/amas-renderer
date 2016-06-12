@@ -1,7 +1,5 @@
 package fr.irit.smac.amasrenderer.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +12,9 @@ import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * This model is about an agent. An agent is a singleNode
+ */
 public class AgentModel extends SingleNode implements Node, IModel {
 
     private StringProperty name;
@@ -34,18 +35,40 @@ public class AgentModel extends SingleNode implements Node, IModel {
         GraphService.getInstance().getAgentMap().put(id, attributesMap);
     }
 
+    /**
+     * Gets the targets of the agent
+     * 
+     * @return the targets
+     */
     public List<String> getTargets() {
         return targets;
     }
 
+    /**
+     * Adds a target to the agent
+     * 
+     * @param target
+     *            the target to add
+     */
     public void addTarget(String target) {
         this.targets.add(target);
     }
 
+    /**
+     * Gets the attributes of the agent
+     * 
+     * @return the attributes of the agent
+     */
     public Map<String, Object> getAttributesMap() {
         return attributesMap;
     }
 
+    /**
+     * Sets the attributes of the agent
+     * 
+     * @param attributesMap
+     *            the attributes
+     */
     @SuppressWarnings("unchecked")
     public void setAttributesMap(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
@@ -73,6 +96,7 @@ public class AgentModel extends SingleNode implements Node, IModel {
         return REQUIRED_KEY_COMPLEX;
     }
 
+    @Override
     public String getName() {
         return name.get();
     }

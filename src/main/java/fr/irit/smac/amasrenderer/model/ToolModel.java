@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * The Class ToolModel.
+ * This model is about a tool
  */
 public class ToolModel implements IModel {
 
@@ -21,15 +21,10 @@ public class ToolModel implements IModel {
     private static final String[] NOT_EXPANDED         = { Const.AGENT_MAP };
     private static final String[] REQUIRED_KEY_COMPLEX = {};
 
-    public ToolModel(String name) {
-        super();
-        this.name = new SimpleStringProperty(name);
-    }
-
     @SuppressWarnings("unchecked")
     public ToolModel(String name, Object map) {
         super();
-        
+
         this.name = new SimpleStringProperty(this.getNewName(name));
         this.attributesMap = (Map<String, Object>) map;
 
@@ -38,12 +33,23 @@ public class ToolModel implements IModel {
         }
     }
 
+    /**
+     * Gets the attributes of the tool
+     * 
+     * @return the attributes
+     */
     public Map<String, Object> getAttributesMap() {
         return attributesMap;
     }
 
-    public void setAttributesMap(Map<String, Object> servicesMap) {
-        this.attributesMap = servicesMap;
+    /**
+     * Sets the attributes of the tool
+     * 
+     * @param attributesMap
+     *            the attributes
+     */
+    public void setAttributesMap(Map<String, Object> attributesMap) {
+        this.attributesMap = attributesMap;
     }
 
     @Override
@@ -51,6 +57,7 @@ public class ToolModel implements IModel {
         return this.name.get();
     }
 
+    @Override
     public String getName() {
         return this.name.get();
     }

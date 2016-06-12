@@ -10,21 +10,21 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * The Class InfrastructureModel.
+ * This model is about the infrastructure
  */
 public class InfrastructureModel implements IModel {
 
     private Map<String, Object> attributesMap = new HashMap<>();
 
     private static final String[] REQUIRED_KEY_SINGLE  = {};
-    private static final String[] PROTECTED_VALUE     = {};
-    private static final String[] NOT_EXPANDED        = { "Service" };
+    private static final String[] PROTECTED_VALUE      = {};
+    private static final String[] NOT_EXPANDED         = { "Service" };
     private static final String[] REQUIRED_KEY_COMPLEX = {};
 
     private StringProperty name;
 
     public InfrastructureModel() {
-        // Required for Jackson
+        // Required by Jackson
     }
 
     public InfrastructureModel(String name) {
@@ -41,6 +41,7 @@ public class InfrastructureModel implements IModel {
         return this.name.get();
     }
 
+    @Override
     public String getName() {
         return name.get();
     }
@@ -67,7 +68,7 @@ public class InfrastructureModel implements IModel {
     public void setAttributes(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
     }
-    
+
     @Override
     public String[] getRequiredKeySingle() {
         return REQUIRED_KEY_SINGLE;
