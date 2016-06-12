@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.utils.attributes;
+package fr.irit.smac.amasrenderer.util.attributes;
 
 import java.util.Arrays;
 
