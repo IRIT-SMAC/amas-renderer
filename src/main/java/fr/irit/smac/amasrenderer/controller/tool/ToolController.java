@@ -17,8 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
 /**
- * The Class ServicesController. This controller handles the service part of the
- * main UI
+ * This controller is related to the tools in the main window
  */
 public class ToolController extends LoadSecondaryWindowController implements Initializable {
 
@@ -33,10 +32,10 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
     private ToolService toolService = ToolService.getInstance();
 
     /**
-     * Handle mouse click.
+     * When a tool is clicked, a modal window showing its attributes is opened
      */
     @FXML
-    public void handleMouseClick() {
+    public void clickOnToolList() {
 
         this.selectedLabel = this.listTool.getSelectionModel().getSelectedItem();
         if (this.selectedLabel != null && this.selectedLabel.getName() != "") {
@@ -46,7 +45,8 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
     }
 
     /**
-     * Adds the tool.
+     * When the add tool button is clicked, open a modal window allowing to
+     * enter the name of the new tool
      *
      * @throws IOException
      *             Signals that an I/O exception has occurred.

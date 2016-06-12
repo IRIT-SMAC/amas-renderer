@@ -17,7 +17,7 @@ import javafx.scene.control.MenuBar;
 import javafx.stage.FileChooser;
 
 /**
- * This controller manages the menu bar events
+ * This controller is related to the menu bar
  */
 public class MenuBarController extends LoadSecondaryWindowController {
 
@@ -33,12 +33,11 @@ public class MenuBarController extends LoadSecondaryWindowController {
     MenuBar menuBar;
 
     /**
-     * On click on the menu item "Charger" in the menu "Fichier". Open a file
-     * chooser to load a configuration file. Generate the graph from the
-     * configuration file.
+     * When the load menuItem is clicked, the data of the chosen JSON file
+     * allows to generate the infrastructure, the tools and the graph of agents
      */
     @FXML
-    public void clickMenuCharger() {
+    public void clickMenuLoad() {
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(FILE_CHOOSER);
@@ -46,27 +45,34 @@ public class MenuBarController extends LoadSecondaryWindowController {
             EXTENSION_FILTER_EXTENSION);
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showOpenDialog(this.window);
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            InfrastructureModel infrastructure = mapper.readValue(file, InfrastructureModel.class);
-            InfrastructureService.getInstance().updateInfrastructureFromModel(infrastructure);
-        }
-        catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Impossible to read this file.", e);
+
+        if (file != null) {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                InfrastructureModel infrastructure = mapper.readValue(file, InfrastructureModel.class);
+                InfrastructureService.getInstance().updateInfrastructureFromModel(infrastructure);
+            }
+            catch (IOException e) {
+                LOGGER.log(Level.SEVERE, "Impossible to read this file.", e);
+            }
         }
     }
 
     /**
-     * On click on the menu item "Fermer" in the menu "Fichier" Close the
-     * program
+     * When the exit menuItem is clicked, the program is closed
      */
     @FXML
-    public void clickMenuFermer() {
+    public void clickMenuExit() {
 
         Platform.exit();
         System.exit(0);
     }
 
+    /**
+     * When the save menuItem is clicked, the informations about the
+     * infrastructure (and so about the tools and the agents) are saved in a
+     * JSON file
+     */
     @FXML
     public void clickMenuSave() {
 
@@ -86,12 +92,12 @@ public class MenuBarController extends LoadSecondaryWindowController {
     }
 
     /**
-     * On click on the menu item "A propos" in the menu "Aide" Open a help
-     * window
+     * When the documentation menuItem is clicked, a window showing the
+     * documentation is opened
      */
     @FXML
-    public void clickMenuAPropos() {
+    public void clickDocumentation() {
 
-        this.loadFxmlIndependent(this.window, "view/help/Documentation.fxml", true);
+        this.loadFxmlIndependent("view/help/Documentation.fxml", true);
     }
 }

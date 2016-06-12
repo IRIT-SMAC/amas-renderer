@@ -10,8 +10,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 
 /**
- * The Class GraphAddDelController. This controller handles the buttons of the
- * graph
+ * This controller is related to the toolbox which allows to interact with the
+ * graph of agents
  */
 public class GraphToolboxController implements Initializable {
 

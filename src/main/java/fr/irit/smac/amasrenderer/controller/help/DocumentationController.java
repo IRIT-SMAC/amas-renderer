@@ -12,6 +12,9 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
+/**
+ * This controller is related to the documentation of the program
+ */
 public class DocumentationController implements Initializable {
 
     @FXML
@@ -20,6 +23,7 @@ public class DocumentationController implements Initializable {
     @FXML
     ProgressBar progressBar;
 
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         WebEngine engine = webView.getEngine();

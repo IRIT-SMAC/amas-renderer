@@ -17,7 +17,6 @@ import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.AgentModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
-import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,7 +28,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Window;
 
 /**
- * The Class
+ * This controller is related to the graph of agents
  */
 public class GraphController extends LoadSecondaryWindowController
     implements Initializable, GraphToolboxController.IGraphButtonsState {
@@ -197,6 +196,7 @@ public class GraphController extends LoadSecondaryWindowController
      * Updates the state of the graph depending on the state of the shorcut
      * 
      * @param e
+     *            the mouse event
      */
     public void handleShortcutState(MouseEvent e) {
 
@@ -294,7 +294,7 @@ public class GraphController extends LoadSecondaryWindowController
     }
 
     /**
-     * Set the state to ready to add or delete an edge depending on the mouse
+     * Sets the state to ready to add or delete an edge depending on the mouse
      * button edge
      * 
      * @param e
@@ -313,7 +313,7 @@ public class GraphController extends LoadSecondaryWindowController
     }
 
     /**
-     * Set the state to ready to add or delete the target of an edge depending
+     * Sets the state to ready to add or delete the target of an edge depending
      * on the arguments and select the source
      * 
      * @param e
@@ -331,7 +331,7 @@ public class GraphController extends LoadSecondaryWindowController
     }
 
     /**
-     * Set the state add or remove a node depending on the mouse button down
+     * Sets the state add or remove a node depending on the mouse button down
      * 
      * @param e
      */
@@ -346,7 +346,7 @@ public class GraphController extends LoadSecondaryWindowController
     }
 
     /**
-     * Zoom or unzoom depending on the scroll event
+     * Zooms or unzooms depending on the scroll event
      * 
      * @param e
      */
@@ -365,7 +365,8 @@ public class GraphController extends LoadSecondaryWindowController
     }
 
     /**
-     * Handles the attribute or select a node depending on the mouse button down
+     * Handles the attribute or selects a node depending on the mouse button
+     * down
      * 
      * @param e
      *            the event
@@ -382,7 +383,7 @@ public class GraphController extends LoadSecondaryWindowController
     }
 
     /**
-     * Unselect all nodes when the mouse button is pressed.
+     * Unselects all nodes when the mouse button is pressed.
      *
      * @param event
      *            the event
@@ -402,17 +403,24 @@ public class GraphController extends LoadSecondaryWindowController
         }
     }
 
+    /**
+     * When a node is clicked (right click), a window allowing to see and
+     * updated its attributes is opened
+     * 
+     * @param e
+     */
     private void handleAttributes(MouseEvent e) {
 
         GraphicElement elt = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (elt != null && elt instanceof Node) {
-            Platform.runLater(() -> loadFxmlAttributes((Node) elt));
+            this.selectedAgent = this.graphService.getGraph().getNode(((Node) elt).getId());
+            this.loadFxml(window, "view/graph/GraphAttributes.fxml", true, this.selectedAgent);
         }
     }
 
     /**
-     * Mouse button release off element. When mouse released after dragging one,
-     * freeze the element and remove the clicked attribute
+     * When the mouse is released after dragging one, the selected element is
+     * freezed and is not selected anymore
      * 
      * @param element
      *            the element
@@ -426,8 +434,7 @@ public class GraphController extends LoadSecondaryWindowController
     }
 
     /**
-     * To be called by mouseDragged moves the element to the location of the
-     * mouse at each call.
+     * The selected element is moved to the location of the mouse
      *
      * @param element
      *            the element
@@ -489,7 +496,7 @@ public class GraphController extends LoadSecondaryWindowController
     }
 
     /**
-     * Add an edge between the source and the target
+     * Adds an edge between the source and the target
      * 
      * @param e
      *            the mouse event
@@ -503,7 +510,7 @@ public class GraphController extends LoadSecondaryWindowController
     }
 
     /**
-     * Remove the edge between the source and the target
+     * Removes the edge between the source and the target
      * 
      * @param e
      *            the mouse event
@@ -515,7 +522,7 @@ public class GraphController extends LoadSecondaryWindowController
     }
 
     /**
-     * Get the edge between the source and the target
+     * Gets the edge between the source and the target
      * 
      * @param e
      *            the event
@@ -532,7 +539,7 @@ public class GraphController extends LoadSecondaryWindowController
     }
 
     /**
-     * Gets the graph view.
+     * Gets the graph view
      *
      * @return the graph view
      */
@@ -541,19 +548,10 @@ public class GraphController extends LoadSecondaryWindowController
     }
 
     /**
-     * Load the graph attributes fxml
-     * 
-     * @param node
-     *            the node
+     * Delete all the default listeners at the initialization of the graph
      */
-    private void loadFxmlAttributes(Node node) {
-
-        this.selectedAgent = this.graphService.getGraph().getNode(node.getId());
-        this.loadFxml(window, "view/graph/GraphAttributes.fxml", true, this.selectedAgent);
-    }
-
     private void removeDefaultListeners() {
-        
+
         MouseMotionListener[] mml = graphView.getMouseMotionListeners();
         for (MouseMotionListener mouseMotionListener : mml) {
             graphView.removeMouseMotionListener(mouseMotionListener);
@@ -564,7 +562,7 @@ public class GraphController extends LoadSecondaryWindowController
             graphView.removeMouseListener(mouseListener);
         }
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -588,6 +586,12 @@ public class GraphController extends LoadSecondaryWindowController
         this.graphService.setAgentMap(new HashMap<String, Object>());
     }
 
+    /**
+     * Sets the main window
+     * 
+     * @param window
+     *            the main window
+     */
     public void setWindow(Window window) {
         this.window = window;
     }

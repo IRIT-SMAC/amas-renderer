@@ -5,7 +5,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import fr.irit.smac.amasrenderer.AmasRenderer;
-import fr.irit.smac.amasrenderer.model.IModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -14,6 +13,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+/**
+ * This abstract class contains method to load a new window (either a modal
+ * window or an independent window)
+ */
 public abstract class LoadSecondaryWindowController {
 
     protected Stage stageSecondaryWindow;
@@ -24,6 +27,18 @@ public abstract class LoadSecondaryWindowController {
 
     protected Window window;
 
+    /**
+     * Load a new modal window
+     * 
+     * @param window
+     *            the owner window
+     * @param resourcePath
+     *            the path of the fxml
+     * @param isResizable
+     *            true is the window can be resized, false otherwise
+     * @param argsInit
+     *            the arguments required to init the controller
+     */
     public void loadFxml(Window window, String resourcePath, boolean isResizable, Object... argsInit) {
 
         try {
@@ -46,7 +61,15 @@ public abstract class LoadSecondaryWindowController {
         }
     }
 
-    public void loadFxmlIndependent(Window window, String resourcePath, boolean isResizable) {
+    /**
+     * Load an independent window, such as the documentation window
+     * 
+     * @param resourcePath
+     *            the path of the fxml
+     * @param isResizable
+     *            true if the window can be resized, false otherwise
+     */
+    public void loadFxmlIndependent(String resourcePath, boolean isResizable) {
 
         FXMLLoader loaderWindowModal = new FXMLLoader();
         loaderWindowModal.setLocation(LoadSecondaryWindowController.class.getResource("../" + resourcePath));

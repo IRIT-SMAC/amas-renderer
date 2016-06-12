@@ -4,10 +4,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
-import fr.irit.smac.amasrenderer.controller.IParentWindowModal;
-import fr.irit.smac.amasrenderer.model.IModel;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
@@ -18,7 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * The Class ServiceDialogController This controller manages the popup form
+ * This controller is related to the addition of a tool
  */
 public class ToolAdditionController implements Initializable, ISecondaryWindowController {
 
@@ -39,7 +36,8 @@ public class ToolAdditionController implements Initializable, ISecondaryWindowCo
     private ToolService toolService = ToolService.getInstance();
 
     /**
-     * Click on the confirm button handler
+     * When the button confirm is clicked, the tool is added if the name is
+     * correct
      */
     @FXML
     public void clickConfirm() {
@@ -71,7 +69,8 @@ public class ToolAdditionController implements Initializable, ISecondaryWindowCo
     }
 
     /**
-     * Click on the cancel button handler
+     * When the cancel button is clicked, no tool is added and the modal window
+     * is closed
      */
     @FXML
     public void clickCancel() {

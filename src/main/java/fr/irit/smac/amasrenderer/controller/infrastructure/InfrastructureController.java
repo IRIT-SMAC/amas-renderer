@@ -10,8 +10,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 
+/**
+ * This controller is related to the infrastructure on the main window
+ */
 public class InfrastructureController extends LoadSecondaryWindowController implements Initializable {
 
     @FXML
@@ -20,21 +22,17 @@ public class InfrastructureController extends LoadSecondaryWindowController impl
     @FXML
     private Button infrastructureButton;
 
-    @FXML
-    private Label infrastructureWarningLabel;
-
-    @FXML
-    private ImageView infrastructureWarningIcon;
-
     private InfrastructureService infrastructureService = InfrastructureService.getInstance();
 
     /**
-     * Handle mouse click.
+     * When the edit button is clicked, a modal window allowing to see and
+     * update the attributes is opened
      */
     @FXML
-    public void handleInfraClick() {
+    public void handleOnEditInfraClick() {
 
-        this.loadFxml(this.window, "view/infrastructure/InfrastructureAttributes.fxml", true, this.infrastructureService.getInfrastructure());
+        this.loadFxml(this.window, "view/infrastructure/InfrastructureAttributes.fxml", true,
+            this.infrastructureService.getInfrastructure());
     }
 
     @Override

@@ -5,12 +5,10 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
-import fr.irit.smac.amasrenderer.controller.attributes.AttributesContextMenu;
-import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
-import fr.irit.smac.amasrenderer.model.IModel;
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
-import fr.irit.smac.amasrenderer.service.InfrastructureService;
+import fr.irit.smac.amasrenderer.utils.attributes.AttributesContextMenu;
+import fr.irit.smac.amasrenderer.utils.attributes.AttributesTreeCell;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -22,6 +20,9 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
+/**
+ * This controller is related to the attributes of the infrastructure
+ */
 public class InfrastructureAttributesController implements Initializable, ISecondaryWindowController {
 
     @FXML
@@ -40,7 +41,8 @@ public class InfrastructureAttributesController implements Initializable, ISecon
     private AttributesService attributesService = AttributesService.getInstance();
 
     /**
-     * Confirm button. Sets the new tree as the node tree, and exit this window
+     * When the confirm button is clicked, the attributes of the infrastructure
+     * are updated depending on the tree
      */
     @FXML
     public void confirmButton() {
@@ -51,7 +53,8 @@ public class InfrastructureAttributesController implements Initializable, ISecon
     }
 
     /**
-     * Cancel button. Just exit this window
+     * When the cancel button is clicked, the attributes are not updated and the
+     * window is closed
      */
     @FXML
     public void cancelButton() {

@@ -4,14 +4,13 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import fr.irit.smac.amasrenderer.controller.IParentWindowModal;
+import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
-import fr.irit.smac.amasrenderer.controller.attributes.AttributesContextMenu;
-import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
-import fr.irit.smac.amasrenderer.model.IModel;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
+import fr.irit.smac.amasrenderer.utils.attributes.AttributesContextMenu;
+import fr.irit.smac.amasrenderer.utils.attributes.AttributesTreeCell;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -25,10 +24,10 @@ import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
 /**
- * The Class TreeModifyController. Manage the modal window opening to modify
- * attributes
+ * This controller is related to the attributes of a tool
  */
-public class ToolAttributesController extends LoadSecondaryWindowController implements Initializable, IParentWindowModal, ISecondaryWindowController {
+public class ToolAttributesController extends LoadSecondaryWindowController
+    implements Initializable, IParentWindowModal, ISecondaryWindowController {
 
     @FXML
     private Button confButton;
@@ -45,11 +44,11 @@ public class ToolAttributesController extends LoadSecondaryWindowController impl
     private Stage stage;
 
     private ToolModel tool;
-    
+
     private AttributesService attributesService = AttributesService.getInstance();
 
     /**
-     * deletes the service ( no confirmation )
+     * When the delete button is clicked, the selected tool is deleted
      */
     @FXML
     public void deleteButton() {
@@ -58,7 +57,8 @@ public class ToolAttributesController extends LoadSecondaryWindowController impl
     }
 
     /**
-     * Confirm button. sets the new tree as the node tree, and exit this window
+     * When the confirm button is clecked, the attributes are updated depending
+     * on the items of the tree
      */
     @FXML
     public void confirmButton() {
@@ -69,7 +69,8 @@ public class ToolAttributesController extends LoadSecondaryWindowController impl
     }
 
     /**
-     * Cancel button. just exit this window
+     * When the cancel button is clicked, the attributes are not updated and the
+     * modal window is closed
      */
     @FXML
     public void cancelButton() {
@@ -101,14 +102,14 @@ public class ToolAttributesController extends LoadSecondaryWindowController impl
 
     @Override
     public void init(Stage stage, Object... args) {
-        
+
         ToolModel tool = (ToolModel) args[0];
         this.tool = tool;
         this.stage = stage;
         TreeItem<String> root = new TreeItem<>(tool.getName());
         this.tree.setRoot(root);
         HashMap<String, Object> service = (HashMap<String, Object>) tool.getAttributesMap();
-        this.attributesService.fillAttributes(service, root, tool);        
+        this.attributesService.fillAttributes(service, root, tool);
     }
 
 }

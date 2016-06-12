@@ -1,6 +1,5 @@
 package fr.irit.smac.amasrenderer.controller;
 
-import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.graph.GraphController;
 import fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureController;
 import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
@@ -10,7 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Window;
 
 /**
- * The Class MainController.
+ * This controller contains all the sub-controllers of the main window
  */
 public class MainController {
 
@@ -30,44 +29,10 @@ public class MainController {
     private BorderPane rootLayout;
 
     /**
-     * Gets the graph main controller (contains all of the sub controllers about
-     * the graph).
-     *
-     * @return the graph main controller
+     * Do some stuffs after all the creation of all the sub-controllers
      */
-    public GraphController getGraphController() {
-        return graphController;
-    }
-
-    /**
-     * Gets the tools controller
-     *
-     * @return the tools controller
-     */
-    public ToolController getToolController() {
-        return toolController;
-    }
-
-    /**
-     * Gets the menu bar controller.
-     *
-     * @return the menu bar controller
-     */
-    public MenuBarController getMenuBarController() {
-        return menuBarController;
-    }
-
-    /**
-     * Gets the infrastructure controller.
-     *
-     * @return the infrastructure controller
-     */
-    public InfrastructureController getInfrastructureController() {
-        return infrastructureController;
-    }
-    
     public void init() {
-        
+
         Window window = this.rootLayout.getScene().getWindow();
         this.graphController.setWindow(window);
         this.toolController.setWindow(window);

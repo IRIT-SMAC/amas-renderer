@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.controller.attributes;
+package fr.irit.smac.amasrenderer.utils.attributes;
 
 import java.util.Arrays;
 
@@ -8,6 +8,10 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.util.StringConverter;
 
+/**
+ * This class defines the tree to use for the visualisation or the update of the
+ * attributes
+ */
 public class AttributesTreeCell extends TextFieldTreeCell<String> {
 
     private final AttributesContextMenu contextMenu;
@@ -134,13 +138,15 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         boolean notRequiredComplex = !Arrays.asList(model.getRequiredKeyComplex()).contains(newValue);
         boolean notRequiredKeySingle = !Arrays.asList(model.getRequiredKeySingle()).contains(newValue);
         boolean notProtectedValue = !Arrays.asList(model.getProtectedValue()).contains(newValue);
-        boolean notExpanded = !Arrays.stream(model.getNotExpanded()).allMatch(s -> newValue.contains(s)) || model.getNotExpanded().length == 0;
-            
+        boolean notExpanded = !Arrays.stream(model.getNotExpanded()).allMatch(s -> newValue.contains(s))
+            || model.getNotExpanded().length == 0;
+
         if (notEmpty && notRequiredComplex && notRequiredKeySingle && notProtectedValue && notExpanded) {
-            
+
             if (getTreeItem().getParent() == null) {
                 super.commitEdit(this.model.getNewName(newValue));
-            } else {
+            }
+            else {
                 super.commitEdit(newValue);
             }
         }
