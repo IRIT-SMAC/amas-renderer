@@ -3,7 +3,6 @@ package fr.irit.smac.amasrenderer.service;
 import java.util.Map;
 
 import fr.irit.smac.amasrenderer.model.ToolModel;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 

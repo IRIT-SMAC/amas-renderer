@@ -9,6 +9,7 @@ import fr.irit.smac.amasrenderer.controller.tool.ToolController;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Window;
 
 /**
  * The Class MainController.
@@ -16,7 +17,7 @@ import javafx.scene.layout.BorderPane;
 public class MainController implements IParentStyle{
 
     @FXML
-    private GraphController graphMainController;
+    private GraphController graphController;
 
     @FXML
     private ToolController toolController;
@@ -30,16 +31,14 @@ public class MainController implements IParentStyle{
     @FXML
     private BorderPane rootLayout;
 
-    private Scene scene;
-    
     /**
      * Gets the graph main controller (contains all of the sub controllers about
      * the graph).
      *
      * @return the graph main controller
      */
-    public GraphController getGraphMainController() {
-        return graphMainController;
+    public GraphController getGraphController() {
+        return graphController;
     }
 
     /**
@@ -70,11 +69,15 @@ public class MainController implements IParentStyle{
     }
     
     public void init() {
-        this.scene = rootLayout.getScene();
+        
+        Window window = this.rootLayout.getScene().getWindow();
+        this.graphController.setWindow(window);
+        this.toolController.setWindow(window);
+        this.infrastructureController.setWindow(window);
+        this.menuBarController.setWindow(window);
         this.toolController.setParentStyle(this);
-        this.graphMainController.setParentStyle(this);
+        this.graphController.setParentStyle(this);
         this.infrastructureController.setParentStyle(this);
-        this.menuBarController.setScene(scene);
     }
 
     @Override

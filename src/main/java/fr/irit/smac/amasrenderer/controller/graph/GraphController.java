@@ -27,6 +27,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Window;
 
 /**
  * The Class
@@ -68,6 +69,8 @@ public class GraphController extends LoadWindowModalController
     private Label classNameLabel;
 
     private EButtonsAddDelState buttonsAddDelState;
+
+    private Window window;
 
     /**
      * Handles the behavior of the graph when the user pressed a key
@@ -550,7 +553,7 @@ public class GraphController extends LoadWindowModalController
     private void loadFxmlAttributes(Node node) {
 
         this.agent = GraphService.getInstance().getGraph().getNode(node.getId());
-        this.loadFxml(graphNode.getScene().getWindow(), "view/graph/GraphAttributes.fxml", true);
+        this.loadFxml(window, "view/graph/GraphAttributes.fxml", true);
     }
 
     /*
@@ -586,6 +589,10 @@ public class GraphController extends LoadWindowModalController
 
         graphToolboxController.setGraphButtonsState(this);
         graphNode.setContent(this.graphView);
+    }
+    
+    public void setWindow(Window window) {
+        this.window = window;
     }
 
     @Override

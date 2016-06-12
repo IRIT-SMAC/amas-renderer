@@ -60,7 +60,7 @@ class GraphNodeAttributeTest extends GuiSpecification{
             loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
             BorderPane rootLayout = (BorderPane) loaderRootLayout.load()
             MainController mainController = loaderRootLayout.getController()
-            graphMainController = mainController.getGraphMainController()
+            graphMainController = mainController.getGraphController()
             graphView = graphMainController.getGraphView()
 
             return rootLayout

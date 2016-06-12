@@ -63,7 +63,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
             loaderRootLayout.setLocation(Main.class.getResource("view/RootLayout.fxml"))
             rootLayout = (BorderPane) loaderRootLayout.load()
             MainController mainController = loaderRootLayout.getController()
-            GraphController graphMainController = mainController.getGraphMainController()
+            GraphController graphMainController = mainController.getGraphController()
             graphView = graphMainController.getGraphView()
 
             return rootLayout

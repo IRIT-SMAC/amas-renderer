@@ -21,7 +21,7 @@
 	<center>
 		<AnchorPane prefWidth="818.0" BorderPane.alignment="CENTER">
 			<children>
-				<fx:include fx:id="graphMain" source="graph/GraphAgents.fxml"
+				<fx:include fx:id="graph" source="graph/GraphAgents.fxml"
 					AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 					AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 			</children>

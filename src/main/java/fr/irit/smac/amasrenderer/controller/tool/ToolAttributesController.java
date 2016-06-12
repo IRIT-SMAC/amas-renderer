@@ -81,7 +81,7 @@ public class ToolAttributesController extends LoadWindowModalController implemen
     @FXML
     public void deleteButton() {
 
-        this.loadFxml(delButton.getScene().getWindow(), "view/tool/ToolDeletion.fxml", false);
+        this.loadFxml(this.window, "view/tool/ToolDeletion.fxml", false);
     }
 
     /**

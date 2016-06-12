@@ -13,7 +13,6 @@ import fr.irit.smac.amasrenderer.model.InfrastructureModel;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.stage.FileChooser;
 
@@ -23,7 +22,6 @@ import javafx.stage.FileChooser;
 public class MenuBarController extends LoadWindowModalController {
 
     private static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
-    private Scene               scene;
 
     @FXML
     MenuBar menuBar;
@@ -65,7 +63,7 @@ public class MenuBarController extends LoadWindowModalController {
     @FXML
     public void clickMenuSave() {
 
-        File file = new FileChooser().showSaveDialog(scene.getWindow());
+        File file = new FileChooser().showSaveDialog(this.window);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -87,11 +85,7 @@ public class MenuBarController extends LoadWindowModalController {
     @FXML
     public void clickMenuAPropos() {
         
-        this.loadFxmlIndependent(scene.getWindow(),"view/help/Documentation.fxml", true);
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
+        this.loadFxmlIndependent(this.window,"view/help/Documentation.fxml", true);
     }
 
     @Override

@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.stage.Window;
 
 public class InfrastructureController extends LoadWindowModalController implements Initializable {
 
@@ -33,7 +34,7 @@ public class InfrastructureController extends LoadWindowModalController implemen
     @FXML
     public void handleInfraClick() {
 
-        this.loadFxml(infrastructureButton.getScene().getWindow(), "view/infrastructure/InfrastructureAttributes.fxml", true);
+        this.loadFxml(this.window, "view/infrastructure/InfrastructureAttributes.fxml", true);
     }
 
     @Override
@@ -53,5 +54,4 @@ public class InfrastructureController extends LoadWindowModalController implemen
         controller.setStage(this.stageWindowModal);
         controller.init();
     }
-
 }

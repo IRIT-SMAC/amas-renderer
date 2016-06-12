@@ -45,7 +45,7 @@ public class ToolController extends LoadWindowModalController implements Initial
         selectedLabel = listTool.getSelectionModel().getSelectedItem();
         if (selectedLabel != null && selectedLabel.getName() != "") {
             currentWindowModalController = EControllerWindowModalState.TOOL_ATTRIBUTES_CONTROLLER;
-            this.loadFxml(buttonAddService.getScene().getWindow(), "view/tool/ToolAttributes.fxml", true);
+            this.loadFxml(this.window, "view/tool/ToolAttributes.fxml", true);
             listTool.getSelectionModel().clearSelection();
         }
     }
@@ -60,7 +60,7 @@ public class ToolController extends LoadWindowModalController implements Initial
     public void addTool() throws IOException {
 
         currentWindowModalController = EControllerWindowModalState.TOOL_ADDITION_CONTROLLER;
-        this.loadFxml(buttonAddService.getScene().getWindow(), "view/tool/ToolAddition.fxml", false);
+        this.loadFxml(this.window, "view/tool/ToolAddition.fxml", false);
     }
 
     /*
@@ -86,10 +86,11 @@ public class ToolController extends LoadWindowModalController implements Initial
     public void initDialogModalController() throws IOException {
 
         if (currentWindowModalController == EControllerWindowModalState.TOOL_ATTRIBUTES_CONTROLLER) {
-            ToolAttributesController controller;
-            controller = (ToolAttributesController) loaderWindowModal.getController();
+            ToolAttributesController controller = (ToolAttributesController) loaderWindowModal.getController();
             controller.setStage(this.stageWindowModal);
             controller.init(listTool, selectedLabel.getName(), selectedLabel);
+            controller.setWindow(this.stageWindowModal.getScene().getWindow());
         }
     }
+
 }
