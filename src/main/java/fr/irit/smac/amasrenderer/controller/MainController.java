@@ -7,7 +7,6 @@ import fr.irit.smac.amasrenderer.controller.infrastructure.InfrastructureControl
 import fr.irit.smac.amasrenderer.controller.menu.MenuBarController;
 import fr.irit.smac.amasrenderer.controller.tool.ToolController;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Window;
 

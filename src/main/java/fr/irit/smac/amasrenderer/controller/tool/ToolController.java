@@ -35,7 +35,7 @@ public class ToolController extends LoadWindowModalController implements Initial
     private enum EControllerWindowModalState {
         TOOL_ATTRIBUTES_CONTROLLER, TOOL_ADDITION_CONTROLLER
     }
-    
+
     /**
      * Handle mouse click.
      */
@@ -77,9 +77,10 @@ public class ToolController extends LoadWindowModalController implements Initial
             list.add(tool);
         }
         ToolService.getInstance()
-            .setTools(FXCollections.observableArrayList(actionStep -> new Observable[] { actionStep.nameProperty()}));
+            .setTools(FXCollections.observableArrayList(actionStep -> new Observable[] { actionStep.nameProperty() }));
         listTool.setItems(ToolService.getInstance().getTools());
-        ToolService.getInstance().createServicesFromMap(InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
+        ToolService.getInstance()
+            .createServicesFromMap(InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
     }
 
     @Override
@@ -87,9 +88,12 @@ public class ToolController extends LoadWindowModalController implements Initial
 
         if (currentWindowModalController == EControllerWindowModalState.TOOL_ATTRIBUTES_CONTROLLER) {
             ToolAttributesController controller = (ToolAttributesController) loaderWindowModal.getController();
-            controller.setStage(this.stageWindowModal);
-            controller.init(listTool, selectedLabel.getName(), selectedLabel);
+            controller.init(this.stageWindowModal, listTool, selectedLabel.getName(), selectedLabel);
             controller.setWindow(this.stageWindowModal.getScene().getWindow());
+        }
+        else if (currentWindowModalController == EControllerWindowModalState.TOOL_ADDITION_CONTROLLER) {
+            ToolAdditionController controller = (ToolAdditionController) loaderWindowModal.getController();
+            controller.init(this.stageWindowModal);
         }
     }
 

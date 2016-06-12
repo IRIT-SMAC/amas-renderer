@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.LoadWindowModalController;
+import fr.irit.smac.amasrenderer.controller.LoadWindowModalController.IParentStyle;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
+import fr.irit.smac.amasrenderer.controller.tool.ToolDeletionController.IParentWindowModal;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import javafx.fxml.FXML;
@@ -27,7 +29,7 @@ import javafx.util.converter.DefaultStringConverter;
  * The Class TreeModifyController. Manage the modal window opening to modify
  * attributes
  */
-public class ToolAttributesController extends LoadWindowModalController implements Initializable {
+public class ToolAttributesController extends LoadWindowModalController implements Initializable, IParentWindowModal {
 
     @FXML
     private Button confButton;
@@ -41,21 +43,11 @@ public class ToolAttributesController extends LoadWindowModalController implemen
     @FXML
     private TreeView<String> tree;
 
-    private Stage dialogStage;
+    private Stage stage;
 
     private ListView<ToolModel> list;
 
     private ToolModel tool;
-
-    /**
-     * Sets the stage.
-     *
-     * @param stage
-     *            the new stage
-     */
-    public void setStage(Stage stage) {
-        dialogStage = stage;
-    }
 
     /**
      * Initialize the controller
@@ -65,10 +57,11 @@ public class ToolAttributesController extends LoadWindowModalController implemen
      * @param list
      *            the list of tools
      */
-    public void init(ListView<ToolModel> list, String name, ToolModel tool) {
+    public void init(Stage stage, ListView<ToolModel> list, String name, ToolModel tool) {
 
         this.list = list;
         this.tool = tool;
+        this.stage = stage;
         TreeItem<String> myItem = new TreeItem<>(name);
         tree.setRoot(myItem);
         HashMap<String, Object> service = (HashMap<String, Object>) tool.getAttributesMap();
@@ -92,7 +85,7 @@ public class ToolAttributesController extends LoadWindowModalController implemen
 
         AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
             tool.getAttributesMap(), tool);
-        dialogStage.close();
+        stage.close();
     }
 
     /**
@@ -101,7 +94,7 @@ public class ToolAttributesController extends LoadWindowModalController implemen
     @FXML
     public void cancelButton() {
 
-        dialogStage.close();
+        stage.close();
     }
 
     @Override
@@ -126,7 +119,14 @@ public class ToolAttributesController extends LoadWindowModalController implemen
 
         ToolDeletionController controller;
         controller = (ToolDeletionController) loaderWindowModal.getController();
-        controller.init(dialogStage, list.getSelectionModel().getSelectedIndex(),
+        controller.init(this.stageWindowModal, list.getSelectionModel().getSelectedIndex(),
             list.getSelectionModel().getSelectedItem().getName());
+        controller.setParentWindowModal(this);
     }
+
+    @Override
+    public void closeWindow() {
+        this.stage.close();
+    }
+
 }

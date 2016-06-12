@@ -38,7 +38,7 @@ public class MenuBarController extends LoadWindowModalController {
         fileChooser.setTitle("Choisir un fichier de configuration");
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
         fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
+        File file = fileChooser.showOpenDialog(this.window);
         ObjectMapper mapper = new ObjectMapper();
         try {
             InfrastructureModel infrastructure = mapper.readValue(file, InfrastructureModel.class);

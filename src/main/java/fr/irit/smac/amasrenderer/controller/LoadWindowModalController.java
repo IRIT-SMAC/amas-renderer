@@ -23,7 +23,7 @@ public abstract class LoadWindowModalController {
     private static final Logger LOGGER = Logger.getLogger(LoadWindowModalController.class.getName());
 
     private IParentStyle parentStyle;
-    
+
     protected Window window;
 
     public void loadFxml(Window window, String resourcePath, boolean isResizable) {
@@ -88,7 +88,7 @@ public abstract class LoadWindowModalController {
     public void setWindow(Window window) {
         this.window = window;
     }
-    
+
     public void setParentStyle(IParentStyle parentStyle) {
         this.parentStyle = parentStyle;
     }
@@ -101,5 +101,4 @@ public abstract class LoadWindowModalController {
 
         public void setForeground();
     }
-
 }

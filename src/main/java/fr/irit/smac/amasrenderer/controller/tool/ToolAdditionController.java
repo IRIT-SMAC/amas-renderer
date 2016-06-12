@@ -31,6 +31,8 @@ public class ToolAdditionController implements Initializable {
     @FXML
     private Text invalidField;
 
+    private Stage stage;
+
     /**
      * Click on the confirm button handler
      */
@@ -58,7 +60,7 @@ public class ToolAdditionController implements Initializable {
                     tool.getAttributesMap());
             }
 
-            ((Stage) buttonConfirm.getScene().getWindow()).close();
+            this.stage.close();
         }
         else {
             invalidField.setVisible(true);
@@ -72,12 +74,15 @@ public class ToolAdditionController implements Initializable {
      */
     @FXML
     public void clickCancel() {
-        ((Stage) buttonCancel.getScene().getWindow()).close();
+        this.stage.close();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         invalidField.setVisible(false);
-
+    }
+    
+    public void init(Stage stage) {
+        this.stage = stage;
     }
 }

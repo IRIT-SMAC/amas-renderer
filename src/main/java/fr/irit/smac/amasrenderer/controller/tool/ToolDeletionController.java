@@ -1,5 +1,6 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
+import fr.irit.smac.amasrenderer.controller.LoadWindowModalController.IParentStyle;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
@@ -20,24 +21,36 @@ public class ToolDeletionController {
 
     private int toolIndex;
 
+    private Stage stage;
+    
+    private IParentWindowModal parentWindowModal;
+
     @FXML
     public void clickConfirmRemove() {
 
         ToolService.getInstance().getTools().remove(toolIndex);
         InfrastructureService.getInstance().getInfrastructure().getAttributesMap().remove(toolName);
-        dialogStage.close();
+        this.parentWindowModal.closeWindow();
     }
 
     @FXML
     public void clickCancelRemove() {
-
-        ((Stage) buttonCancelRemove.getScene().getWindow()).close();
+        this.stage.close();
     }
 
-    public void init(Stage dialogStage, int toolIndex, String toolName) {
+    public void setParentWindowModal(IParentWindowModal parentWindowModal) {
+        this.parentWindowModal = parentWindowModal;
+    }
+    
+    public void init(Stage stageWindowModal, int toolIndex, String toolName) {
 
         this.toolName = toolName;
         this.toolIndex = toolIndex;
-        this.dialogStage = dialogStage;
+        this.stage = stageWindowModal;
+    }
+    
+    public interface IParentWindowModal {
+        
+        public void closeWindow();
     }
 }
