@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.controller.attributes.AttributesTreeCell;
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;

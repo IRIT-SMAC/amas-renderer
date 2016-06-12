@@ -30,9 +30,9 @@ public class ToolController extends LoadWindowModalController implements Initial
 
     private ToolModel selectedLabel;
 
-    private EControllerState currentController;
+    private EControllerWindowModalState currentWindowModalController;
 
-    private enum EControllerState {
+    private enum EControllerWindowModalState {
         TOOL_ATTRIBUTES_CONTROLLER, TOOL_ADDITION_CONTROLLER
     }
     
@@ -44,7 +44,7 @@ public class ToolController extends LoadWindowModalController implements Initial
 
         selectedLabel = listTool.getSelectionModel().getSelectedItem();
         if (selectedLabel != null && selectedLabel.getName() != "") {
-            currentController = EControllerState.TOOL_ATTRIBUTES_CONTROLLER;
+            currentWindowModalController = EControllerWindowModalState.TOOL_ATTRIBUTES_CONTROLLER;
             this.loadFxml(buttonAddService.getScene().getWindow(), "view/tool/ToolAttributes.fxml", true);
             listTool.getSelectionModel().clearSelection();
         }
@@ -59,7 +59,7 @@ public class ToolController extends LoadWindowModalController implements Initial
     @FXML
     public void addTool() throws IOException {
 
-        currentController = EControllerState.TOOL_ADDITION_CONTROLLER;
+        currentWindowModalController = EControllerWindowModalState.TOOL_ADDITION_CONTROLLER;
         this.loadFxml(buttonAddService.getScene().getWindow(), "view/tool/ToolAddition.fxml", false);
     }
 
@@ -85,7 +85,7 @@ public class ToolController extends LoadWindowModalController implements Initial
     @Override
     public void initDialogModalController() throws IOException {
 
-        if (currentController == EControllerState.TOOL_ATTRIBUTES_CONTROLLER) {
+        if (currentWindowModalController == EControllerWindowModalState.TOOL_ATTRIBUTES_CONTROLLER) {
             ToolAttributesController controller;
             controller = (ToolAttributesController) loaderWindowModal.getController();
             controller.setStage(this.stageWindowModal);

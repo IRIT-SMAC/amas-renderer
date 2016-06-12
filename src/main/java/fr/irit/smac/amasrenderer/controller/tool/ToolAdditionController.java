@@ -4,8 +4,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;

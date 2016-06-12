@@ -1,7 +1,5 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
-import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.Main;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;

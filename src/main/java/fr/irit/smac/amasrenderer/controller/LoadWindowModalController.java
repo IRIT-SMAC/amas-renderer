@@ -61,6 +61,28 @@ public abstract class LoadWindowModalController {
         }
     }
 
+    public void loadFxmlIndependent(Window window, String resourcePath, boolean isResizable) {
+
+        FXMLLoader loaderWindowModal = new FXMLLoader();
+        loaderWindowModal.setLocation(Main.class.getResource(resourcePath));
+
+        Pane root = null;
+
+        try {
+            root = loaderWindowModal.load();
+            Stage stageWindowModal = new Stage();
+            stageWindowModal.initModality(Modality.WINDOW_MODAL);
+            Scene scene = new Scene(root);
+            stageWindowModal.setScene(scene);
+            scene.setFill(Color.BLACK);
+            stageWindowModal.show();
+
+        }
+        catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "The loading of the fxml has failed", e);
+        }
+    }
+
     public void setParentStyle(IParentStyle parentStyle) {
         this.parentStyle = parentStyle;
     }
