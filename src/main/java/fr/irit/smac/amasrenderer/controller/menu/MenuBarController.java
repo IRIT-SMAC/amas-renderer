@@ -50,7 +50,7 @@ public class MenuBarController extends LoadSecondaryWindowController {
             ObjectMapper mapper = new ObjectMapper();
             try {
                 InfrastructureModel infrastructure = mapper.readValue(file, InfrastructureModel.class);
-                InfrastructureService.getInstance().updateInfrastructureFromModel(infrastructure);
+                InfrastructureService.getInstance().updateInfrastructureFromFile(infrastructure);
             }
             catch (IOException e) {
                 LOGGER.log(Level.SEVERE, "Impossible to read this file.", e);

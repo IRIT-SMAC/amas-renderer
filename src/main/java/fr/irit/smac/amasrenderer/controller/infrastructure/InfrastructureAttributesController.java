@@ -87,7 +87,7 @@ public class InfrastructureAttributesController implements Initializable, ISecon
         this.stage = stage;
         TreeItem<String> root = new TreeItem<>(infra.getName());
         this.tree.setRoot(root);
-        HashMap<String, Object> infrastructure = (HashMap<String, Object>) infra.getAttributesMap();
-        this.attributesService.fillAttributes(infrastructure, root, infra);
+        HashMap<String, Object> infrastructureAttributes = (HashMap<String, Object>) infra.getAttributesMap();
+        this.attributesService.fillAttributes(infrastructureAttributes, root, infra);
     }
 }

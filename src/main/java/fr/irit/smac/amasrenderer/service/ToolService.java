@@ -15,9 +15,6 @@ public class ToolService {
     private static ToolService        instance = new ToolService();
     private ObservableList<ToolModel> tools;
 
-    /**
-     * Instantiates a new tool service.
-     */
     private ToolService() {
     }
 
@@ -31,7 +28,7 @@ public class ToolService {
     }
 
     /**
-     * Gets the tools from to the model.
+     * Gets the tools
      *
      * @return the tools
      */
@@ -40,7 +37,7 @@ public class ToolService {
     }
 
     /**
-     * Sets the tools in the model.
+     * Sets the tools
      *
      * @param items
      *            the new tools
@@ -49,6 +46,12 @@ public class ToolService {
         this.tools = tools;
     }
 
+    /**
+     * Adds a tool
+     * 
+     * @param tool
+     *            the tool
+     */
     public void addTool(ToolModel tool) {
 
         this.tools.add(tool);
@@ -63,12 +66,12 @@ public class ToolService {
     }
 
     /**
-     * Creates the services from a map.
+     * Creates the tools from a map.
      *
      * @param map
      *            the map
      */
-    public void createServicesFromMap(Map<String, Object> map) {
+    public void createToolsFromMap(Map<String, Object> map) {
 
         this.getTools().clear();
 

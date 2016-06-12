@@ -86,11 +86,11 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
         this.node = node;
         this.id = node.getId();
         @SuppressWarnings("unchecked")
-        HashMap<String, Object> agent = (HashMap<String, Object>) GraphService.getInstance().getAgentMap()
+        HashMap<String, Object> agentMap = (HashMap<String, Object>) GraphService.getInstance().getAgentMap()
             .get(this.id);
         TreeItem<String> root = new TreeItem<>(id);
         this.tree.setRoot(root);
-        this.attributesService.fillAttributes(agent, root, (IModel) node);
+        this.attributesService.fillAttributes(agentMap, root, (IModel) node);
 
         this.tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 

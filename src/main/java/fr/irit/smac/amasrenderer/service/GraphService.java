@@ -16,7 +16,7 @@ import fr.irit.smac.amasrenderer.model.AgentModel;
 import javafx.beans.value.ObservableValue;
 
 /**
- * The Class GraphService.
+ * This service is related to the business logic about the graph of agents
  */
 public class GraphService {
 
@@ -26,17 +26,11 @@ public class GraphService {
 
     private Map<String, Object> agentMap;
 
-    /**
-     * Instantiates a new graph service. to hide the constructor, use
-     * getInstance to initiate it
-     */
     private GraphService() {
-
     }
 
     /**
-     * Gets the single instance of GraphService. use that to initiate your
-     * object
+     * Gets the single instance of GraphService.
      * 
      * @return single instance of GraphService
      */
@@ -45,7 +39,7 @@ public class GraphService {
     }
 
     /**
-     * Creates and initialise the agent graph.
+     * Creates and initializes the agent graph.
      */
     public void createAgentGraph() {
 
@@ -58,8 +52,6 @@ public class GraphService {
     /**
      * Adds a node.
      *
-     * @param id
-     *            the id of the node
      * @param x
      *            the x location of the node
      * @param y
@@ -89,10 +81,12 @@ public class GraphService {
     }
 
     /**
-     * Adds a node.
+     * Adds a node with an existing attributes map.
      *
      * @param id
      *            the id of the node
+     * @param attributesMap
+     *            the attributes
      */
     public void addNode(String id, Map<String, Object> attributesMap) {
 
@@ -109,7 +103,7 @@ public class GraphService {
     }
 
     /**
-     * Add a directed edge from the source to the target
+     * Adds a directed edge from the source to the target
      * 
      * @param source
      *            the id of the source node
@@ -123,13 +117,21 @@ public class GraphService {
         ((AgentModel) this.graph.getNode(source)).addTarget(target);
     }
 
+    /**
+     * Adds an existing directed edge from the source to the target
+     * 
+     * @param source
+     *            the id of the source node
+     * @param target
+     *            the id of the target node
+     */
     public void addEdgeGraph(String source, String target) {
         graph.addEdge(source + target, source, target, true);
         graph.getEdge(source + target).setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_EDGE);
     }
 
     /**
-     * Remove an edge
+     * Removes an edge
      * 
      * @param edge
      *            the edge to remove
@@ -158,41 +160,31 @@ public class GraphService {
     }
 
     /**
-     * Gets the model.
+     * Gets the graph
      *
-     * @return the model
+     * @return the graph
      */
     public SingleGraph getGraph() {
         return this.graph;
     }
 
     /**
-     * Sets the model.
-     *
-     * @param graph
-     *            the new model
-     */
-    public void setGraph(SingleGraph graph) {
-        this.graph = graph;
-    }
-
-    /**
-     * Creates the agent graph from a map
+     * Fills the agent graph from a map
      * 
      * @param map
-     *            the map
+     *            the agent map
      */
     @SuppressWarnings("unchecked")
-    public void createAgentGraphFromMap(Map<String, Object> map) {
+    public void fillAgentGraphFromMap(Map<String, Object> map) {
 
         this.clearGraph();
-        fillAgentMap(map);
+        this.fillAgentFromMap(map);
         Iterator<Map.Entry<String, Object>> agents = map.entrySet().iterator();
 
         while (agents.hasNext()) {
             Map.Entry<String, Object> currentAgentMap = agents.next();
             HashMap<String, Object> currentAgent = (HashMap<String, Object>) currentAgentMap.getValue();
-            fillAgentTargets(currentAgent);
+            this.fillAgentFromTargets(currentAgent);
         }
     }
 
@@ -202,7 +194,7 @@ public class GraphService {
      * @param map
      *            the agent map
      */
-    private void fillAgentMap(Map<String, Object> map) {
+    private void fillAgentFromMap(Map<String, Object> map) {
 
         Iterator<Map.Entry<String, Object>> it = map.entrySet().iterator();
         while (it.hasNext()) {
@@ -212,13 +204,13 @@ public class GraphService {
     }
 
     /**
-     * Create all outgoing edges of the agent in parameter
+     * Creates all edges of the agent
      * 
      * @param agent
-     *            the agent to explore
+     *            the agent
      */
     @SuppressWarnings("unchecked")
-    private void fillAgentTargets(HashMap<String, Object> agent) {
+    private void fillAgentFromTargets(HashMap<String, Object> agent) {
 
         HashMap<String, Object> knowledgeMap = (HashMap<String, Object>) agent.get("knowledge");
         ArrayList<String> targets = (ArrayList<String>) knowledgeMap.get("targets");
@@ -230,7 +222,7 @@ public class GraphService {
     }
 
     /**
-     * Empty the graph and reset the stylesheet
+     * Empties the graph and resets the stylesheet
      */
     public void clearGraph() {
 
@@ -241,7 +233,7 @@ public class GraphService {
     }
 
     /**
-     * Sets the quality of rendering of the graph
+     * Sets the quality of the rendering of the graph
      */
     public void setQualityGraph() {
 
@@ -250,10 +242,21 @@ public class GraphService {
         this.graph.addAttribute("ui.antialias");
     }
 
+    /**
+     * Gets the agent map
+     * 
+     * @return the agent map
+     */
     public Map<String, Object> getAgentMap() {
         return agentMap;
     }
 
+    /**
+     * Sets the agent map
+     * 
+     * @param agentMap
+     *            the agent map
+     */
     public void setAgentMap(Map<String, Object> agentMap) {
         this.agentMap = agentMap;
     }

@@ -108,8 +108,8 @@ public class ToolAttributesController extends LoadSecondaryWindowController
         this.stage = stage;
         TreeItem<String> root = new TreeItem<>(tool.getName());
         this.tree.setRoot(root);
-        HashMap<String, Object> service = (HashMap<String, Object>) tool.getAttributesMap();
-        this.attributesService.fillAttributes(service, root, tool);
+        HashMap<String, Object> toolAttributes = (HashMap<String, Object>) tool.getAttributesMap();
+        this.attributesService.fillAttributes(toolAttributes, root, tool);
     }
 
 }

@@ -34,7 +34,7 @@ class GraphInitializationTest extends Specification{
         InputStream json = ClassLoader.getSystemResourceAsStream("./1infra5services12agents.json")
         ObjectMapper mapper = new ObjectMapper()
         InfrastructureModel infrastructure = mapper.readValue(json,InfrastructureModel.class)
-        InfrastructureService.getInstance().updateInfrastructureFromModel(infrastructure)
+        InfrastructureService.getInstance().updateInfrastructureFromFile(infrastructure)
 
         then:
         graphNodeService.getGraph().getNodeCount() == 12

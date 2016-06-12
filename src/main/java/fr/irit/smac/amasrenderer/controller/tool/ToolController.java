@@ -74,6 +74,6 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
             .setTools(FXCollections.observableArrayList(actionStep -> new Observable[] { actionStep.nameProperty() }));
         this.listTool.setItems(this.toolService.getTools());
         this.toolService
-            .createServicesFromMap(InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
+            .createToolsFromMap(InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
     }
 }

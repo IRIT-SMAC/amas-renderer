@@ -8,14 +8,33 @@ import fr.irit.smac.amasrenderer.model.IModel;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
+/**
+ * This service allows to fill a tree (for the attributes) and to updates the
+ * attributes depending of this tree
+ */
 public class AttributesService {
 
     private static AttributesService instance = new AttributesService();
 
+    private AttributesService() {
+    }
+    
     public static AttributesService getInstance() {
         return instance;
     }
 
+    /**
+     * Update the attributes
+     * 
+     * @param id
+     *            the id of the model
+     * @param item
+     *            the tree
+     * @param attributesMap
+     *            the attributes of the model
+     * @param model
+     *            the model
+     */
     public void updateAttributesMap(String id, TreeItem<String> item, Map<String, Object> attributesMap,
         IModel model) {
 
@@ -36,27 +55,48 @@ public class AttributesService {
         model.setName(id);
     }
 
+    /**
+     * Recursive method which allows to end the update of the attributes
+     * 
+     * @param item
+     *            the current part of the tree
+     * @param map
+     *            the attributes of the current node
+     * @param key
+     *            the key of the current attribute
+     */
     public void updateChildrenAttributesMap(TreeItem<String> item, Map<String, Object> map, String key) {
 
         ObservableList<TreeItem<String>> node = item.getChildren();
 
         if (node.size() > 1 || (node.size() == 1 && !node.get(0).getChildren().isEmpty())) {
-            Map<String, Object> newServiceMap = new HashMap<>();
+            Map<String, Object> newMap = new HashMap<>();
             for (TreeItem<String> subItem : node) {
-                updateChildrenAttributesMap(subItem, newServiceMap, subItem.getValue());
+                updateChildrenAttributesMap(subItem, newMap, subItem.getValue());
             }
-            map.put(key, newServiceMap);
+            map.put(key, newMap);
         }
         else if (!node.isEmpty()) {
             map.put(item.getValue(), node.get(0).getValue());
         }
     }
 
+    /**
+     * Recursive method allowing to fill the tree depending on the attributes
+     * map
+     * 
+     * @param attributesMap
+     *            the attributes
+     * @param parent
+     *            the current part of the tree
+     * @param model
+     *            the model
+     */
     @SuppressWarnings("unchecked")
-    public void fillAttributes(Map<String, Object> tool, TreeItem<String> parent, IModel model) {
+    public void fillAttributes(Map<String, Object> attributesMap, TreeItem<String> parent, IModel model) {
 
         parent.setExpanded(true);
-        Iterator<Map.Entry<String, Object>> attributeIterator = tool.entrySet().iterator();
+        Iterator<Map.Entry<String, Object>> attributeIterator = attributesMap.entrySet().iterator();
         while (attributeIterator.hasNext()) {
             Map.Entry<String, Object> attribute = attributeIterator.next();
             String name = attribute.getKey();

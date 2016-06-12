@@ -37,15 +37,23 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         });
     }
 
+    /**
+     * Prepares the design of the context menu depending on the node
+     * 
+     * @param item
+     *            the clicked node
+     */
     private void prepareContextMenu(TreeItem<String> item) {
 
         if (item != null) {
+
+            AttributesContextMenu contextMenu = this.contextMenu;
             MenuItem delete = contextMenu.getDelete();
             MenuItem rename = contextMenu.getRename();
             MenuItem add = contextMenu.getAdd();
             boolean root = item.getParent() == null;
 
-            checkNode(item);
+            checkConstraintsNode(item);
 
             if (!root) {
                 delete.setOnAction(evt -> {
@@ -61,14 +69,14 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
 
             rename.setOnAction(evt -> startEdit());
 
-            if (!isRequiredKeySingle && !isProtected) {
+            if (!this.isRequiredKeySingle && !this.isProtected) {
 
-                if (isRequiredKeyComplex) {
+                if (this.isRequiredKeyComplex) {
                     rename.setDisable(true);
                     delete.setDisable(true);
                     add.setDisable(false);
                 }
-                else if (isParentSingleNode) {
+                else if (this.isParentSingleNode) {
                     delete.setDisable(true);
                     add.setDisable(true);
                     rename.setDisable(false);
@@ -101,29 +109,36 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         }
     }
 
-    private void checkNode(TreeItem<String> item) {
+    /**
+     * Check the constraints of a node
+     * 
+     * @param item
+     *            the node
+     */
+    private void checkConstraintsNode(TreeItem<String> item) {
 
-        isRequiredKeySingle = false;
-        isProtected = false;
-        isRequiredKeyComplex = false;
-        isParentSingleNode = false;
+        IModel model = this.model;
+        this.isRequiredKeySingle = false;
+        this.isProtected = false;
+        this.isRequiredKeyComplex = false;
+        this.isParentSingleNode = false;
 
         if (model != null) {
-            isRequiredKeySingle = Arrays.asList(model.getRequiredKeySingle()).contains(item.getValue());
+            this.isRequiredKeySingle = Arrays.asList(model.getRequiredKeySingle()).contains(item.getValue());
             TreeItem<String> parent = item.getParent();
             if (parent != null) {
-                isParentSingleNode = Arrays.asList(model.getRequiredKeySingle())
+                this.isParentSingleNode = Arrays.asList(model.getRequiredKeySingle())
                     .contains(parent.getValue());
-                isProtected = Arrays.asList(model.getProtectedValue())
+                this.isProtected = Arrays.asList(model.getProtectedValue())
                     .contains(parent.getValue());
             }
-            isRequiredKeyComplex = Arrays.asList(model.getRequiredKeyComplex()).contains(item.getValue());
+            this.isRequiredKeyComplex = Arrays.asList(model.getRequiredKeyComplex()).contains(item.getValue());
         }
     }
 
     @Override
     public void startEdit() {
-        if (isRequiredKeySingle || isProtected || isRequiredKeyComplex) {
+        if (this.isRequiredKeySingle || this.isProtected || this.isRequiredKeyComplex) {
             this.cancelEdit();
         }
         else {
@@ -134,6 +149,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
     @Override
     public void commitEdit(String newValue) {
 
+        IModel model = this.model;
         boolean notEmpty = !newValue.trim().isEmpty();
         boolean notRequiredComplex = !Arrays.asList(model.getRequiredKeyComplex()).contains(newValue);
         boolean notRequiredKeySingle = !Arrays.asList(model.getRequiredKeySingle()).contains(newValue);
@@ -144,7 +160,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         if (notEmpty && notRequiredComplex && notRequiredKeySingle && notProtectedValue && notExpanded) {
 
             if (getTreeItem().getParent() == null) {
-                super.commitEdit(this.model.getNewName(newValue));
+                super.commitEdit(model.getNewName(newValue));
             }
             else {
                 super.commitEdit(newValue);

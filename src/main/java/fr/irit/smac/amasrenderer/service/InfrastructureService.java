@@ -15,9 +15,6 @@ public class InfrastructureService {
 
     private static InfrastructureService instance = new InfrastructureService();
 
-    /**
-     * Instantiates a new infrastructure service.
-     */
     private InfrastructureService() {
     }
 
@@ -49,8 +46,13 @@ public class InfrastructureService {
         this.infrastructure = infrastructure;
     }
 
+    /**
+     * Updates the infrastructure depending on the infrastructure of a JSON file
+     * 
+     * @param infrastructureFile
+     */
     @SuppressWarnings("unchecked")
-    public void updateInfrastructureFromModel(InfrastructureModel infrastructureFile) {
+    public void updateInfrastructureFromFile(InfrastructureModel infrastructureFile) {
 
         String[] infrastructureName = infrastructureFile.getAttributesMap().get(Const.CLASSNAME).toString()
             .split("\\.");
@@ -60,16 +62,19 @@ public class InfrastructureService {
         Map<String, Object> agentHandlerService = (HashMap<String, Object>) this.infrastructure.getAttributesMap()
             .get(Const.AGENT_HANDLER_SERVICE);
         Map<String, Object> agentMap = (HashMap<String, Object>) agentHandlerService.get(Const.AGENT_MAP);
-        GraphService.getInstance().createAgentGraphFromMap(agentMap);
-        ToolService.getInstance().createServicesFromMap(
+        GraphService.getInstance().fillAgentGraphFromMap(agentMap);
+        ToolService.getInstance().createToolsFromMap(
             InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
         GraphService.getInstance().setQualityGraph();
     }
 
+    /**
+     * Initialize a default infrastructure
+     */
     public void init() {
 
         Map<String, Object> attributesMap = new HashMap<String, Object>();
-        
+
         this.infrastructure = new InfrastructureModel(Const.INFRASTRUCTURE_NAME, attributesMap);
         attributesMap.put(Const.CLASSNAME, Const.INFRASTRUCTURE_CLASSNAME);
 
@@ -77,7 +82,7 @@ public class InfrastructureService {
         Map<String, Object> agentMap = new HashMap<>();
         agentHandlerService.put(Const.CLASSNAME, Const.AGENT_HANDLER_CLASSNAME);
         agentHandlerService.put(Const.AGENT_MAP, agentMap);
-        
+
         Map<String, Object> executionService = new HashMap<>();
         executionService.put(Const.CLASSNAME, Const.EXECUTION_CLASSNAME);
 

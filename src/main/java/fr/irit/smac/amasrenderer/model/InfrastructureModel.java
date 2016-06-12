@@ -55,11 +55,24 @@ public class InfrastructureModel implements IModel {
         return name;
     }
 
+    /**
+     * Used by Jackson to serialize the infrastructure
+     * 
+     * @return the attributes
+     */
     @JsonAnyGetter
     public Map<String, Object> getAttributesMap() {
         return this.attributesMap;
     }
 
+    /**
+     * Used by Jackson to deserialize the infrastructure
+     * 
+     * @param name
+     *            name of the attribute
+     * @param value
+     *            value of the attribute
+     */
     @JsonAnySetter
     public void setAttributesMap(String name, Object value) {
         this.attributesMap.put(name, value);
