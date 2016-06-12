@@ -69,7 +69,7 @@ public abstract class LoadSecondaryWindowController {
      * @param isResizable
      *            true if the window can be resized, false otherwise
      */
-    public void loadFxmlIndependent(String resourcePath, boolean isResizable) {
+    public void loadFxmlIndependent(String resourcePath) {
 
         FXMLLoader loaderWindowModal = new FXMLLoader();
         loaderWindowModal.setLocation(LoadSecondaryWindowController.class.getResource("../" + resourcePath));

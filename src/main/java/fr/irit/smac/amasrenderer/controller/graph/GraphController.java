@@ -65,8 +65,6 @@ public class GraphController extends LoadSecondaryWindowController
 
     private EButtonsAddDelState buttonsAddDelState;
 
-    private Window window;
-
     /**
      * Handles the behavior of the graph when the user pressed a key
      * 
@@ -288,6 +286,7 @@ public class GraphController extends LoadSecondaryWindowController
                 break;
             case RESET_GRAPH:
                 this.graphService.clearGraph();
+                break;
             default:
                 break;
         }
@@ -586,12 +585,7 @@ public class GraphController extends LoadSecondaryWindowController
         this.graphService.setAgentMap(new HashMap<String, Object>());
     }
 
-    /**
-     * Sets the main window
-     * 
-     * @param window
-     *            the main window
-     */
+    @Override
     public void setWindow(Window window) {
         this.window = window;
     }

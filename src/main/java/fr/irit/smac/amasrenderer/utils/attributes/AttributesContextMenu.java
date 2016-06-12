@@ -17,17 +17,17 @@ public class AttributesContextMenu {
 
     private final MenuItem rename;
 
-    private final static String ADD_ITEM_ID = "addAttributeItem";
+    private static final String ADD_ITEM_ID = "addAttributeItem";
 
-    private final static String DELETE_ITEM_ID = "removeAttributeItem";
+    private static final String DELETE_ITEM_ID = "removeAttributeItem";
 
-    private final static String RENAME_ITEM_ID = "renameAttributeItem";
+    private static final String RENAME_ITEM_ID = "renameAttributeItem";
 
-    private final static String ADD_ITEM = "Ajouter";
+    private static final String ADD_ITEM = "Ajouter";
 
-    private final static String DELETE_ITEM = "Supprimer";
+    private static final String DELETE_ITEM = "Supprimer";
 
-    private final static String RENAME_ITEM = "Renommer";
+    private static final String RENAME_ITEM = "Renommer";
 
     public AttributesContextMenu() {
         this.add = new MenuItem(ADD_ITEM);

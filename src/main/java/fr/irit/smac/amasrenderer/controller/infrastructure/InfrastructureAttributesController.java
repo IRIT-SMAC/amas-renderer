@@ -82,12 +82,12 @@ public class InfrastructureAttributesController implements Initializable, ISecon
     @Override
     public void init(Stage stage, Object... args) {
 
-        InfrastructureModel infra = (InfrastructureModel) args[0];
-        this.infra = infra;
+        InfrastructureModel infrastructure = (InfrastructureModel) args[0];
+        this.infra = infrastructure;
         this.stage = stage;
-        TreeItem<String> root = new TreeItem<>(infra.getName());
+        TreeItem<String> root = new TreeItem<>(infrastructure.getName());
         this.tree.setRoot(root);
-        HashMap<String, Object> infrastructureAttributes = (HashMap<String, Object>) infra.getAttributesMap();
-        this.attributesService.fillAttributes(infrastructureAttributes, root, infra);
+        HashMap<String, Object> infrastructureAttributes = (HashMap<String, Object>) infrastructure.getAttributesMap();
+        this.attributesService.fillAttributes(infrastructureAttributes, root, infrastructure);
     }
 }

@@ -73,7 +73,7 @@ public class InfrastructureService {
      */
     public void init() {
 
-        Map<String, Object> attributesMap = new HashMap<String, Object>();
+        Map<String, Object> attributesMap = new HashMap<>();
 
         this.infrastructure = new InfrastructureModel(Const.INFRASTRUCTURE_NAME, attributesMap);
         attributesMap.put(Const.CLASSNAME, Const.INFRASTRUCTURE_CLASSNAME);

@@ -87,7 +87,7 @@ public class MenuBarController extends LoadSecondaryWindowController {
                     InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
         }
         catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Impossible to save the data.", e);
         }
     }
 
@@ -98,6 +98,6 @@ public class MenuBarController extends LoadSecondaryWindowController {
     @FXML
     public void clickDocumentation() {
 
-        this.loadFxmlIndependent("view/help/Documentation.fxml", true);
+        this.loadFxmlIndependent("view/help/Documentation.fxml");
     }
 }

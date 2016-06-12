@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 /**
  * Used by controller which are related to a modal window
  */
+@FunctionalInterface
 public interface ISecondaryWindowController {
 
     /**

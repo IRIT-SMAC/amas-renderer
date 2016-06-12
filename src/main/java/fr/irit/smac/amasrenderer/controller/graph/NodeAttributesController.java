@@ -81,16 +81,16 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
     @Override
     public void init(Stage stage, Object... args) {
 
-        AgentModel node = (AgentModel) args[0];
+        AgentModel agent = (AgentModel) args[0];
         this.stage = stage;
-        this.node = node;
-        this.id = node.getId();
+        this.node = agent;
+        this.id = agent.getId();
         @SuppressWarnings("unchecked")
         HashMap<String, Object> agentMap = (HashMap<String, Object>) GraphService.getInstance().getAgentMap()
             .get(this.id);
         TreeItem<String> root = new TreeItem<>(id);
         this.tree.setRoot(root);
-        this.attributesService.fillAttributes(agentMap, root, (IModel) node);
+        this.attributesService.fillAttributes(agentMap, root, (IModel) agent);
 
         this.tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
@@ -99,7 +99,7 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
 
             @Override
             public TreeCell<String> call(TreeView<String> param) {
-                return new AttributesTreeCell(this.contextMenu, this.converter, node);
+                return new AttributesTreeCell(this.contextMenu, this.converter, agent);
             }
 
         });
