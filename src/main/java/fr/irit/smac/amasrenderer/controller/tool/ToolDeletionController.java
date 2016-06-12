@@ -1,6 +1,5 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
-import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController.IParentStyle;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
@@ -14,8 +13,6 @@ public class ToolDeletionController {
 
     @FXML
     private Button buttonCancelRemove;
-
-    private Stage dialogStage;
 
     private String toolName;
 
@@ -42,11 +39,11 @@ public class ToolDeletionController {
         this.parentWindowModal = parentWindowModal;
     }
     
-    public void init(Stage stageWindowModal, int toolIndex, String toolName) {
+    public void init(Stage stage, int toolIndex, String toolName) {
 
         this.toolName = toolName;
         this.toolIndex = toolIndex;
-        this.stage = stageWindowModal;
+        this.stage = stage;
     }
     
     public interface IParentWindowModal {

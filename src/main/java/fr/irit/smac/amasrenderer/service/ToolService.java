@@ -2,6 +2,7 @@ package fr.irit.smac.amasrenderer.service;
 
 import java.util.Map;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -72,7 +73,7 @@ public class ToolService {
         this.getTools().clear();
 
         for (Map.Entry<String, Object> pair : map.entrySet()) {
-            if (pair.getKey().contains("Service")) {
+            if (pair.getKey().contains(Const.TOOL)) {
                 this.addTool(new ToolModel(pair.getKey(), pair.getValue()));
             }
         }

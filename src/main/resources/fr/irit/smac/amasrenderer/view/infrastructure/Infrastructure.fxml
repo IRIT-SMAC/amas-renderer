@@ -25,7 +25,7 @@
       										</ImageView>
 									</graphic>
 								</Button>
-            <Label fx:id="infrastructureLabel" prefHeight="48.0" prefWidth="287.0" text="Label">
+            <Label fx:id="infrastructureLabel" prefHeight="48.0" prefWidth="287.0" text="BasicInfrastructure">
                <padding>
                   <Insets left="15.0" />
                </padding>

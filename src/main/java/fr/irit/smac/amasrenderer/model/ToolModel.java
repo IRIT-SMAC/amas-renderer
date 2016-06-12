@@ -3,6 +3,7 @@ package fr.irit.smac.amasrenderer.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.irit.smac.amasrenderer.Const;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -17,7 +18,7 @@ public class ToolModel implements IModel {
 
     private static final String[] REQUIRED_KEY_SINGLE  = {};
     private static final String[] PROTECTED_VALUE      = {};
-    private static final String[] NOT_EXPANDED         = { "agentMap" };
+    private static final String[] NOT_EXPANDED         = { Const.AGENT_MAP };
     private static final String[] REQUIRED_KEY_COMPLEX = {};
 
     public ToolModel(String name) {
@@ -30,6 +31,10 @@ public class ToolModel implements IModel {
         super();
         this.name = new SimpleStringProperty(name);
         this.attributesMap = (Map<String, Object>) map;
+
+        if (this.attributesMap.get(Const.CLASSNAME) == null) {
+            this.attributesMap.put(Const.CLASSNAME, Const.EXAMPLE_CLASSNAME);
+        }
     }
 
     public Map<String, Object> getAttributesMap() {
@@ -80,6 +85,6 @@ public class ToolModel implements IModel {
 
     @Override
     public String getNewName(String name) {
-        return name.concat("Service");
+        return name.endsWith(Const.TOOL) ? name : name.concat(Const.TOOL);
     }
 }

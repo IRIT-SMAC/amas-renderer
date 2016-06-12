@@ -20,8 +20,6 @@ public class AgentModel extends SingleNode implements Node, IModel {
 
     private Map<String, Object> attributesMap;
 
-    private Map<String, Object> knowledgeMap = new HashMap<>();
-
     private List<String> targets;
 
     private static final String[] REQUIRED_KEY_SINGLE  = { Const.TARGETS };
@@ -48,9 +46,10 @@ public class AgentModel extends SingleNode implements Node, IModel {
         return attributesMap;
     }
 
+    @SuppressWarnings("unchecked")
     public void setAttributesMap(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
-        this.targets = (List<String>) ((Map<String, Object>) attributesMap.get("knowledge")).get("targets");
+        this.targets = (List<String>) ((Map<String, Object>) attributesMap.get(Const.KNOWLEDGE)).get(Const.TARGETS);
         GraphService.getInstance().getAgentMap().put(id, attributesMap);
     }
 

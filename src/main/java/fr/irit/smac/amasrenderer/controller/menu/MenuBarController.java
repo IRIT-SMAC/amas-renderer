@@ -23,6 +23,12 @@ public class MenuBarController extends LoadSecondaryWindowController {
 
     private static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
 
+    private static final String FILE_CHOOSER = "Choisir un fichier de configuration";
+    
+    private static final String EXTENSION_FILTER_DESCRIPTION = "JSON files (*.json)";
+    
+    private static final String EXTENSION_FILTER_EXTENSION = "*.json";
+    
     @FXML
     MenuBar menuBar;
 
@@ -35,8 +41,8 @@ public class MenuBarController extends LoadSecondaryWindowController {
     public void clickMenuCharger() {
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choisir un fichier de configuration");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+        fileChooser.setTitle(FILE_CHOOSER);
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(EXTENSION_FILTER_DESCRIPTION, EXTENSION_FILTER_EXTENSION);
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showOpenDialog(this.window);
         ObjectMapper mapper = new ObjectMapper();

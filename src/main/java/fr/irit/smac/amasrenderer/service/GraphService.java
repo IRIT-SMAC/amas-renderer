@@ -73,9 +73,10 @@ public class GraphService {
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.NODE_LABEL, id);
         HashMap<String, Object> attributesMap = new HashMap<>();
-        attributesMap.put("id", id);
+        attributesMap.put(Const.ID, id);
         Map<String, Object> knowledge = new HashMap<>();
-        attributesMap.put("knowledge", knowledge);
+        knowledge.put(Const.CLASSNAME, Const.EXAMPLE_CLASSNAME);
+        attributesMap.put(Const.KNOWLEDGE, knowledge);
         List<String> targets = new ArrayList<>();
         knowledge.put(Const.TARGETS, targets);
         node.setAttributesMap(attributesMap);

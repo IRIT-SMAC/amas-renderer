@@ -35,7 +35,7 @@ public class NodeAttributesController implements Initializable {
     private Button           cancButton;
     @FXML
     private TreeView<String> tree;
-    private Stage            dialogStage;
+    private Stage            stage;
     private String           baseAgentName;
     private AgentModel       node;
     private String           newAgentName = null;
@@ -54,7 +54,7 @@ public class NodeAttributesController implements Initializable {
         if (newAgentName != baseAgentName) {
             node.setAttribute(Const.NODE_LABEL, newAgentName);
         }
-        dialogStage.close();
+        stage.close();
     }
 
     /**
@@ -62,7 +62,7 @@ public class NodeAttributesController implements Initializable {
      */
     @FXML
     public void cancelButton() {
-        dialogStage.close();
+        stage.close();
     }
 
     /**
@@ -72,7 +72,7 @@ public class NodeAttributesController implements Initializable {
      *            the new stage
      */
     public void setStage(Stage stage) {
-        dialogStage = stage;
+        this.stage = stage;
     }
 
     /**

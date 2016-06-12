@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
@@ -43,7 +44,7 @@ public class ToolAdditionController implements Initializable {
             && !textfieldTool.getText().trim().isEmpty()
             && !textfieldTool.getText().trim().contains(" ")) {
 
-            ToolModel tool = new ToolModel(textfieldTool.getText().trim().concat("Service"),
+            ToolModel tool = new ToolModel(textfieldTool.getText().trim().concat(Const.TOOL),
                 new HashMap<String, Object>());
 
             boolean found = false;

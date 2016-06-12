@@ -4,6 +4,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import org.graphstream.graph.Edge;
@@ -589,6 +590,7 @@ public class GraphController extends LoadSecondaryWindowController
 
         graphToolboxController.setGraphButtonsState(this);
         graphNode.setContent(this.graphView);
+        GraphService.getInstance().setAgentMap(new HashMap<String,Object>());
     }
     
     public void setWindow(Window window) {

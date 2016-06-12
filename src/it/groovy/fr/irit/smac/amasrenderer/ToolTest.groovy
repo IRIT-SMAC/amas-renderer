@@ -42,7 +42,7 @@ class ToolTest extends GuiSpecification{
                         .clickOn("#buttonConfirm")
 
         then:
-        toolService.getTools().get(1).getName() == "messagingService"
+        toolService.getTools().get(2).getName() == "messagingService"
     }
 
     def "check if a tool is deleted by clicking on the corresponding button"() {
