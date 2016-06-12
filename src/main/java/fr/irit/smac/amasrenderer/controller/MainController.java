@@ -29,6 +29,42 @@ public class MainController {
     private BorderPane rootLayout;
 
     /**
+     * Gets the graph main controller
+     *
+     * @return the graph main controller
+     */
+    public GraphController getGraphController() {
+        return graphController;
+    }
+
+    /**
+     * Gets the tools controller
+     *
+     * @return the tools controller
+     */
+    public ToolController getToolController() {
+        return toolController;
+    }
+
+    /**
+     * Gets the menu bar controller
+     *
+     * @return the menu bar controller
+     */
+    public MenuBarController getMenuBarController() {
+        return menuBarController;
+    }
+
+    /**
+     * Gets the infrastructure controller
+     *
+     * @return the infrastructure controller
+     */
+    public InfrastructureController getInfrastructureController() {
+        return infrastructureController;
+    }
+
+    /**
      * Do some stuffs after all the creation of all the sub-controllers
      */
     public void init() {
