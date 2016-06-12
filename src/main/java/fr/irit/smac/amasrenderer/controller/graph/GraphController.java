@@ -22,7 +22,6 @@ import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -48,13 +47,13 @@ public class GraphController extends LoadSecondaryWindowController
     @FXML
     private GraphToolboxController graphToolboxController;
 
-    private GraphService graphNodeService = GraphService.getInstance();
+    private GraphService graphService = GraphService.getInstance();
 
     private ViewPanel graphView;
 
     private Viewer viewer;
 
-    private AgentModel agent;
+    private AgentModel selectedAgent;
 
     private Node source = null;
 
@@ -65,9 +64,6 @@ public class GraphController extends LoadSecondaryWindowController
     private EStateGraph graphState;
 
     private EShortcutState shortcutState;
-
-    @FXML
-    private Label classNameLabel;
 
     private EButtonsAddDelState buttonsAddDelState;
 
@@ -120,7 +116,7 @@ public class GraphController extends LoadSecondaryWindowController
 
         if (this.graphState == EStateGraph.SELECTED_NODE) {
             this.graphState = EStateGraph.AT_EASE;
-            unselectNode(selectedElement);
+            this.unselectNode(this.selectedElement);
         }
     }
 
@@ -135,7 +131,7 @@ public class GraphController extends LoadSecondaryWindowController
 
         if (this.graphState == EStateGraph.SELECTED_NODE) {
             this.graphState = EStateGraph.SELECTED_NODE;
-            moveSelectedNode(selectedElement, e);
+            this.moveSelectedNode(this.selectedElement, e);
         }
     }
 
@@ -148,7 +144,7 @@ public class GraphController extends LoadSecondaryWindowController
     @FXML
     public void handleOnScroll(ScrollEvent e) {
 
-        zoomOrUnzoom(e);
+        this.zoomOrUnzoom(e);
     }
 
     /**
@@ -160,9 +156,9 @@ public class GraphController extends LoadSecondaryWindowController
     @FXML
     public void handleOnMousePressed(MouseEvent e) {
 
-        handleButtonsAddDelState();
-        handleShortcutState(e);
-        handleGraphState(e);
+        this.handleButtonsAddDelState();
+        this.handleShortcutState(e);
+        this.handleGraphState(e);
     }
 
     /**
@@ -208,11 +204,11 @@ public class GraphController extends LoadSecondaryWindowController
         switch (this.shortcutState) {
 
             case CTRL_DOWN:
-                readyToAddOrDeleteNode(e);
+                this.readyToAddOrDeleteNode(e);
                 break;
 
             case SHIFT_DOWN:
-                readyToAddOrDeleteEdgeShift(e);
+                this.readyToAddOrDeleteEdgeShift(e);
                 break;
 
             default:
@@ -232,35 +228,35 @@ public class GraphController extends LoadSecondaryWindowController
 
             case AT_EASE:
                 this.graphState = EStateGraph.AT_EASE;
-                handleAttributesOrSelectNode(e);
+                this.handleAttributesOrSelectNode(e);
                 break;
 
             case READY_TO_ADD_NODE:
                 this.graphState = EStateGraph.AT_EASE;
-                createNode(e);
+                this.createNode(e);
                 break;
 
             case READY_TO_DELETE_NODE:
                 this.graphState = EStateGraph.AT_EASE;
-                removeNode(e);
+                this.removeNode(e);
                 break;
 
             case READY_TO_ADD_EDGE_SOURCE:
-                readyToAddOrDeleteEdgeSource(e, EStateGraph.READY_TO_ADD_EDGE_TARGET);
+                this.readyToAddOrDeleteEdgeSource(e, EStateGraph.READY_TO_ADD_EDGE_TARGET);
                 break;
 
             case READY_TO_DELETE_EDGE_SOURCE:
-                readyToAddOrDeleteEdgeSource(e, EStateGraph.READY_TO_DELETE_EDGE_TARGET);
+                this.readyToAddOrDeleteEdgeSource(e, EStateGraph.READY_TO_DELETE_EDGE_TARGET);
                 break;
 
             case READY_TO_ADD_EDGE_TARGET:
                 this.graphState = EStateGraph.AT_EASE;
-                addEdge(e);
+                this.addEdge(e);
                 break;
 
             case READY_TO_DELETE_EDGE_TARGET:
                 this.graphState = EStateGraph.AT_EASE;
-                removeEdge(e);
+                this.removeEdge(e);
                 break;
 
             default:
@@ -283,16 +279,16 @@ public class GraphController extends LoadSecondaryWindowController
         switch (state) {
 
             case RESET_VIEW:
-                graphView.getCamera().resetView();
+                this.graphView.getCamera().resetView();
                 break;
             case AUTO_LAYOUT:
-                viewer.enableAutoLayout();
+                this.viewer.enableAutoLayout();
                 break;
             case NO_AUTO_LAYOUT:
-                viewer.disableAutoLayout();
+                this.viewer.disableAutoLayout();
                 break;
             case RESET_GRAPH:
-                GraphService.getInstance().clearGraph();
+                this.graphService.clearGraph();
             default:
                 break;
         }
@@ -328,10 +324,10 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void readyToAddOrDeleteEdgeSource(MouseEvent e, EStateGraph nextState) {
 
-        source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        this.source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (source != null) {
             this.graphState = nextState;
-            selectSource();
+            this.selectSource();
         }
     }
 
@@ -357,16 +353,16 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void zoomOrUnzoom(ScrollEvent e) {
 
-        Double scale = graphView.getCamera().getViewPercent();
+        Double scale = this.graphView.getCamera().getViewPercent();
         if (e.getDeltaY() >= 0) {
-            graphView.getCamera().setViewPercent(scale * Const.SCALE_UNZOOM_RATIO);
+            this.graphView.getCamera().setViewPercent(scale * Const.SCALE_UNZOOM_RATIO);
         }
         else {
-            graphView.getCamera().setViewPercent(scale * Const.SCALE_ZOOM_RATIO);
+            this.graphView.getCamera().setViewPercent(scale * Const.SCALE_ZOOM_RATIO);
         }
-        Point3 newCenter = graphView.getCamera().getViewCenter()
-            .interpolate(graphView.getCamera().transformPxToGu(e.getX(), e.getY()), Const.TRANSLATE_ZOOM_RATIO);
-        graphView.getCamera().setViewCenter(newCenter.x, newCenter.y, newCenter.z);
+        Point3 newCenter = this.graphView.getCamera().getViewCenter()
+            .interpolate(this.graphView.getCamera().transformPxToGu(e.getX(), e.getY()), Const.TRANSLATE_ZOOM_RATIO);
+        this.graphView.getCamera().setViewCenter(newCenter.x, newCenter.y, newCenter.z);
     }
 
     /**
@@ -379,10 +375,10 @@ public class GraphController extends LoadSecondaryWindowController
 
         if (e.isSecondaryButtonDown()) {
             this.graphState = EStateGraph.AT_EASE;
-            handleAttributes(e);
+            this.handleAttributes(e);
         }
         else if (e.isPrimaryButtonDown()) {
-            selectNode(e);
+            this.selectNode(e);
         }
     }
 
@@ -394,22 +390,22 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void selectNode(MouseEvent e) {
 
-        selectedElement = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-        if (selectedElement != null) {
+        this.selectedElement = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        if (this.selectedElement != null) {
             this.graphState = EStateGraph.SELECTED_NODE;
-            graphView.requestFocus();
-            for (Node node : GraphService.getInstance().getGraph()) {
+            this.graphView.requestFocus();
+            for (Node node : this.graphService.getGraph()) {
                 node.addAttribute(Const.NODE_CLICKED);
                 node.removeAttribute(Const.NODE_CLICKED);
             }
-            graphView.freezeElement(selectedElement, true);
-            selectedElement.addAttribute(Const.NODE_CLICKED);
+            this.graphView.freezeElement(selectedElement, true);
+            this.selectedElement.addAttribute(Const.NODE_CLICKED);
         }
     }
 
     private void handleAttributes(MouseEvent e) {
 
-        GraphicElement elt = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        GraphicElement elt = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (elt != null && elt instanceof Node) {
             Platform.runLater(() -> loadFxmlAttributes((Node) elt));
         }
@@ -426,8 +422,8 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void unselectNode(GraphicElement element) {
 
-        graphView.freezeElement(element, false);
-        selectedElement = null;
+        this.graphView.freezeElement(element, false);
+        this.selectedElement = null;
     }
 
     /**
@@ -441,7 +437,7 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void moveSelectedNode(GraphicElement element, MouseEvent event) {
 
-        graphView.moveElementAtPx(element, event.getX(), event.getY());
+        this.graphView.moveElementAtPx(element, event.getX(), event.getY());
     }
 
     /**
@@ -452,8 +448,8 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void createNode(MouseEvent e) {
 
-        Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
-        this.graphNodeService.addNode(clicLoc.x, clicLoc.y);
+        Point3 clicLoc = this.graphView.getCamera().transformPxToGu(e.getX(), e.getY());
+        this.graphService.addNode(clicLoc.x, clicLoc.y);
     }
 
     /**
@@ -464,9 +460,9 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void removeNode(MouseEvent e) {
 
-        Node node = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        Node node = (Node) this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (node != null) {
-            this.graphNodeService.removeNode(node);
+            this.graphService.removeNode(node);
         }
     }
 
@@ -475,10 +471,10 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void selectSource() {
 
-        if (source != null && !source.hasAttribute(Const.NODE_SELECTED)) {
-            source.addAttribute(Const.NODE_SELECTED);
+        if (this.source != null && !this.source.hasAttribute(Const.NODE_SELECTED)) {
+            this.source.addAttribute(Const.NODE_SELECTED);
         }
-        target = null;
+        this.target = null;
     }
 
     /**
@@ -487,9 +483,9 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void unselectSource() {
 
-        if (source != null) {
-            source.removeAttribute(Const.NODE_SELECTED);
-            source = null;
+        if (this.source != null) {
+            this.source.removeAttribute(Const.NODE_SELECTED);
+            this.source = null;
         }
     }
 
@@ -501,10 +497,10 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void addEdge(MouseEvent e) {
 
-        if (getEdge(e) == null && source != null && target != null) {
-            this.graphNodeService.addEdge(source.getId(), target.getId());
+        if (getEdge(e) == null && this.source != null && this.target != null) {
+            this.graphService.addEdge(this.source.getId(), this.target.getId());
         }
-        unselectSource();
+        this.unselectSource();
     }
 
     /**
@@ -515,8 +511,8 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void removeEdge(MouseEvent e) {
 
-        this.graphNodeService.removeEdge(getEdge(e));
-        unselectSource();
+        this.graphService.removeEdge(this.getEdge(e));
+        this.unselectSource();
     }
 
     /**
@@ -529,9 +525,9 @@ public class GraphController extends LoadSecondaryWindowController
     private Edge getEdge(MouseEvent e) {
 
         Edge edge = null;
-        target = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        this.target = (Node) this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (target != null) {
-            edge = this.graphNodeService.getGraph().getEdge(source + "" + target);
+            edge = this.graphService.getGraph().getEdge(this.source + "" + this.target);
         }
         return edge;
     }
@@ -542,7 +538,7 @@ public class GraphController extends LoadSecondaryWindowController
      * @return the graph view
      */
     public ViewPanel getGraphView() {
-        return graphView;
+        return this.graphView;
     }
 
     /**
@@ -553,7 +549,7 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void loadFxmlAttributes(Node node) {
 
-        this.agent = GraphService.getInstance().getGraph().getNode(node.getId());
+        this.selectedAgent = this.graphService.getGraph().getNode(node.getId());
         this.loadFxml(window, "view/graph/GraphAttributes.fxml", true);
     }
 
@@ -566,13 +562,12 @@ public class GraphController extends LoadSecondaryWindowController
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.graphNodeService = GraphService.getInstance();
-        this.graphNodeService.createAgentGraph();
+        this.graphService.createAgentGraph();
 
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-        viewer = new Viewer(this.graphNodeService.getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-        viewer.enableAutoLayout();
-        this.graphView = viewer.addDefaultView(false);
+        this.viewer = new Viewer(this.graphService.getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+        this.viewer.enableAutoLayout();
+        this.graphView = this.viewer.addDefaultView(false);
 
         MouseMotionListener[] mml = graphView.getMouseMotionListeners();
         for (MouseMotionListener mouseMotionListener : mml) {
@@ -588,11 +583,11 @@ public class GraphController extends LoadSecondaryWindowController
         this.shortcutState = EShortcutState.AT_EASE;
         this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
 
-        graphToolboxController.setGraphButtonsState(this);
-        graphNode.setContent(this.graphView);
-        GraphService.getInstance().setAgentMap(new HashMap<String,Object>());
+        this.graphToolboxController.setGraphButtonsState(this);
+        this.graphNode.setContent(this.graphView);
+        this.graphService.setAgentMap(new HashMap<String, Object>());
     }
-    
+
     public void setWindow(Window window) {
         this.window = window;
     }
@@ -600,9 +595,9 @@ public class GraphController extends LoadSecondaryWindowController
     @Override
     public void initDialogModalController() throws IOException {
 
-        NodeAttributesController controller = loaderWindowModal.getController();
-        controller.init(agent.getAttribute(Const.NODE_LABEL));
-        controller.setNode(agent);
-        controller.setStage(stageWindowModal);
+        NodeAttributesController controller = loaderSecondaryWindow.getController();
+        controller.init(this.selectedAgent.getAttribute(Const.NODE_LABEL));
+        controller.setNode(this.selectedAgent);
+        controller.setStage(this.stageSecondaryWindow);
     }
 }

@@ -32,6 +32,8 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
 
     private EControllerWindowModalState currentWindowModalController;
 
+    private ToolService toolService = ToolService.getInstance();
+    
     private enum EControllerWindowModalState {
         TOOL_ATTRIBUTES_CONTROLLER, TOOL_ADDITION_CONTROLLER
     }
@@ -76,10 +78,10 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
         for (ToolModel tool : listTool.getItems()) {
             list.add(tool);
         }
-        ToolService.getInstance()
+        toolService
             .setTools(FXCollections.observableArrayList(actionStep -> new Observable[] { actionStep.nameProperty() }));
-        listTool.setItems(ToolService.getInstance().getTools());
-        ToolService.getInstance()
+        listTool.setItems(toolService.getTools());
+        toolService
             .createServicesFromMap(InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
     }
 
@@ -87,13 +89,13 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
     public void initDialogModalController() throws IOException {
 
         if (currentWindowModalController == EControllerWindowModalState.TOOL_ATTRIBUTES_CONTROLLER) {
-            ToolAttributesController controller = (ToolAttributesController) loaderWindowModal.getController();
-            controller.init(this.stageWindowModal, listTool, selectedLabel.getName(), selectedLabel);
-            controller.setWindow(this.stageWindowModal.getScene().getWindow());
+            ToolAttributesController controller = (ToolAttributesController) loaderSecondaryWindow.getController();
+            controller.init(this.stageSecondaryWindow, listTool, selectedLabel.getName(), selectedLabel);
+            controller.setWindow(this.stageSecondaryWindow.getScene().getWindow());
         }
         else if (currentWindowModalController == EControllerWindowModalState.TOOL_ADDITION_CONTROLLER) {
-            ToolAdditionController controller = (ToolAdditionController) loaderWindowModal.getController();
-            controller.init(this.stageWindowModal);
+            ToolAdditionController controller = (ToolAdditionController) loaderSecondaryWindow.getController();
+            controller.init(this.stageSecondaryWindow);
         }
     }
 

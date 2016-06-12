@@ -4,18 +4,34 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
 public class AttributesContextMenu {
+    
     private final ContextMenu contextMenu;
+    
     private final MenuItem    add;
+    
     private final MenuItem    delete;
+    
     private final MenuItem    rename;
 
+    private final static String ADD_ITEM_ID = "addAttributeItem";
+    
+    private final static String DELETE_ITEM_ID = "removeAttributeItem";
+    
+    private final static String RENAME_ITEM_ID = "renameAttributeItem";
+    
+    private final static String ADD_ITEM = "Ajouter";
+    
+    private final static String DELETE_ITEM = "Supprimer";
+    
+    private final static String RENAME_ITEM = "Renommer";
+    
     public AttributesContextMenu() {
-        this.add = new MenuItem("Ajouter");
-        this.add.setId("addAttributeItem");
-        this.delete = new MenuItem("Supprimer");
-        this.delete.setId("removeAttributeItem");
-        this.rename = new MenuItem("Renommer");
-        this.rename.setId("renameAttributeItem");
+        this.add = new MenuItem(ADD_ITEM);
+        this.add.setId(ADD_ITEM_ID);
+        this.delete = new MenuItem(DELETE_ITEM);
+        this.delete.setId(DELETE_ITEM_ID);
+        this.rename = new MenuItem(RENAME_ITEM);
+        this.rename.setId(RENAME_ITEM_ID);
         this.contextMenu = new ContextMenu(add, delete, rename);
     }
 

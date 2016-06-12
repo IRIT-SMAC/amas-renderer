@@ -34,6 +34,8 @@ public class InfrastructureAttributesController implements Initializable {
     private Stage dialogStage;
 
     private InfrastructureModel infra;
+    
+    private AttributesService attributesService = AttributesService.getInstance();
 
     /**
      * Confirm button. Sets the new tree as the node tree, and exit this window
@@ -41,7 +43,7 @@ public class InfrastructureAttributesController implements Initializable {
     @FXML
     public void confirmButton() {
         
-        AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
+        attributesService.updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
             infra.getAttributesMap(), infra);
         dialogStage.close();
     }
@@ -72,7 +74,7 @@ public class InfrastructureAttributesController implements Initializable {
         tree.setRoot(myItem);
         HashMap<String, Object> infrastructure = (HashMap<String, Object>) InfrastructureService.getInstance()
             .getInfrastructure().getAttributesMap();
-        AttributesService.getInstance().fillAttributes(infrastructure, myItem, infra);
+        attributesService.fillAttributes(infrastructure, myItem, infra);
     }
 
     @Override

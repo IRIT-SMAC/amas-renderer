@@ -15,9 +15,9 @@ import javafx.stage.Window;
 
 public abstract class LoadSecondaryWindowController {
 
-    protected Stage stageWindowModal;
+    protected Stage stageSecondaryWindow;
 
-    protected FXMLLoader loaderWindowModal;
+    protected FXMLLoader loaderSecondaryWindow;
 
     private static final Logger LOGGER = Logger.getLogger(LoadSecondaryWindowController.class.getName());
 
@@ -27,30 +27,30 @@ public abstract class LoadSecondaryWindowController {
 
     public void loadFxml(Window window, String resourcePath, boolean isResizable) {
 
-        loaderWindowModal = new FXMLLoader();
-        loaderWindowModal.setLocation(AmasRenderer.class.getResource(resourcePath));
+        loaderSecondaryWindow = new FXMLLoader();
+        loaderSecondaryWindow.setLocation(AmasRenderer.class.getResource(resourcePath));
 
         Pane root = null;
 
         try {
-            root = loaderWindowModal.load();
-            stageWindowModal = new Stage();
-            stageWindowModal.initModality(Modality.WINDOW_MODAL);
-            stageWindowModal.initOwner(window);
+            root = loaderSecondaryWindow.load();
+            stageSecondaryWindow = new Stage();
+            stageSecondaryWindow.initModality(Modality.WINDOW_MODAL);
+            stageSecondaryWindow.initOwner(window);
             Scene scene = new Scene(root);
-            stageWindowModal.setScene(scene);
-            stageWindowModal.setResizable(isResizable);
+            stageSecondaryWindow.setScene(scene);
+            stageSecondaryWindow.setResizable(isResizable);
             scene.setFill(Color.BLACK);
             initDialogModalController();
 
             if (parentStyle != null) {
                 parentStyle.setBackground();
 
-                stageWindowModal.setOnCloseRequest(
+                stageSecondaryWindow.setOnCloseRequest(
                     e -> parentStyle.setForeground());
             }
 
-            stageWindowModal.showAndWait();
+            stageSecondaryWindow.showAndWait();
 
             if (parentStyle != null) {
                 parentStyle.setForeground();

@@ -30,16 +30,25 @@ import javafx.util.converter.DefaultStringConverter;
 public class NodeAttributesController implements Initializable {
 
     @FXML
-    private Button           confButton;
+    private Button confButton;
+
     @FXML
-    private Button           cancButton;
+    private Button cancButton;
+
     @FXML
     private TreeView<String> tree;
-    private Stage            stage;
-    private String           baseAgentName;
-    private AgentModel       node;
-    private String           newAgentName = null;
-    private String           id;
+
+    private Stage stage;
+
+    private String baseAgentName;
+
+    private AgentModel node;
+
+    private String newAgentName = null;
+
+    private String id;
+    
+    private AttributesService attributesService = AttributesService.getInstance();
 
     /**
      * Confirm button. Sets the new tree as the node tree, and exit this window
@@ -47,7 +56,7 @@ public class NodeAttributesController implements Initializable {
     @FXML
     public void confirmButton() {
 
-        AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
+        attributesService.updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
             (Map<String, Object>) GraphService.getInstance().getAgentMap().get(id), node);
 
         newAgentName = tree.getRoot().getValue();
@@ -93,7 +102,7 @@ public class NodeAttributesController implements Initializable {
         this.id = id;
         TreeItem<String> myItem = new TreeItem<>(id);
         tree.setRoot(myItem);
-        AttributesService.getInstance().fillAttributes(agent, myItem, (IModel) node);
+        attributesService.fillAttributes(agent, myItem, (IModel) node);
         tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
             private final AttributesContextMenu contextMenu = new AttributesContextMenu();

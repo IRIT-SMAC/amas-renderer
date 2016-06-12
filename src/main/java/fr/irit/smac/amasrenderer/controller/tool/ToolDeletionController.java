@@ -21,11 +21,13 @@ public class ToolDeletionController {
     private Stage stage;
     
     private IParentWindowModal parentWindowModal;
+    
+    private ToolService toolService = ToolService.getInstance();
 
     @FXML
     public void clickConfirmRemove() {
 
-        ToolService.getInstance().getTools().remove(toolIndex);
+        toolService.getTools().remove(toolIndex);
         InfrastructureService.getInstance().getInfrastructure().getAttributesMap().remove(toolName);
         this.parentWindowModal.closeWindow();
     }

@@ -48,6 +48,8 @@ public class ToolAttributesController extends LoadSecondaryWindowController impl
 
     private ToolModel tool;
 
+    private AttributesService attributesService = AttributesService.getInstance();
+    
     /**
      * Initialize the controller
      * 
@@ -64,7 +66,7 @@ public class ToolAttributesController extends LoadSecondaryWindowController impl
         TreeItem<String> myItem = new TreeItem<>(name);
         tree.setRoot(myItem);
         HashMap<String, Object> service = (HashMap<String, Object>) tool.getAttributesMap();
-        AttributesService.getInstance().fillAttributes(service, myItem, tool);
+        attributesService.fillAttributes(service, myItem, tool);
     }
 
     /**
@@ -82,7 +84,7 @@ public class ToolAttributesController extends LoadSecondaryWindowController impl
     @FXML
     public void confirmButton() {
 
-        AttributesService.getInstance().updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
+        attributesService.updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
             tool.getAttributesMap(), tool);
         stage.close();
     }
@@ -117,8 +119,8 @@ public class ToolAttributesController extends LoadSecondaryWindowController impl
     public void initDialogModalController() throws IOException {
 
         ToolDeletionController controller;
-        controller = (ToolDeletionController) loaderWindowModal.getController();
-        controller.init(this.stageWindowModal, list.getSelectionModel().getSelectedIndex(),
+        controller = (ToolDeletionController) loaderSecondaryWindow.getController();
+        controller.init(this.stageSecondaryWindow, list.getSelectionModel().getSelectedIndex(),
             list.getSelectionModel().getSelectedItem().getName());
         controller.setParentWindowModal(this);
     }

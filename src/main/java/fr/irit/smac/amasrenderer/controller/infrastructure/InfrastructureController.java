@@ -27,6 +27,8 @@ public class InfrastructureController extends LoadSecondaryWindowController impl
     @FXML
     private ImageView infrastructureWarningIcon;
 
+    private InfrastructureService infrastructureService = InfrastructureService.getInstance();
+
     /**
      * Handle mouse click.
      */
@@ -39,9 +41,9 @@ public class InfrastructureController extends LoadSecondaryWindowController impl
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        InfrastructureService.getInstance().init();
+        infrastructureService.init();
 
-        InfrastructureService.getInstance().getInfrastructure().nameProperty()
+        infrastructureService.getInfrastructure().nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue,
                 String newValue) -> infrastructureLabel.setText(newValue));
     }
@@ -49,8 +51,8 @@ public class InfrastructureController extends LoadSecondaryWindowController impl
     @Override
     public void initDialogModalController() throws IOException {
 
-        InfrastructureAttributesController controller = this.loaderWindowModal.getController();
-        controller.setStage(this.stageWindowModal);
+        InfrastructureAttributesController controller = this.loaderSecondaryWindow.getController();
+        controller.setStage(this.stageSecondaryWindow);
         controller.init();
     }
 }

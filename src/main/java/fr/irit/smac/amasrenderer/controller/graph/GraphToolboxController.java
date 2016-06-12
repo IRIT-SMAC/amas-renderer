@@ -64,11 +64,11 @@ public class GraphToolboxController implements Initializable {
 
         if (this.buttonsAddDelState == EButtonsAddDelState.BUTTON_ADD_NODE) {
             this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
-            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
+            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
         }
         else {
             this.buttonsAddDelState = EButtonsAddDelState.BUTTON_ADD_NODE;
-            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_ADD_NODE);
+            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_ADD_NODE);
         }
     }
 
@@ -81,11 +81,11 @@ public class GraphToolboxController implements Initializable {
 
         if (this.buttonsAddDelState == EButtonsAddDelState.BUTTON_DELETE_NODE) {
             this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
-            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
+            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
         }
         else {
             this.buttonsAddDelState = EButtonsAddDelState.BUTTON_DELETE_NODE;
-            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_DELETE_NODE);
+            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_DELETE_NODE);
         }
 
     }
@@ -99,11 +99,11 @@ public class GraphToolboxController implements Initializable {
 
         if (this.buttonsAddDelState == EButtonsAddDelState.BUTTON_ADD_EDGE) {
             this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
-            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
+            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
         }
         else {
             this.buttonsAddDelState = EButtonsAddDelState.BUTTON_ADD_EDGE;
-            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_ADD_EDGE);
+            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_ADD_EDGE);
         }
     }
 
@@ -116,11 +116,11 @@ public class GraphToolboxController implements Initializable {
 
         if (this.buttonsAddDelState == EButtonsAddDelState.BUTTON_DELETE_EDGE) {
             this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
-            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
+            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
         }
         else {
             this.buttonsAddDelState = EButtonsAddDelState.BUTTON_DELETE_EDGE;
-            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_DELETE_EDGE);
+            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_DELETE_EDGE);
         }
     }
 
@@ -131,7 +131,7 @@ public class GraphToolboxController implements Initializable {
     @FXML
     public void buttonViewCenter() {
 
-        graphToolboxState.changedStateOtherButtons(EOthersButtonsState.RESET_VIEW);
+        this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.RESET_VIEW);
     }
 
     /**
@@ -141,7 +141,7 @@ public class GraphToolboxController implements Initializable {
     @FXML
     public void buttonResetGraph() {
 
-        graphToolboxState.changedStateOtherButtons(EOthersButtonsState.RESET_GRAPH);
+        this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.RESET_GRAPH);
     }
 
     /**
@@ -153,11 +153,11 @@ public class GraphToolboxController implements Initializable {
 
         if (this.autoLayoutState == EOthersButtonsState.AUTO_LAYOUT) {
             this.autoLayoutState = EOthersButtonsState.NO_AUTO_LAYOUT;
-            graphToolboxState.changedStateOtherButtons(EOthersButtonsState.NO_AUTO_LAYOUT);
+            this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.NO_AUTO_LAYOUT);
         }
         else {
             this.autoLayoutState = EOthersButtonsState.AUTO_LAYOUT;
-            graphToolboxState.changedStateOtherButtons(EOthersButtonsState.AUTO_LAYOUT);
+            this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.AUTO_LAYOUT);
 
         }
     }

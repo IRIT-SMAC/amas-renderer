@@ -34,6 +34,8 @@ public class ToolAdditionController implements Initializable {
 
     private Stage stage;
 
+    private ToolService toolService = ToolService.getInstance();
+    
     /**
      * Click on the confirm button handler
      */
@@ -56,9 +58,7 @@ public class ToolAdditionController implements Initializable {
             }
 
             if (!found) {
-                ToolService.getInstance().addTool(tool);
-                InfrastructureService.getInstance().getInfrastructure().getAttributesMap().put(tool.getName(),
-                    tool.getAttributesMap());
+                toolService.addTool(tool);
             }
 
             this.stage.close();
