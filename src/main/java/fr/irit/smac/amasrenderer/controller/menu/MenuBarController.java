@@ -6,11 +6,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
+import fr.irit.smac.amasrenderer.service.LoadSaveService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
@@ -21,8 +21,6 @@ import javafx.stage.FileChooser;
  */
 public class MenuBarController extends LoadSecondaryWindowController {
 
-    private static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
-
     private static final String FILE_CHOOSER = "Choisir un fichier de configuration";
 
     private static final String EXTENSION_FILTER_DESCRIPTION = "JSON files (*.json)";
@@ -31,6 +29,8 @@ public class MenuBarController extends LoadSecondaryWindowController {
 
     @FXML
     MenuBar menuBar;
+    
+    LoadSaveService loadSaveService = LoadSaveService.getInstance();
 
     /**
      * When the load menuItem is clicked, the data of the chosen JSON file
@@ -46,16 +46,7 @@ public class MenuBarController extends LoadSecondaryWindowController {
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showOpenDialog(this.window);
 
-        if (file != null) {
-            ObjectMapper mapper = new ObjectMapper();
-            try {
-                InfrastructureModel infrastructure = mapper.readValue(file, InfrastructureModel.class);
-                InfrastructureService.getInstance().updateInfrastructureFromFile(infrastructure);
-            }
-            catch (IOException e) {
-                LOGGER.log(Level.SEVERE, "Impossible to read this file.", e);
-            }
-        }
+        this.loadSaveService.load(file);
     }
 
     /**
@@ -77,18 +68,7 @@ public class MenuBarController extends LoadSecondaryWindowController {
     public void clickMenuSave() {
 
         File file = new FileChooser().showSaveDialog(this.window);
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-        try {
-            if (file != null)
-                mapper.writeValue(file,
-                    InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
-        }
-        catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Impossible to save the data.", e);
-        }
+        this.loadSaveService.save(file);
     }
 
     /**

@@ -8,12 +8,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 
 /**
- * The Class ToolService.
+ * This service is related to the business logic about the tools
  */
 public class ToolService {
 
-    private static ToolService        instance = new ToolService();
     private ObservableList<ToolModel> tools;
+
+    private static ToolService        instance = new ToolService();
 
     private ToolService() {
     }

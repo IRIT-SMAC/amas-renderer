@@ -7,7 +7,7 @@ import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
 
 /**
- * The Class InfrastructureService.
+ * This service is related to the business logic about the infrastructure
  */
 public class InfrastructureService {
 
