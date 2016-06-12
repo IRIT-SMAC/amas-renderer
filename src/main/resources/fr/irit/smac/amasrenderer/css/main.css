@@ -14,12 +14,14 @@
 
 .categoryTitle {
 	-fx-background-color: linear-gradient(from 0.0 100.0 to 100.0 -100.0, #b4231f, #c34e4b);
-	-fx-font-size: 23.0px;
+	-fx-font-size: 16.0pt;
+	-fx-border-color: #b4231f;
+	-fx-border-width: 0.0 0.2em 0.0 0.2em;
 }
 
 .innerCategory {
 	-fx-border-color: #e0e0e0;
-	-fx-border-width: 0.0 0.1em 0.0 0.1em;
+	-fx-border-width: 0.0 0.2em 0.0 0.2em;
 	-fx-alignment: center;
 }
 
@@ -32,6 +34,8 @@
 }
 
 .button1 {
+	-fx-border-color: #e0e0e0;
+	-fx-border-width: 0.0 0.2em 0.0 0.2em;
 	-fx-background-color: #EEE;
 }
 
