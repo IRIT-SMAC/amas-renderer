@@ -69,8 +69,10 @@ public class InfrastructureAttributesController implements Initializable, ISecon
         tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
             private final AttributesContextMenu contextMenu = new AttributesContextMenu();
+            @SuppressWarnings("rawtypes")
             private final StringConverter converter = new DefaultStringConverter();
 
+            @SuppressWarnings("unchecked")
             @Override
             public TreeCell<String> call(TreeView<String> param) {
                 return new AttributesTreeCell(contextMenu, converter, infra);

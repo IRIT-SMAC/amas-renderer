@@ -52,6 +52,7 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
      * When the confirm button is clicked, the attributes are updated depending
      * on the tree
      */
+    @SuppressWarnings("unchecked")
     @FXML
     public void confirmButton() {
 
@@ -95,8 +96,10 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
         this.tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
             private final AttributesContextMenu contextMenu = new AttributesContextMenu();
+            @SuppressWarnings("rawtypes")
             private final StringConverter converter = new DefaultStringConverter();
 
+            @SuppressWarnings("unchecked")
             @Override
             public TreeCell<String> call(TreeView<String> param) {
                 return new AttributesTreeCell(this.contextMenu, this.converter, agent);

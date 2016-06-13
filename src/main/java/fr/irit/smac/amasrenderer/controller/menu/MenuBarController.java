@@ -60,7 +60,11 @@ public class MenuBarController extends LoadSecondaryWindowController {
     @FXML
     public void clickMenuSave() {
 
-        File file = new FileChooser().showSaveDialog(this.window);
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(EXTENSION_FILTER_DESCRIPTION,
+            EXTENSION_FILTER_EXTENSION);
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showSaveDialog(this.window);
         this.loadSaveService.save(file);
     }
 

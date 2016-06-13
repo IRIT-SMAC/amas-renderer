@@ -9,7 +9,6 @@ import org.graphstream.graph.implementations.SingleNode;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.service.GraphService;
-import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 

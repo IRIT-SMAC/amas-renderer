@@ -198,6 +198,7 @@ public class GraphService {
      * @param map
      *            the agent map
      */
+    @SuppressWarnings("unchecked")
     private void fillAgentFromMap(Map<String, Object> map) {
 
         Iterator<Map.Entry<String, Object>> it = map.entrySet().iterator();

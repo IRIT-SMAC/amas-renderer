@@ -34,7 +34,7 @@ public class DocumentationController implements Initializable {
         engine.getLoadWorker().stateProperty().addListener(
             new ChangeListener<State>() {
                 @Override
-                public void changed(ObservableValue ov, State oldState, State newState) {
+                public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, State oldState, State newState) {
                     if (newState == State.SUCCEEDED) {
                         progressBar.setVisible(false);
                     }
