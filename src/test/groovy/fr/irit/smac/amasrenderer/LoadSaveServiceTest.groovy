@@ -12,17 +12,13 @@ import fr.irit.smac.amasrenderer.service.InfrastructureService
 import fr.irit.smac.amasrenderer.service.LoadSaveService
 import fr.irit.smac.amasrenderer.service.ToolService
 
-public class SaveJsonTest extends Specification{
+public class LoadSaveServiceTest extends Specification{
 
     @Shared GraphService graphService
     @Shared ToolService toolService
     @Shared InfrastructureService infrastructureService
+    @Shared LoadSaveService loadSaveService
 
-    /**
-     * Setup spec.
-     *
-     * @return the java.lang. object
-     */
     def setupSpec() {
 
         graphService = GraphService.getInstance()
@@ -31,7 +27,24 @@ public class SaveJsonTest extends Specification{
         infrastructureService = InfrastructureService.getInstance()
         graphService.createAgentGraph()
         GraphService.getInstance().setAgentMap(new HashMap<>())
-        infrastructureService.init();
+        loadSaveService = LoadSaveService.getInstance()
+    }
+
+    def setup() {
+
+        infrastructureService.init()
+    }
+
+    def 'check if a JSON is correctly loaded'() {
+
+        when:
+        File file = new File(ClassLoader.getResource("/1infra5services12agents.json").getFile())
+        loadSaveService.load(file)
+
+        then:
+        graphService.getGraph().getNodeCount() == 12
+        infrastructureService.getInfrastructure().getName() == "BasicInfrastructure"
+        toolService.getTools().size() == 5
     }
 
     def 'check if a JSON is correctly saved'() {
@@ -40,18 +53,20 @@ public class SaveJsonTest extends Specification{
         graphService.addNode(0,0)
         graphService.addNode(0,0)
         graphService.addNode(0,0)
+        graphService.addNode(0,0)
         toolService.addTool(new ToolModel("tool", new HashMap<String,Object>()))
         toolService.addTool(new ToolModel("tool2", new HashMap<String,Object>()))
         File file = new File("./configTest.json")
+        LoadSaveService.getInstance().save(file)
+
 
         when:
-        LoadSaveService.getInstance().save(file)
         LoadSaveService.getInstance().load(file)
 
         then:
-        graphService.getGraph().getNodeCount() == 3
+        graphService.getGraph().getNodeCount() == 4
         infrastructureService.getInfrastructure().getName() == "BasicInfrastructure"
         toolService.getTools().size() == 4
-        Files.delete(Paths.get(file.getPath()));
+        Files.delete(Paths.get(file.getPath()))
     }
 }

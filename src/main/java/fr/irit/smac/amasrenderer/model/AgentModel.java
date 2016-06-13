@@ -9,6 +9,7 @@ import org.graphstream.graph.implementations.SingleNode;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.service.GraphService;
+import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -32,7 +33,6 @@ public class AgentModel extends SingleNode implements Node, IModel {
 
         super(graph, id);
         this.name = new SimpleStringProperty(id);
-        GraphService.getInstance().getAgentMap().put(id, attributesMap);
     }
 
     /**

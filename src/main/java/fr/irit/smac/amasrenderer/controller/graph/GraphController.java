@@ -582,7 +582,6 @@ public class GraphController extends LoadSecondaryWindowController
         this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
         this.graphToolboxController.setGraphButtonsState(this);
         this.graphNode.setContent(this.graphView);
-        this.graphService.setAgentMap(new HashMap<String, Object>());
     }
 
     @Override

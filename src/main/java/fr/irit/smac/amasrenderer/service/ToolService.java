@@ -14,7 +14,7 @@ public class ToolService {
 
     private ObservableList<ToolModel> tools;
 
-    private static ToolService        instance = new ToolService();
+    private static ToolService instance = new ToolService();
 
     private ToolService() {
     }
@@ -81,5 +81,22 @@ public class ToolService {
                 this.addTool(new ToolModel(pair.getKey(), pair.getValue()));
             }
         }
+    }
+
+    /**
+     * Remove a tool from the list of tools
+     * 
+     * @param tool
+     *            the tool to remove
+     */
+    public void removeTool(ToolModel tool) {
+        this.getTools().remove(tool);
+    }
+
+    /**
+     * Remove all the tools
+     */
+    public void removeTools() {
+        this.getTools().clear();
     }
 }

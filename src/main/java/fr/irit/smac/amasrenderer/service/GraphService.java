@@ -72,6 +72,7 @@ public class GraphService {
         List<String> targets = new ArrayList<>();
         knowledge.put(Const.TARGETS, targets);
         node.setAttributesMap(attributesMap);
+        this.agentMap.put(id, attributesMap);
 
         node.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
@@ -94,6 +95,7 @@ public class GraphService {
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.NODE_LABEL, id);
         node.setAttributesMap(attributesMap);
+        this.agentMap.put(id, attributesMap);
 
         node.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
@@ -112,9 +114,11 @@ public class GraphService {
      */
     public void addEdge(String source, String target) {
 
-        graph.addEdge(source + target, source, target, true);
-        graph.getEdge(source + target).setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_EDGE);
-        ((AgentModel) this.graph.getNode(source)).addTarget(target);
+        addEdgeGraph(source, target);
+        
+        if (this.graph.getNode(source).getEdgeToward(target) != null) {
+            ((AgentModel) this.graph.getNode(source)).addTarget(target);
+        }
     }
 
     /**
