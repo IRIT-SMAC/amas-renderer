@@ -189,6 +189,7 @@ public class GraphController extends LoadSecondaryWindowController
                     break;
             }
         }
+
     }
 
     /**
@@ -283,6 +284,12 @@ public class GraphController extends LoadSecondaryWindowController
                 break;
             case RESET_GRAPH:
                 this.graphService.clearGraph();
+                break;
+            case HIDE_PORT:
+                this.graphService.hidePort();
+                break;
+            case DISPLAY_PORT:
+                this.graphService.displayPort();
                 break;
             default:
                 break;

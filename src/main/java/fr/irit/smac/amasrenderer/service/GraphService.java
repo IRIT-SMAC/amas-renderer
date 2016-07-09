@@ -138,12 +138,14 @@ public class GraphService {
         Sprite mainSprite = this.spriteManager.addSprite(id);
         mainSprite.attachToEdge(id);
         mainSprite.setPosition(0.5);
-        mainSprite.addAttribute("ui.style", "size: 15px; fill-color:#4a7aaa; shape:diamond;");
+        mainSprite.addAttribute("ui.class", "mainSprite");
         mainSprite.addAttribute("type", "main");
+
         mainSprite.addAttribute("id", id);
 
         Sprite spritePortSource = this.spriteManager.addSprite(id + "source");
         spritePortSource.addAttribute(Const.NODE_LABEL, portSource);
+        spritePortSource.addAttribute("ui.class", "portSprite");
         spritePortSource.addAttribute("type", "source");
         spritePortSource.addAttribute("id", id);
         spritePortSource.attachToEdge(id);
@@ -152,6 +154,7 @@ public class GraphService {
         Sprite spritePortTarget = this.spriteManager.addSprite(id + "target");
         spritePortTarget.attachToEdge(id);
         spritePortTarget.setPosition(0.8);
+        spritePortTarget.addAttribute("ui.class", "portSprite");
         spritePortTarget.addAttribute("id", id);
         spritePortTarget.addAttribute(Const.NODE_LABEL, portTarget);
         spritePortTarget.addAttribute("type", "target");
@@ -295,5 +298,23 @@ public class GraphService {
      */
     public void setAgentMap(Map<String, Object> agentMap) {
         this.agentMap = agentMap;
+    }
+
+    public void hidePort() {
+
+        this.getSpriteManager().forEach(s -> {
+            if (s.getAttribute("type").equals("source") || s.getAttribute("type").equals("target")) {
+                s.addAttribute("ui.class", "notVisible");
+            }
+        });
+    }
+
+    public void displayPort() {
+
+        this.getSpriteManager().forEach(s -> {
+            if (s.getAttribute("type").equals("source") || s.getAttribute("type").equals("target")) {
+                s.addAttribute("ui.class", "portSprite");
+            }
+        });
     }
 }

@@ -63,7 +63,7 @@
             </ImageView>
          </graphic>
 		</ToggleButton>
-      <Button fx:id="viewCenter" mnemonicParsing="false" onAction="#buttonViewCenter" prefWidth="68.0" styleClass="buttonGraph">
+      <Button fx:id="buttonViewCenter" mnemonicParsing="false" onAction="#buttonViewCenter" prefWidth="68.0" styleClass="buttonGraph">
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -87,7 +87,7 @@
             </ImageView>
          </graphic>
       </ToggleButton>
-      <Button fx:id="resetGraph" mnemonicParsing="false" onAction="#buttonResetGraph" prefWidth="68.0">
+      <Button fx:id="buttonResetGraph" mnemonicParsing="false" onAction="#buttonResetGraph" prefWidth="68.0" styleClass="buttonGraph">
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -98,10 +98,22 @@
          <tooltip>
             <Tooltip text="Réinitialiser le graphe" />
          </tooltip>
+      </Button>
+      <ToggleButton fx:id="buttonHidePort" mnemonicParsing="false" selected="true" onAction="#buttonHidePort" prefWidth="68.0">
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/buttonHidePort.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Afficher/Cacher les ports des liens de connaissance" />
+         </tooltip>
          <styleClass>
             <String fx:value="buttonGraph" />
             <String fx:value="lastButtonGraph" />
          </styleClass>
-      </Button>
+      </ToggleButton>
 	</children>
 </VBox>

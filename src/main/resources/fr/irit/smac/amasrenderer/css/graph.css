@@ -19,8 +19,23 @@ node {
 	stroke-width: 1.0px;
 }
 
+sprite .mainSprite {
+	size: 15.0px; 
+	fill-color:#4a7aaa; 
+	shape:diamond; 
+}
+
+sprite .notVisible {
+	visibility-mode:hidden;
+}
+
 sprite {
-	size-mode: normal;
+	stroke-color: #FFFFFF;
+	stroke-width: 1.0px;
+	stroke-mode: plain;
+}
+
+sprite .portSprite {
 	shape: box;
 	text-alignment: center;
 	text-size: 12.0px;
@@ -28,9 +43,6 @@ sprite {
 	text-color: #FFFFFF;
 	padding: 1.0px, 1.0px;
 	fill-color: #4aaaaa;
-	stroke-mode: plain;
-	stroke-color: #FFFFFF;
-	stroke-width: 1.0px;
 }
 
 edge {
