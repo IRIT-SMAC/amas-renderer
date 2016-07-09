@@ -317,4 +317,22 @@ public class GraphService {
             }
         });
     }
+
+    public void hideMainSprite() {
+
+        this.getSpriteManager().forEach(s -> {
+            if (s.getAttribute("type").equals("main")) {
+                s.addAttribute("ui.class", "notVisible");
+            }
+        });
+    }
+
+    public void displayMainSprite() {
+
+        this.getSpriteManager().forEach(s -> {
+            if (s.getAttribute("type").equals("main")) {
+                s.addAttribute("ui.class", "mainSprite");
+            }
+        });
+    }
 }

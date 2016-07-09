@@ -87,18 +87,6 @@
             </ImageView>
          </graphic>
       </ToggleButton>
-      <Button fx:id="buttonResetGraph" mnemonicParsing="false" onAction="#buttonResetGraph" prefWidth="68.0" styleClass="buttonGraph">
-         <graphic>
-            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../image/buttonResetGraph.png" />
-               </image>
-            </ImageView>
-         </graphic>
-         <tooltip>
-            <Tooltip text="Réinitialiser le graphe" />
-         </tooltip>
-      </Button>
       <ToggleButton fx:id="buttonHidePort" mnemonicParsing="false" selected="true" onAction="#buttonHidePort" prefWidth="68.0">
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -112,8 +100,38 @@
          </tooltip>
          <styleClass>
             <String fx:value="buttonGraph" />
-            <String fx:value="lastButtonGraph" />
          </styleClass>
       </ToggleButton>
+      <ToggleButton fx:id="buttonHideMainSprite" mnemonicParsing="false" selected="true" onAction="#buttonHideMainSprite" prefWidth="68.0">
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/buttonHideMainSprite.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Afficher/Cacher les sprites pour modifier des liens de connaissance" />
+         </tooltip>
+         <styleClass>
+            <String fx:value="buttonGraph" />
+         </styleClass>
+      </ToggleButton>
+            <Button fx:id="buttonResetGraph" mnemonicParsing="false" onAction="#buttonResetGraph" prefWidth="68.0">
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/buttonResetGraph.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Réinitialiser le graphe" />
+         </tooltip>
+         <styleClass>
+            <String fx:value="buttonGraph" />
+            <String fx:value="lastButtonGraph" />
+         </styleClass>
+      </Button>
 	</children>
 </VBox>

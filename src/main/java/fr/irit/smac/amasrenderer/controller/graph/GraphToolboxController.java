@@ -44,6 +44,9 @@ public class GraphToolboxController implements Initializable {
     
     @FXML
     private Button buttonViewCenter;
+    
+    @FXML
+    private ToggleButton buttonHideMainSprite;
 
     private EButtonsAddDelState buttonsAddDelState;
 
@@ -52,6 +55,8 @@ public class GraphToolboxController implements Initializable {
     private IGraphButtonsState graphToolboxState;
 
     private EOthersButtonsState hidePortState;
+
+    private EOthersButtonsState hideMainSprite;
 
     /**
      * Sets the implementation of graphButtonsState
@@ -168,6 +173,23 @@ public class GraphToolboxController implements Initializable {
             this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.HIDE_PORT);
         }
     }
+    
+    /**
+     * Sets the state of the other buttons of the toolbox when the button
+     * HideMainSprite is clicked
+     */
+    @FXML
+    public void buttonHideMainSprite() {
+
+        if (this.hidePortState == EOthersButtonsState.HIDE_MAIN_SPRITE) {
+            this.hidePortState = EOthersButtonsState.DISPLAY_MAIN_SPRITE;
+            this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.DISPLAY_MAIN_SPRITE);
+        }
+        else {
+            this.hidePortState = EOthersButtonsState.HIDE_MAIN_SPRITE;
+            this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.HIDE_MAIN_SPRITE);
+        }
+    }
 
     /**
      * Sets the state of the other buttons of the toolbox when the button
@@ -193,6 +215,7 @@ public class GraphToolboxController implements Initializable {
         this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
         this.autoLayoutState = EOthersButtonsState.AUTO_LAYOUT;
         this.hidePortState = EOthersButtonsState.DISPLAY_PORT;
+        this.hideMainSprite = EOthersButtonsState.HIDE_MAIN_SPRITE;
     }
 
     /**

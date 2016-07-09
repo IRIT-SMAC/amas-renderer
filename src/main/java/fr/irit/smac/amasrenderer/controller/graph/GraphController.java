@@ -291,6 +291,12 @@ public class GraphController extends LoadSecondaryWindowController
             case DISPLAY_PORT:
                 this.graphService.displayPort();
                 break;
+            case HIDE_MAIN_SPRITE:
+                this.graphService.hideMainSprite();
+                break;
+            case DISPLAY_MAIN_SPRITE:
+                this.graphService.displayMainSprite();
+                break;
             default:
                 break;
         }
