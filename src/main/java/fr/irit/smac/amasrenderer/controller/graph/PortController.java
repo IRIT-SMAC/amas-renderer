@@ -73,7 +73,7 @@ public class PortController implements Initializable, ISecondaryWindowController
         
         Map<String, Object> agent = (Map<String, Object>) graphService.getAgentMap().get(node.getId());
         targetModel = (TargetModel) ((Map<String, Object>) ((Map<String, Object>) agent
-            .get("knowledge")).get("targets")).get(e.getTargetNode().getId());
+            .get("knowledge")).get("targets")).get(sprite.getAttribute("id"));
         
         String portTarget = (String) targetModel.getAttributesMap().get("portSource");
         System.out.println(portTarget);

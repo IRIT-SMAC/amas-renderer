@@ -65,6 +65,8 @@ public class GraphController extends LoadSecondaryWindowController
 
     private EButtonsAddDelState buttonsAddDelState;
 
+    private Integer edgeCreatedCount = 0;
+
     /**
      * Handles the behavior of the graph when the user pressed a key
      * 
@@ -163,8 +165,7 @@ public class GraphController extends LoadSecondaryWindowController
      */
     public void handleButtonsAddDelState() {
 
-        if (this.graphState != EStateGraph.READY_TO_ADD_EDGE_TARGET
-            && this.graphState != EStateGraph.READY_TO_DELETE_EDGE_TARGET) {
+        if (this.graphState != EStateGraph.READY_TO_ADD_EDGE_TARGET) {
 
             switch (this.buttonsAddDelState) {
 
@@ -181,7 +182,7 @@ public class GraphController extends LoadSecondaryWindowController
                     break;
 
                 case BUTTON_DELETE_EDGE:
-                    this.graphState = EStateGraph.READY_TO_DELETE_EDGE_SOURCE;
+                    this.graphState = EStateGraph.READY_TO_DELETE_EDGE;
                     break;
 
                 default:
@@ -242,16 +243,12 @@ public class GraphController extends LoadSecondaryWindowController
                 this.readyToAddOrDeleteEdgeSource(e, EStateGraph.READY_TO_ADD_EDGE_TARGET);
                 break;
 
-            case READY_TO_DELETE_EDGE_SOURCE:
-                this.readyToAddOrDeleteEdgeSource(e, EStateGraph.READY_TO_DELETE_EDGE_TARGET);
-                break;
-
             case READY_TO_ADD_EDGE_TARGET:
                 this.graphState = EStateGraph.AT_EASE;
                 this.addEdge(e);
                 break;
 
-            case READY_TO_DELETE_EDGE_TARGET:
+            case READY_TO_DELETE_EDGE:
                 this.graphState = EStateGraph.AT_EASE;
                 this.removeEdge(e);
                 break;
@@ -301,13 +298,12 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void readyToAddOrDeleteEdgeShift(MouseEvent e) {
 
-        if (e.isPrimaryButtonDown() && !(this.graphState == EStateGraph.READY_TO_ADD_EDGE_TARGET
-            || this.graphState == EStateGraph.READY_TO_DELETE_EDGE_TARGET)) {
+        if (e.isPrimaryButtonDown() && !(this.graphState == EStateGraph.READY_TO_ADD_EDGE_TARGET)) {
             this.graphState = EStateGraph.READY_TO_ADD_EDGE_SOURCE;
         }
         else if (e.isSecondaryButtonDown() && !(this.graphState == EStateGraph.READY_TO_ADD_EDGE_TARGET
-            || this.graphState == EStateGraph.READY_TO_DELETE_EDGE_TARGET)) {
-            this.graphState = EStateGraph.READY_TO_DELETE_EDGE_SOURCE;
+            || this.graphState == EStateGraph.READY_TO_DELETE_EDGE)) {
+            removeEdge(e);
         }
     }
 
@@ -322,8 +318,9 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void readyToAddOrDeleteEdgeSource(MouseEvent e, EStateGraph nextState) {
 
-        this.source = (Node) graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-        if (source != null) {
+        GraphicElement selected = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        if (selected != null && selected instanceof Node) {
+            this.source = (Node) selected;
             this.graphState = nextState;
             this.selectSource();
         }
@@ -402,6 +399,7 @@ public class GraphController extends LoadSecondaryWindowController
         }
         else if (this.selectedElement != null) {
 
+            System.out.println(this.selectedElement.getId());
             Sprite s = this.graphService.getSpriteManager().getSprite(this.selectedElement.getId());
             if (s.getAttribute("type") != "main") {
                 this.loadFxml(window, "view/graph/Port.fxml", true, s);
@@ -475,9 +473,9 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void removeNode(MouseEvent e) {
 
-        Node node = (Node) this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-        if (node != null) {
-            this.graphService.removeNode(node);
+        GraphicElement selected = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        if (selected != null && selected instanceof Node) {
+            this.graphService.removeNode((Node) selected);
         }
     }
 
@@ -512,9 +510,12 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void addEdge(MouseEvent e) {
 
-        if (getEdge(e) == null && this.source != null && this.target != null) {
-            this.graphService.addEdge(this.source.getId(), this.target.getId());
+        this.getEdge(e);
+        if (this.source != null && this.target != null) {
+            this.graphService.addEdge(this.source.getId(), this.target.getId(),
+                this.source.getId().concat(this.target.getId().concat(this.edgeCreatedCount.toString())));
         }
+        this.edgeCreatedCount++;
         this.unselectSource();
     }
 
@@ -526,8 +527,12 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void removeEdge(MouseEvent e) {
 
-        this.graphService.removeEdge(this.getEdge(e));
-        this.unselectSource();
+        GraphicElement sprite = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+
+        if (sprite != null && !(sprite instanceof Node)) {
+            this.graphService.removeEdge(sprite.getId());
+            this.unselectSource();
+        }
     }
 
     /**
@@ -540,8 +545,10 @@ public class GraphController extends LoadSecondaryWindowController
     private Edge getEdge(MouseEvent e) {
 
         Edge edge = null;
-        this.target = (Node) this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-        if (target != null) {
+        
+        GraphicElement selected = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        if (selected != null && selected instanceof Node) {
+            target = (Node) selected;
             edge = this.graphService.getGraph().getEdge(this.source + "" + this.target);
         }
         return edge;

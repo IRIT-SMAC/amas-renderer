@@ -1,11 +1,10 @@
 package fr.irit.smac.amasrenderer.model;
 
-import java.util.List;
 import java.util.Map;
 
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.AbstractGraph;
-import org.graphstream.graph.implementations.SingleNode;
+import org.graphstream.graph.implementations.MultiNode;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.service.GraphService;
@@ -13,9 +12,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * This model is about an agent. An agent is a singleNode
+ * This model is about an agent. An agent is a MultiNode
  */
-public class AgentModel extends SingleNode implements Node, IModel {
+public class AgentModel extends MultiNode implements Node, IModel {
 
     private StringProperty name;
 
@@ -23,8 +22,8 @@ public class AgentModel extends SingleNode implements Node, IModel {
 
     private Map<String, TargetModel> targets;
 
-    private static final String[] REQUIRED_KEY_SINGLE  = { };
-    private static final String[] PROTECTED_VALUE      = { };
+    private static final String[] REQUIRED_KEY_SINGLE  = {};
+    private static final String[] PROTECTED_VALUE      = {};
     private static final String[] NOT_EXPANDED         = { Const.TARGETS };
     private static final String[] REQUIRED_KEY_COMPLEX = { "knowledge" };
 
@@ -71,7 +70,8 @@ public class AgentModel extends SingleNode implements Node, IModel {
     @SuppressWarnings("unchecked")
     public void setAttributesMap(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
-        this.targets = (Map<String, TargetModel>) ((Map<String, Object>) attributesMap.get(Const.KNOWLEDGE)).get(Const.TARGETS);
+        this.targets = (Map<String, TargetModel>) ((Map<String, Object>) attributesMap.get(Const.KNOWLEDGE))
+            .get(Const.TARGETS);
         GraphService.getInstance().getAgentMap().put(id, attributesMap);
     }
 

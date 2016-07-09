@@ -18,13 +18,13 @@ public class TargetModel implements IModel {
 
     }
 
-    public TargetModel(String agentId) {
+    public TargetModel(String agentId, String id) {
         this.attributesMap = new HashMap<String, Object>();
         this.attributesMap.put("agentId", agentId);
         this.attributesMap.put("portSource", "null");
         this.attributesMap.put("portTarget", "null");
         this.attributesMap.put("className", "fr.irit.smac.amasfactory.agent.features.social.impl.Target");
-        this.name = agentId;
+        this.name = id;
     }
 
     public Map<String, Object> getAttributesMap() {
