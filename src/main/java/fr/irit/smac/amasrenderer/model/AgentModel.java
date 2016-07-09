@@ -23,9 +23,9 @@ public class AgentModel extends SingleNode implements Node, IModel {
 
     private Map<String, Map<String,String>> targets;
 
-    private static final String[] REQUIRED_KEY_SINGLE  = { Const.TARGETS };
-    private static final String[] PROTECTED_VALUE      = { Const.TARGETS };
-    private static final String[] NOT_EXPANDED         = {};
+    private static final String[] REQUIRED_KEY_SINGLE  = { };
+    private static final String[] PROTECTED_VALUE      = { };
+    private static final String[] NOT_EXPANDED         = { Const.TARGETS };
     private static final String[] REQUIRED_KEY_COMPLEX = { "knowledge" };
 
     public AgentModel(AbstractGraph graph, String id) {

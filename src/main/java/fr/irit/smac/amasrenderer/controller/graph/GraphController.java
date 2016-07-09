@@ -404,7 +404,12 @@ public class GraphController extends LoadSecondaryWindowController
         else if (this.selectedElement != null) {
 
             Sprite s = this.graphService.getSpriteManager().getSprite(this.selectedElement.getId());
-            this.loadFxml(window, "view/graph/Port.fxml", true, s);
+            if (s.getAttribute("type") != "main") {
+                this.loadFxml(window, "view/graph/Port.fxml", true, s);
+            }
+            else {
+                this.loadFxml(window, "view/graph/TargetAttributes.fxml", true, s);
+            }
         }
     }
 

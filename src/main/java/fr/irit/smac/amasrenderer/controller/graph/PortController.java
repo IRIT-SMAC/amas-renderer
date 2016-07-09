@@ -60,6 +60,7 @@ public class PortController implements Initializable, ISecondaryWindowController
     @FXML
     public void clickCancel() {
 
+        this.stage.close();
     }
 
     @Override

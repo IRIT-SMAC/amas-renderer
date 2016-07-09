@@ -149,6 +149,12 @@ public class GraphService {
      */
     public void addEdgeGraph(String source, String target) {
         Edge edge = graph.addEdge(source + target, source, target, true);
+        
+        Sprite edgeSprite = this.spriteManager.addSprite(source+target);
+        edgeSprite.attachToEdge(source+target);
+        edgeSprite.setPosition(0.5);
+        edgeSprite.addAttribute("ui.style", "fill-color:#4a7aaa; shape:circle;");
+        edgeSprite.addAttribute("type", "main");
         Sprite sprite = this.spriteManager.addSprite(source+target+"source");
         Sprite sprite2 = this.spriteManager.addSprite(source+target+"target");
         sprite.addAttribute(Const.NODE_LABEL, "null");
@@ -159,6 +165,7 @@ public class GraphService {
         sprite2.setPosition(0.9);
         sprite2.addAttribute(Const.NODE_LABEL, "null");
         sprite2.addAttribute("type", "target");
+
     }
 
     /**
