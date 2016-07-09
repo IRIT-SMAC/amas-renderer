@@ -206,7 +206,7 @@ public class GraphController extends LoadSecondaryWindowController
                 break;
 
             case SHIFT_DOWN:
-                this.readyToAddOrDeleteEdgeShift(e);
+                this.readyToAddOrDeleteEdge(e);
                 break;
 
             default:
@@ -240,7 +240,7 @@ public class GraphController extends LoadSecondaryWindowController
                 break;
 
             case READY_TO_ADD_EDGE_SOURCE:
-                this.readyToAddOrDeleteEdgeSource(e, EStateGraph.READY_TO_ADD_EDGE_TARGET);
+                this.readyToAddEdgeSource(e, EStateGraph.READY_TO_ADD_EDGE_TARGET);
                 break;
 
             case READY_TO_ADD_EDGE_TARGET:
@@ -296,14 +296,13 @@ public class GraphController extends LoadSecondaryWindowController
      * @param e
      *            the event
      */
-    private void readyToAddOrDeleteEdgeShift(MouseEvent e) {
+    private void readyToAddOrDeleteEdge(MouseEvent e) {
 
         if (e.isPrimaryButtonDown() && !(this.graphState == EStateGraph.READY_TO_ADD_EDGE_TARGET)) {
             this.graphState = EStateGraph.READY_TO_ADD_EDGE_SOURCE;
         }
-        else if (e.isSecondaryButtonDown() && !(this.graphState == EStateGraph.READY_TO_ADD_EDGE_TARGET
-            || this.graphState == EStateGraph.READY_TO_DELETE_EDGE)) {
-            removeEdge(e);
+        else if (e.isSecondaryButtonDown()) {
+            this.graphState = EStateGraph.READY_TO_DELETE_EDGE;
         }
     }
 
@@ -316,7 +315,7 @@ public class GraphController extends LoadSecondaryWindowController
      * @param nextState
      *            the next state
      */
-    private void readyToAddOrDeleteEdgeSource(MouseEvent e, EStateGraph nextState) {
+    private void readyToAddEdgeSource(MouseEvent e, EStateGraph nextState) {
 
         GraphicElement selected = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (selected != null && selected instanceof Node) {
@@ -399,7 +398,6 @@ public class GraphController extends LoadSecondaryWindowController
         }
         else if (this.selectedElement != null) {
 
-            System.out.println(this.selectedElement.getId());
             Sprite s = this.graphService.getSpriteManager().getSprite(this.selectedElement.getId());
             if (s.getAttribute("type") != "main") {
                 this.loadFxml(window, "view/graph/Port.fxml", true, s);
@@ -545,7 +543,7 @@ public class GraphController extends LoadSecondaryWindowController
     private Edge getEdge(MouseEvent e) {
 
         Edge edge = null;
-        
+
         GraphicElement selected = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (selected != null && selected instanceof Node) {
             target = (Node) selected;

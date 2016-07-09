@@ -7,7 +7,7 @@ import javafx.scene.input.KeyCode
 import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
 
-import org.graphstream.graph.implementations.SingleGraph
+import org.graphstream.graph.implementations.MultiGraph
 import org.graphstream.ui.swingViewer.ViewPanel
 
 import spock.lang.IgnoreIf
@@ -69,7 +69,7 @@ class GraphNodeAttributeTest extends GuiSpecification{
         sleep(1000) //time for the graph to be initialized
         graphService = GraphService.getInstance()
 
-        SingleGraph model = graphService.getGraph()
+        MultiGraph model = graphService.getGraph()
         graphService.addNode(0,0)
 
         sleep(2000)

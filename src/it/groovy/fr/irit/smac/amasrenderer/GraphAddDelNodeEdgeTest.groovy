@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.BorderPane
 
-import org.graphstream.graph.implementations.SingleGraph
+import org.graphstream.graph.implementations.MultiGraph
 import org.graphstream.ui.swingViewer.ViewPanel
 
 import spock.lang.IgnoreIf
@@ -86,7 +86,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is added by clicking on the corresponding button"() {
 
         given:
-        SingleGraph model = graphService.getGraph()
+        MultiGraph model = graphService.getGraph()
         int nbNoeud = model.getNodeCount()
 
         when:
@@ -100,7 +100,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is added by doing the corresponding shortcut"() {
 
         given:
-        SingleGraph model = graphService.getGraph()
+        MultiGraph model = graphService.getGraph()
         int nbNoeud = model.getNodeCount()
 
         when:
@@ -114,7 +114,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is added by doing the corresponding shortcut whereas one of the button AddDel are selected"(String button) {
 
         given:
-        SingleGraph model = graphService.getGraph()
+        MultiGraph model = graphService.getGraph()
         int nbNoeud = model.getNodeCount()
         fx.clickOn(button)
         fx.press(KeyCode.CONTROL).clickOn(graphId).release(KeyCode.CONTROL)
@@ -131,7 +131,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is removed by clicking on the corresponding button"() {
 
         given:
-        SingleGraph model = graphService.getGraph()
+        MultiGraph model = graphService.getGraph()
         graphService.addNode(0,0)
         sleep(waitingTime)
 
@@ -146,7 +146,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is removed by doing the corresponding shortcut"() {
 
         given:
-        SingleGraph model = graphService.getGraph()
+        MultiGraph model = graphService.getGraph()
         graphService.addNode(0,0)
         sleep(waitingTime)
 
@@ -161,7 +161,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
     def "check if an agent is removed by doing the corresponding shortcut whereas one of the button AddDel are selected"(String button) {
 
         given:
-        SingleGraph model = graphService.getGraph()
+        MultiGraph model = graphService.getGraph()
         graphService.addNode(0,0)
         fx.clickOn(button)
         sleep(waitingTime)
@@ -242,17 +242,13 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         given:
         graphService.addNode(0.0,positionUp)
         graphService.addNode(0.0,positionDown)
-        graphService.addEdge(agentId,agentId2)
+        graphService.addEdge(agentId,agentId2,agentId+agentId2)
         fx.clickOn("#buttonDelEdge")
         int oneEdge = graphService.getGraph().getEdgeCount()
         sleep(waitingTime)
 
         when:
         fx.clickOn(graphId)
-                        .moveBy(0.0,positionUpEdge)
-                        .clickOn()
-                        .moveBy(0.0,positionDownEdge)
-                        .clickOn()
         sleep(waitingTime)
 
         then:
@@ -264,16 +260,13 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         given:
         graphService.addNode(0.0,positionUp)
         graphService.addNode(0.0,positionDown)
-        graphService.addEdge(agentId,agentId2)
+        graphService.addEdge(agentId,agentId2, agentId+agentId2)
         int oneEdge = graphService.getGraph().getEdgeCount()
         sleep(waitingTime)
 
         when:
         fx.moveTo(graphId)
-                        .moveBy(0.0,positionUpEdge)
                         .press(KeyCode.SHIFT)
-                        .rightClickOn()
-                        .moveBy(0.0,positionDownEdge)
                         .rightClickOn()
                         .release(KeyCode.SHIFT)
         sleep(waitingTime)
@@ -288,15 +281,12 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         int nbEdge = graphService.getGraph().getEdgeCount()
         graphService.addNode(0.0,positionUp)
         graphService.addNode(0.0,positionDown)
-        graphService.addEdge(agentId,agentId2)
+        graphService.addEdge(agentId,agentId2,agentId+agentId2)
         int oneEdge = graphService.getGraph().getEdgeCount()
         sleep(waitingTime)
         fx.clickOn(button)
         fx.moveTo(graphId)
-                        .moveBy(0.0,positionUpEdge)
                         .press(KeyCode.SHIFT)
-                        .rightClickOn()
-                        .moveBy(0.0,positionDownEdge)
                         .rightClickOn()
                         .release(KeyCode.SHIFT)
         sleep(waitingTime)

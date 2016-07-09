@@ -1,8 +1,7 @@
 package fr.irit.smac.amasrenderer
 
-import org.graphstream.graph.implementations.SingleNode
+import org.graphstream.graph.implementations.MultiNode
 
-import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Specification
 import fr.irit.smac.amasrenderer.service.GraphService
@@ -26,7 +25,7 @@ class GraphServiceTest extends Specification{
         graphService.addNode(5.0,10.0)
 
         then:
-        SingleNode node = graphService.getGraph().getNode(agentId)
+        MultiNode node = graphService.getGraph().getNode(agentId)
         node.getId() == agentId
         node.getAttribute("xy") == [5.0, 10.0]
         node.getAttribute("layout.weight") == Const.LAYOUT_WEIGHT_NODE
@@ -42,7 +41,7 @@ class GraphServiceTest extends Specification{
         when:
         graphService.addNode(5.0,10.0)
         graphService.addNode(10.0,5.0)
-        graphService.addEdge(agentId, agentId2)
+        graphService.addEdge(agentId, agentId2, agentId+agentId2)
 
         then:
         graphService.getGraph().getEdge(agentId + agentId2) != null

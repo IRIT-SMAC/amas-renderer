@@ -251,13 +251,14 @@ public class GraphService {
     @SuppressWarnings("unchecked")
     private void fillAgentFromTargets(HashMap<String, Object> agent) {
 
-        HashMap<String, Object> knowledgeMap = (HashMap<String, Object>) agent.get("knowledge");
-        ArrayList<String> targets = (ArrayList<String>) knowledgeMap.get("targets");
-        Iterator<String> it = targets.iterator();
-        while (it.hasNext()) {
-            String target = it.next();
-            this.addEdgeGraph((String) agent.get("id"), target, ((String) agent.get("id")).concat(target));
-        }
+        Map<String, Object> knowledgeMap = (HashMap<String, Object>) agent.get("knowledge");
+        Map<String, Object> targets = (HashMap<String, Object>) knowledgeMap.get("targets");
+        targets.forEach(
+            (k, v) -> {
+                String targetId = (String) ((Map<String, Object>) v).get("agentTarget");
+                this.addEdgeGraph((String) agent.get("id"), targetId, ((String) agent.get("id")).concat(targetId));
+            }
+        );
     }
 
     /**
