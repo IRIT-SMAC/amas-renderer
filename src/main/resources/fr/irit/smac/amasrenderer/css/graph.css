@@ -19,12 +19,26 @@ node {
 	stroke-width: 1.0px;
 }
 
+sprite {
+	size-mode: normal;
+	shape: box;
+	text-alignment: center;
+	text-size: 12.0px;
+	text-offset: 0.0px, 18.0px;
+	text-color: #FFFFFF;
+	padding: 1.0px, 1.0px;
+	fill-color: #4aaaaa;
+	stroke-mode: plain;
+	stroke-color: #FFFFFF;
+	stroke-width: 1.0px;
+}
+
 edge {
 	shape: angle;
 	fill-color: #FFF;
 	arrow-size: 10.0px, 6.0px;
 	z-index: 0.0;
-	size: 2px;
+	size: 2.0px;
 }
 
 node:clicked {

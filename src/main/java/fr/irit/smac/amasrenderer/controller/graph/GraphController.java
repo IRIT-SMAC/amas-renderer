@@ -9,6 +9,7 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.graphicGraph.GraphicElement;
+import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 
@@ -389,7 +390,8 @@ public class GraphController extends LoadSecondaryWindowController
     private void selectNode(MouseEvent e) {
 
         this.selectedElement = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-        if (this.selectedElement != null) {
+        System.out.println(selectedElement);
+        if (this.selectedElement instanceof Node) {
             this.graphState = EStateGraph.SELECTED_NODE;
             this.graphView.requestFocus();
             for (Node node : this.graphService.getGraph()) {
@@ -398,6 +400,11 @@ public class GraphController extends LoadSecondaryWindowController
             }
             this.graphView.freezeElement(selectedElement, true);
             this.selectedElement.addAttribute(Const.NODE_CLICKED);
+        }
+        else if (this.selectedElement != null) {
+
+            Sprite s = this.graphService.getSpriteManager().getSprite(this.selectedElement.getId());
+            this.loadFxml(window, "view/graph/Port.fxml", true, s);
         }
     }
 

@@ -3,16 +3,21 @@ package fr.irit.smac.amasrenderer.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.AbstractGraph;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.graphicGraph.stylesheet.Style;
+import org.graphstream.ui.spriteManager.Sprite;
+import org.graphstream.ui.spriteManager.SpriteManager;
+
+import com.sun.javafx.print.Units;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentModel;
+import fr.irit.smac.amasrenderer.model.TargetModel;
 import javafx.beans.value.ObservableValue;
 
 /**
@@ -25,6 +30,12 @@ public class GraphService {
     private static GraphService instance = new GraphService();
 
     private Map<String, Object> agentMap;
+
+    private SpriteManager spriteManager;
+
+    public SpriteManager getSpriteManager() {
+        return spriteManager;
+    }
 
     private GraphService() {
     }
@@ -45,6 +56,7 @@ public class GraphService {
 
         this.graph = new SingleGraph("AMAS Rendering");
         this.graph.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
+        spriteManager = new SpriteManager(this.graph);
         this.graph.setNodeFactory((id, g) -> new AgentModel((AbstractGraph) g, id));
         this.setQualityGraph();
     }
@@ -69,7 +81,7 @@ public class GraphService {
         Map<String, Object> knowledge = new HashMap<>();
         knowledge.put(Const.CLASSNAME, Const.EXAMPLE_CLASSNAME);
         attributesMap.put(Const.KNOWLEDGE, knowledge);
-        List<String> targets = new ArrayList<>();
+        Map<String,TargetModel> targets = new HashMap<>();
         knowledge.put(Const.TARGETS, targets);
         node.setAttributesMap(attributesMap);
         this.agentMap.put(id, attributesMap);
@@ -115,9 +127,15 @@ public class GraphService {
     public void addEdge(String source, String target) {
 
         addEdgeGraph(source, target);
+
         
+        Map<String,String> targetMap = new HashMap<>();
+        targetMap.put("agentTarget", target);
+        targetMap.put("portTarget", "null");
+        targetMap.put("portSource", "null");
+        targetMap.put("className", "fr.irit.smac.amasfactory.agent.features.social.impl.Target");
         if (this.graph.getNode(source).getEdgeToward(target) != null) {
-            ((AgentModel) this.graph.getNode(source)).addTarget(target);
+            ((AgentModel) this.graph.getNode(source)).addTarget(targetMap);
         }
     }
 
@@ -130,8 +148,17 @@ public class GraphService {
      *            the id of the target node
      */
     public void addEdgeGraph(String source, String target) {
-        graph.addEdge(source + target, source, target, true);
-        graph.getEdge(source + target).setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_EDGE);
+        Edge edge = graph.addEdge(source + target, source, target, true);
+        Sprite sprite = this.spriteManager.addSprite(source+target+"source");
+        Sprite sprite2 = this.spriteManager.addSprite(source+target+"target");
+        sprite.addAttribute(Const.NODE_LABEL, "null");
+        sprite.addAttribute("type", "source");
+        sprite.attachToEdge(source + target);
+        sprite.setPosition(0.1);
+        sprite2.attachToEdge(source + target);
+        sprite2.setPosition(0.9);
+        sprite2.addAttribute(Const.NODE_LABEL, "null");
+        sprite2.addAttribute("type", "target");
     }
 
     /**
