@@ -10,6 +10,7 @@ import org.graphstream.ui.spriteManager.Sprite;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
+import fr.irit.smac.amasrenderer.model.TargetModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,6 +32,8 @@ public class PortController implements Initializable, ISecondaryWindowController
     private Sprite sprite;
 
     private Node node;
+    
+    private TargetModel targetModel;
 
     private Stage stage;
 
@@ -42,14 +45,11 @@ public class PortController implements Initializable, ISecondaryWindowController
         String portName = textfieldTool.getText();
 
         if (sprite.getAttribute("type").equals("source")) {
-            Map<String, Object> o = (Map<String, Object>) graphService.getAgentMap().get(node.getId());
-            ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) o.get("knowledge")).get("targets"))
-                .get(((Edge) sprite.getAttachment()).getTargetNode().getId())).put("portSource", portName);
+            targetModel.getAttributesMap().put("portSource",portName);
             sprite.setAttribute(Const.NODE_LABEL, portName);
-        } else if (sprite.getAttribute("type").equals("target")) {
-            Map<String, Object> o = (Map<String, Object>) graphService.getAgentMap().get(node.getId());
-            ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) o.get("knowledge")).get("targets"))
-                .get(((Edge) sprite.getAttachment()).getTargetNode().getId())).put("portTarget", portName);
+        }
+        else if (sprite.getAttribute("type").equals("target")) {
+            targetModel.getAttributesMap().put("portTarget",portName);
             sprite.setAttribute(Const.NODE_LABEL, portName);
         }
 
@@ -65,14 +65,17 @@ public class PortController implements Initializable, ISecondaryWindowController
 
     @Override
     public void init(Stage stage, Object... args) {
-        // TODO Auto-generated method stub
+
         this.stage = stage;
         sprite = (Sprite) args[0];
         Edge e = (Edge) sprite.getAttachment();
         node = e.getSourceNode();
-        Map<String, Object> o = (Map<String, Object>) graphService.getAgentMap().get(node.getId());
-        String portTarget = (String) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) o
-            .get("knowledge")).get("targets")).get(e.getTargetNode().getId())).get("portSource");
+        
+        Map<String, Object> agent = (Map<String, Object>) graphService.getAgentMap().get(node.getId());
+        targetModel = (TargetModel) ((Map<String, Object>) ((Map<String, Object>) agent
+            .get("knowledge")).get("targets")).get(e.getTargetNode().getId());
+        
+        String portTarget = (String) targetModel.getAttributesMap().get("portSource");
         System.out.println(portTarget);
     }
 

@@ -1,53 +1,75 @@
 package fr.irit.smac.amasrenderer.model;
 
-public class TargetModel {
+import java.util.HashMap;
+import java.util.Map;
 
-    private String agentTarget;
-    private String portTarget;
-    private String portSource;
-    private String className;
+public class TargetModel implements IModel {
+
+    private String name;
+
+    private Map<String, Object> attributesMap;
+
+    private static final String[] REQUIRED_KEY_SINGLE  = {"agentId","portSource","portTarget","className"};
+    private static final String[] PROTECTED_VALUE      = {"agentId","portSource","portTarget"};
+    private static final String[] NOT_EXPANDED         = {};
+    private static final String[] REQUIRED_KEY_COMPLEX = {};
 
     public TargetModel() {
 
     }
 
-    public TargetModel(String agentTarget, String portTarget, String portSource, String className) {
-        this.agentTarget = agentTarget;
-        this.portTarget = portTarget;
-        this.portSource = portSource;
-        this.className = className;
+    public TargetModel(String agentId) {
+        this.attributesMap = new HashMap<String, Object>();
+        this.attributesMap.put("agentId", agentId);
+        this.attributesMap.put("portSource", "null");
+        this.attributesMap.put("portTarget", "null");
+        this.attributesMap.put("className", "fr.irit.smac.amasfactory.agent.features.social.impl.Target");
+        this.name = agentId;
     }
 
-    public String getAgentTarget() {
-        return agentTarget;
+    public Map<String, Object> getAttributesMap() {
+        return this.attributesMap;
     }
 
-    public void setAgentTarget(String agentTarget) {
-        this.agentTarget = agentTarget;
+    public void setAttributesMap(HashMap<String, Object> attributesMap) {
+        this.attributesMap = attributesMap;
     }
 
-    public String getPortTarget() {
-        return portTarget;
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setPortTarget(String portTarget) {
-        this.portTarget = portTarget;
+    @Override
+    public String getName() {
+
+        return this.name;
     }
 
-    public String getPortSource() {
-        return portSource;
+    @Override
+    public String getNewName(String name) {
+
+        return this.name;
     }
 
-    public void setPortSource(String portSource) {
-        this.portSource = portSource;
+    @Override
+    public String[] getRequiredKeySingle() {
+        return REQUIRED_KEY_SINGLE;
     }
 
-    public String getClassName() {
-        return className;
+    @Override
+    public String[] getProtectedValue() {
+        return PROTECTED_VALUE;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    @Override
+    public String[] getNotExpanded() {
+        return NOT_EXPANDED;
+    }
+
+    @Override
+    public String[] getRequiredKeyComplex() {
+        return REQUIRED_KEY_COMPLEX;
     }
 
 }

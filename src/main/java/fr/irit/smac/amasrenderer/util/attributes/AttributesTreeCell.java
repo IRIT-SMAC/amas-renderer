@@ -24,9 +24,9 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
     private IModel model;
 
     public AttributesTreeCell(AttributesContextMenu contextMenu, StringConverter<String> converter,
-        IModel node) {
+        IModel model) {
         super(converter);
-        this.model = node;
+        this.model = model;
         if (contextMenu == null) {
             throw new NullPointerException();
         }
@@ -123,17 +123,15 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         this.isRequiredKeyComplex = false;
         this.isParentSingleNode = false;
 
-        if (currentModel != null) {
-            this.isRequiredKeySingle = Arrays.asList(currentModel.getRequiredKeySingle()).contains(item.getValue());
-            TreeItem<String> parent = item.getParent();
-            if (parent != null) {
-                this.isParentSingleNode = Arrays.asList(currentModel.getRequiredKeySingle())
-                    .contains(parent.getValue());
-                this.isProtected = Arrays.asList(currentModel.getProtectedValue())
-                    .contains(parent.getValue());
-            }
-            this.isRequiredKeyComplex = Arrays.asList(currentModel.getRequiredKeyComplex()).contains(item.getValue());
+        this.isRequiredKeySingle = Arrays.asList(currentModel.getRequiredKeySingle()).contains(item.getValue());
+        TreeItem<String> parent = item.getParent();
+        if (parent != null) {
+            this.isParentSingleNode = Arrays.asList(currentModel.getRequiredKeySingle())
+                .contains(parent.getValue());
+            this.isProtected = Arrays.asList(currentModel.getProtectedValue())
+                .contains(parent.getValue());
         }
+        this.isRequiredKeyComplex = Arrays.asList(currentModel.getRequiredKeyComplex()).contains(item.getValue());
     }
 
     @Override
@@ -150,6 +148,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
     public void commitEdit(String newValue) {
 
         IModel currentModel = this.model;
+
         boolean notEmpty = !newValue.trim().isEmpty();
         boolean notRequiredComplex = !Arrays.asList(currentModel.getRequiredKeyComplex()).contains(newValue);
         boolean notRequiredKeySingle = !Arrays.asList(currentModel.getRequiredKeySingle()).contains(newValue);
@@ -166,6 +165,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
                 super.commitEdit(newValue);
             }
         }
+
     }
 
 }

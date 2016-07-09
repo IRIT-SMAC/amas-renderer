@@ -11,7 +11,7 @@ import org.graphstream.graph.Node;
 import org.graphstream.ui.spriteManager.Sprite;
 
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
-import fr.irit.smac.amasrenderer.model.IModel;
+import fr.irit.smac.amasrenderer.model.TargetModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
@@ -41,12 +41,16 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
     private Stage stage;
 
     private GraphService graphService = GraphService.getInstance();
+    
+    private TargetModel targetModel;
 
     private AttributesService attributesService = AttributesService.getInstance();
 
     @FXML
     public void confirmButton() {
 
+        attributesService.updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
+            targetModel.getAttributesMap(), targetModel);
         this.stage.close();
     }
     
@@ -64,12 +68,12 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
         Node node = e.getSourceNode();
         this.stage = stage;
         Map<String, Object> o = (Map<String, Object>) graphService.getAgentMap().get(node.getId());
-        Map<String, Object> portTarget = ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) o
+        targetModel = ((TargetModel) ((Map<String, Object>) ((Map<String, Object>) o
             .get("knowledge")).get("targets")).get(e.getTargetNode().getId()));
 
         TreeItem<String> root = new TreeItem<>(e.getTargetNode().getId());
         this.tree.setRoot(root);
-        this.fillAttributes(portTarget, root);
+        this.attributesService.fillAttributes(targetModel.getAttributesMap(), root, targetModel);
 
         this.tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
@@ -80,39 +84,10 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
             @SuppressWarnings("unchecked")
             @Override
             public TreeCell<String> call(TreeView<String> param) {
-                return new AttributesTreeCell(this.contextMenu, this.converter, null);
+                return new AttributesTreeCell(this.contextMenu, this.converter, targetModel);
             }
 
         });
-    }
-
-    public void fillAttributes(Map<String, Object> attributesMap, TreeItem<String> parent) {
-
-        parent.setExpanded(true);
-        Iterator<Map.Entry<String, Object>> attributeIterator = attributesMap.entrySet().iterator();
-        while (attributeIterator.hasNext()) {
-            Map.Entry<String, Object> attribute = attributeIterator.next();
-            String name = attribute.getKey();
-            Object value = attribute.getValue();
-
-            if (value instanceof HashMap<?, ?>) {
-
-                TreeItem<String> item = new TreeItem<>();
-                item.setValue(name);
-                fillAttributes((HashMap<String, Object>) value, item);
-                parent.getChildren().add(item);
-            }
-            else {
-                TreeItem<String> item = new TreeItem<>();
-                item.setValue(name);
-                TreeItem<String> item2 = new TreeItem<>();
-                item2.setValue(value.toString());
-                item.getChildren().add(item2);
-                item.setExpanded(true);
-                parent.getChildren().add(item);
-            }
-        }
-
     }
 
     @Override

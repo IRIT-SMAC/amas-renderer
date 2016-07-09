@@ -21,7 +21,7 @@ public class AgentModel extends SingleNode implements Node, IModel {
 
     private Map<String, Object> attributesMap;
 
-    private Map<String, Map<String,String>> targets;
+    private Map<String, TargetModel> targets;
 
     private static final String[] REQUIRED_KEY_SINGLE  = { };
     private static final String[] PROTECTED_VALUE      = { };
@@ -39,18 +39,18 @@ public class AgentModel extends SingleNode implements Node, IModel {
      * 
      * @return the targets
      */
-    public Map<String, Map<String,String>> getTargets() {
+    public Map<String, TargetModel> getTargets() {
         return targets;
     }
 
     /**
      * Adds a target to the agent
      * 
-     * @param targetMap
+     * @param target
      *            the target to add
      */
-    public void addTarget(Map<String, String> targetMap) {
-        this.targets.put(targetMap.get("agentTarget"), targetMap);
+    public void addTarget(TargetModel target) {
+        this.targets.put(target.getName(), target);
     }
 
     /**
@@ -71,7 +71,7 @@ public class AgentModel extends SingleNode implements Node, IModel {
     @SuppressWarnings("unchecked")
     public void setAttributesMap(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
-        this.targets = (Map<String, Map<String,String>>) ((Map<String, Object>) attributesMap.get(Const.KNOWLEDGE)).get(Const.TARGETS);
+        this.targets = (Map<String, TargetModel>) ((Map<String, Object>) attributesMap.get(Const.KNOWLEDGE)).get(Const.TARGETS);
         GraphService.getInstance().getAgentMap().put(id, attributesMap);
     }
 

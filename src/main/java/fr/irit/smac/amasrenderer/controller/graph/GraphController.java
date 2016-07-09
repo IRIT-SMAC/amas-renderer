@@ -390,7 +390,6 @@ public class GraphController extends LoadSecondaryWindowController
     private void selectNode(MouseEvent e) {
 
         this.selectedElement = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-        System.out.println(selectedElement);
         if (this.selectedElement instanceof Node) {
             this.graphState = EStateGraph.SELECTED_NODE;
             this.graphView.requestFocus();

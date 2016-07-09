@@ -9,11 +9,8 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.AbstractGraph;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.graphicGraph.stylesheet.Style;
 import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
-
-import com.sun.javafx.print.Units;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentModel;
@@ -81,7 +78,7 @@ public class GraphService {
         Map<String, Object> knowledge = new HashMap<>();
         knowledge.put(Const.CLASSNAME, Const.EXAMPLE_CLASSNAME);
         attributesMap.put(Const.KNOWLEDGE, knowledge);
-        Map<String,TargetModel> targets = new HashMap<>();
+        Map<String, TargetModel> targets = new HashMap<>();
         knowledge.put(Const.TARGETS, targets);
         node.setAttributesMap(attributesMap);
         this.agentMap.put(id, attributesMap);
@@ -127,15 +124,10 @@ public class GraphService {
     public void addEdge(String source, String target) {
 
         addEdgeGraph(source, target);
+        TargetModel targetModel = new TargetModel(target);
 
-        
-        Map<String,String> targetMap = new HashMap<>();
-        targetMap.put("agentTarget", target);
-        targetMap.put("portTarget", "null");
-        targetMap.put("portSource", "null");
-        targetMap.put("className", "fr.irit.smac.amasfactory.agent.features.social.impl.Target");
         if (this.graph.getNode(source).getEdgeToward(target) != null) {
-            ((AgentModel) this.graph.getNode(source)).addTarget(targetMap);
+            ((AgentModel) this.graph.getNode(source)).addTarget(targetModel);
         }
     }
 
@@ -148,23 +140,26 @@ public class GraphService {
      *            the id of the target node
      */
     public void addEdgeGraph(String source, String target) {
-        Edge edge = graph.addEdge(source + target, source, target, true);
-        
-        Sprite edgeSprite = this.spriteManager.addSprite(source+target);
-        edgeSprite.attachToEdge(source+target);
-        edgeSprite.setPosition(0.5);
-        edgeSprite.addAttribute("ui.style", "fill-color:#4a7aaa; shape:circle;");
-        edgeSprite.addAttribute("type", "main");
-        Sprite sprite = this.spriteManager.addSprite(source+target+"source");
-        Sprite sprite2 = this.spriteManager.addSprite(source+target+"target");
-        sprite.addAttribute(Const.NODE_LABEL, "null");
-        sprite.addAttribute("type", "source");
-        sprite.attachToEdge(source + target);
-        sprite.setPosition(0.1);
-        sprite2.attachToEdge(source + target);
-        sprite2.setPosition(0.9);
-        sprite2.addAttribute(Const.NODE_LABEL, "null");
-        sprite2.addAttribute("type", "target");
+
+        graph.addEdge(source + target, source, target, true);
+
+        Sprite mainSprite = this.spriteManager.addSprite(source + target + "main");
+        mainSprite.attachToEdge(source + target);
+        mainSprite.setPosition(0.5);
+        mainSprite.addAttribute("ui.style", "fill-color:#4a7aaa; shape:circle;");
+        mainSprite.addAttribute("type", "main");
+
+        Sprite spritePortSource = this.spriteManager.addSprite(source + target + "source");
+        spritePortSource.addAttribute(Const.NODE_LABEL, "null");
+        spritePortSource.addAttribute("type", "source");
+        spritePortSource.attachToEdge(source + target);
+        spritePortSource.setPosition(0.2);
+
+        Sprite spritePortTarget = this.spriteManager.addSprite(source + target + "target");
+        spritePortTarget.attachToEdge(source + target);
+        spritePortTarget.setPosition(0.8);
+        spritePortTarget.addAttribute(Const.NODE_LABEL, "null");
+        spritePortTarget.addAttribute("type", "target");
 
     }
 
@@ -176,6 +171,9 @@ public class GraphService {
      */
     public void removeEdge(Edge edge) {
 
+        spriteManager.removeSprite(edge.getId() + "target");
+        spriteManager.removeSprite(edge.getId() + "source");
+        spriteManager.removeSprite(edge.getId() + "main");
         graph.removeEdge(edge);
     }
 

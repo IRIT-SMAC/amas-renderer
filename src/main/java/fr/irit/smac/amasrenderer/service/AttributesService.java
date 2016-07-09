@@ -18,7 +18,7 @@ public class AttributesService {
 
     private AttributesService() {
     }
-    
+
     public static AttributesService getInstance() {
         return instance;
     }
@@ -39,10 +39,13 @@ public class AttributesService {
         IModel model) {
 
         Map<String, Object> map = new HashMap<>();
-        for (String notExpanded : model.getNotExpanded()) {
-            for (Map.Entry<String, Object> entry : attributesMap.entrySet()) {
-                if (entry.getKey().contains(notExpanded)) {
-                    map.put(entry.getKey(), entry.getValue());
+
+        if (model != null) {
+            for (String notExpanded : model.getNotExpanded()) {
+                for (Map.Entry<String, Object> entry : attributesMap.entrySet()) {
+                    if (entry.getKey().contains(notExpanded)) {
+                        map.put(entry.getKey(), entry.getValue());
+                    }
                 }
             }
         }
@@ -52,7 +55,10 @@ public class AttributesService {
         for (TreeItem<String> subItem : item.getChildren()) {
             this.updateChildrenAttributesMap(subItem, attributesMap, subItem.getValue());
         }
-        model.setName(id);
+
+        if (model != null) {
+            model.setName(id);
+        }
     }
 
     /**
