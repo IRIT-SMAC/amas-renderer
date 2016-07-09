@@ -67,10 +67,14 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
         Edge e = (Edge) sprite.getAttachment();
         Node node = e.getSourceNode();
         this.stage = stage;
-        Map<String, Object> o = (Map<String, Object>) graphService.getAgentMap().get(node.getId());
-        targetModel = ((TargetModel) ((Map<String, Object>) ((Map<String, Object>) o
-            .get("knowledge")).get("targets")).get(sprite.getId()));
+        Map<String, Object> agent = (Map<String, Object>) graphService.getAgentMap().get(node.getId());
+        String id = ((String)sprite.getAttribute("id")).substring(node.getId().length(), ((String)sprite.getAttribute("id")).length());
+        Map<String,Object> target = (Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) agent
+            .get("knowledge")).get("targets")).get(id);
 
+        targetModel = new TargetModel();
+        targetModel.setAttributesMap(target);
+        
         TreeItem<String> root = new TreeItem<>(e.getTargetNode().getId());
         this.tree.setRoot(root);
         this.attributesService.fillAttributes(targetModel.getAttributesMap(), root, targetModel);

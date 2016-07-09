@@ -20,8 +20,6 @@ public class AgentModel extends MultiNode implements Node, IModel {
 
     private Map<String, Object> attributesMap;
 
-    private Map<String, TargetModel> targets;
-
     private static final String[] REQUIRED_KEY_SINGLE  = {};
     private static final String[] PROTECTED_VALUE      = {};
     private static final String[] NOT_EXPANDED         = { Const.TARGETS };
@@ -34,22 +32,13 @@ public class AgentModel extends MultiNode implements Node, IModel {
     }
 
     /**
-     * Gets the targets of the agent
-     * 
-     * @return the targets
-     */
-    public Map<String, TargetModel> getTargets() {
-        return targets;
-    }
-
-    /**
      * Adds a target to the agent
      * 
      * @param target
      *            the target to add
      */
-    public void addTarget(TargetModel target) {
-        this.targets.put(target.getName(), target);
+    public void addTarget(String id, Map<String,Object> targetMap) {
+        ((Map<String, Object>) ((Map<String, Object>) this.attributesMap.get("knowledge")).get("targets")).put(id, targetMap);
     }
 
     /**
@@ -70,8 +59,6 @@ public class AgentModel extends MultiNode implements Node, IModel {
     @SuppressWarnings("unchecked")
     public void setAttributesMap(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
-        this.targets = (Map<String, TargetModel>) ((Map<String, Object>) attributesMap.get(Const.KNOWLEDGE))
-            .get(Const.TARGETS);
         GraphService.getInstance().getAgentMap().put(id, attributesMap);
     }
 

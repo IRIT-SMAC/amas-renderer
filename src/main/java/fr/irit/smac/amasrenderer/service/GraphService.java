@@ -1,6 +1,5 @@
 package fr.irit.smac.amasrenderer.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -123,11 +122,11 @@ public class GraphService {
      */
     public void addEdge(String source, String target, String id) {
 
-        addEdgeGraph(source, target, id);
+        addEdgeGraph(source, target, source.concat(id), null, null);
         TargetModel targetModel = new TargetModel(target, id);
 
         if (this.graph.getNode(source).getEdgeToward(target) != null) {
-            ((AgentModel) this.graph.getNode(source)).addTarget(targetModel);
+            ((AgentModel) this.graph.getNode(source)).addTarget(id, targetModel.getAttributesMap());
         }
     }
 
@@ -139,7 +138,7 @@ public class GraphService {
      * @param target
      *            the id of the target node
      */
-    public void addEdgeGraph(String source, String target, String id) {
+    public void addEdgeGraph(String source, String target, String id, String portSource, String portTarget) {
 
         graph.addEdge(id, source, target, true);
 
@@ -148,9 +147,11 @@ public class GraphService {
         mainSprite.setPosition(0.5);
         mainSprite.addAttribute("ui.style", "size: 15px; fill-color:#4a7aaa; shape:diamond;");
         mainSprite.addAttribute("type", "main");
+        mainSprite.addAttribute("id", id);
+
 
         Sprite spritePortSource = this.spriteManager.addSprite(id + "source");
-        spritePortSource.addAttribute(Const.NODE_LABEL, "null");
+        spritePortSource.addAttribute(Const.NODE_LABEL, portSource);
         spritePortSource.addAttribute("type", "source");
         spritePortSource.addAttribute("id", id);
         spritePortSource.attachToEdge(id);
@@ -160,7 +161,7 @@ public class GraphService {
         spritePortTarget.attachToEdge(id);
         spritePortTarget.setPosition(0.8);
         spritePortTarget.addAttribute("id", id);
-        spritePortTarget.addAttribute(Const.NODE_LABEL, "null");
+        spritePortTarget.addAttribute(Const.NODE_LABEL, portTarget);
         spritePortTarget.addAttribute("type", "target");
 
     }
@@ -253,12 +254,15 @@ public class GraphService {
 
         Map<String, Object> knowledgeMap = (HashMap<String, Object>) agent.get("knowledge");
         Map<String, Object> targets = (HashMap<String, Object>) knowledgeMap.get("targets");
+
         targets.forEach(
             (k, v) -> {
                 String targetId = (String) ((Map<String, Object>) v).get("agentTarget");
-                this.addEdgeGraph((String) agent.get("id"), targetId, ((String) agent.get("id")).concat(targetId));
-            }
-        );
+                String agentId = ((String) agent.get("id"));
+                String portSource = (String)((Map<String, Object>) v).get("portSource");
+                String portTarget = (String) ((Map<String, Object>) v).get("portTarget");
+                this.addEdgeGraph(agentId, targetId, agentId.concat(k), portSource, portTarget);
+            });
     }
 
     /**

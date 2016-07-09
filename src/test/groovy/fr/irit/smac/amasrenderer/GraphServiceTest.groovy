@@ -41,7 +41,7 @@ class GraphServiceTest extends Specification{
         when:
         graphService.addNode(5.0,10.0)
         graphService.addNode(10.0,5.0)
-        graphService.addEdge(agentId, agentId2, agentId+agentId2)
+        graphService.addEdge(agentId, agentId2, agentId2)
 
         then:
         graphService.getGraph().getEdge(agentId + agentId2) != null

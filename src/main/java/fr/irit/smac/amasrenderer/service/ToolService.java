@@ -14,6 +14,8 @@ public class ToolService {
 
     private ObservableList<ToolModel> tools;
 
+    private Map<String, Object> toolMap;
+
     private static ToolService instance = new ToolService();
 
     private ToolService() {
@@ -56,27 +58,28 @@ public class ToolService {
     public void addTool(ToolModel tool) {
 
         this.tools.add(tool);
-        InfrastructureService.getInstance().getInfrastructure().getAttributesMap().put(tool.getName(),
+        toolMap.put(tool.getName(),
             tool.getAttributesMap());
         tool.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-                InfrastructureService.getInstance().getInfrastructure().getAttributesMap().remove(oldValue);
-                InfrastructureService.getInstance().getInfrastructure().getAttributesMap().put(newValue,
+                toolMap.remove(oldValue);
+                toolMap.put(newValue,
                     tool.getAttributesMap());
             });
     }
 
     /**
-     * Creates the tools from a map.
+     * Creates the tools from a tool map.
      *
-     * @param map
+     * @param toolMap
      *            the map
      */
-    public void createToolsFromMap(Map<String, Object> map) {
+    public void createToolsFromMap(Map<String, Object> toolMap) {
 
         this.getTools().clear();
 
-        for (Map.Entry<String, Object> pair : map.entrySet()) {
+        this.toolMap = toolMap;
+        for (Map.Entry<String, Object> pair : toolMap.entrySet()) {
             if (pair.getKey().contains(Const.TOOL)) {
                 this.addTool(new ToolModel(pair.getKey(), pair.getValue()));
             }
@@ -98,5 +101,13 @@ public class ToolService {
      */
     public void removeTools() {
         this.getTools().clear();
+    }
+
+    public Map<String, Object> getToolMap() {
+        return toolMap;
+    }
+
+    public void setToolMap(Map<String, Object> toolMap) {
+        this.toolMap = toolMap;
     }
 }

@@ -59,12 +59,12 @@ public class InfrastructureService {
         InfrastructureService.getInstance().getInfrastructure()
             .setName(infrastructureName[infrastructureName.length - 1]);
         InfrastructureService.getInstance().getInfrastructure().setAttributes(infrastructureFile.getAttributesMap());
-        Map<String, Object> agentHandlerService = (HashMap<String, Object>) this.infrastructure.getAttributesMap()
+        Map<String, Object> agentHandlerService = (HashMap<String, Object>) ((Map<String, Object>) this.infrastructure.getAttributesMap().get("services"))
             .get(Const.AGENT_HANDLER_SERVICE);
         Map<String, Object> agentMap = (HashMap<String, Object>) agentHandlerService.get(Const.AGENT_MAP);
         GraphService.getInstance().fillAgentGraphFromMap(agentMap);
         ToolService.getInstance().createToolsFromMap(
-            InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
+            (Map<String, Object>) InfrastructureService.getInstance().getInfrastructure().getAttributesMap().get("services"));
         GraphService.getInstance().setQualityGraph();
     }
 
@@ -78,6 +78,9 @@ public class InfrastructureService {
         this.infrastructure = new InfrastructureModel(Const.INFRASTRUCTURE_NAME, attributesMap);
         attributesMap.put(Const.CLASSNAME, Const.INFRASTRUCTURE_CLASSNAME);
 
+        Map<String,Object> toolMap = new HashMap<>();
+        attributesMap.put("services", toolMap);
+        
         Map<String, Object> agentHandlerService = new HashMap<>();
         Map<String, Object> agentMap = new HashMap<>();
         agentHandlerService.put(Const.CLASSNAME, Const.AGENT_HANDLER_CLASSNAME);
@@ -86,9 +89,10 @@ public class InfrastructureService {
         Map<String, Object> executionService = new HashMap<>();
         executionService.put(Const.CLASSNAME, Const.EXECUTION_CLASSNAME);
 
-        attributesMap.put(Const.AGENT_HANDLER_SERVICE, agentHandlerService);
-        attributesMap.put(Const.EXECUTION_SERVICE, executionService);
+        toolMap.put(Const.AGENT_HANDLER_SERVICE, agentHandlerService);
+        toolMap.put(Const.EXECUTION_SERVICE, executionService);
 
+        ToolService.getInstance().setToolMap(toolMap);
         GraphService.getInstance().setAgentMap(agentMap);
     }
 }

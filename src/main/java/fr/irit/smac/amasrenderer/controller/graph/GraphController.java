@@ -511,7 +511,7 @@ public class GraphController extends LoadSecondaryWindowController
         this.getEdge(e);
         if (this.source != null && this.target != null) {
             this.graphService.addEdge(this.source.getId(), this.target.getId(),
-                this.source.getId().concat(this.target.getId().concat(this.edgeCreatedCount.toString())));
+                this.target.getId().concat(this.edgeCreatedCount.toString()));
         }
         this.edgeCreatedCount++;
         this.unselectSource();

@@ -9,8 +9,8 @@ public class TargetModel implements IModel {
 
     private Map<String, Object> attributesMap;
 
-    private static final String[] REQUIRED_KEY_SINGLE  = {"agentId","portSource","portTarget","className"};
-    private static final String[] PROTECTED_VALUE      = {"agentId","portSource","portTarget"};
+    private static final String[] REQUIRED_KEY_SINGLE  = {"agentTarget","portSource","portTarget","className"};
+    private static final String[] PROTECTED_VALUE      = {"agentTarget","portSource","portTarget"};
     private static final String[] NOT_EXPANDED         = {};
     private static final String[] REQUIRED_KEY_COMPLEX = {};
 
@@ -20,7 +20,7 @@ public class TargetModel implements IModel {
 
     public TargetModel(String agentId, String id) {
         this.attributesMap = new HashMap<String, Object>();
-        this.attributesMap.put("agentId", agentId);
+        this.attributesMap.put("agentTarget", agentId);
         this.attributesMap.put("portSource", "null");
         this.attributesMap.put("portTarget", "null");
         this.attributesMap.put("className", "fr.irit.smac.amasfactory.agent.features.social.impl.Target");
@@ -31,7 +31,7 @@ public class TargetModel implements IModel {
         return this.attributesMap;
     }
 
-    public void setAttributesMap(HashMap<String, Object> attributesMap) {
+    public void setAttributesMap(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
     }
 
