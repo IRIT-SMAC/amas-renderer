@@ -32,7 +32,7 @@ public class PortController implements Initializable, ISecondaryWindowController
     private Sprite sprite;
 
     private Node node;
-    
+
     private TargetModel targetModel;
 
     private Stage stage;
@@ -45,11 +45,11 @@ public class PortController implements Initializable, ISecondaryWindowController
         String portName = textfieldTool.getText();
 
         if (sprite.getAttribute("type").equals("source")) {
-            targetModel.getAttributesMap().put("portSource",portName);
+            targetModel.getAttributesMap().put("portSource", portName);
             sprite.setAttribute(Const.NODE_LABEL, portName);
         }
         else if (sprite.getAttribute("type").equals("target")) {
-            targetModel.getAttributesMap().put("portTarget",portName);
+            targetModel.getAttributesMap().put("portTarget", portName);
             sprite.setAttribute(Const.NODE_LABEL, portName);
         }
 
@@ -70,15 +70,16 @@ public class PortController implements Initializable, ISecondaryWindowController
         sprite = (Sprite) args[0];
         Edge e = (Edge) sprite.getAttachment();
         node = e.getSourceNode();
-        
+
         Map<String, Object> agent = (Map<String, Object>) graphService.getAgentMap().get(node.getId());
-        String id = ((String)sprite.getAttribute("id")).substring(node.getId().length(), ((String)sprite.getAttribute("id")).length());
-        Map<String,Object> target = (Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) agent
-            .get("knowledge")).get("targets")).get(id);
-        
+        String id = ((String) sprite.getAttribute("id")).substring(node.getId().length(),
+            ((String) sprite.getAttribute("id")).length());
+        Map<String, Object> target = (Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) agent
+            .get("commonFeatures")).get("featureSocial")).get("knowledge")).get("targets")).get(id);
+
         targetModel = new TargetModel();
         targetModel.setAttributesMap(target);
-        
+
         String portTarget = (String) targetModel.getAttributesMap().get("portSource");
     }
 

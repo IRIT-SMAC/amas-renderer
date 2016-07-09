@@ -72,15 +72,8 @@ public class GraphService {
         node.changeAttribute(Const.NODE_XY, x, y);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.NODE_LABEL, id);
-        HashMap<String, Object> attributesMap = new HashMap<>();
-        attributesMap.put(Const.ID, id);
-        Map<String, Object> knowledge = new HashMap<>();
-        knowledge.put(Const.CLASSNAME, Const.EXAMPLE_CLASSNAME);
-        attributesMap.put(Const.KNOWLEDGE, knowledge);
-        Map<String, TargetModel> targets = new HashMap<>();
-        knowledge.put(Const.TARGETS, targets);
-        node.setAttributesMap(attributesMap);
-        this.agentMap.put(id, attributesMap);
+        node.initAttributesMap();
+        this.agentMap.put(id, node.getAttributesMap());
 
         node.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
@@ -148,7 +141,6 @@ public class GraphService {
         mainSprite.addAttribute("ui.style", "size: 15px; fill-color:#4a7aaa; shape:diamond;");
         mainSprite.addAttribute("type", "main");
         mainSprite.addAttribute("id", id);
-
 
         Sprite spritePortSource = this.spriteManager.addSprite(id + "source");
         spritePortSource.addAttribute(Const.NODE_LABEL, portSource);
@@ -252,14 +244,14 @@ public class GraphService {
     @SuppressWarnings("unchecked")
     private void fillAgentFromTargets(HashMap<String, Object> agent) {
 
-        Map<String, Object> knowledgeMap = (HashMap<String, Object>) agent.get("knowledge");
-        Map<String, Object> targets = (HashMap<String, Object>) knowledgeMap.get("targets");
+        Map<String, Object> targets = (Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) agent
+            .get("commonFeatures")).get("featureSocial")).get("knowledge")).get("targets");
 
         targets.forEach(
             (k, v) -> {
                 String targetId = (String) ((Map<String, Object>) v).get("agentTarget");
                 String agentId = ((String) agent.get("id"));
-                String portSource = (String)((Map<String, Object>) v).get("portSource");
+                String portSource = (String) ((Map<String, Object>) v).get("portSource");
                 String portTarget = (String) ((Map<String, Object>) v).get("portTarget");
                 this.addEdgeGraph(agentId, targetId, agentId.concat(k), portSource, portTarget);
             });

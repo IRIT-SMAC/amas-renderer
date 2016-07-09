@@ -1,8 +1,6 @@
 package fr.irit.smac.amasrenderer.controller.graph;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -41,7 +39,7 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
     private Stage stage;
 
     private GraphService graphService = GraphService.getInstance();
-    
+
     private TargetModel targetModel;
 
     private AttributesService attributesService = AttributesService.getInstance();
@@ -53,13 +51,13 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
             targetModel.getAttributesMap(), targetModel);
         this.stage.close();
     }
-    
+
     @FXML
     public void cancelButton() {
-        
+
         this.stage.close();
     }
-    
+
     @Override
     public void init(Stage stage, Object... args) {
 
@@ -68,13 +66,13 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
         Node node = e.getSourceNode();
         this.stage = stage;
         Map<String, Object> agent = (Map<String, Object>) graphService.getAgentMap().get(node.getId());
-        String id = ((String)sprite.getAttribute("id")).substring(node.getId().length(), ((String)sprite.getAttribute("id")).length());
-        Map<String,Object> target = (Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) agent
-            .get("knowledge")).get("targets")).get(id);
+        String id = ((String) sprite.getAttribute("id")).substring(node.getId().length(),
+            ((String) sprite.getAttribute("id")).length());
+        Map<String, Object> target = (Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) agent.get("commonFeatures")).get("featureSocial")).get("knowledge")).get("targets")).get(id);
 
         targetModel = new TargetModel();
         targetModel.setAttributesMap(target);
-        
+
         TreeItem<String> root = new TreeItem<>(e.getTargetNode().getId());
         this.tree.setRoot(root);
         this.attributesService.fillAttributes(targetModel.getAttributesMap(), root, targetModel);

@@ -1,5 +1,6 @@
 package fr.irit.smac.amasrenderer.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.graphstream.graph.Node;
@@ -37,10 +38,11 @@ public class AgentModel extends MultiNode implements Node, IModel {
      * @param target
      *            the target to add
      */
-    public void addTarget(String id, Map<String,Object> targetMap) {
-        ((Map<String, Object>) ((Map<String, Object>) this.attributesMap.get("knowledge")).get("targets")).put(id, targetMap);
+    public void addTarget(String id, Map<String, Object> targetMap) {
+        ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) this.attributesMap.get("commonFeatures")).get("featureSocial")).get("knowledge")).get("targets")).put(id,
+            targetMap);
     }
-
+    
     /**
      * Gets the attributes of the agent
      * 
@@ -56,7 +58,6 @@ public class AgentModel extends MultiNode implements Node, IModel {
      * @param attributesMap
      *            the attributes
      */
-    @SuppressWarnings("unchecked")
     public void setAttributesMap(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
         GraphService.getInstance().getAgentMap().put(id, attributesMap);
@@ -99,5 +100,48 @@ public class AgentModel extends MultiNode implements Node, IModel {
     @Override
     public String getNewName(String name) {
         return name;
+    }
+
+    public void initAttributesMap() {
+
+        HashMap<String, Object> attributesMap = new HashMap<>();
+        attributesMap.put(Const.ID, id);
+
+        Map<String,Object> primaryFeature = this.createFeature("primaryFeature", Const.EXAMPLE_CLASSNAME, Const.EXAMPLE_CLASSNAME, Const.EXAMPLE_CLASSNAME);
+
+        Map<String, Object> commonFeatures = new HashMap<>();
+        commonFeatures.put(Const.CLASSNAME, Const.EXAMPLE_CLASSNAME);
+        commonFeatures.put("featureBasic",
+            this.createFeature("featureBasic", "fr.irit.smac.amasfactory.agent.features.impl.Feature",
+                "fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+                "fr.irit.smac.amasfactory.agent.features.basic.impl.SkillBasic"));
+        commonFeatures.put("featureSocial",
+            this.createFeature("featureSocial", "fr.irit.smac.amasfactory.agent.features.impl.Feature",
+                "fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
+                "fr.irit.smac.amasfactory.agent.features.social.impl.SkillSocial"));
+
+        ((Map<String, Object>) ((Map<String, Object>) commonFeatures.get("featureSocial")).get("knowledge")).put(Const.TARGETS, new HashMap<>());
+
+        attributesMap.put("primaryFeature", primaryFeature);
+        attributesMap.put("commonFeatures",commonFeatures);
+        
+        this.attributesMap = attributesMap;
+    }
+
+    public Map<String, Object> createFeature(String id, String className, String knowledgeClassName,
+        String skillClassName) {
+
+        Map<String, Object> feature = new HashMap<>();
+        feature.put(Const.CLASSNAME, className);
+
+        Map<String, Object> knowledge = new HashMap<>();
+        knowledge.put(Const.CLASSNAME, knowledgeClassName);
+        feature.put("knowledge", knowledge);
+
+        Map<String, Object> skill = new HashMap<>();
+        skill.put(Const.CLASSNAME, skillClassName);
+        feature.put("skill", skill);
+
+        return feature;
     }
 }

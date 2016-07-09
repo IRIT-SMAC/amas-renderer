@@ -50,6 +50,8 @@ public class LoadSaveServiceTest extends Specification{
     def 'check if a JSON is correctly saved'() {
 
         given:
+        graphService.getAgentMap().clear()
+        graphService.getGraph().clear()
         graphService.addNode(0,0)
         graphService.addNode(0,0)
         graphService.addNode(0,0)
