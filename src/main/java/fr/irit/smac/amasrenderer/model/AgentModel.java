@@ -120,6 +120,8 @@ public class AgentModel extends MultiNode implements Node, IModel {
                 "fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
                 "fr.irit.smac.amasfactory.agent.features.social.impl.SkillSocial"));
 
+        
+        ((Map<String, Object>) ((Map<String, Object>) commonFeatures.get("featureSocial")).get("knowledge")).put("portMap",new HashMap<>());
         ((Map<String, Object>) ((Map<String, Object>) commonFeatures.get("featureSocial")).get("knowledge")).put(Const.TARGETS, new HashMap<>());
 
         attributesMap.put("primaryFeature", primaryFeature);
