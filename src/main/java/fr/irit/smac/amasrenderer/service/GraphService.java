@@ -73,7 +73,7 @@ public class GraphService {
         AgentModel node = this.graph.addNode(id);
         node.changeAttribute(Const.NODE_XY, x, y);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
-        node.setAttribute(Const.NODE_LABEL, id);
+        node.setAttribute(Const.GS_UI_LABEL, id);
         node.initAttributesMap();
         this.agentMap.put(id, node.getAttributesMap());
         this.targets.put(id, new HashMap<>());
@@ -97,7 +97,7 @@ public class GraphService {
 
         AgentModel node = this.graph.addNode(id);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
-        node.setAttribute(Const.NODE_LABEL, id);
+        node.setAttribute(Const.GS_UI_LABEL, id);
         node.setAttributesMap(attributesMap);
         this.agentMap.put(id, attributesMap);
         this.targets.put(id, new HashMap<>());
@@ -121,11 +121,8 @@ public class GraphService {
 
         addEdgeGraph(source, target, source.concat(id), null, null);
         TargetModel targetModel = new TargetModel(target, id);
-
-        // if (this.graph.getNode(source).getEdgeToward(target) != null) {
         ((AgentModel) this.graph.getNode(source)).addTarget(id, targetModel.getAttributesMap());
         this.targets.get(source).put(id, targetModel);
-        // }
     }
 
     /**
@@ -143,29 +140,24 @@ public class GraphService {
         Sprite mainSprite = this.spriteManager.addSprite(id);
         mainSprite.attachToEdge(id);
         mainSprite.setPosition(0.5);
-        mainSprite.addAttribute("ui.class", "mainSprite");
-        mainSprite.addAttribute("type", "main");
+        mainSprite.addAttribute(Const.GS_UI_CLASS, Const.MAIN_SPRITE_CLASS);
+        mainSprite.addAttribute(Const.TYPE_SPRITE, Const.MAIN_SPRITE_EDGE);
+        mainSprite.addAttribute(Const.ID, id);
 
-        mainSprite.addAttribute("id", id);
+        this.createPortSourceToEdge(id, Const.SOURCE_PORT_SPRITE, portSource, 0.2);
+        this.createPortSourceToEdge(id, Const.TARGET_PORT_SPRITE, portTarget, 0.8);
+    }
 
-        Sprite spritePortSource = this.spriteManager.addSprite(id + "source");
-        spritePortSource.addAttribute(Const.NODE_LABEL, portSource);
-        spritePortSource.addAttribute("ui.class", "portSprite");
-        spritePortSource.addAttribute("type", "port");
-        spritePortSource.addAttribute("subtype", "source");
-        spritePortSource.addAttribute("id", id);
-        spritePortSource.attachToEdge(id);
-        spritePortSource.setPosition(0.2);
+    private void createPortSourceToEdge(String id, String subType, String port, double position) {
 
-        Sprite spritePortTarget = this.spriteManager.addSprite(id + "target");
-        spritePortTarget.attachToEdge(id);
-        spritePortTarget.setPosition(0.8);
-        spritePortTarget.addAttribute("ui.class", "portSprite");
-        spritePortTarget.addAttribute("id", id);
-        spritePortTarget.addAttribute(Const.NODE_LABEL, portTarget);
-        spritePortTarget.addAttribute("type", "port");
-        spritePortTarget.addAttribute("subtype", "target");
-
+        Sprite sprite = this.spriteManager.addSprite(id + subType);
+        sprite.addAttribute(Const.GS_UI_LABEL, port);
+        sprite.addAttribute(Const.GS_UI_CLASS, Const.PORT_SPRITE_CLASS);
+        sprite.addAttribute(Const.TYPE_SPRITE, Const.PORT);
+        sprite.addAttribute(Const.SUBTYPE_SPRITE, subType);
+        sprite.addAttribute(Const.ID, id);
+        sprite.attachToEdge(id);
+        sprite.setPosition(position);
     }
 
     /**
@@ -176,8 +168,8 @@ public class GraphService {
      */
     public void removeEdge(String id) {
 
-        spriteManager.removeSprite(id + "target");
-        spriteManager.removeSprite(id + "source");
+        spriteManager.removeSprite(id + Const.TARGET_PORT_SPRITE);
+        spriteManager.removeSprite(id + Const.SOURCE_PORT_SPRITE);
         spriteManager.removeSprite(id);
         graph.removeEdge(id);
     }
@@ -256,7 +248,7 @@ public class GraphService {
         Map<String, Object> targets = (Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) agent
             .get("commonFeatures")).get("featureSocial")).get("knowledge")).get("targets");
 
-        String agentId = ((String) agent.get("id"));
+        String agentId = ((String) agent.get(Const.ID));
 
         targets.forEach(
             (k, v) -> {
@@ -330,8 +322,8 @@ public class GraphService {
     public void hideSpriteEdge(String type) {
 
         this.getSpriteManager().forEach(s -> {
-            if (s.getAttribute("type").equals(type)) {
-                s.setAttribute("ui.class", "notVisible");
+            if (s.getAttribute(Const.TYPE_SPRITE).equals(type)) {
+                s.setAttribute(Const.GS_UI_CLASS, Const.EDGE_SPRITE_CLASS_BACKGROUND);
             }
         });
     }
@@ -343,15 +335,15 @@ public class GraphService {
                 Edge edge = (Edge) s.getAttachment();
                 String id = foregroundNode.getId();
                 if ((edge.getSourceNode().getId() == id
-                    || edge.getTargetNode().getId() == id) && (s.getAttribute("type").equals(type))) {
-                    s.setAttribute("ui.class", styleClass);
+                    || edge.getTargetNode().getId() == id) && (s.getAttribute(Const.TYPE_SPRITE).equals(type))) {
+                    s.setAttribute(Const.GS_UI_CLASS, styleClass);
                 }
             });
         }
         else {
             this.getSpriteManager().forEach(s -> {
-                if (s.getAttribute("type").equals(type)) {
-                    s.setAttribute("ui.class", styleClass);
+                if (s.getAttribute(Const.TYPE_SPRITE).equals(type)) {
+                    s.setAttribute(Const.GS_UI_CLASS, styleClass);
                 }
             });
         }
@@ -363,16 +355,16 @@ public class GraphService {
         String id = foregroundNode.getId();
         this.graph.getEachNode().forEach(node -> {
             if (node.getId() != id) {
-                node.addAttribute("ui.class", "background");
+                node.addAttribute(Const.GS_UI_CLASS, Const.NODE_CLASS_BACKGROUND);
             }
         });
 
         this.graph.getEachEdge().forEach(edge -> {
             if (edge.getSourceNode().getId() != id && edge.getTargetNode().getId() != id) {
-                edge.addAttribute("ui.class", "notVisible");
+                edge.addAttribute(Const.GS_UI_CLASS, Const.EDGE_SPRITE_CLASS_BACKGROUND);
                 this.spriteManager.forEach(s -> {
                     if (s.getAttachment().equals(edge)) {
-                        s.setAttribute("ui.class", "notVisible");
+                        s.setAttribute(Const.GS_UI_CLASS, Const.EDGE_SPRITE_CLASS_BACKGROUND);
                     }
                 });
             }
@@ -384,13 +376,13 @@ public class GraphService {
         String id = foregroundNode.getId();
         this.graph.getEachNode().forEach(node -> {
             if (node.getId() == id) {
-                node.removeAttribute("ui.class");
+                node.removeAttribute(Const.GS_UI_CLASS);
             }
         });
 
         this.graph.getEachEdge().forEach(edge -> {
             if (edge.getSourceNode().getId() == id || edge.getTargetNode().getId() == id) {
-                edge.removeAttribute("ui.class");
+                edge.removeAttribute(Const.GS_UI_CLASS);
                 this.displaySprite(mainSpriteVisible, portSpriteVisible, edge);
             }
         });
@@ -399,11 +391,11 @@ public class GraphService {
     public void displayAllNodes(boolean mainSpriteVisible, boolean portSpriteVisible) {
 
         this.graph.getEachNode().forEach(node -> {
-            node.removeAttribute("ui.class");
+            node.removeAttribute(Const.GS_UI_CLASS);
         });
 
         this.graph.getEachEdge().forEach(edge -> {
-            edge.removeAttribute("ui.class");
+            edge.removeAttribute(Const.GS_UI_CLASS);
             this.displaySprite(mainSpriteVisible, portSpriteVisible, edge);
         });
     }
@@ -415,11 +407,11 @@ public class GraphService {
 
                 if (s.getAttachment().equals(edge)) {
 
-                    if (mainSpriteVisible && s.getAttribute("type").equals("main")) {
-                        s.setAttribute("ui.class", "mainSprite");
+                    if (mainSpriteVisible && s.getAttribute(Const.TYPE_SPRITE).equals(Const.MAIN_SPRITE_EDGE)) {
+                        s.setAttribute(Const.GS_UI_CLASS, Const.MAIN_SPRITE_CLASS);
                     }
-                    else if (portSpriteVisible && s.getAttribute("type").equals("port")) {
-                        s.setAttribute("ui.class", "portSprite");
+                    else if (portSpriteVisible && s.getAttribute(Const.TYPE_SPRITE).equals(Const.PORT)) {
+                        s.setAttribute(Const.GS_UI_CLASS, Const.PORT_SPRITE_CLASS);
                     }
                 }
             });

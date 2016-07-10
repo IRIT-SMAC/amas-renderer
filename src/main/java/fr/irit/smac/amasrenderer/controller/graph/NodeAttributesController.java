@@ -60,7 +60,7 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
             (Map<String, Object>) GraphService.getInstance().getAgentMap().get(id), node);
 
         this.newAgentName = tree.getRoot().getValue();
-        this.node.setAttribute(Const.NODE_LABEL, newAgentName);
+        this.node.setAttribute(Const.GS_UI_LABEL, newAgentName);
         this.stage.close();
     }
 

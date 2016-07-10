@@ -7,6 +7,7 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.spriteManager.Sprite;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.TargetModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
@@ -64,8 +65,8 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
         Sprite sprite = (Sprite) args[0];
         Edge e = (Edge) sprite.getAttachment();
         Node node = e.getSourceNode();
-        String id = ((String) sprite.getAttribute("id")).substring(node.getId().length(),
-            ((String) sprite.getAttribute("id")).length());
+        String id = ((String) sprite.getAttribute(Const.ID)).substring(node.getId().length(),
+            ((String) sprite.getAttribute(Const.ID)).length());
 
         targetModel = graphService.getTargets().get(node.getId()).get(id);
         

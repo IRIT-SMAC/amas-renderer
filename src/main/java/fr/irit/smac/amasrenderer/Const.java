@@ -25,11 +25,11 @@ public final class Const {
 
     public static final String NODE_WEIGHT = "layout.weight";
 
-    public static final String NODE_CLICKED = "ui.clicked";
+    public static final String GS_UI_CLICKED = "ui.clicked";
 
-    public static final String NODE_SELECTED = "ui.selected";
+    public static final String GS_UI_SELECTED = "ui.selected";
 
-    public static final String NODE_LABEL = "ui.label";
+    public static final String GS_UI_LABEL = "ui.label";
 
     public static final String NODE_XY = "xy";
 
@@ -62,6 +62,28 @@ public final class Const {
     public static final String KNOWLEDGE = "knowledge";
 
     public static final String TOOL = "Service";
+    
+    public static final String PORT = "portSpriteEdge";
+    
+    public static final String MAIN_SPRITE_EDGE = "mainSpriteEdge";
+    
+    public static final String MAIN_SPRITE_CLASS = "mainSprite";
+    
+    public static final String PORT_SPRITE_CLASS = "portSprite";
+
+    public static final String TYPE_SPRITE = "type";
+    
+    public static final String GS_UI_CLASS = "ui.class";
+    
+    public static final String SUBTYPE_SPRITE = "subtype";
+    
+    public static final String SOURCE_PORT_SPRITE = "source";
+
+    public static final String TARGET_PORT_SPRITE = "target";
+
+    public static final String NODE_CLASS_BACKGROUND = "background";
+
+    public static final String EDGE_SPRITE_CLASS_BACKGROUND = "notVisible";
 
     /**
      * Instantiates a new const (just to hide the constructor).

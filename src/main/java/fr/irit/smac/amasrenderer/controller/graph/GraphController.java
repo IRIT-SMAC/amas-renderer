@@ -293,18 +293,18 @@ public class GraphController extends LoadSecondaryWindowController
                 this.graphService.clearGraph();
                 break;
             case HIDE_PORT:
-                this.graphService.hideSpriteEdge("port");
+                this.graphService.hideSpriteEdge(Const.PORT);
                 break;
             case DISPLAY_PORT:
                 this.graphService.displaySpriteEdge(this.displayNodeState == EDisplayNodeState.ACTIVE,
-                    this.foregroundNode, "port", "portSprite");
+                    this.foregroundNode, Const.PORT, Const.PORT_SPRITE_CLASS);
                 break;
             case HIDE_MAIN_SPRITE:
-                this.graphService.hideSpriteEdge("main");
+                this.graphService.hideSpriteEdge(Const.MAIN_SPRITE_EDGE);
                 break;
             case DISPLAY_MAIN_SPRITE:
                 this.graphService.displaySpriteEdge(this.displayNodeState == EDisplayNodeState.ACTIVE,
-                    this.foregroundNode, "main", "mainSprite");
+                    this.foregroundNode, Const.MAIN_SPRITE_EDGE, Const.MAIN_SPRITE_CLASS);
                 break;
             default:
                 break;
@@ -428,11 +428,11 @@ public class GraphController extends LoadSecondaryWindowController
             this.graphState = EStateGraph.SELECTED_NODE;
             this.graphView.requestFocus();
             for (Node node : this.graphService.getGraph()) {
-                node.addAttribute(Const.NODE_CLICKED);
-                node.removeAttribute(Const.NODE_CLICKED);
+                node.addAttribute(Const.GS_UI_CLICKED);
+                node.removeAttribute(Const.GS_UI_CLICKED);
             }
             this.graphView.freezeElement(selectedElement, true);
-            this.selectedElement.addAttribute(Const.NODE_CLICKED);
+            this.selectedElement.addAttribute(Const.GS_UI_CLICKED);
 
         }
         else if (this.selectedElement != null) {
@@ -446,8 +446,8 @@ public class GraphController extends LoadSecondaryWindowController
     private void clickOnSpriteEdge(GraphicElement elt) {
 
         Sprite s = this.graphService.getSpriteManager().getSprite(elt.getId());
-        if (s.getAttribute("ui.class") != "notVisible") {
-            if (s.getAttribute("type") != "main") {
+        if (s.getAttribute(Const.GS_UI_CLASS) != Const.EDGE_SPRITE_CLASS_BACKGROUND) {
+            if (s.getAttribute(Const.TYPE_SPRITE) != Const.MAIN_SPRITE_EDGE) {
                 this.loadFxml(window, "view/graph/Port.fxml", true, s);
             }
             else {
@@ -549,8 +549,8 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void selectSource() {
 
-        if (this.source != null && !this.source.hasAttribute(Const.NODE_SELECTED)) {
-            this.source.addAttribute(Const.NODE_SELECTED);
+        if (this.source != null && !this.source.hasAttribute(Const.GS_UI_SELECTED)) {
+            this.source.addAttribute(Const.GS_UI_SELECTED);
         }
         this.target = null;
     }
@@ -562,7 +562,7 @@ public class GraphController extends LoadSecondaryWindowController
     private void unselectSource() {
 
         if (this.source != null) {
-            this.source.removeAttribute(Const.NODE_SELECTED);
+            this.source.removeAttribute(Const.GS_UI_SELECTED);
             this.source = null;
         }
     }
