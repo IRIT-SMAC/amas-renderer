@@ -1,5 +1,6 @@
 package fr.irit.smac.amasrenderer.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import fr.irit.smac.amasrenderer.Const;
@@ -74,12 +75,11 @@ public class ToolService {
      * @param toolMap
      *            the map
      */
-    public void createToolsFromMap(Map<String, Object> toolMap) {
+    public void createToolsFromMap() {
 
         this.getTools().clear();
 
-        this.toolMap = toolMap;
-        for (Map.Entry<String, Object> pair : toolMap.entrySet()) {
+        for (Map.Entry<String, Object> pair : this.toolMap.entrySet()) {
             if (pair.getKey().contains(Const.TOOL)) {
                 this.addTool(new ToolModel(pair.getKey(), pair.getValue()));
             }
@@ -109,5 +109,25 @@ public class ToolService {
 
     public void setToolMap(Map<String, Object> toolMap) {
         this.toolMap = toolMap;
+    }
+
+    public void updateGraphFromFile(Map<String, Object> toolMap) {
+        this.setToolMap(toolMap);
+        this.createToolsFromMap();
+    }
+    
+    public void init(Map<String,Object> toolMap) {
+        
+        this.setToolMap(toolMap);
+        Map<String, Object> agentHandlerService = new HashMap<>();
+        Map<String, Object> agentMap = new HashMap<>();
+        agentHandlerService.put(Const.CLASSNAME, Const.AGENT_HANDLER_CLASSNAME);
+        agentHandlerService.put(Const.AGENT_MAP, agentMap);
+        Map<String, Object> executionService = new HashMap<>();
+        executionService.put(Const.CLASSNAME, Const.EXECUTION_CLASSNAME);
+        toolMap.put(Const.AGENT_HANDLER_SERVICE, agentHandlerService);
+        toolMap.put(Const.EXECUTION_SERVICE, executionService);
+        
+        GraphService.getInstance().setAgentMap(agentMap);
     }
 }

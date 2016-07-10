@@ -21,6 +21,10 @@ public class AgentModel extends MultiNode implements Node, IModel {
 
     private Map<String, Object> attributesMap;
 
+    private Map<String, Object> targets;
+
+    private Map<String, Object> portMap;
+
     private static final String[] REQUIRED_KEY_SINGLE  = {};
     private static final String[] PROTECTED_VALUE      = {};
     private static final String[] NOT_EXPANDED         = { Const.TARGETS };
@@ -39,10 +43,9 @@ public class AgentModel extends MultiNode implements Node, IModel {
      *            the target to add
      */
     public void addTarget(String id, Map<String, Object> targetMap) {
-        ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) this.attributesMap.get("commonFeatures")).get("featureSocial")).get("knowledge")).get("targets")).put(id,
-            targetMap);
+        this.targets.put(id, targetMap);
     }
-    
+
     /**
      * Gets the attributes of the agent
      * 
@@ -107,7 +110,8 @@ public class AgentModel extends MultiNode implements Node, IModel {
         HashMap<String, Object> attributesMap = new HashMap<>();
         attributesMap.put(Const.ID, id);
 
-        Map<String,Object> primaryFeature = this.createFeature("primaryFeature", Const.EXAMPLE_CLASSNAME, Const.EXAMPLE_CLASSNAME, Const.EXAMPLE_CLASSNAME);
+        Map<String, Object> primaryFeature = this.createFeature("primaryFeature", Const.EXAMPLE_CLASSNAME,
+            Const.EXAMPLE_CLASSNAME, Const.EXAMPLE_CLASSNAME);
 
         Map<String, Object> commonFeatures = new HashMap<>();
         commonFeatures.put(Const.CLASSNAME, Const.EXAMPLE_CLASSNAME);
@@ -121,12 +125,22 @@ public class AgentModel extends MultiNode implements Node, IModel {
                 "fr.irit.smac.amasfactory.agent.features.social.impl.SkillSocial"));
 
         
-        ((Map<String, Object>) ((Map<String, Object>) commonFeatures.get("featureSocial")).get("knowledge")).put("portMap",new HashMap<>());
-        ((Map<String, Object>) ((Map<String, Object>) commonFeatures.get("featureSocial")).get("knowledge")).put(Const.TARGETS, new HashMap<>());
+        Map<String,Object> portMap = new HashMap<>();
+        ((Map<String, Object>) ((Map<String, Object>) commonFeatures
+            .get("featureSocial")).get("knowledge")).put("portMap", portMap);
+        
+        this.portMap = portMap;
+        
+        Map<String,Object> targetMap = new HashMap<>();
+        
+        ((Map<String, Object>) ((Map<String, Object>) commonFeatures
+            .get("featureSocial")).get("knowledge")).put(Const.TARGETS, targetMap);
+        
+        this.targets = targetMap;
 
         attributesMap.put("primaryFeature", primaryFeature);
-        attributesMap.put("commonFeatures",commonFeatures);
-        
+        attributesMap.put("commonFeatures", commonFeatures);
+
         this.attributesMap = attributesMap;
     }
 
@@ -145,5 +159,13 @@ public class AgentModel extends MultiNode implements Node, IModel {
         feature.put("skill", skill);
 
         return feature;
+    }
+
+    public Map<String, Object> getTargets() {
+        return targets;
+    }
+
+    public Map<String, Object> getPortMap() {
+        return portMap;
     }
 }

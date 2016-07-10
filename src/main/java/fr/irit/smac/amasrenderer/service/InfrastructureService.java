@@ -51,7 +51,6 @@ public class InfrastructureService {
      * 
      * @param infrastructureFile
      */
-    @SuppressWarnings("unchecked")
     public void updateInfrastructureFromFile(InfrastructureModel infrastructureFile) {
 
         String[] infrastructureName = infrastructureFile.getAttributesMap().get(Const.CLASSNAME).toString()
@@ -59,13 +58,15 @@ public class InfrastructureService {
         InfrastructureService.getInstance().getInfrastructure()
             .setName(infrastructureName[infrastructureName.length - 1]);
         InfrastructureService.getInstance().getInfrastructure().setAttributes(infrastructureFile.getAttributesMap());
-        Map<String, Object> agentHandlerService = (HashMap<String, Object>) ((Map<String, Object>) this.infrastructure.getAttributesMap().get("services"))
-            .get(Const.AGENT_HANDLER_SERVICE);
-        Map<String, Object> agentMap = (HashMap<String, Object>) agentHandlerService.get(Const.AGENT_MAP);
-        GraphService.getInstance().fillAgentGraphFromMap(agentMap);
-        ToolService.getInstance().createToolsFromMap(
-            (Map<String, Object>) InfrastructureService.getInstance().getInfrastructure().getAttributesMap().get("services"));
-        GraphService.getInstance().setQualityGraph();
+
+        @SuppressWarnings("unchecked")
+        Map<String, Object> toolMap = (Map<String, Object>) this.infrastructure.getAttributesMap().get("services");
+        ToolService.getInstance().updateGraphFromFile(toolMap);
+        
+        @SuppressWarnings("unchecked")
+        Map<String, Object> agentMap = (HashMap<String, Object>) ((Map<String, Object>) toolMap
+            .get(Const.AGENT_HANDLER_SERVICE)).get(Const.AGENT_MAP);
+        GraphService.getInstance().updateGraphFromFile(agentMap);
     }
 
     /**
@@ -78,21 +79,9 @@ public class InfrastructureService {
         this.infrastructure = new InfrastructureModel(Const.INFRASTRUCTURE_NAME, attributesMap);
         attributesMap.put(Const.CLASSNAME, Const.INFRASTRUCTURE_CLASSNAME);
 
-        Map<String,Object> toolMap = new HashMap<>();
+        Map<String, Object> toolMap = new HashMap<>();
         attributesMap.put("services", toolMap);
-        
-        Map<String, Object> agentHandlerService = new HashMap<>();
-        Map<String, Object> agentMap = new HashMap<>();
-        agentHandlerService.put(Const.CLASSNAME, Const.AGENT_HANDLER_CLASSNAME);
-        agentHandlerService.put(Const.AGENT_MAP, agentMap);
 
-        Map<String, Object> executionService = new HashMap<>();
-        executionService.put(Const.CLASSNAME, Const.EXECUTION_CLASSNAME);
-
-        toolMap.put(Const.AGENT_HANDLER_SERVICE, agentHandlerService);
-        toolMap.put(Const.EXECUTION_SERVICE, executionService);
-
-        ToolService.getInstance().setToolMap(toolMap);
-        GraphService.getInstance().setAgentMap(agentMap);
+        ToolService.getInstance().init(toolMap);
     }
 }

@@ -181,12 +181,12 @@ public class GraphToolboxController implements Initializable {
     @FXML
     public void buttonHideMainSprite() {
 
-        if (this.hidePortState == EOthersButtonsState.HIDE_MAIN_SPRITE) {
-            this.hidePortState = EOthersButtonsState.DISPLAY_MAIN_SPRITE;
+        if (this.hideMainSprite == EOthersButtonsState.HIDE_MAIN_SPRITE) {
+            this.hideMainSprite = EOthersButtonsState.DISPLAY_MAIN_SPRITE;
             this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.DISPLAY_MAIN_SPRITE);
         }
         else {
-            this.hidePortState = EOthersButtonsState.HIDE_MAIN_SPRITE;
+            this.hideMainSprite = EOthersButtonsState.HIDE_MAIN_SPRITE;
             this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.HIDE_MAIN_SPRITE);
         }
     }

@@ -27,6 +27,8 @@ public class GraphService {
 
     private Map<String, Object> agentMap;
 
+    private Map<String, Map<String, TargetModel>> targets = new HashMap<>();
+
     private SpriteManager spriteManager;
 
     public SpriteManager getSpriteManager() {
@@ -74,6 +76,7 @@ public class GraphService {
         node.setAttribute(Const.NODE_LABEL, id);
         node.initAttributesMap();
         this.agentMap.put(id, node.getAttributesMap());
+        this.targets.put(id, new HashMap<>());
 
         node.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
@@ -97,6 +100,7 @@ public class GraphService {
         node.setAttribute(Const.NODE_LABEL, id);
         node.setAttributesMap(attributesMap);
         this.agentMap.put(id, attributesMap);
+        this.targets.put(id, new HashMap<>());
 
         node.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
@@ -118,9 +122,10 @@ public class GraphService {
         addEdgeGraph(source, target, source.concat(id), null, null);
         TargetModel targetModel = new TargetModel(target, id);
 
-        if (this.graph.getNode(source).getEdgeToward(target) != null) {
-            ((AgentModel) this.graph.getNode(source)).addTarget(id, targetModel.getAttributesMap());
-        }
+        // if (this.graph.getNode(source).getEdgeToward(target) != null) {
+        ((AgentModel) this.graph.getNode(source)).addTarget(id, targetModel.getAttributesMap());
+        this.targets.get(source).put(id, targetModel);
+        // }
     }
 
     /**
@@ -209,11 +214,10 @@ public class GraphService {
      *            the agent map
      */
     @SuppressWarnings("unchecked")
-    public void fillAgentGraphFromMap(Map<String, Object> map) {
+    public void fillAgentGraphFromMap() {
 
-        this.clearGraph();
-        this.fillAgentFromMap(map);
-        Iterator<Map.Entry<String, Object>> agents = map.entrySet().iterator();
+        this.fillAgentFromMap(this.agentMap);
+        Iterator<Map.Entry<String, Object>> agents = this.agentMap.entrySet().iterator();
 
         while (agents.hasNext()) {
             Map.Entry<String, Object> currentAgentMap = agents.next();
@@ -256,7 +260,11 @@ public class GraphService {
                 String agentId = ((String) agent.get("id"));
                 String portSource = (String) ((Map<String, Object>) v).get("portSource");
                 String portTarget = (String) ((Map<String, Object>) v).get("portTarget");
+                String className = (String) ((Map<String, Object>) v).get("className");
                 this.addEdgeGraph(agentId, targetId, agentId.concat(k), portSource, portTarget);
+                this.targets.get(agentId).put(k,
+                    new TargetModel(targetId, agentId.concat(k), portSource, portTarget, className));
+
             });
     }
 
@@ -335,4 +343,16 @@ public class GraphService {
             }
         });
     }
+
+    public Map<String, Map<String, TargetModel>> getTargets() {
+        return targets;
+    }
+
+    public void updateGraphFromFile(Map<String, Object> agentMap) {
+        this.clearGraph();
+        this.setAgentMap(agentMap);
+        this.fillAgentGraphFromMap();
+        this.setQualityGraph();
+    }
+
 }

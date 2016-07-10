@@ -27,6 +27,15 @@ public class TargetModel implements IModel {
         this.name = id;
     }
 
+    public TargetModel(String agentId, String id, String portSource, String portTarget, String className) {
+        this.attributesMap = new HashMap<String, Object>();
+        this.attributesMap.put("agentTarget", agentId);
+        this.attributesMap.put("portSource", portSource);
+        this.attributesMap.put("portTarget", portTarget);
+        this.attributesMap.put("className", className);
+        this.name = id;
+    }
+    
     public Map<String, Object> getAttributesMap() {
         return this.attributesMap;
     }

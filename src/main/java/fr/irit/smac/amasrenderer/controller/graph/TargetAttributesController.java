@@ -1,7 +1,6 @@
 package fr.irit.smac.amasrenderer.controller.graph;
 
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.graphstream.graph.Edge;
@@ -61,18 +60,15 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
     @Override
     public void init(Stage stage, Object... args) {
 
+        this.stage = stage;
         Sprite sprite = (Sprite) args[0];
         Edge e = (Edge) sprite.getAttachment();
         Node node = e.getSourceNode();
-        this.stage = stage;
-        Map<String, Object> agent = (Map<String, Object>) graphService.getAgentMap().get(node.getId());
         String id = ((String) sprite.getAttribute("id")).substring(node.getId().length(),
             ((String) sprite.getAttribute("id")).length());
-        Map<String, Object> target = (Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) agent.get("commonFeatures")).get("featureSocial")).get("knowledge")).get("targets")).get(id);
 
-        targetModel = new TargetModel();
-        targetModel.setAttributesMap(target);
-
+        targetModel = graphService.getTargets().get(node.getId()).get(id);
+        
         TreeItem<String> root = new TreeItem<>(e.getTargetNode().getId());
         this.tree.setRoot(root);
         this.attributesService.fillAttributes(targetModel.getAttributesMap(), root, targetModel);

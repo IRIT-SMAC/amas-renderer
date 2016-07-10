@@ -1,7 +1,6 @@
 package fr.irit.smac.amasrenderer.controller.graph;
 
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.graphstream.graph.Edge;
@@ -30,8 +29,6 @@ public class PortController implements Initializable, ISecondaryWindowController
     private TextField textfieldTool;
 
     private Sprite sprite;
-
-    private Node node;
 
     private TargetModel targetModel;
 
@@ -69,18 +66,13 @@ public class PortController implements Initializable, ISecondaryWindowController
         this.stage = stage;
         sprite = (Sprite) args[0];
         Edge e = (Edge) sprite.getAttachment();
-        node = e.getSourceNode();
+        Node node = e.getSourceNode();
 
-        Map<String, Object> agent = (Map<String, Object>) graphService.getAgentMap().get(node.getId());
         String id = ((String) sprite.getAttribute("id")).substring(node.getId().length(),
             ((String) sprite.getAttribute("id")).length());
-        Map<String, Object> target = (Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) agent
-            .get("commonFeatures")).get("featureSocial")).get("knowledge")).get("targets")).get(id);
+        
+        targetModel = graphService.getTargets().get(node.getId()).get(id);
 
-        targetModel = new TargetModel();
-        targetModel.setAttributesMap(target);
-
-        String portTarget = (String) targetModel.getAttributesMap().get("portSource");
     }
 
     @Override

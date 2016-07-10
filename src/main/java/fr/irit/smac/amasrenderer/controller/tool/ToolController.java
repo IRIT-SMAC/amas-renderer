@@ -3,12 +3,10 @@ package fr.irit.smac.amasrenderer.controller.tool;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.ToolModel;
-import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -75,6 +73,6 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
             .setTools(FXCollections.observableArrayList(actionStep -> new Observable[] { actionStep.nameProperty() }));
         this.listTool.setItems(this.toolService.getTools());
         this.toolService
-            .createToolsFromMap((Map<String, Object>) InfrastructureService.getInstance().getInfrastructure().getAttributesMap().get("services"));
+            .createToolsFromMap();
     }
 }
