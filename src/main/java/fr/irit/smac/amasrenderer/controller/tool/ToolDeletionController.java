@@ -15,10 +15,10 @@ import javafx.stage.Stage;
 public class ToolDeletionController implements ISecondaryWindowController {
 
     @FXML
-    private Button buttonConfirmRemove;
+    private Button buttonConfirm;
 
     @FXML
-    private Button buttonCancelRemove;
+    private Button buttonCancel;
 
     private String toolName;
 
@@ -34,7 +34,7 @@ public class ToolDeletionController implements ISecondaryWindowController {
      * When the confirm button is clicked, the selected tool is deleted
      */
     @FXML
-    public void clickConfirmRemove() {
+    public void clickConfirm() {
 
         this.toolService.removeTool(this.tool);
         InfrastructureService.getInstance().getInfrastructure().getAttributesMap().remove(this.toolName);
@@ -46,7 +46,7 @@ public class ToolDeletionController implements ISecondaryWindowController {
      * closed
      */
     @FXML
-    public void clickCancelRemove() {
+    public void clickCancel() {
         this.stage.close();
     }
 

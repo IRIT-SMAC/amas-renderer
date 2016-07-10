@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane styleClass="littleSecondaryWindow" stylesheets="@../../css/secondaryWindow.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60" fx:controller="fr.irit.smac.amasrenderer.controller.graph.GraphResetController">
+   <children>
+      <Label alignment="CENTER" layoutX="20.0" layoutY="20.0" maxHeight="100.0" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="496.0" styleClass="title" text="Réinitialiser le graphe" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Text layoutX="21.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoField" text="Voulez-vous réinitialiser le graphe d'agents ?" textAlignment="CENTER" wrappingWidth="457.13671875" />
+      <Button fx:id="buttonCancel" cancelButton="true" layoutX="35.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickCancel" prefHeight="50.0" prefWidth="180.0" text="Annuler" textOverrun="CLIP" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0">
+         <styleClass>
+            <String fx:value="buttonSecondaryWindow" />
+            <String fx:value="buttonSecondaryWindowKo" />
+         </styleClass>
+      </Button>
+      <Button fx:id="buttonConfirm" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="321.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickConfirm" prefHeight="50.0" prefWidth="180.0" text="Confirmer" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="15.0">
+         <styleClass>
+            <String fx:value="buttonSecondaryWindow" />
+            <String fx:value="buttonSecondaryWindowOk" />
+         </styleClass>
+      </Button>
+   </children>
+</AnchorPane>

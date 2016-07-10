@@ -296,7 +296,7 @@ public class GraphController extends LoadSecondaryWindowController
                 this.viewer.disableAutoLayout();
                 break;
             case RESET_GRAPH:
-                this.graphService.clearGraph();
+                this.loadFxml(window, "view/graph/ClearGraph.fxml", true, (Class<?>) null);
                 break;
             case HIDE_PORT:
                 this.graphService.hideSpriteEdge(Const.PORT);

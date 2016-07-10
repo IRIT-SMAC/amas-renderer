@@ -10,13 +10,13 @@
    <children>
 		<Label alignment="CENTER" maxHeight="100.0" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="496.0" styleClass="title" text="Suppression du service" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             		</Label>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="invalidField" text="Voulez-vous supprimer ce service ?" textAlignment="CENTER" wrappingWidth="457.13671875" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="110.0" />
-      <Button fx:id="buttonCancelRemove" cancelButton="true" layoutX="63.0" layoutY="183.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickCancelRemove" prefHeight="50.0" prefWidth="180.0" text="Annuler" textOverrun="CLIP" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="infoField" text="Voulez-vous supprimer ce service ?" textAlignment="CENTER" wrappingWidth="457.13671875" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="110.0" />
+      <Button fx:id="buttonCancel" cancelButton="true" layoutX="63.0" layoutY="183.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickCancel" prefHeight="50.0" prefWidth="180.0" text="Annuler" textOverrun="CLIP" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0">
          <styleClass>
             <String fx:value="buttonSecondaryWindow" />
             <String fx:value="buttonSecondaryWindowKo" />
          </styleClass></Button>
-				<Button fx:id="buttonConfirmRemove" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="247.0" layoutY="183.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickConfirmRemove" prefHeight="50.0" prefWidth="180.0" text="Confirmer" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="15.0">
+				<Button fx:id="buttonConfirm" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="247.0" layoutY="183.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickConfirm" prefHeight="50.0" prefWidth="180.0" text="Confirmer" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="15.0">
          <styleClass>
             <String fx:value="buttonSecondaryWindowOk" />
             <String fx:value="buttonSecondaryWindow" />
