@@ -8,10 +8,12 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.AbstractGraph;
 import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
 
 import fr.irit.smac.amasrenderer.Const;
+import fr.irit.smac.amasrenderer.controller.graph.EStateGraph;
 import fr.irit.smac.amasrenderer.model.AgentModel;
 import fr.irit.smac.amasrenderer.model.TargetModel;
 import javafx.beans.value.ObservableValue;
@@ -254,7 +256,6 @@ public class GraphService {
         Map<String, Object> targets = (Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) agent
             .get("commonFeatures")).get("featureSocial")).get("knowledge")).get("targets");
 
-
         String agentId = ((String) agent.get("id"));
 
         targets.forEach(
@@ -361,4 +362,89 @@ public class GraphService {
         this.setQualityGraph();
     }
 
+    public void displayForegroundNode(Node foregroundNode) {
+
+        Iterator<Node> itNode = this.graph.getNodeIterator();
+        while (itNode.hasNext()) {
+            Node node = itNode.next();
+            if (node.getId() != foregroundNode.getId()) {
+                node.addAttribute("ui.class", "background");
+            }
+        }
+
+        Iterator<Edge> it = this.graph.getEdgeIterator();
+        while (it.hasNext()) {
+            Edge edge = (Edge) it.next();
+            if (edge.getSourceNode().getId() != foregroundNode.getId()
+                && edge.getTargetNode().getId() != foregroundNode.getId()) {
+                edge.addAttribute("ui.class", "notVisible");
+                this.spriteManager.forEach(s -> {
+                    if (s.getAttachment().equals(edge)) {
+                        s.setAttribute("ui.class", "notVisible");
+                    }
+                });
+            }
+
+        }
+    }
+
+    public void displayBackgroundNode(Node n) {
+
+        Iterator<Node> itNode = this.graph.getNodeIterator();
+        while (itNode.hasNext()) {
+            Node node = itNode.next();
+            if (node.getId() == n.getId()) {
+                node.removeAttribute("ui.class");
+            }
+        }
+
+        Iterator<Edge> it = this.graph.getEdgeIterator();
+        while (it.hasNext()) {
+
+            Edge edge = (Edge) it.next();
+            if (edge.getSourceNode().getId() == n.getId() || edge.getTargetNode().getId() == n.getId()) {
+                edge.removeAttribute("ui.class");
+                this.spriteManager.forEach(s -> {
+                    if (s.getAttachment().equals(edge)) {
+                        if (s.getAttribute("type").equals("main")) {
+                            s.setAttribute("ui.class", "mainSprite");
+                        }
+                        else {
+                            s.setAttribute("ui.class", "portSprite");
+                        }
+                    }
+                });
+            }
+
+        }
+    }
+    
+    public void displayAllNodes() {
+
+        Iterator<Node> itNode = this.graph.getNodeIterator();
+        while (itNode.hasNext()) {
+            Node node = itNode.next();
+            node.removeAttribute("ui.class");
+        }
+
+        Iterator<Edge> it = this.graph.getEdgeIterator();
+        while (it.hasNext()) {
+
+            Edge edge = (Edge) it.next();
+            edge.removeAttribute("ui.class");
+
+            this.spriteManager.forEach(s -> {
+
+                if (s.getAttachment().equals(edge)) {
+                    if (s.getAttribute("type").equals("main")) {
+                        s.setAttribute("ui.class", "mainSprite");
+                    }
+                    else {
+                        s.setAttribute("ui.class", "portSprite");
+                    }
+                }
+            });
+
+        }
+    }
 }

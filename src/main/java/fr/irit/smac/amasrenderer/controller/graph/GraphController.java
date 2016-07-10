@@ -3,6 +3,7 @@ package fr.irit.smac.amasrenderer.controller.graph;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import org.graphstream.graph.Edge;
@@ -66,6 +67,10 @@ public class GraphController extends LoadSecondaryWindowController
     private EButtonsAddDelState buttonsAddDelState;
 
     private Integer edgeCreatedCount = 0;
+
+    private EDisplayNodeState displayNodeState;
+
+    private Node foregroundNode;
 
     /**
      * Handles the behavior of the graph when the user pressed a key
@@ -229,7 +234,10 @@ public class GraphController extends LoadSecondaryWindowController
                 this.graphState = EStateGraph.AT_EASE;
                 this.handleAttributesOrSelectNode(e);
                 break;
+            case FOREGROUND_NODE:
 
+                this.handleAttributesOrSelectNode(e);
+                break;
             case READY_TO_ADD_NODE:
                 this.graphState = EStateGraph.AT_EASE;
                 this.createNode(e);
@@ -400,6 +408,15 @@ public class GraphController extends LoadSecondaryWindowController
 
         this.selectedElement = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (this.selectedElement instanceof Node) {
+
+            this.foregroundNode = (Node) this.selectedElement;
+            if (this.displayNodeState == EDisplayNodeState.ACTIVE) {
+                this.graphService.displayBackgroundNode(this.foregroundNode);
+            }
+
+            this.displayNodeState = EDisplayNodeState.ACTIVE;
+            this.graphService.displayForegroundNode(this.foregroundNode);
+
             this.graphState = EStateGraph.SELECTED_NODE;
             this.graphView.requestFocus();
             for (Node node : this.graphService.getGraph()) {
@@ -408,6 +425,7 @@ public class GraphController extends LoadSecondaryWindowController
             }
             this.graphView.freezeElement(selectedElement, true);
             this.selectedElement.addAttribute(Const.NODE_CLICKED);
+
         }
         else if (this.selectedElement != null) {
 
@@ -417,6 +435,13 @@ public class GraphController extends LoadSecondaryWindowController
             }
             else {
                 this.loadFxml(window, "view/graph/TargetAttributes.fxml", true, s);
+            }
+        }
+        else {
+
+            if (this.displayNodeState == EDisplayNodeState.ACTIVE) {
+                this.displayNodeState = EDisplayNodeState.AT_EASE;
+                this.graphService.displayAllNodes();
             }
         }
     }
@@ -608,6 +633,7 @@ public class GraphController extends LoadSecondaryWindowController
         this.graphState = EStateGraph.AT_EASE;
         this.shortcutState = EShortcutState.AT_EASE;
         this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
+        this.displayNodeState = EDisplayNodeState.AT_EASE;
         this.graphToolboxController.setGraphButtonsState(this);
         this.graphNode.setContent(this.graphView);
     }
