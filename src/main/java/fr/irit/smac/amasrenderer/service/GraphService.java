@@ -1,7 +1,9 @@
 package fr.irit.smac.amasrenderer.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.graphstream.graph.Edge;
@@ -30,6 +32,10 @@ public class GraphService {
     private Map<String, Map<String, TargetModel>> targets = new HashMap<>();
 
     private SpriteManager spriteManager;
+
+    private boolean displayPort;
+
+    private boolean displayMain;
 
     public SpriteManager getSpriteManager() {
         return spriteManager;
@@ -116,6 +122,8 @@ public class GraphService {
      *            the id of the source node
      * @param target
      *            the id of the target node
+     * @param c
+     * @param b
      */
     public void addEdge(String source, String target, String id) {
 
@@ -143,21 +151,33 @@ public class GraphService {
         mainSprite.addAttribute(Const.GS_UI_CLASS, Const.MAIN_SPRITE_CLASS);
         mainSprite.addAttribute(Const.TYPE_SPRITE, Const.MAIN_SPRITE_EDGE);
         mainSprite.addAttribute(Const.ID, id);
+        this.displaySprite(mainSprite, getDisplayMain(), Const.MAIN_SPRITE_CLASS, Const.EDGE_SPRITE_CLASS_BACKGROUND);
 
-        this.createPortSourceToEdge(id, Const.SOURCE_PORT_SPRITE, portSource, 0.2);
-        this.createPortSourceToEdge(id, Const.TARGET_PORT_SPRITE, portTarget, 0.8);
+        this.createPortSourceToEdge(id, Const.SOURCE_PORT_SPRITE, portSource, 0.2, this.getDisplayPort());
+        this.createPortSourceToEdge(id, Const.TARGET_PORT_SPRITE, portTarget, 0.8, this.getDisplayPort());
+
     }
 
-    private void createPortSourceToEdge(String id, String subType, String port, double position) {
+    private void createPortSourceToEdge(String id, String subType, String port, double position,
+        boolean portSpriteVisible) {
 
         Sprite sprite = this.spriteManager.addSprite(id + subType);
         sprite.addAttribute(Const.GS_UI_LABEL, port);
-        sprite.addAttribute(Const.GS_UI_CLASS, Const.PORT_SPRITE_CLASS);
         sprite.addAttribute(Const.TYPE_SPRITE, Const.PORT);
         sprite.addAttribute(Const.SUBTYPE_SPRITE, subType);
         sprite.addAttribute(Const.ID, id);
         sprite.attachToEdge(id);
         sprite.setPosition(position);
+        this.displaySprite(sprite, portSpriteVisible, Const.PORT_SPRITE_CLASS, Const.EDGE_SPRITE_CLASS_BACKGROUND);
+    }
+
+    private void displaySprite(Sprite sprite, boolean visible, String classNormal, String classBackground) {
+        if (visible) {
+            sprite.addAttribute(Const.GS_UI_CLASS, classNormal);
+        }
+        else {
+            sprite.addAttribute(Const.GS_UI_CLASS, classBackground);
+        }
     }
 
     /**
@@ -274,6 +294,10 @@ public class GraphService {
 
         this.agentMap.clear();
         this.graph.clear();
+        List<String> idSpriteList = new ArrayList<>();
+        this.spriteManager.forEach(s -> idSpriteList.add(s.getId()));
+        idSpriteList.stream().forEach(id -> this.spriteManager.removeSprite(id));
+        this.spriteManager.forEach(s -> this.spriteManager.removeSprite(s.getId()));
         this.graph.addAttribute("ui.stylesheet", "url(" + getClass().getResource("../css/graph.css") + ")");
         this.setQualityGraph();
     }
@@ -350,7 +374,7 @@ public class GraphService {
 
     }
 
-    public void displayForegroundNode(Node foregroundNode, boolean visibleMainSprite, boolean visiblePort) {
+    public void displayForegroundNode(Node foregroundNode) {
 
         String id = foregroundNode.getId();
         this.graph.getEachNode().forEach(node -> {
@@ -371,7 +395,7 @@ public class GraphService {
         });
     }
 
-    public void displayBackgroundNode(Node foregroundNode, boolean mainSpriteVisible, boolean portSpriteVisible) {
+    public void displayBackgroundNode(Node foregroundNode) {
 
         String id = foregroundNode.getId();
         this.graph.getEachNode().forEach(node -> {
@@ -383,12 +407,12 @@ public class GraphService {
         this.graph.getEachEdge().forEach(edge -> {
             if (edge.getSourceNode().getId() == id || edge.getTargetNode().getId() == id) {
                 edge.removeAttribute(Const.GS_UI_CLASS);
-                this.displaySprite(mainSpriteVisible, portSpriteVisible, edge);
+                this.displaySprite(getDisplayMain(), this.getDisplayPort(), edge);
             }
         });
     }
 
-    public void displayAllNodes(boolean mainSpriteVisible, boolean portSpriteVisible) {
+    public void displayAllNodes() {
 
         this.graph.getEachNode().forEach(node -> {
             node.removeAttribute(Const.GS_UI_CLASS);
@@ -396,7 +420,7 @@ public class GraphService {
 
         this.graph.getEachEdge().forEach(edge -> {
             edge.removeAttribute(Const.GS_UI_CLASS);
-            this.displaySprite(mainSpriteVisible, portSpriteVisible, edge);
+            this.displaySprite(this.getDisplayMain(), this.getDisplayPort(), edge);
         });
     }
 
@@ -417,4 +441,21 @@ public class GraphService {
             });
         }
     }
+
+    public void setDisplayPort(boolean visible) {
+        this.displayPort = visible;
+    }
+    
+    public void setDisplayMain(boolean visible) {
+        this.displayMain = visible;
+    }
+    
+    private boolean getDisplayPort() {
+        return this.displayPort;
+    }
+    
+    private boolean getDisplayMain() {
+        return this.displayMain;
+    }
+
 }

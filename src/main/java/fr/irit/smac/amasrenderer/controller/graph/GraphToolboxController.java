@@ -241,14 +241,4 @@ public class GraphToolboxController implements Initializable {
         public void changedStateOtherButtons(EOthersButtonsState state);
 
     }
-
-    public boolean isVisibleMainSprite() {
-
-        return this.hideMainSpriteState == EOthersButtonsState.DISPLAY_MAIN_SPRITE;
-    }
-
-    public boolean isVisiblePort() {
-        
-        return this.hidePortState == EOthersButtonsState.DISPLAY_PORT;
-    }
 }

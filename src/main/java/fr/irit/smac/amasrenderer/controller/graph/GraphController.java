@@ -59,7 +59,7 @@ public class GraphController extends LoadSecondaryWindowController
 
     private GraphicElement selectedElement;
 
-    private EStateGraph graphState;
+    private EGraphState graphState;
 
     private EShortcutState shortcutState;
 
@@ -116,8 +116,8 @@ public class GraphController extends LoadSecondaryWindowController
     @FXML
     public void handleOnMouseReleased() {
 
-        if (this.graphState == EStateGraph.SELECTED_NODE) {
-            this.graphState = EStateGraph.AT_EASE;
+        if (this.graphState == EGraphState.SELECTED_NODE) {
+            this.graphState = EGraphState.AT_EASE;
             this.unselectNode(this.selectedElement);
         }
     }
@@ -131,8 +131,8 @@ public class GraphController extends LoadSecondaryWindowController
     @FXML
     public void handleOnMouseDragged(MouseEvent e) {
 
-        if (this.graphState == EStateGraph.SELECTED_NODE) {
-            this.graphState = EStateGraph.SELECTED_NODE;
+        if (this.graphState == EGraphState.SELECTED_NODE) {
+            this.graphState = EGraphState.SELECTED_NODE;
             this.moveSelectedNode(this.selectedElement, e);
         }
     }
@@ -169,24 +169,24 @@ public class GraphController extends LoadSecondaryWindowController
      */
     public void handleButtonsAddDelState() {
 
-        if (this.graphState != EStateGraph.READY_TO_ADD_EDGE_TARGET) {
+        if (this.graphState != EGraphState.READY_TO_ADD_EDGE_TARGET) {
 
             switch (this.buttonsAddDelState) {
 
                 case BUTTON_ADD_NODE:
-                    this.graphState = EStateGraph.READY_TO_ADD_NODE;
+                    this.graphState = EGraphState.READY_TO_ADD_NODE;
                     break;
 
                 case BUTTON_DELETE_NODE:
-                    this.graphState = EStateGraph.READY_TO_DELETE_NODE;
+                    this.graphState = EGraphState.READY_TO_DELETE_NODE;
                     break;
 
                 case BUTTON_ADD_EDGE:
-                    this.graphState = EStateGraph.READY_TO_ADD_EDGE_SOURCE;
+                    this.graphState = EGraphState.READY_TO_ADD_EDGE_SOURCE;
                     break;
 
                 case BUTTON_DELETE_EDGE:
-                    this.graphState = EStateGraph.READY_TO_DELETE_EDGE;
+                    this.graphState = EGraphState.READY_TO_DELETE_EDGE;
                     break;
 
                 default:
@@ -227,43 +227,49 @@ public class GraphController extends LoadSecondaryWindowController
      */
     public void handleGraphState(MouseEvent e) {
 
-        switch (this.graphState) {
+        if (this.graphState == EGraphState.AT_EASE) {
 
-            case AT_EASE:
-                this.graphState = EStateGraph.AT_EASE;
-                this.handleAttributesOrSelectNode(e);
-                break;
-            case FOREGROUND_NODE:
-
-                this.handleAttributesOrSelectNode(e);
-                break;
-            case READY_TO_ADD_NODE:
-                this.graphState = EStateGraph.AT_EASE;
-                this.createNode(e);
-                break;
-
-            case READY_TO_DELETE_NODE:
-                this.graphState = EStateGraph.AT_EASE;
-                this.removeNode(e);
-                break;
-
-            case READY_TO_ADD_EDGE_SOURCE:
-                this.readyToAddEdgeSource(e, EStateGraph.READY_TO_ADD_EDGE_TARGET);
-                break;
-
-            case READY_TO_ADD_EDGE_TARGET:
-                this.graphState = EStateGraph.AT_EASE;
-                this.addEdge(e);
-                break;
-
-            case READY_TO_DELETE_EDGE:
-                this.graphState = EStateGraph.AT_EASE;
-                this.removeEdge(e);
-                break;
-
-            default:
-                break;
+            this.graphState = EGraphState.AT_EASE;
+            this.handleAttributesOrSelectNode(e);
         }
+        else {
+
+            this.handleUnselectedNodeDisplay();
+            switch (this.graphState) {
+
+                case AT_EASE:
+                    this.graphState = EGraphState.AT_EASE;
+                    this.handleAttributesOrSelectNode(e);
+                    break;
+                case READY_TO_ADD_NODE:
+                    this.graphState = EGraphState.AT_EASE;
+                    this.createNode(e);
+                    break;
+
+                case READY_TO_DELETE_NODE:
+                    this.graphState = EGraphState.AT_EASE;
+                    this.removeNode(e);
+                    break;
+
+                case READY_TO_ADD_EDGE_SOURCE:
+                    this.readyToAddEdgeSource(e, EGraphState.READY_TO_ADD_EDGE_TARGET);
+                    break;
+
+                case READY_TO_ADD_EDGE_TARGET:
+                    this.graphState = EGraphState.AT_EASE;
+                    this.addEdge(e);
+                    break;
+
+                case READY_TO_DELETE_EDGE:
+                    this.graphState = EGraphState.AT_EASE;
+                    this.removeEdge(e);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
     }
 
     @Override
@@ -294,17 +300,21 @@ public class GraphController extends LoadSecondaryWindowController
                 break;
             case HIDE_PORT:
                 this.graphService.hideSpriteEdge(Const.PORT);
+                this.graphService.setDisplayPort(false);
                 break;
             case DISPLAY_PORT:
                 this.graphService.displaySpriteEdge(this.displayNodeState == EDisplayNodeState.ACTIVE,
                     this.foregroundNode, Const.PORT, Const.PORT_SPRITE_CLASS);
+                this.graphService.setDisplayPort(true);
                 break;
             case HIDE_MAIN_SPRITE:
                 this.graphService.hideSpriteEdge(Const.MAIN_SPRITE_EDGE);
+                this.graphService.setDisplayMain(false);
                 break;
             case DISPLAY_MAIN_SPRITE:
                 this.graphService.displaySpriteEdge(this.displayNodeState == EDisplayNodeState.ACTIVE,
                     this.foregroundNode, Const.MAIN_SPRITE_EDGE, Const.MAIN_SPRITE_CLASS);
+                this.graphService.setDisplayMain(true);
                 break;
             default:
                 break;
@@ -320,11 +330,11 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void readyToAddOrDeleteEdge(MouseEvent e) {
 
-        if (e.isPrimaryButtonDown() && !(this.graphState == EStateGraph.READY_TO_ADD_EDGE_TARGET)) {
-            this.graphState = EStateGraph.READY_TO_ADD_EDGE_SOURCE;
+        if (e.isPrimaryButtonDown() && !(this.graphState == EGraphState.READY_TO_ADD_EDGE_TARGET)) {
+            this.graphState = EGraphState.READY_TO_ADD_EDGE_SOURCE;
         }
         else if (e.isSecondaryButtonDown()) {
-            this.graphState = EStateGraph.READY_TO_DELETE_EDGE;
+            this.graphState = EGraphState.READY_TO_DELETE_EDGE;
         }
     }
 
@@ -337,7 +347,7 @@ public class GraphController extends LoadSecondaryWindowController
      * @param nextState
      *            the next state
      */
-    private void readyToAddEdgeSource(MouseEvent e, EStateGraph nextState) {
+    private void readyToAddEdgeSource(MouseEvent e, EGraphState nextState) {
 
         GraphicElement selected = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (selected != null && selected instanceof Node) {
@@ -355,10 +365,10 @@ public class GraphController extends LoadSecondaryWindowController
     private void readyToAddOrDeleteNode(MouseEvent e) {
 
         if (e.isPrimaryButtonDown()) {
-            this.graphState = EStateGraph.READY_TO_ADD_NODE;
+            this.graphState = EGraphState.READY_TO_ADD_NODE;
         }
         else if (e.isSecondaryButtonDown()) {
-            this.graphState = EStateGraph.READY_TO_DELETE_NODE;
+            this.graphState = EGraphState.READY_TO_DELETE_NODE;
         }
     }
 
@@ -391,7 +401,7 @@ public class GraphController extends LoadSecondaryWindowController
     private void handleAttributesOrSelectNode(MouseEvent e) {
 
         if (e.isSecondaryButtonDown()) {
-            this.graphState = EStateGraph.AT_EASE;
+            this.graphState = EGraphState.AT_EASE;
             this.handleAttributesOrSelectSprite(e);
 
         }
@@ -425,7 +435,7 @@ public class GraphController extends LoadSecondaryWindowController
 
             this.handleSelectedNodeDisplay();
 
-            this.graphState = EStateGraph.SELECTED_NODE;
+            this.graphState = EGraphState.SELECTED_NODE;
             this.graphView.requestFocus();
             for (Node node : this.graphService.getGraph()) {
                 node.addAttribute(Const.GS_UI_CLICKED);
@@ -460,8 +470,7 @@ public class GraphController extends LoadSecondaryWindowController
 
         if (this.displayNodeState == EDisplayNodeState.ACTIVE) {
             this.displayNodeState = EDisplayNodeState.AT_EASE;
-            this.graphService.displayAllNodes(this.graphToolboxController.isVisibleMainSprite(),
-                this.graphToolboxController.isVisiblePort());
+            this.graphService.displayAllNodes();
         }
     }
 
@@ -469,13 +478,11 @@ public class GraphController extends LoadSecondaryWindowController
 
         this.foregroundNode = (Node) this.selectedElement;
         if (this.displayNodeState == EDisplayNodeState.ACTIVE) {
-            this.graphService.displayBackgroundNode(this.foregroundNode,
-                this.graphToolboxController.isVisibleMainSprite(), this.graphToolboxController.isVisiblePort());
+            this.graphService.displayBackgroundNode(this.foregroundNode);
         }
 
         this.displayNodeState = EDisplayNodeState.ACTIVE;
-        this.graphService.displayForegroundNode(this.foregroundNode,
-            this.graphToolboxController.isVisibleMainSprite(), this.graphToolboxController.isVisiblePort());
+        this.graphService.displayForegroundNode(this.foregroundNode);
     }
 
     /**
@@ -659,12 +666,14 @@ public class GraphController extends LoadSecondaryWindowController
         this.viewer.enableAutoLayout();
         this.graphView = this.viewer.addDefaultView(false);
         this.removeDefaultListeners();
-        this.graphState = EStateGraph.AT_EASE;
+        this.graphState = EGraphState.AT_EASE;
         this.shortcutState = EShortcutState.AT_EASE;
         this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
         this.displayNodeState = EDisplayNodeState.AT_EASE;
         this.graphToolboxController.setGraphButtonsState(this);
         this.graphNode.setContent(this.graphView);
+        this.graphService.setDisplayMain(true);
+        this.graphService.setDisplayPort(true);
     }
 
     @Override
