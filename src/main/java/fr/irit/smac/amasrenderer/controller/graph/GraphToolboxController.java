@@ -56,7 +56,7 @@ public class GraphToolboxController implements Initializable {
 
     private EOthersButtonsState hidePortState;
 
-    private EOthersButtonsState hideMainSprite;
+    private EOthersButtonsState hideMainSpriteState;
 
     /**
      * Sets the implementation of graphButtonsState
@@ -181,12 +181,12 @@ public class GraphToolboxController implements Initializable {
     @FXML
     public void buttonHideMainSprite() {
 
-        if (this.hideMainSprite == EOthersButtonsState.HIDE_MAIN_SPRITE) {
-            this.hideMainSprite = EOthersButtonsState.DISPLAY_MAIN_SPRITE;
+        if (this.hideMainSpriteState == EOthersButtonsState.HIDE_MAIN_SPRITE) {
+            this.hideMainSpriteState = EOthersButtonsState.DISPLAY_MAIN_SPRITE;
             this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.DISPLAY_MAIN_SPRITE);
         }
         else {
-            this.hideMainSprite = EOthersButtonsState.HIDE_MAIN_SPRITE;
+            this.hideMainSpriteState = EOthersButtonsState.HIDE_MAIN_SPRITE;
             this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.HIDE_MAIN_SPRITE);
         }
     }
@@ -208,14 +208,14 @@ public class GraphToolboxController implements Initializable {
 
         }
     }
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
         this.autoLayoutState = EOthersButtonsState.AUTO_LAYOUT;
         this.hidePortState = EOthersButtonsState.DISPLAY_PORT;
-        this.hideMainSprite = EOthersButtonsState.HIDE_MAIN_SPRITE;
+        this.hideMainSpriteState = EOthersButtonsState.DISPLAY_MAIN_SPRITE;
     }
 
     /**
@@ -240,5 +240,15 @@ public class GraphToolboxController implements Initializable {
          */
         public void changedStateOtherButtons(EOthersButtonsState state);
 
+    }
+
+    public boolean isVisibleMainSprite() {
+
+        return this.hideMainSpriteState == EOthersButtonsState.DISPLAY_MAIN_SPRITE;
+    }
+
+    public boolean isVisiblePort() {
+        
+        return this.hidePortState == EOthersButtonsState.DISPLAY_PORT;
     }
 }

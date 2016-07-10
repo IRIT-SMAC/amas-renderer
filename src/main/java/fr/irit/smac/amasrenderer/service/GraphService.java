@@ -8,12 +8,11 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.AbstractGraph;
 import org.graphstream.graph.implementations.MultiGraph;
-import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.controller.graph.EStateGraph;
+import fr.irit.smac.amasrenderer.controller.graph.EDisplayNodeState;
 import fr.irit.smac.amasrenderer.model.AgentModel;
 import fr.irit.smac.amasrenderer.model.TargetModel;
 import javafx.beans.value.ObservableValue;
@@ -319,36 +318,62 @@ public class GraphService {
 
         this.getSpriteManager().forEach(s -> {
             if (s.getAttribute("type").equals("source") || s.getAttribute("type").equals("target")) {
-                s.addAttribute("ui.class", "notVisible");
+                s.setAttribute("ui.class", "notVisible");
             }
         });
     }
 
-    public void displayPort() {
+    public void displayPort(EDisplayNodeState displayNodeState, Node node) {
 
-        this.getSpriteManager().forEach(s -> {
-            if (s.getAttribute("type").equals("source") || s.getAttribute("type").equals("target")) {
-                s.addAttribute("ui.class", "portSprite");
-            }
-        });
+        if (displayNodeState == EDisplayNodeState.ACTIVE) {
+            this.getSpriteManager().forEach(s -> {
+
+                Edge edge = (Edge) s.getAttachment();
+                if ((edge.getSourceNode().getId() == node.getId()
+                    || edge.getTargetNode().getId() == node.getId()) && (s.getAttribute("type").equals("source")
+                        || s.getAttribute("type").equals("target"))) {
+                    s.setAttribute("ui.class", "portSprite");
+                }
+            });
+        }
+        else {
+            this.getSpriteManager().forEach(s -> {
+                if (s.getAttribute("type").equals("source") || s.getAttribute("type").equals("target")) {
+                    s.setAttribute("ui.class", "portSprite");
+                }
+            });
+        }
+
     }
 
     public void hideMainSprite() {
 
         this.getSpriteManager().forEach(s -> {
             if (s.getAttribute("type").equals("main")) {
-                s.addAttribute("ui.class", "notVisible");
+                s.setAttribute("ui.class", "notVisible");
             }
         });
     }
 
-    public void displayMainSprite() {
+    public void displayMainSprite(EDisplayNodeState displayNodeState, Node node) {
 
-        this.getSpriteManager().forEach(s -> {
-            if (s.getAttribute("type").equals("main")) {
-                s.addAttribute("ui.class", "mainSprite");
-            }
-        });
+        if (displayNodeState == EDisplayNodeState.ACTIVE) {
+            this.getSpriteManager().forEach(s -> {
+
+                Edge edge = (Edge) s.getAttachment();
+                if ((edge.getSourceNode().getId() == node.getId()
+                    || edge.getTargetNode().getId() == node.getId()) && s.getAttribute("type").equals("main")) {
+                    s.setAttribute("ui.class", "mainSprite");
+                }
+            });
+        }
+        else {
+            this.getSpriteManager().forEach(s -> {
+                if (s.getAttribute("type").equals("main")) {
+                    s.setAttribute("ui.class", "mainSprite");
+                }
+            });
+        }
     }
 
     public Map<String, Map<String, TargetModel>> getTargets() {
@@ -362,7 +387,7 @@ public class GraphService {
         this.setQualityGraph();
     }
 
-    public void displayForegroundNode(Node foregroundNode) {
+    public void displayForegroundNode(Node foregroundNode, boolean visibleMainSprite, boolean visiblePort) {
 
         Iterator<Node> itNode = this.graph.getNodeIterator();
         while (itNode.hasNext()) {
@@ -388,7 +413,7 @@ public class GraphService {
         }
     }
 
-    public void displayBackgroundNode(Node n) {
+    public void displayBackgroundNode(Node n, boolean mainSpriteVisible, boolean portSpriteVisible) {
 
         Iterator<Node> itNode = this.graph.getNodeIterator();
         while (itNode.hasNext()) {
@@ -404,22 +429,29 @@ public class GraphService {
             Edge edge = (Edge) it.next();
             if (edge.getSourceNode().getId() == n.getId() || edge.getTargetNode().getId() == n.getId()) {
                 edge.removeAttribute("ui.class");
-                this.spriteManager.forEach(s -> {
-                    if (s.getAttachment().equals(edge)) {
-                        if (s.getAttribute("type").equals("main")) {
-                            s.setAttribute("ui.class", "mainSprite");
+
+                if (mainSpriteVisible || portSpriteVisible) {
+                    this.spriteManager.forEach(s -> {
+
+                        if (s.getAttachment().equals(edge)) {
+
+                            if (mainSpriteVisible && s.getAttribute("type").equals("main")) {
+                                s.setAttribute("ui.class", "mainSprite");
+                            }
+                            if (portSpriteVisible
+                                && (s.getAttribute("type").equals("source")
+                                    || s.getAttribute("type").equals("target"))) {
+                                s.setAttribute("ui.class", "portSprite");
+                            }
                         }
-                        else {
-                            s.setAttribute("ui.class", "portSprite");
-                        }
-                    }
-                });
+                    });
+                }
             }
 
         }
     }
-    
-    public void displayAllNodes() {
+
+    public void displayAllNodes(boolean mainSpriteVisible, boolean portSpriteVisible) {
 
         Iterator<Node> itNode = this.graph.getNodeIterator();
         while (itNode.hasNext()) {
@@ -433,17 +465,21 @@ public class GraphService {
             Edge edge = (Edge) it.next();
             edge.removeAttribute("ui.class");
 
-            this.spriteManager.forEach(s -> {
+            if (mainSpriteVisible || portSpriteVisible) {
+                this.spriteManager.forEach(s -> {
 
-                if (s.getAttachment().equals(edge)) {
-                    if (s.getAttribute("type").equals("main")) {
-                        s.setAttribute("ui.class", "mainSprite");
+                    if (s.getAttachment().equals(edge)) {
+
+                        if (mainSpriteVisible && s.getAttribute("type").equals("main")) {
+                            s.setAttribute("ui.class", "mainSprite");
+                        }
+                        if (portSpriteVisible
+                            && (s.getAttribute("type").equals("source") || s.getAttribute("type").equals("target"))) {
+                            s.setAttribute("ui.class", "portSprite");
+                        }
                     }
-                    else {
-                        s.setAttribute("ui.class", "portSprite");
-                    }
-                }
-            });
+                });
+            }
 
         }
     }

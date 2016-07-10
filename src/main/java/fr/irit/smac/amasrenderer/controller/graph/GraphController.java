@@ -297,13 +297,13 @@ public class GraphController extends LoadSecondaryWindowController
                 this.graphService.hidePort();
                 break;
             case DISPLAY_PORT:
-                this.graphService.displayPort();
+                this.graphService.displayPort(this.displayNodeState, this.foregroundNode);
                 break;
             case HIDE_MAIN_SPRITE:
                 this.graphService.hideMainSprite();
                 break;
             case DISPLAY_MAIN_SPRITE:
-                this.graphService.displayMainSprite();
+                this.graphService.displayMainSprite(this.displayNodeState, this.foregroundNode);
                 break;
             default:
                 break;
@@ -411,11 +411,13 @@ public class GraphController extends LoadSecondaryWindowController
 
             this.foregroundNode = (Node) this.selectedElement;
             if (this.displayNodeState == EDisplayNodeState.ACTIVE) {
-                this.graphService.displayBackgroundNode(this.foregroundNode);
+                this.graphService.displayBackgroundNode(this.foregroundNode,
+                    this.graphToolboxController.isVisibleMainSprite(), this.graphToolboxController.isVisiblePort());
             }
 
             this.displayNodeState = EDisplayNodeState.ACTIVE;
-            this.graphService.displayForegroundNode(this.foregroundNode);
+            this.graphService.displayForegroundNode(this.foregroundNode,
+                this.graphToolboxController.isVisibleMainSprite(), this.graphToolboxController.isVisiblePort());
 
             this.graphState = EStateGraph.SELECTED_NODE;
             this.graphView.requestFocus();
@@ -430,18 +432,22 @@ public class GraphController extends LoadSecondaryWindowController
         else if (this.selectedElement != null) {
 
             Sprite s = this.graphService.getSpriteManager().getSprite(this.selectedElement.getId());
-            if (s.getAttribute("type") != "main") {
-                this.loadFxml(window, "view/graph/Port.fxml", true, s);
-            }
-            else {
-                this.loadFxml(window, "view/graph/TargetAttributes.fxml", true, s);
+
+            if (s.getAttribute("ui.class") != "notVisible") {
+                if (s.getAttribute("type") != "main") {
+                    this.loadFxml(window, "view/graph/Port.fxml", true, s);
+                }
+                else {
+                    this.loadFxml(window, "view/graph/TargetAttributes.fxml", true, s);
+                }
             }
         }
         else {
 
             if (this.displayNodeState == EDisplayNodeState.ACTIVE) {
                 this.displayNodeState = EDisplayNodeState.AT_EASE;
-                this.graphService.displayAllNodes();
+                this.graphService.displayAllNodes(this.graphToolboxController.isVisibleMainSprite(),
+                    this.graphToolboxController.isVisiblePort());
             }
         }
     }
@@ -642,4 +648,5 @@ public class GraphController extends LoadSecondaryWindowController
     public void setWindow(Window window) {
         this.window = window;
     }
+
 }
