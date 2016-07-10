@@ -3,7 +3,6 @@ package fr.irit.smac.amasrenderer.controller.graph;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import org.graphstream.graph.Edge;
@@ -294,16 +293,18 @@ public class GraphController extends LoadSecondaryWindowController
                 this.graphService.clearGraph();
                 break;
             case HIDE_PORT:
-                this.graphService.hidePort();
+                this.graphService.hideSpriteEdge("port");
                 break;
             case DISPLAY_PORT:
-                this.graphService.displayPort(this.displayNodeState, this.foregroundNode);
+                this.graphService.displaySpriteEdge(this.displayNodeState == EDisplayNodeState.ACTIVE,
+                    this.foregroundNode, "port", "portSprite");
                 break;
             case HIDE_MAIN_SPRITE:
-                this.graphService.hideMainSprite();
+                this.graphService.hideSpriteEdge("main");
                 break;
             case DISPLAY_MAIN_SPRITE:
-                this.graphService.displayMainSprite(this.displayNodeState, this.foregroundNode);
+                this.graphService.displaySpriteEdge(this.displayNodeState == EDisplayNodeState.ACTIVE,
+                    this.foregroundNode, "main", "mainSprite");
                 break;
             default:
                 break;
@@ -391,15 +392,28 @@ public class GraphController extends LoadSecondaryWindowController
 
         if (e.isSecondaryButtonDown()) {
             this.graphState = EStateGraph.AT_EASE;
-            this.handleAttributes(e);
+            this.handleAttributesOrSelectSprite(e);
+
         }
         else if (e.isPrimaryButtonDown()) {
             this.selectNode(e);
         }
     }
 
+    private void handleAttributesOrSelectSprite(MouseEvent e) {
+
+        GraphicElement elt = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+
+        if (elt != null && elt instanceof Node) {
+            this.handleAttributes(elt);
+        }
+        else if (this.selectedElement != null) {
+            this.clickOnSpriteEdge(elt);
+        }
+    }
+
     /**
-     * Unselects all nodes when the mouse button is pressed.
+     * Selected the selected node
      *
      * @param event
      *            the event
@@ -409,15 +423,7 @@ public class GraphController extends LoadSecondaryWindowController
         this.selectedElement = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (this.selectedElement instanceof Node) {
 
-            this.foregroundNode = (Node) this.selectedElement;
-            if (this.displayNodeState == EDisplayNodeState.ACTIVE) {
-                this.graphService.displayBackgroundNode(this.foregroundNode,
-                    this.graphToolboxController.isVisibleMainSprite(), this.graphToolboxController.isVisiblePort());
-            }
-
-            this.displayNodeState = EDisplayNodeState.ACTIVE;
-            this.graphService.displayForegroundNode(this.foregroundNode,
-                this.graphToolboxController.isVisibleMainSprite(), this.graphToolboxController.isVisiblePort());
+            this.handleSelectedNodeDisplay();
 
             this.graphState = EStateGraph.SELECTED_NODE;
             this.graphView.requestFocus();
@@ -430,26 +436,46 @@ public class GraphController extends LoadSecondaryWindowController
 
         }
         else if (this.selectedElement != null) {
-
-            Sprite s = this.graphService.getSpriteManager().getSprite(this.selectedElement.getId());
-
-            if (s.getAttribute("ui.class") != "notVisible") {
-                if (s.getAttribute("type") != "main") {
-                    this.loadFxml(window, "view/graph/Port.fxml", true, s);
-                }
-                else {
-                    this.loadFxml(window, "view/graph/TargetAttributes.fxml", true, s);
-                }
-            }
+            this.clickOnSpriteEdge(this.selectedElement);
         }
         else {
+            this.handleUnselectedNodeDisplay();
+        }
+    }
 
-            if (this.displayNodeState == EDisplayNodeState.ACTIVE) {
-                this.displayNodeState = EDisplayNodeState.AT_EASE;
-                this.graphService.displayAllNodes(this.graphToolboxController.isVisibleMainSprite(),
-                    this.graphToolboxController.isVisiblePort());
+    private void clickOnSpriteEdge(GraphicElement elt) {
+
+        Sprite s = this.graphService.getSpriteManager().getSprite(elt.getId());
+        if (s.getAttribute("ui.class") != "notVisible") {
+            if (s.getAttribute("type") != "main") {
+                this.loadFxml(window, "view/graph/Port.fxml", true, s);
+            }
+            else {
+                this.loadFxml(window, "view/graph/TargetAttributes.fxml", true, s);
             }
         }
+    }
+
+    private void handleUnselectedNodeDisplay() {
+
+        if (this.displayNodeState == EDisplayNodeState.ACTIVE) {
+            this.displayNodeState = EDisplayNodeState.AT_EASE;
+            this.graphService.displayAllNodes(this.graphToolboxController.isVisibleMainSprite(),
+                this.graphToolboxController.isVisiblePort());
+        }
+    }
+
+    private void handleSelectedNodeDisplay() {
+
+        this.foregroundNode = (Node) this.selectedElement;
+        if (this.displayNodeState == EDisplayNodeState.ACTIVE) {
+            this.graphService.displayBackgroundNode(this.foregroundNode,
+                this.graphToolboxController.isVisibleMainSprite(), this.graphToolboxController.isVisiblePort());
+        }
+
+        this.displayNodeState = EDisplayNodeState.ACTIVE;
+        this.graphService.displayForegroundNode(this.foregroundNode,
+            this.graphToolboxController.isVisibleMainSprite(), this.graphToolboxController.isVisiblePort());
     }
 
     /**
@@ -458,13 +484,10 @@ public class GraphController extends LoadSecondaryWindowController
      * 
      * @param e
      */
-    private void handleAttributes(MouseEvent e) {
+    private void handleAttributes(GraphicElement elt) {
 
-        GraphicElement elt = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-        if (elt != null && elt instanceof Node) {
-            this.selectedAgent = this.graphService.getGraph().getNode(((Node) elt).getId());
-            this.loadFxml(window, "view/graph/GraphAttributes.fxml", true, this.selectedAgent);
-        }
+        this.selectedAgent = this.graphService.getGraph().getNode(((Node) elt).getId());
+        this.loadFxml(window, "view/graph/GraphAttributes.fxml", true, this.selectedAgent);
     }
 
     /**
