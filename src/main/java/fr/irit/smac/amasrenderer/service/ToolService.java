@@ -111,13 +111,18 @@ public class ToolService {
         this.toolMap = toolMap;
     }
 
-    public void updateGraphFromFile(Map<String, Object> toolMap) {
+    public void updateToolFromFile(Map<String, Object> toolMap) {
         this.setToolMap(toolMap);
         this.createToolsFromMap();
+
+        @SuppressWarnings("unchecked")
+        Map<String, Object> agentMap = (HashMap<String, Object>) ((Map<String, Object>) toolMap
+            .get(Const.AGENT_HANDLER_SERVICE)).get(Const.AGENT_MAP);
+        GraphService.getInstance().updateGraphFromFile(agentMap);
     }
-    
-    public void init(Map<String,Object> toolMap) {
-        
+
+    public void init(Map<String, Object> toolMap) {
+
         this.setToolMap(toolMap);
         Map<String, Object> agentHandlerService = new HashMap<>();
         Map<String, Object> agentMap = new HashMap<>();
@@ -127,7 +132,8 @@ public class ToolService {
         executionService.put(Const.CLASSNAME, Const.EXECUTION_CLASSNAME);
         toolMap.put(Const.AGENT_HANDLER_SERVICE, agentHandlerService);
         toolMap.put(Const.EXECUTION_SERVICE, executionService);
-        
+
         GraphService.getInstance().setAgentMap(agentMap);
+
     }
 }

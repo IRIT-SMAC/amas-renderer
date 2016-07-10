@@ -41,6 +41,10 @@ public class PortController implements Initializable, ISecondaryWindowController
 
         String portName = textfieldTool.getText();
 
+        if (portName.trim().isEmpty()) {
+            portName = null;
+        }
+        
         if (sprite.getAttribute("type").equals("source")) {
             targetModel.getAttributesMap().put("portSource", portName);
             sprite.setAttribute(Const.NODE_LABEL, portName);
@@ -49,7 +53,7 @@ public class PortController implements Initializable, ISecondaryWindowController
             targetModel.getAttributesMap().put("portTarget", portName);
             sprite.setAttribute(Const.NODE_LABEL, portName);
         }
-
+        
         this.stage.close();
 
     }

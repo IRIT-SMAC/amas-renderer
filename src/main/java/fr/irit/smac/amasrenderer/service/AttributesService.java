@@ -83,7 +83,12 @@ public class AttributesService {
             map.put(key, newMap);
         }
         else if (!node.isEmpty()) {
-            map.put(item.getValue(), node.get(0).getValue());
+            if (node.get(0).getValue().equals("null")) {
+                map.put(item.getValue(), null);
+            }
+            else {
+                map.put(item.getValue(), node.get(0).getValue());
+            }
         }
     }
 
@@ -129,7 +134,12 @@ public class AttributesService {
                 TreeItem<String> item = new TreeItem<>();
                 item.setValue(name);
                 TreeItem<String> item2 = new TreeItem<>();
-                item2.setValue(value.toString());
+                if (value != null) {
+                    item2.setValue(value.toString());
+                }
+                else {
+                    item2.setValue("null");
+                }
                 item.getChildren().add(item2);
                 item.setExpanded(true);
                 parent.getChildren().add(item);

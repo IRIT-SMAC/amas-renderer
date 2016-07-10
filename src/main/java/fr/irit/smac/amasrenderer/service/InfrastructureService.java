@@ -61,12 +61,7 @@ public class InfrastructureService {
 
         @SuppressWarnings("unchecked")
         Map<String, Object> toolMap = (Map<String, Object>) this.infrastructure.getAttributesMap().get("services");
-        ToolService.getInstance().updateGraphFromFile(toolMap);
-        
-        @SuppressWarnings("unchecked")
-        Map<String, Object> agentMap = (HashMap<String, Object>) ((Map<String, Object>) toolMap
-            .get(Const.AGENT_HANDLER_SERVICE)).get(Const.AGENT_MAP);
-        GraphService.getInstance().updateGraphFromFile(agentMap);
+        ToolService.getInstance().updateToolFromFile(toolMap);
     }
 
     /**

@@ -254,18 +254,24 @@ public class GraphService {
         Map<String, Object> targets = (Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) agent
             .get("commonFeatures")).get("featureSocial")).get("knowledge")).get("targets");
 
+
+        String agentId = ((String) agent.get("id"));
+
         targets.forEach(
             (k, v) -> {
                 String targetId = (String) ((Map<String, Object>) v).get("agentTarget");
-                String agentId = ((String) agent.get("id"));
                 String portSource = (String) ((Map<String, Object>) v).get("portSource");
                 String portTarget = (String) ((Map<String, Object>) v).get("portTarget");
                 String className = (String) ((Map<String, Object>) v).get("className");
                 this.addEdgeGraph(agentId, targetId, agentId.concat(k), portSource, portTarget);
+                TargetModel targetModel = new TargetModel(targetId, k, portSource, portTarget, className);
                 this.targets.get(agentId).put(k,
-                    new TargetModel(targetId, agentId.concat(k), portSource, portTarget, className));
-
+                    targetModel);
             });
+
+        targets.clear();
+        this.targets.get(agentId).forEach((k, v) -> targets.put(k, v.getAttributesMap()));
+
     }
 
     /**
