@@ -63,7 +63,6 @@ public class AgentModel extends MultiNode implements Node, IModel {
      */
     public void setAttributesMap(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
-        GraphService.getInstance().getAgentMap().put(id, attributesMap);
     }
 
     @Override
@@ -124,18 +123,17 @@ public class AgentModel extends MultiNode implements Node, IModel {
                 "fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
                 "fr.irit.smac.amasfactory.agent.features.social.impl.SkillSocial"));
 
-        
-        Map<String,Object> portMap = new HashMap<>();
+        Map<String, Object> portMap = new HashMap<>();
         ((Map<String, Object>) ((Map<String, Object>) commonFeatures
             .get("featureSocial")).get("knowledge")).put("portMap", portMap);
-        
+
         this.portMap = portMap;
-        
-        Map<String,Object> targetMap = new HashMap<>();
-        
+
+        Map<String, Object> targetMap = new HashMap<>();
+
         ((Map<String, Object>) ((Map<String, Object>) commonFeatures
             .get("featureSocial")).get("knowledge")).put(Const.TARGETS, targetMap);
-        
+
         this.targets = targetMap;
 
         attributesMap.put("primaryFeature", primaryFeature);
@@ -168,4 +166,14 @@ public class AgentModel extends MultiNode implements Node, IModel {
     public Map<String, Object> getPortMap() {
         return portMap;
     }
+
+    public void setTargets(Map<String, Object> targets) {
+        this.targets = targets;
+        ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) attributesMap
+            .get("commonFeatures")).get("featureSocial")).get("knowledge")).remove("targets");
+        ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) attributesMap.get("commonFeatures"))
+            .get("featureSocial")).get("knowledge")).put("targets", this.targets);
+    }
+    
+    
 }
