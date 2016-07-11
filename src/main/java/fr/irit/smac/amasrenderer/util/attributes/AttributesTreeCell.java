@@ -103,6 +103,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
     @Override
     public void updateItem(String item, boolean empty) {
         super.updateItem(item, empty);
+
         if (!empty) {
             setContextMenu("nocontext".equals(item) ? null : contextMenu.getContextMenu());
             setEditable(!"noedit".equals(item));

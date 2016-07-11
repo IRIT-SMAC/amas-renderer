@@ -65,12 +65,10 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
         Sprite sprite = (Sprite) args[0];
         Edge e = (Edge) sprite.getAttachment();
         Node node = e.getSourceNode();
-        String id = ((String) sprite.getAttribute(Const.ID)).substring(node.getId().length(),
-            ((String) sprite.getAttribute(Const.ID)).length());
 
-        targetModel = graphService.getTargets().get(node.getId()).get(id);
+        targetModel = graphService.getTargets().get(node.getAttribute(Const.GS_UI_LABEL)).get(e.getAttribute(Const.GS_UI_LABEL));
         
-        TreeItem<String> root = new TreeItem<>(e.getTargetNode().getId());
+        TreeItem<String> root = new TreeItem<>(e.getAttribute(Const.GS_UI_LABEL));
         this.tree.setRoot(root);
         this.attributesService.fillAttributes(targetModel.getAttributesMap(), root, targetModel);
 

@@ -13,6 +13,9 @@ import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -85,11 +88,11 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
         AgentModel agent = (AgentModel) args[0];
         this.stage = stage;
         this.node = agent;
-        this.id = agent.getId();
+        this.id = agent.getAttribute(Const.GS_UI_LABEL);
         @SuppressWarnings("unchecked")
         HashMap<String, Object> agentMap = (HashMap<String, Object>) GraphService.getInstance().getAgentMap()
             .get(this.id);
-        TreeItem<String> root = new TreeItem<>(id);
+        TreeItem<String> root = new TreeItem<>(this.id);
         this.tree.setRoot(root);
         this.attributesService.fillAttributes(agentMap, root, (IModel) agent);
 
@@ -106,6 +109,7 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
             }
 
         });
+      
     }
 
 }

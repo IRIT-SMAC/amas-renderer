@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 import fr.irit.smac.amasrenderer.model.IModel;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
@@ -38,23 +41,15 @@ public class AttributesService {
     public void updateAttributesMap(String id, TreeItem<String> item, Map<String, Object> attributesMap,
         IModel model) {
 
-        Map<String, Object> map = new HashMap<>();
-
-        if (model != null) {
-            for (String notExpanded : model.getNotExpanded()) {
-                for (Map.Entry<String, Object> entry : attributesMap.entrySet()) {
-                    if (entry.getKey().contains(notExpanded)) {
-                        map.put(entry.getKey(), entry.getValue());
-                    }
-                }
-            }
-        }
+        System.out.println(attributesMap);
         attributesMap.clear();
+        Map<String, Object> map = new HashMap<>();
         map.forEach((k, v) -> attributesMap.put(k, v));
 
         for (TreeItem<String> subItem : item.getChildren()) {
             this.updateChildrenAttributesMap(subItem, attributesMap, subItem.getValue());
         }
+        System.out.println(attributesMap);
 
         if (model != null) {
             model.setName(id);
@@ -90,6 +85,9 @@ public class AttributesService {
                 map.put(item.getValue(), node.get(0).getValue());
             }
         }
+        else if (item.getValue().equals("portMap")) {
+            map.put(item.getValue(), new HashMap<>());
+        }
     }
 
     /**
@@ -106,6 +104,30 @@ public class AttributesService {
     @SuppressWarnings("unchecked")
     public void fillAttributes(Map<String, Object> attributesMap, TreeItem<String> parent, IModel model) {
 
+        parent.expandedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                BooleanProperty bb = (BooleanProperty) observable;
+                if (model != null) {
+                    for (String notExpanded : model.getNotExpanded()) {
+                        if (parent.getValue().contains(notExpanded)) {
+                            TreeItem<String> t = (TreeItem<String>) bb.getBean();
+                            t.setExpanded(false);
+                        }
+                    }
+                }
+            }
+        });
+
+//        parent.valueProperty().addListener(new ChangeListener<String>() {
+//
+//            @Override
+//            public void changed(ObservableValue<? extends String> observable,
+//                String oldValue, String newValue) {
+//                System.out.println(newValue);
+//            }
+//        });
+
         parent.setExpanded(true);
         Iterator<Map.Entry<String, Object>> attributeIterator = attributesMap.entrySet().iterator();
         while (attributeIterator.hasNext()) {
@@ -115,20 +137,10 @@ public class AttributesService {
 
             if (value instanceof HashMap<?, ?>) {
 
-                boolean isNotExpanded = false;
-                if (model != null) {
-                    for (String notExpanded : model.getNotExpanded()) {
-                        if (name.contains(notExpanded)) {
-                            isNotExpanded = true;
-                        }
-                    }
-                }
-                if (!isNotExpanded) {
-                    TreeItem<String> item = new TreeItem<>();
-                    item.setValue(name);
-                    fillAttributes((HashMap<String, Object>) value, item, model);
-                    parent.getChildren().add(item);
-                }
+                TreeItem<String> item = new TreeItem<>();
+                item.setValue(name);
+                fillAttributes((HashMap<String, Object>) value, item, model);
+                parent.getChildren().add(item);
             }
             else {
                 TreeItem<String> item = new TreeItem<>();

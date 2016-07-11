@@ -44,7 +44,7 @@ public class PortController implements Initializable, ISecondaryWindowController
         if (portName.trim().isEmpty() || portName.trim().equals("null")) {
             portName = null;
         }
-        
+
         if (sprite.getAttribute(Const.SUBTYPE_SPRITE).equals(Const.SOURCE_PORT_SPRITE)) {
             targetModel.getAttributesMap().put("portSource", portName);
             sprite.setAttribute(Const.GS_UI_LABEL, portName);
@@ -53,7 +53,7 @@ public class PortController implements Initializable, ISecondaryWindowController
             targetModel.getAttributesMap().put("portTarget", portName);
             sprite.setAttribute(Const.GS_UI_LABEL, portName);
         }
-        
+
         this.stage.close();
 
     }
@@ -72,11 +72,8 @@ public class PortController implements Initializable, ISecondaryWindowController
         Edge e = (Edge) sprite.getAttachment();
         Node node = e.getSourceNode();
 
-        String id = ((String) sprite.getAttribute(Const.ID)).substring(node.getId().length(),
-            ((String) sprite.getAttribute(Const.ID)).length());
+        targetModel = graphService.getTargets().get(node.getAttribute(Const.GS_UI_LABEL)).get(e.getAttribute(Const.GS_UI_LABEL));
         
-        targetModel = graphService.getTargets().get(node.getId()).get(id);
-
     }
 
     @Override

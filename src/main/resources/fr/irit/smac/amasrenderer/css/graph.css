@@ -37,14 +37,15 @@ sprite {
 	stroke-color: #FFFFFF;
 	stroke-width: 1.0px;
 	stroke-mode: plain;
+	text-size: 12.0px;
+	text-offset: 0.0px, 18.0px;
+	text-color: #FFFFFF;
+	text-alignment: center;
 }
 
 sprite .portSprite {
 	shape: box;
 	text-alignment: center;
-	text-size: 12.0px;
-	text-offset: 0.0px, 18.0px;
-	text-color: #FFFFFF;
 	padding: 1.0px, 1.0px;
 	fill-color: #4aaaaa;
 }
@@ -59,6 +60,7 @@ edge {
 	arrow-size: 10.0px, 6.0px;
 	z-index: 0.0;
 	size: 2.0px;
+	text-mode:hidden;
 }
 
 node:clicked {
