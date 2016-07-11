@@ -27,7 +27,7 @@ public class AgentModel extends MultiNode implements Node, IModel {
 
     private static final String[] REQUIRED_KEY_SINGLE  = {};
     private static final String[] PROTECTED_VALUE      = {};
-    private static final String[] NOT_EXPANDED         = { Const.TARGETS };
+    private static final String[] NOT_EXPANDED         = { Const.TARGET_MAP };
     private static final String[] REQUIRED_KEY_COMPLEX = { Const.SKILL, Const.KNOWLEDGE, Const.PORT_MAP };
 
     public AgentModel(AbstractGraph graph, String id) {
@@ -109,35 +109,35 @@ public class AgentModel extends MultiNode implements Node, IModel {
         HashMap<String, Object> attributesMap = new HashMap<>();
         attributesMap.put(Const.ID, id);
 
-        Map<String, Object> primaryFeature = this.createFeature("primaryFeature", Const.EXAMPLE_CLASSNAME,
+        Map<String, Object> primaryFeature = this.createFeature(Const.PRIMARY_FEATURE, Const.EXAMPLE_CLASSNAME,
             Const.EXAMPLE_CLASSNAME, Const.EXAMPLE_CLASSNAME);
 
         Map<String, Object> commonFeatures = new HashMap<>();
         commonFeatures.put(Const.CLASSNAME, Const.EXAMPLE_CLASSNAME);
-        commonFeatures.put("featureBasic",
-            this.createFeature("featureBasic", "fr.irit.smac.amasfactory.agent.features.impl.Feature",
-                "fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
-                "fr.irit.smac.amasfactory.agent.features.basic.impl.SkillBasic"));
-        commonFeatures.put("featureSocial",
-            this.createFeature("featureSocial", "fr.irit.smac.amasfactory.agent.features.impl.Feature",
-                "fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
-                "fr.irit.smac.amasfactory.agent.features.social.impl.SkillSocial"));
+        commonFeatures.put(Const.FEATURE_BASIC,
+            this.createFeature(Const.FEATURE_BASIC, Const.FEATURE_DEFAULT_CLASSNAME,
+                Const.FEATURE_BASIC_KNOWLEDGE_DEFAULT_CLASSNAME,
+                Const.FEATURE_BASIC_SKILL_DEFAULT_CLASSNAME));
+        commonFeatures.put(Const.FEATURE_SOCIAL,
+            this.createFeature(Const.FEATURE_SOCIAL, Const.FEATURE_DEFAULT_CLASSNAME,
+                Const.FEATURE_SOCIAL_KNOWLEDGE_DEFAULT_CLASSNAME,
+                Const.FEATURE_SOCIAL_SKILL_DEFAULT_CLASSNAME));
 
         Map<String, Object> portMap = new HashMap<>();
         ((Map<String, Object>) ((Map<String, Object>) commonFeatures
-            .get("featureSocial")).get("knowledge")).put("portMap", portMap);
+            .get(Const.FEATURE_SOCIAL)).get(Const.KNOWLEDGE)).put(Const.PORT_MAP, portMap);
 
         this.portMap = portMap;
 
         Map<String, Object> targetMap = new HashMap<>();
 
         ((Map<String, Object>) ((Map<String, Object>) commonFeatures
-            .get("featureSocial")).get("knowledge")).put(Const.TARGETS, targetMap);
+            .get(Const.FEATURE_SOCIAL)).get(Const.KNOWLEDGE)).put(Const.TARGET_MAP, targetMap);
 
         this.targets = targetMap;
 
-        attributesMap.put("primaryFeature", primaryFeature);
-        attributesMap.put("commonFeatures", commonFeatures);
+        attributesMap.put(Const.PRIMARY_FEATURE, primaryFeature);
+        attributesMap.put(Const.COMMON_FEATURES, commonFeatures);
 
         this.attributesMap = attributesMap;
     }
@@ -150,11 +150,11 @@ public class AgentModel extends MultiNode implements Node, IModel {
 
         Map<String, Object> knowledge = new HashMap<>();
         knowledge.put(Const.CLASSNAME, knowledgeClassName);
-        feature.put("knowledge", knowledge);
+        feature.put(Const.KNOWLEDGE, knowledge);
 
         Map<String, Object> skill = new HashMap<>();
         skill.put(Const.CLASSNAME, skillClassName);
-        feature.put("skill", skill);
+        feature.put(Const.SKILL, skill);
 
         return feature;
     }
@@ -170,9 +170,9 @@ public class AgentModel extends MultiNode implements Node, IModel {
     public void setTargets(Map<String, Object> targets) {
         this.targets = targets;
         ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) attributesMap
-            .get("commonFeatures")).get("featureSocial")).get("knowledge")).remove("targets");
-        ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) attributesMap.get("commonFeatures"))
-            .get("featureSocial")).get("knowledge")).put("targets", this.targets);
+            .get(Const.COMMON_FEATURES)).get(Const.FEATURE_SOCIAL)).get(Const.KNOWLEDGE)).remove(Const.TARGET_MAP);
+        ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) attributesMap.get(Const.COMMON_FEATURES))
+            .get(Const.FEATURE_SOCIAL)).get(Const.KNOWLEDGE)).put(Const.TARGET_MAP, this.targets);
     }
 
 }

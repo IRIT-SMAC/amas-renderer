@@ -33,11 +33,9 @@ public final class Const {
 
     public static final String NODE_XY = "xy";
 
-    public static final String KEY_VALUE_SEPARATOR = " : ";
-
     public static final String CLASSNAME = "className";
 
-    public static final String TARGETS = "targets";
+    public static final String TARGET_MAP = "targetMap";
 
     public static final String SECONDARY_WINDOW = "secondaryWindow";
 
@@ -92,12 +90,6 @@ public final class Const {
     public static final String PORT_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.social.impl.Port";
 
     public static final String PORT_TYPE_DEFAULT_CLASSNAME = "java.lang.String";
-
-    public static final String FEATURE_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.impl.Feature";
-
-    public static final String FEATURE = "feature";
-
-    public static final String COMMON_FEATURES = "commonFeatures";
     
     public static final String PORT = "port";
 
@@ -110,6 +102,34 @@ public final class Const {
     public static final String GS_ANTIALIAS = "ui.antialias";
     
     public static final String NULL_STRING = "null";
+    
+    public static final String FEATURE_BASIC = "featureBasic";
+
+    public static final String FEATURE_BASIC_KNOWLEDGE_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic";
+
+    public static final String FEATURE_BASIC_SKILL_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.basic.impl.SkillBasic";
+
+    public static final String FEATURE_SOCIAL = "featureSocial";
+
+    public static final String FEATURE_SOCIAL_KNOWLEDGE_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial";
+
+    public static final String FEATURE_SOCIAL_SKILL_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.social.impl.SkillSocial";
+    
+    public static final String FEATURE_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.impl.Feature";
+
+    public static final String FEATURE = "feature";
+
+    public static final String PRIMARY_FEATURE = "primaryFeature";
+
+    public static final String COMMON_FEATURES = "commonFeatures";
+
+    public static final String AGENT_TARGET = "agentTarget";
+
+    public static final String PORT_SOURCE = "portSource";
+
+    public static final String PORT_TARGET = "portTarget";
+
+    public static final String GS_UI_STYLESHEET = "ui.stylesheet";
     
     /**
      * Instantiates a new const (just to hide the constructor).

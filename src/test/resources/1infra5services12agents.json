@@ -34,7 +34,7 @@
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
 								"className":"fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
-								"targets":{
+								"targetMap":{
 									"119":{
 										"portSource":null,
 										"className":"fr.irit.smac.amasfactory.agent.features.social.impl.Target",
@@ -93,7 +93,7 @@
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
 								"className":"fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
-								"targets":{
+								"targetMap":{
 									"93":{
 										"portSource":null,
 										"className":"fr.irit.smac.amasfactory.agent.features.social.impl.Target",
@@ -152,7 +152,7 @@
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
 								"className":"fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
-								"targets":{
+								"targetMap":{
 									"413":{
 										"portSource":null,
 										"className":"fr.irit.smac.amasfactory.agent.features.social.impl.Target",
@@ -211,7 +211,7 @@
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
 								"className":"fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
-								"targets":{
+								"targetMap":{
 									"55":{
 										"portSource":null,
 										"className":"fr.irit.smac.amasfactory.agent.features.social.impl.Target",
@@ -270,7 +270,7 @@
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
 								"className":"fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
-								"targets":{
+								"targetMap":{
 									"20":{
 										"portSource":null,
 										"className":"fr.irit.smac.amasfactory.agent.features.social.impl.Target",
@@ -329,7 +329,7 @@
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
 								"className":"fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
-								"targets":{
+								"targetMap":{
 									"124":{
 										"portSource":null,
 										"className":"fr.irit.smac.amasfactory.agent.features.social.impl.Target",
@@ -388,7 +388,7 @@
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
 								"className":"fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
-								"targets":{
+								"targetMap":{
 									"138":{
 										"portSource":null,
 										"className":"fr.irit.smac.amasfactory.agent.features.social.impl.Target",
@@ -447,7 +447,7 @@
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
 								"className":"fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
-								"targets":{
+								"targetMap":{
 									"334":{
 										"portSource":null,
 										"className":"fr.irit.smac.amasfactory.agent.features.social.impl.Target",
@@ -506,7 +506,7 @@
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
 								"className":"fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
-								"targets":{
+								"targetMap":{
 									"730":{
 										"portSource":null,
 										"className":"fr.irit.smac.amasfactory.agent.features.social.impl.Target",
@@ -565,7 +565,7 @@
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
 								"className":"fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
-								"targets":{
+								"targetMap":{
 									"126":{
 										"portSource":null,
 										"className":"fr.irit.smac.amasfactory.agent.features.social.impl.Target",
@@ -624,7 +624,7 @@
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
 								"className":"fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
-								"targets":{
+								"targetMap":{
 									"522":{
 										"portSource":null,
 										"className":"fr.irit.smac.amasfactory.agent.features.social.impl.Target",
@@ -683,7 +683,7 @@
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
 								"className":"fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
-								"targets":{
+								"targetMap":{
 									"418":{
 										"portSource":null,
 										"className":"fr.irit.smac.amasfactory.agent.features.social.impl.Target",
