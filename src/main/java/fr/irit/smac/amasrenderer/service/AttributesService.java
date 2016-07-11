@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
@@ -78,14 +79,14 @@ public class AttributesService {
             map.put(key, newMap);
         }
         else if (!node.isEmpty()) {
-            if (node.get(0).getValue().equals("null")) {
+            if (node.get(0).getValue().equals(Const.NULL_STRING)) {
                 map.put(item.getValue(), null);
             }
             else {
                 map.put(item.getValue(), node.get(0).getValue());
             }
         }
-        else if (item.getValue().equals("portMap")) {
+        else if (item.getValue().equals(Const.PORT_MAP)) {
             map.put(item.getValue(), new HashMap<>());
         }
     }
@@ -118,15 +119,6 @@ public class AttributesService {
                 }
             }
         });
-
-//        parent.valueProperty().addListener(new ChangeListener<String>() {
-//
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable,
-//                String oldValue, String newValue) {
-//                System.out.println(newValue);
-//            }
-//        });
 
         parent.setExpanded(true);
         Iterator<Map.Entry<String, Object>> attributeIterator = attributesMap.entrySet().iterator();

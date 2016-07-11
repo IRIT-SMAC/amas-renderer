@@ -63,7 +63,7 @@ public final class Const {
 
     public static final String TOOL = "Service";
     
-    public static final String PORT = "portSpriteEdge";
+    public static final String PORT_SPRITE_EDGE = "portSpriteEdge";
     
     public static final String MAIN_SPRITE_EDGE = "mainSpriteEdge";
     
@@ -85,6 +85,32 @@ public final class Const {
 
     public static final String EDGE_SPRITE_CLASS_BACKGROUND = "notVisible";
 
+    public static final String SKILL = "skill";
+
+    public static final String PORT_MAP = "portMap";
+
+    public static final String PORT_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.social.impl.Port";
+
+    public static final String PORT_TYPE_DEFAULT_CLASSNAME = "java.lang.String";
+
+    public static final String FEATURE_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.impl.Feature";
+
+    public static final String FEATURE = "feature";
+
+    public static final String COMMON_FEATURES = "commonFeatures";
+    
+    public static final String PORT = "port";
+
+    public static final String TYPE = "type";
+
+    public static final String GS_UI_QUALITY = "ui.quality";
+
+    public static final String GS_LAYOUT_QUALITY = "layout.quality";
+
+    public static final String GS_ANTIALIAS = "ui.antialias";
+    
+    public static final String NULL_STRING = "null";
+    
     /**
      * Instantiates a new const (just to hide the constructor).
      */

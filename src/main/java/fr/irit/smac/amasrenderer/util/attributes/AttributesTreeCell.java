@@ -2,6 +2,7 @@ package fr.irit.smac.amasrenderer.util.attributes;
 
 import java.util.Arrays;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
@@ -22,6 +23,8 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
     private boolean isParentSingleNode;
 
     private IModel model;
+
+    private boolean isNotExpanded;
 
     public AttributesTreeCell(AttributesContextMenu contextMenu, StringConverter<String> converter,
         IModel model) {
@@ -63,7 +66,55 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
             }
 
             add.setOnAction(evt -> {
-                item.getChildren().add(new TreeItem<>("item"));
+
+                if (item.getValue().equals(Const.COMMON_FEATURES)) {
+                    
+                    TreeItem<String> feature = new TreeItem<>(Const.FEATURE);
+                    
+                    TreeItem<String> skill = new TreeItem<>(Const.SKILL);
+                    TreeItem<String> skillVal = new TreeItem<>(Const.CLASSNAME);
+                    TreeItem<String> skillClassNameVal = new TreeItem<>(
+                        Const.EXAMPLE_CLASSNAME);
+                    skillVal.getChildren().add(skillClassNameVal);
+                    skill.getChildren().add(skillVal);
+                    feature.getChildren().add(skill);
+                    
+                    TreeItem<String> knowledge = new TreeItem<>(Const.KNOWLEDGE);
+                    TreeItem<String> knowledgeVal = new TreeItem<>(Const.CLASSNAME);
+                    TreeItem<String> knowledgeClassNameVal = new TreeItem<>(
+                        Const.EXAMPLE_CLASSNAME);
+                    knowledgeVal.getChildren().add(knowledgeClassNameVal);
+                    knowledge.getChildren().add(knowledgeVal);
+                    feature.getChildren().add(knowledge);
+                    
+                    TreeItem<String> className = new TreeItem<>(Const.CLASSNAME);
+                    TreeItem<String> classNameVal = new TreeItem<>(
+                        Const.FEATURE_DEFAULT_CLASSNAME);
+                    className.getChildren().add(classNameVal);
+                    feature.getChildren().add(className);
+                    
+                    item.getChildren().add(feature);
+                }
+                else if (item.getValue().equals(Const.PORT_MAP)) {
+                    TreeItem<String> port = new TreeItem<>(Const.PORT);
+                    TreeItem<String> id = new TreeItem<>(Const.ID);
+                    TreeItem<String> idVal = new TreeItem<>(Const.PORT);
+                    id.getChildren().add(idVal);
+                    port.getChildren().add(id);
+                    TreeItem<String> type = new TreeItem<>(Const.TYPE);
+                    TreeItem<String> typeVal = new TreeItem<>(Const.PORT_TYPE_DEFAULT_CLASSNAME);
+                    type.getChildren().add(typeVal);
+                    port.getChildren().add(type);
+                    TreeItem<String> className = new TreeItem<>(Const.CLASSNAME);
+                    TreeItem<String> classNameVal = new TreeItem<>(
+                        Const.PORT_DEFAULT_CLASSNAME);
+                    className.getChildren().add(classNameVal);
+                    port.getChildren().add(className);
+                    item.getChildren().add(port);
+                }
+                else {
+                    item.getChildren().add(new TreeItem<>("item"));
+                }
                 menu.freeActionListeners();
             });
 
@@ -80,6 +131,10 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
                     delete.setDisable(true);
                     add.setDisable(true);
                     rename.setDisable(false);
+                } else if (this.isNotExpanded) {
+                    delete.setDisable(true);
+                    add.setDisable(true);
+                    rename.setDisable(true);
                 }
                 else if (item.getParent() == null) {
                     delete.setDisable(true);
@@ -123,8 +178,11 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         this.isProtected = false;
         this.isRequiredKeyComplex = false;
         this.isParentSingleNode = false;
+        this.isNotExpanded = false;
 
         this.isRequiredKeySingle = Arrays.asList(currentModel.getRequiredKeySingle()).contains(item.getValue());
+        this.isNotExpanded = Arrays.asList(currentModel.getNotExpanded()).contains(item.getValue());
+        
         TreeItem<String> parent = item.getParent();
         if (parent != null) {
             this.isParentSingleNode = Arrays.asList(currentModel.getRequiredKeySingle())

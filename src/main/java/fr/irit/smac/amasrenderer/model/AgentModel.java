@@ -28,7 +28,7 @@ public class AgentModel extends MultiNode implements Node, IModel {
     private static final String[] REQUIRED_KEY_SINGLE  = {};
     private static final String[] PROTECTED_VALUE      = {};
     private static final String[] NOT_EXPANDED         = { Const.TARGETS };
-    private static final String[] REQUIRED_KEY_COMPLEX = { "knowledge" };
+    private static final String[] REQUIRED_KEY_COMPLEX = { Const.SKILL, Const.KNOWLEDGE, Const.PORT_MAP };
 
     public AgentModel(AbstractGraph graph, String id) {
 
@@ -174,6 +174,5 @@ public class AgentModel extends MultiNode implements Node, IModel {
         ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) attributesMap.get("commonFeatures"))
             .get("featureSocial")).get("knowledge")).put("targets", this.targets);
     }
-    
-    
+
 }

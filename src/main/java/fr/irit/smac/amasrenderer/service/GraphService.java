@@ -390,9 +390,9 @@ public class GraphService {
      */
     public void setQualityGraph() {
 
-        this.graph.addAttribute("ui.quality");
-        this.graph.addAttribute("layout.quality", 4);
-        this.graph.addAttribute("ui.antialias");
+        this.graph.addAttribute(Const.GS_UI_QUALITY);
+        this.graph.addAttribute(Const.GS_LAYOUT_QUALITY, 4);
+        this.graph.addAttribute(Const.GS_ANTIALIAS);
     }
 
     /**
