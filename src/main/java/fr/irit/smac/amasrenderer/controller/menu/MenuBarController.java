@@ -1,8 +1,11 @@
 package fr.irit.smac.amasrenderer.controller.menu;
 
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
+import fr.irit.smac.amasrenderer.service.GraphService;
 import fr.irit.smac.amasrenderer.service.LoadSaveService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -20,9 +23,11 @@ public class MenuBarController extends LoadSecondaryWindowController {
 
     private static final String EXTENSION_FILTER_EXTENSION = "*.json";
 
+    private static final Logger LOGGER = Logger.getLogger(MenuBarController.class.getName());
+
     @FXML
     MenuBar menuBar;
-    
+
     LoadSaveService loadSaveService = LoadSaveService.getInstance();
 
     /**
@@ -39,7 +44,16 @@ public class MenuBarController extends LoadSecondaryWindowController {
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showOpenDialog(this.window);
 
-        this.loadSaveService.load(file);
+        try {
+            this.loadSaveService.load(file);
+        }
+        catch (Exception e) {
+
+            GraphService.getInstance().clearGraph();
+            LOGGER.log(Level.SEVERE, "An error occured during the loading of a configuration file", e);
+            this.loadFxmlIndependent("view/ErrorWindow.fxml", "Chargement du fichier impossible",
+                "Le fichier de configuration n'a pu être chargé en raison d'un contenu non conforme à celui attendu.");
+        }
     }
 
     /**

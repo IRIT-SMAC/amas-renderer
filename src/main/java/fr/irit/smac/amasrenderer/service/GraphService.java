@@ -41,7 +41,7 @@ public class GraphService {
 
     private AtomicInteger idCount;
 
-    private Map<String, String> ids;
+    private Map<String, String> idModelToGraphMap;
 
     public SpriteManager getSpriteManager() {
         return spriteManager;
@@ -49,7 +49,7 @@ public class GraphService {
 
     private GraphService() {
         this.idCount = new AtomicInteger(0);
-        this.ids = new HashMap<>();
+        this.idModelToGraphMap = new HashMap<>();
     }
 
     /**
@@ -92,7 +92,7 @@ public class GraphService {
         node.initAttributesMap();
         this.agentMap.put(id, node.getAttributesMap());
         this.targets.put(id, new HashMap<>());
-        ids.put(id, id);
+        idModelToGraphMap.put(id, id);
         this.handleNodeNameChange(node, id);
 
         idCount.incrementAndGet();
@@ -117,7 +117,7 @@ public class GraphService {
         node.setAttributesMap(attributesMap);
         this.agentMap.put(id, node.getAttributesMap());
         this.targets.put(id, new HashMap<>());
-        ids.put(id, idGraph);
+        idModelToGraphMap.put(id, idGraph);
         this.handleNodeNameChange(node, idGraph);
 
         idCount.incrementAndGet();
@@ -130,8 +130,8 @@ public class GraphService {
                 
                 this.agentMap.put(newValue, node.getAttributesMap());
                 this.agentMap.remove(oldValue);
-                this.ids.put(newValue, idGraph);
-                this.ids.remove(oldValue);
+                this.idModelToGraphMap.put(newValue, idGraph);
+                this.idModelToGraphMap.remove(oldValue);
                 this.targets.get(oldValue).forEach((k, v) -> {
                     v.setAgentId(newValue);
                 });
@@ -142,7 +142,7 @@ public class GraphService {
 
                     if (!k.equals(newValue)) {
 
-                        Map<String, Object> targets = ((AgentModel) this.graph.getNode(this.ids.get(k))).getTargets();
+                        Map<String, Object> targets = ((AgentModel) this.graph.getNode(this.idModelToGraphMap.get(k))).getTargets();
 
                         targets.forEach((k2, v2) -> {
                             
@@ -348,18 +348,18 @@ public class GraphService {
             .get(Const.COMMON_FEATURES)).get(Const.FEATURE_SOCIAL)).get(Const.KNOWLEDGE)).get(Const.TARGET_MAP);
 
         String agentId = ((String) agent.get(Const.ID));
-        AgentModel agentModel = (AgentModel) this.graph.getNode(ids.get(agentId));
+        AgentModel agentModel = (AgentModel) this.graph.getNode(idModelToGraphMap.get(agentId));
 
         agentModel.setTargets(new HashMap<>());
         
         targets.forEach(
             (k, v) -> {
 
-                String targetIdGraph = ids.get(((Map<String, Object>) v).get(Const.AGENT_TARGET));
+                String targetIdGraph = idModelToGraphMap.get(((Map<String, Object>) v).get(Const.AGENT_TARGET));
                 String portSource = (String) ((Map<String, Object>) v).get(Const.PORT_SOURCE);
                 String portTarget = (String) ((Map<String, Object>) v).get(Const.PORT_TARGET);
                 String className = (String) ((Map<String, Object>) v).get(Const.CLASSNAME);
-                Edge edge = this.addEdgeGraph(ids.get(agentId), targetIdGraph, k);
+                Edge edge = this.addEdgeGraph(idModelToGraphMap.get(agentId), targetIdGraph, k);
                 Sprite mainSprite = addSpriteEdgeGraph(k, portSource, portTarget);
                 TargetModel targetModel = new TargetModel((String) ((Map<String, Object>) v).get(Const.AGENT_TARGET), k,
                     portSource, portTarget, className);
@@ -543,6 +543,6 @@ public class GraphService {
     }
 
     public Map<String, String> getIds() {
-        return this.ids;
+        return this.idModelToGraphMap;
     }
 }

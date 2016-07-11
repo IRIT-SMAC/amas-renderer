@@ -42,7 +42,6 @@ public class AttributesService {
     public void updateAttributesMap(String id, TreeItem<String> item, Map<String, Object> attributesMap,
         IModel model) {
 
-        System.out.println(attributesMap);
         attributesMap.clear();
         Map<String, Object> map = new HashMap<>();
         map.forEach((k, v) -> attributesMap.put(k, v));
@@ -50,7 +49,6 @@ public class AttributesService {
         for (TreeItem<String> subItem : item.getChildren()) {
             this.updateChildrenAttributesMap(subItem, attributesMap, subItem.getValue());
         }
-        System.out.println(attributesMap);
 
         if (model != null) {
             model.setName(id);
