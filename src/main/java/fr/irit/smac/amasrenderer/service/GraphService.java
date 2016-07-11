@@ -75,7 +75,8 @@ public class GraphService {
      */
     public void addNode(double x, double y) {
 
-        String id = Integer.toString(agentMap.size());
+        String id = "agent".concat(Integer.toString(agentMap.size()));
+        
         AgentModel node = this.graph.addNode(id);
         node.changeAttribute(Const.NODE_XY, x, y);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);

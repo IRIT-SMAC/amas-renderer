@@ -57,7 +57,7 @@ class ToolTest extends GuiSpecification{
         when:
         fx.clickOn("messagingService")
                         .clickOn("#delButton")
-                        .clickOn("#buttonConfirmRemove")
+                        .clickOn("#buttonConfirm")
 
         then:
         toolService.getTools().size() == nbTools - 1
