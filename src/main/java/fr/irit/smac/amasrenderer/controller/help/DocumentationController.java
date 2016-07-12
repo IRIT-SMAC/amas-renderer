@@ -3,6 +3,7 @@ package fr.irit.smac.amasrenderer.controller.help;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
@@ -11,11 +12,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 
 /**
  * This controller is related to the documentation of the program
  */
-public class DocumentationController implements Initializable {
+public class DocumentationController implements Initializable, ISecondaryWindowController {
 
     @FXML
     WebView webView;
@@ -40,5 +42,11 @@ public class DocumentationController implements Initializable {
                     }
                 }
             });
+    }
+
+    @Override
+    public void init(Stage stage, Object... args) {
+
+        // Nothing to do
     }
 }
