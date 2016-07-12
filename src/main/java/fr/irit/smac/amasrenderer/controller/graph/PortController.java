@@ -39,19 +39,19 @@ public class PortController implements Initializable, ISecondaryWindowController
     @FXML
     public void clickConfirm() {
 
-        String portName = textfieldTool.getText();
+        String portName = this.textfieldTool.getText();
 
-        if (portName.trim().isEmpty() || portName.trim().equals("null")) {
+        if (portName.trim().isEmpty() || portName.trim().equals(Const.NULL_STRING)) {
             portName = null;
         }
 
-        if (sprite.getAttribute(Const.SUBTYPE_SPRITE).equals(Const.SOURCE_PORT_SPRITE)) {
-            targetModel.getAttributesMap().put("portSource", portName);
-            sprite.setAttribute(Const.GS_UI_LABEL, portName);
+        if (this.sprite.getAttribute(Const.SUBTYPE_SPRITE).equals(Const.SOURCE_PORT_SPRITE)) {
+            this.targetModel.getAttributesMap().put(Const.PORT_SOURCE, portName);
+            this.sprite.setAttribute(Const.GS_UI_LABEL, portName);
         }
         else if (sprite.getAttribute(Const.SUBTYPE_SPRITE).equals(Const.TARGET_PORT_SPRITE)) {
-            targetModel.getAttributesMap().put("portTarget", portName);
-            sprite.setAttribute(Const.GS_UI_LABEL, portName);
+            this.targetModel.getAttributesMap().put(Const.PORT_TARGET, portName);
+            this.sprite.setAttribute(Const.GS_UI_LABEL, portName);
         }
 
         this.stage.close();
@@ -68,18 +68,20 @@ public class PortController implements Initializable, ISecondaryWindowController
     public void init(Stage stage, Object... args) {
 
         this.stage = stage;
-        sprite = (Sprite) args[0];
-        Edge e = (Edge) sprite.getAttachment();
+        this.sprite = (Sprite) args[0];
+        Edge e = (Edge) this.sprite.getAttachment();
         Node node = e.getSourceNode();
-
-        targetModel = graphService.getTargets().get(node.getAttribute(Const.GS_UI_LABEL)).get(e.getAttribute(Const.GS_UI_LABEL));
         
+        System.out.println(e.getAttribute(Const.GS_UI_LABEL).toString());
+
+        this.targetModel = this.graphService.getTargetModel(node.getId(), e.getAttribute(Const.GS_UI_LABEL).toString());
+        System.out.println(targetModel);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // TODO Auto-generated method stub
 
+        // Nothing to do
     }
 
 }

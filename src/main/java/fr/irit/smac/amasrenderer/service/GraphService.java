@@ -1,5 +1,6 @@
 package fr.irit.smac.amasrenderer.service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
@@ -31,8 +33,6 @@ public class GraphService {
 
     private Map<String, Object> agentMap;
 
-    private Map<String, Map<String, TargetModel>> targets = new HashMap<>();
-
     private SpriteManager spriteManager;
 
     private boolean displayPort;
@@ -41,15 +41,12 @@ public class GraphService {
 
     private AtomicInteger idCount;
 
-    private Map<String, String> idModelToGraphMap;
-
     public SpriteManager getSpriteManager() {
         return spriteManager;
     }
 
     private GraphService() {
         this.idCount = new AtomicInteger(0);
-        this.idModelToGraphMap = new HashMap<>();
     }
 
     /**
@@ -74,6 +71,15 @@ public class GraphService {
     }
 
     /**
+     * Gets the graph
+     *
+     * @return the graph
+     */
+    public MultiGraph getGraph() {
+        return this.graph;
+    }
+
+    /**
      * Adds a node.
      *
      * @param x
@@ -91,8 +97,6 @@ public class GraphService {
         node.setAttribute(Const.GS_UI_LABEL, id);
         node.initAttributesMap();
         this.agentMap.put(id, node.getAttributesMap());
-        this.targets.put(id, new HashMap<>());
-        idModelToGraphMap.put(id, id);
         this.handleNodeNameChange(node, id);
 
         idCount.incrementAndGet();
@@ -101,23 +105,22 @@ public class GraphService {
     /**
      * Adds a node with an existing attributes map.
      *
-     * @param id
+     * @param idModel
      *            the id of the node
      * @param attributesMap
      *            the attributes
      */
-    public void addNode(String id, Map<String, Object> attributesMap) {
+    public void addNode(String idModel, Map<String, Object> attributesMap, Map<String, String> idModelToGraphMap) {
 
         String idGraph = idCount.toString();
 
         AgentModel node = this.graph.addNode(idGraph);
-        node.setName(id);
+        node.setName(idModel);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
-        node.setAttribute(Const.GS_UI_LABEL, id);
+        node.setAttribute(Const.GS_UI_LABEL, idModel);
         node.setAttributesMap(attributesMap);
-        this.agentMap.put(id, node.getAttributesMap());
-        this.targets.put(id, new HashMap<>());
-        idModelToGraphMap.put(id, idGraph);
+        this.agentMap.put(idModel, node.getAttributesMap());
+        idModelToGraphMap.put(idModel, idGraph);
         this.handleNodeNameChange(node, idGraph);
 
         idCount.incrementAndGet();
@@ -130,34 +133,17 @@ public class GraphService {
 
                 this.agentMap.put(newValue, node.getAttributesMap());
                 this.agentMap.remove(oldValue);
-                this.idModelToGraphMap.put(newValue, idGraph);
-                this.idModelToGraphMap.remove(oldValue);
-                this.targets.get(oldValue).forEach((k, v) -> {
-                    v.setAgentId(newValue);
-                });
-                this.targets.put(newValue, this.targets.get(oldValue));
-                this.targets.remove(oldValue);
                 node.setAttribute(Const.GS_UI_LABEL, newValue);
-                ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) node.getAttributesMap()
-                    .get(Const.COMMON_FEATURES)).get(Const.FEATURE_BASIC)).get(Const.KNOWLEDGE)).put(Const.ID,
-                        newValue);
-                node.getAttributesMap().put(Const.ID,newValue);
-                this.agentMap.forEach((k, v) -> {
-
-                    if (!k.equals(newValue)) {
-
-                        Map<String, Object> targets = ((AgentModel) this.graph.getNode(this.idModelToGraphMap.get(k)))
-                            .getTargets();
-
+                node.setId(newValue);
+                this.graph.getNodeIterator().forEachRemaining(n -> {
+                    if (!((AgentModel) n).getName().equals(newValue)) { // ?
+                        Map<String, TargetModel> targets = ((AgentModel) n).getTargets();
                         targets.forEach((k2, v2) -> {
-
-                            if (((Map<String, Object>) v2).get(Const.AGENT_TARGET).equals(oldValue)) {
-                                ((Map<String, Object>) v2).put(Const.AGENT_TARGET, newValue);
+                            if (v2.getAgentTarget().equals(oldValue)) {
+                                v2.setAgentTarget(newValue);
                             }
-
                         });
                     }
-
                 });
             });
     }
@@ -180,43 +166,22 @@ public class GraphService {
         TargetModel targetModel = new TargetModel(idGraphNodeTarget, id);
         targetModel.setAgentId(idModelNodeSource);
 
-        ((AgentModel) this.graph.getNode(idModelNodeSource)).addTarget(id, targetModel.getAttributesMap());
-        this.targets.get(idModelNodeSource).put(id, targetModel);
+        ((AgentModel) this.graph.getNode(idModelNodeSource)).addTarget(targetModel, id);
 
-        this.handleTargetModelChange(targetModel, edge, mainSprite);
+        this.handleTargetModelChange(targetModel, edge, mainSprite,
+            ((AgentModel) this.graph.getNode(idModelNodeSource)));
     }
 
-    private Sprite addSpriteEdgeGraph(String id, String portSource, String portTarget) {
-
-        Sprite mainSprite = this.spriteManager.addSprite(id);
-        String idGraph = this.idCount.toString();
-        mainSprite.attachToEdge(idGraph);
-        mainSprite.setPosition(0.5);
-        mainSprite.addAttribute(Const.GS_UI_LABEL, id);
-        mainSprite.addAttribute(Const.GS_UI_CLASS, Const.MAIN_SPRITE_CLASS);
-        mainSprite.addAttribute(Const.TYPE_SPRITE, Const.MAIN_SPRITE_EDGE);
-        mainSprite.addAttribute(Const.ID, id);
-        this.displaySprite(mainSprite, getDisplayMain(), Const.MAIN_SPRITE_CLASS, Const.EDGE_SPRITE_CLASS_BACKGROUND);
-
-        this.createPortSourceToEdge(idGraph, id, Const.SOURCE_PORT_SPRITE, portSource, 0.2, this.getDisplayPort());
-        this.createPortSourceToEdge(idGraph, id, Const.TARGET_PORT_SPRITE, portTarget, 0.8, this.getDisplayPort());
-
-        return mainSprite;
-    }
-
-    private void handleTargetModelChange(TargetModel targetModel, Edge edge, Sprite mainSprite) {
+    private void handleTargetModelChange(TargetModel targetModel, Edge edge, Sprite mainSprite, AgentModel agentModel) {
 
         targetModel.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
 
-                this.targets.get(targetModel.getAgentId()).put(newValue, targetModel);
-                this.targets.get(targetModel.getAgentId()).remove(oldValue);
                 edge.setAttribute(Const.GS_UI_LABEL, newValue);
                 mainSprite.setAttribute(Const.GS_UI_LABEL, newValue);
 
-                ((AgentModel) this.graph.getNode(targetModel.getAgentId())).addTarget(newValue,
-                    targetModel.getAttributesMap());
-                ((AgentModel) this.graph.getNode(targetModel.getAgentId())).getTargets().remove(oldValue);
+                agentModel.removeTarget(oldValue);
+                agentModel.addTarget(targetModel, newValue);
             });
     }
 
@@ -237,10 +202,30 @@ public class GraphService {
         return edge;
     }
 
+    private Sprite addSpriteEdgeGraph(String id, String portSource, String portTarget) {
+
+        Sprite mainSprite = this.spriteManager.addSprite(id);
+        String idGraph = this.idCount.toString();
+        mainSprite.attachToEdge(idGraph);
+        mainSprite.setPosition(0.5);
+        mainSprite.addAttribute(Const.GS_UI_LABEL, id);
+        mainSprite.addAttribute(Const.GS_UI_CLASS, Const.MAIN_SPRITE_CLASS);
+        mainSprite.addAttribute(Const.TYPE_SPRITE, Const.MAIN_SPRITE_EDGE);
+        mainSprite.addAttribute(Const.ID, id);
+        this.displaySprite(mainSprite, getDisplayMain(), Const.MAIN_SPRITE_CLASS, Const.EDGE_SPRITE_CLASS_BACKGROUND);
+
+        this.createPortSourceToEdge(idGraph, id, Const.SOURCE_PORT_SPRITE, portSource, 0.2,
+            this.getDisplayPort());
+        this.createPortSourceToEdge(idGraph, id, Const.TARGET_PORT_SPRITE, portTarget, 0.8,
+            this.getDisplayPort());
+
+        return mainSprite;
+    }
+
     private void createPortSourceToEdge(String id, String label, String subType, String port, double position,
         boolean portSpriteVisible) {
 
-        Sprite sprite = this.spriteManager.addSprite(id + subType);
+        Sprite sprite = this.spriteManager.addSprite(id.concat(subType));
         sprite.addAttribute(Const.GS_UI_LABEL, port);
         sprite.addAttribute(Const.TYPE_SPRITE, Const.PORT);
         sprite.addAttribute(Const.SUBTYPE_SPRITE, subType);
@@ -250,16 +235,6 @@ public class GraphService {
         this.displaySprite(sprite, portSpriteVisible, Const.PORT_SPRITE_CLASS, Const.EDGE_SPRITE_CLASS_BACKGROUND);
 
         idCount.incrementAndGet();
-
-    }
-
-    private void displaySprite(Sprite sprite, boolean visible, String classNormal, String classBackground) {
-        if (visible) {
-            sprite.addAttribute(Const.GS_UI_CLASS, classNormal);
-        }
-        else {
-            sprite.addAttribute(Const.GS_UI_CLASS, classBackground);
-        }
     }
 
     /**
@@ -270,8 +245,8 @@ public class GraphService {
      */
     public void removeEdge(String id) {
 
-        spriteManager.removeSprite(id + Const.TARGET_PORT_SPRITE);
-        spriteManager.removeSprite(id + Const.SOURCE_PORT_SPRITE);
+        spriteManager.removeSprite(id.concat(Const.TARGET_PORT_SPRITE));
+        spriteManager.removeSprite(id.concat(Const.SOURCE_PORT_SPRITE));
         spriteManager.removeSprite(id);
         graph.removeEdge(id);
     }
@@ -295,15 +270,6 @@ public class GraphService {
     }
 
     /**
-     * Gets the graph
-     *
-     * @return the graph
-     */
-    public MultiGraph getGraph() {
-        return this.graph;
-    }
-
-    /**
      * Fills the agent graph from a map
      * 
      * @param map
@@ -312,14 +278,12 @@ public class GraphService {
     @SuppressWarnings("unchecked")
     public void fillAgentGraphFromMap() {
 
-        this.fillAgentFromMap(this.agentMap);
-        Iterator<Map.Entry<String, Object>> agents = this.agentMap.entrySet().iterator();
+        Map<String, String> idModelToGraphMap = new HashMap<>();
+        this.fillAgentFromMap(this.agentMap, idModelToGraphMap);
 
-        while (agents.hasNext()) {
-            Map.Entry<String, Object> currentAgentMap = agents.next();
-            HashMap<String, Object> currentAgent = (HashMap<String, Object>) currentAgentMap.getValue();
-            this.fillAgentFromTargets(currentAgent);
-        }
+        this.agentMap.forEach((agentId, agent) -> {
+            this.fillAgentFromTargets((Map<String, Object>) agent, idModelToGraphMap);
+        });
     }
 
     /**
@@ -329,16 +293,13 @@ public class GraphService {
      *            the agent map
      */
     @SuppressWarnings("unchecked")
-    private void fillAgentFromMap(Map<String, Object> map) {
+    private void fillAgentFromMap(Map<String, Object> map, Map<String, String> idModelToGraphMap) {
 
-        Map<String, Object> m = new ConcurrentHashMap<>(map);
+        Map<String, Object> concurrentMap = new ConcurrentHashMap<>(map);
 
-        Iterator<Map.Entry<String, Object>> it = m.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<String, Object> agent = it.next();
-            this.addNode(agent.getKey(), (Map<String, Object>) agent.getValue());
-        }
-
+        concurrentMap.forEach((agentId, agent) -> {
+            this.addNode(agentId, (Map<String, Object>) agent, idModelToGraphMap);
+        });
     }
 
     /**
@@ -347,7 +308,8 @@ public class GraphService {
      * @param agent
      *            the agent
      */
-    private void fillAgentFromTargets(HashMap<String, Object> agent) {
+    @SuppressWarnings("unchecked")
+    private void fillAgentFromTargets(Map<String, Object> agent, Map<String, String> idModelToGraphMap) {
 
         Map<String, Object> targets = (Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) agent
             .get(Const.COMMON_FEATURES)).get(Const.FEATURE_SOCIAL)).get(Const.KNOWLEDGE)).get(Const.TARGET_MAP);
@@ -355,25 +317,17 @@ public class GraphService {
         String agentId = ((String) agent.get(Const.ID));
         AgentModel agentModel = (AgentModel) this.graph.getNode(idModelToGraphMap.get(agentId));
 
-        agentModel.setTargets(new HashMap<>());
-
         targets.forEach(
             (k, v) -> {
 
-                String targetIdGraph = idModelToGraphMap.get(((Map<String, Object>) v).get(Const.AGENT_TARGET));
-                String portSource = (String) ((Map<String, Object>) v).get(Const.PORT_SOURCE);
-                String portTarget = (String) ((Map<String, Object>) v).get(Const.PORT_TARGET);
-                String className = (String) ((Map<String, Object>) v).get(Const.CLASSNAME);
-                Edge edge = this.addEdgeGraph(idModelToGraphMap.get(agentId), targetIdGraph, k);
-                Sprite mainSprite = addSpriteEdgeGraph(k, portSource, portTarget);
-                TargetModel targetModel = new TargetModel((String) ((Map<String, Object>) v).get(Const.AGENT_TARGET), k,
-                    portSource, portTarget, className);
+                TargetModel targetModel = new TargetModel(k, (HashMap<String, Object>) v);
                 targetModel.setAgentId(agentId);
-                agentModel.addTarget((String) ((Map<String, Object>) v).get(Const.AGENT_TARGET),
-                    targetModel.getAttributesMap());
-                this.targets.get(agentId).put(k,
-                    targetModel);
-                this.handleTargetModelChange(targetModel, edge, mainSprite);
+                agentModel.addTarget(targetModel, k);
+                String targetIdGraph = idModelToGraphMap.get(targetModel.getAgentTarget());
+                Edge edge = this.addEdgeGraph(idModelToGraphMap.get(agentId), targetIdGraph, k);
+                Sprite mainSprite = addSpriteEdgeGraph(k, targetModel.getPortSource(), targetModel.getPortTarget());
+
+                this.handleTargetModelChange(targetModel, edge, mainSprite, agentModel);
             });
     }
 
@@ -421,8 +375,9 @@ public class GraphService {
         this.agentMap = agentMap;
     }
 
-    public Map<String, Map<String, TargetModel>> getTargets() {
-        return targets;
+    public TargetModel getTargetModel(String agentId, String targetId) {
+
+        return ((AgentModel) this.graph.getNode(agentId)).getTargets().get(targetId);
     }
 
     public void updateGraphFromFile(Map<String, Object> agentMap) {
@@ -431,6 +386,15 @@ public class GraphService {
         this.setAgentMap(agentMap);
         this.fillAgentGraphFromMap();
         this.setQualityGraph();
+    }
+
+    private void displaySprite(Sprite sprite, boolean visible, String classNormal, String classBackground) {
+        if (visible) {
+            sprite.addAttribute(Const.GS_UI_CLASS, classNormal);
+        }
+        else {
+            sprite.addAttribute(Const.GS_UI_CLASS, classBackground);
+        }
     }
 
     public void hideSpriteEdge(String type) {
@@ -546,9 +510,5 @@ public class GraphService {
 
     private boolean getDisplayMain() {
         return this.displayMain;
-    }
-
-    public Map<String, String> getIds() {
-        return this.idModelToGraphMap;
     }
 }

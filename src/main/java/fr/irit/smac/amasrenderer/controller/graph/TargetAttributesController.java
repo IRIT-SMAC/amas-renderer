@@ -47,8 +47,8 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
     @FXML
     public void confirmButton() {
 
-        attributesService.updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
-            targetModel.getAttributesMap(), targetModel);
+        this.attributesService.updateAttributesMap(this.tree.getRoot().getValue(), this.tree.getRoot(),
+            targetModel.getAttributesMap(), this.targetModel);
         this.stage.close();
     }
 
@@ -66,11 +66,11 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
         Edge e = (Edge) sprite.getAttachment();
         Node node = e.getSourceNode();
 
-        targetModel = graphService.getTargets().get(node.getAttribute(Const.GS_UI_LABEL)).get(e.getAttribute(Const.GS_UI_LABEL));
-        
+        this.targetModel = this.graphService.getTargetModel(node.getId(), e.getAttribute(Const.GS_UI_LABEL));
+
         TreeItem<String> root = new TreeItem<>(e.getAttribute(Const.GS_UI_LABEL));
         this.tree.setRoot(root);
-        this.attributesService.fillAttributes(targetModel.getAttributesMap(), root, targetModel);
+        this.attributesService.fillAttributes(this.targetModel.getAttributesMap(), root, this.targetModel);
 
         this.tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
