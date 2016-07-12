@@ -8,7 +8,6 @@ import org.graphstream.graph.implementations.AbstractGraph;
 import org.graphstream.graph.implementations.MultiNode;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -107,7 +106,7 @@ public class AgentModel extends MultiNode implements Node, IModel {
     public void initAttributesMap() {
 
         HashMap<String, Object> attributesMap = new HashMap<>();
-        attributesMap.put(Const.ID, id);
+        attributesMap.put(Const.ID, this.id);
 
         Map<String, Object> primaryFeature = this.createFeature(Const.PRIMARY_FEATURE, Const.EXAMPLE_CLASSNAME,
             Const.EXAMPLE_CLASSNAME, Const.EXAMPLE_CLASSNAME);
@@ -118,6 +117,10 @@ public class AgentModel extends MultiNode implements Node, IModel {
             this.createFeature(Const.FEATURE_BASIC, Const.FEATURE_DEFAULT_CLASSNAME,
                 Const.FEATURE_BASIC_KNOWLEDGE_DEFAULT_CLASSNAME,
                 Const.FEATURE_BASIC_SKILL_DEFAULT_CLASSNAME));
+        
+        ((Map<String, Object>) ((Map<String, Object>) commonFeatures
+            .get(Const.FEATURE_BASIC)).get(Const.KNOWLEDGE)).put(Const.ID, this.id);
+        
         commonFeatures.put(Const.FEATURE_SOCIAL,
             this.createFeature(Const.FEATURE_SOCIAL, Const.FEATURE_DEFAULT_CLASSNAME,
                 Const.FEATURE_SOCIAL_KNOWLEDGE_DEFAULT_CLASSNAME,

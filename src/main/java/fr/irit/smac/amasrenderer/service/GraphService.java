@@ -127,7 +127,7 @@ public class GraphService {
 
         node.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-                
+
                 this.agentMap.put(newValue, node.getAttributesMap());
                 this.agentMap.remove(oldValue);
                 this.idModelToGraphMap.put(newValue, idGraph);
@@ -138,14 +138,19 @@ public class GraphService {
                 this.targets.put(newValue, this.targets.get(oldValue));
                 this.targets.remove(oldValue);
                 node.setAttribute(Const.GS_UI_LABEL, newValue);
+                ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) node.getAttributesMap()
+                    .get(Const.COMMON_FEATURES)).get(Const.FEATURE_BASIC)).get(Const.KNOWLEDGE)).put(Const.ID,
+                        newValue);
+                node.getAttributesMap().put(Const.ID,newValue);
                 this.agentMap.forEach((k, v) -> {
 
                     if (!k.equals(newValue)) {
 
-                        Map<String, Object> targets = ((AgentModel) this.graph.getNode(this.idModelToGraphMap.get(k))).getTargets();
+                        Map<String, Object> targets = ((AgentModel) this.graph.getNode(this.idModelToGraphMap.get(k)))
+                            .getTargets();
 
                         targets.forEach((k2, v2) -> {
-                            
+
                             if (((Map<String, Object>) v2).get(Const.AGENT_TARGET).equals(oldValue)) {
                                 ((Map<String, Object>) v2).put(Const.AGENT_TARGET, newValue);
                             }
@@ -351,7 +356,7 @@ public class GraphService {
         AgentModel agentModel = (AgentModel) this.graph.getNode(idModelToGraphMap.get(agentId));
 
         agentModel.setTargets(new HashMap<>());
-        
+
         targets.forEach(
             (k, v) -> {
 
@@ -364,7 +369,8 @@ public class GraphService {
                 TargetModel targetModel = new TargetModel((String) ((Map<String, Object>) v).get(Const.AGENT_TARGET), k,
                     portSource, portTarget, className);
                 targetModel.setAgentId(agentId);
-                agentModel.addTarget((String) ((Map<String, Object>) v).get(Const.AGENT_TARGET), targetModel.getAttributesMap());
+                agentModel.addTarget((String) ((Map<String, Object>) v).get(Const.AGENT_TARGET),
+                    targetModel.getAttributesMap());
                 this.targets.get(agentId).put(k,
                     targetModel);
                 this.handleTargetModelChange(targetModel, edge, mainSprite);
