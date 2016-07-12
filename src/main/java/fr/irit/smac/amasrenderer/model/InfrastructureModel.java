@@ -39,13 +39,13 @@ public class InfrastructureModel implements IModel {
 
     private static final String[] REQUIRED_KEY_SINGLE  = {};
     private static final String[] PROTECTED_VALUE      = {};
-    private static final String[] NOT_EXPANDED         = { "services" };
+    private static final String[] NOT_EXPANDED         = { "Service" };
     private static final String[] REQUIRED_KEY_COMPLEX = {};
 
     private StringProperty name;
 
     public InfrastructureModel() {
-        // Required by Jackson
+        this.name = new SimpleStringProperty();
     }
 
     public InfrastructureModel(String name) {

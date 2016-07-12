@@ -21,14 +21,16 @@
  */
 package fr.irit.smac.amasrenderer.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.AbstractGraph;
 import org.graphstream.graph.implementations.MultiNode;
+
+import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import fr.irit.smac.amasrenderer.Const;
 import javafx.beans.property.SimpleStringProperty;
@@ -41,8 +43,9 @@ public class AgentModel extends MultiNode implements Node, IModel {
 
     private StringProperty name;
 
-    private Map<String, Object> attributesMap;
+    private Map<String, Object> attributesMap = new HashMap<>();
 
+    @JsonIgnore
     private Map<String, Object> commonFeatures;
 
     private Map<String, TargetModel> targets;
@@ -56,7 +59,7 @@ public class AgentModel extends MultiNode implements Node, IModel {
     private static final String[] NOT_EXPANDED         = { Const.TARGET_MAP };
     private static final String[] REQUIRED_KEY_COMPLEX = { Const.SKILL, Const.KNOWLEDGE, Const.PORT_MAP };
 
-    public AgentModel(AbstractGraph graph, String id) {
+    public AgentModel(@JacksonInject AbstractGraph graph, @JacksonInject String id) {
 
         super(graph, id);
         this.name = new SimpleStringProperty(id);
@@ -81,6 +84,15 @@ public class AgentModel extends MultiNode implements Node, IModel {
         this.targetMap.remove(id);
     }
 
+    @JsonAnySetter
+    public void setAttributesMap(String name, Object value) {
+        this.attributesMap.put(name, value);
+    }
+
+    public void setAttributes(Map<String, Object> attributesMap) {
+        this.attributesMap = attributesMap;
+    }
+
     /**
      * Gets the attributes of the agent
      * 
@@ -96,9 +108,9 @@ public class AgentModel extends MultiNode implements Node, IModel {
      * @param attributesMap
      *            the attributes
      */
-    public void setAttributesMap(Map<String, Object> attributesMap) {
-        this.attributesMap = attributesMap;
-    }
+    // public void setAttributesMap(Map<String, Object> attributesMap) {
+    // this.attributesMap = attributesMap;
+    // }
 
     @Override
     public String[] getRequiredKeySingle() {
@@ -134,57 +146,8 @@ public class AgentModel extends MultiNode implements Node, IModel {
         return this.name;
     }
 
-    @Override
     public String getNewName(String name) {
         return name;
-    }
-
-    public void initAttributesMap() {
-
-        HashMap<String, Object> attributesMap = new HashMap<>();
-
-        Map<String, Object> primaryFeature = this.createFeature(Const.PRIMARY_FEATURE, Const.EXAMPLE_CLASSNAME,
-            Const.EXAMPLE_CLASSNAME, Const.EXAMPLE_CLASSNAME);
-
-        Map<String, Object> commonFeatures = new HashMap<>();
-        this.commonFeatures = commonFeatures;
-
-        commonFeatures.put(Const.CLASSNAME, Const.EXAMPLE_CLASSNAME);
-        Map<String, Object> featureBasic = this.createFeature(Const.FEATURE_BASIC, Const.FEATURE_DEFAULT_CLASSNAME,
-            Const.FEATURE_BASIC_KNOWLEDGE_DEFAULT_CLASSNAME,
-            Const.FEATURE_BASIC_SKILL_DEFAULT_CLASSNAME);
-        commonFeatures.put(Const.FEATURE_BASIC, featureBasic);
-        ((Map<String, Object>) featureBasic.get(Const.KNOWLEDGE)).put(Const.ID, this.id);
-
-        Map<String, Object> featureSocial = this.createFeature(Const.FEATURE_SOCIAL, Const.FEATURE_DEFAULT_CLASSNAME,
-            Const.FEATURE_SOCIAL_KNOWLEDGE_DEFAULT_CLASSNAME,
-            Const.FEATURE_SOCIAL_SKILL_DEFAULT_CLASSNAME);
-        commonFeatures.put(Const.FEATURE_SOCIAL,
-            featureSocial);
-        ((Map<String, Object>) featureSocial.get(Const.KNOWLEDGE)).put(Const.PORT_MAP, this.portMap);
-        ((Map<String, Object>) featureSocial.get(Const.KNOWLEDGE)).put(Const.TARGET_MAP, this.targetMap);
-
-        attributesMap.put(Const.PRIMARY_FEATURE, primaryFeature);
-        attributesMap.put(Const.COMMON_FEATURES, commonFeatures);
-
-        this.attributesMap = attributesMap;
-    }
-
-    public Map<String, Object> createFeature(String id, String className, String knowledgeClassName,
-        String skillClassName) {
-
-        Map<String, Object> feature = new HashMap<>();
-        feature.put(Const.CLASSNAME, className);
-
-        Map<String, Object> knowledge = new HashMap<>();
-        knowledge.put(Const.CLASSNAME, knowledgeClassName);
-        feature.put(Const.KNOWLEDGE, knowledge);
-
-        Map<String, Object> skill = new HashMap<>();
-        skill.put(Const.CLASSNAME, skillClassName);
-        feature.put(Const.SKILL, skill);
-
-        return feature;
     }
 
     public Map<String, TargetModel> getTargets() {
@@ -193,14 +156,6 @@ public class AgentModel extends MultiNode implements Node, IModel {
 
     public Map<String, Object> getPortMap() {
         return this.portMap;
-    }
-
-    public Map<String, Object> getCommonFeatures() {
-        return this.commonFeatures;
-    }
-
-    public void setCommonFeatures(Map<String, Object> commonFeatures) {
-        this.commonFeatures = commonFeatures;
     }
 
     public void setId(String id) {

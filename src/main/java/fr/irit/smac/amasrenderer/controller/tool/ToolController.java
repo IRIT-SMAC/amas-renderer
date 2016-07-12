@@ -23,14 +23,11 @@ package fr.irit.smac.amasrenderer.controller.tool;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.ToolModel;
 import fr.irit.smac.amasrenderer.service.ToolService;
-import javafx.beans.Observable;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -86,14 +83,6 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        ArrayList<ToolModel> list = new ArrayList<>();
-        for (ToolModel tool : this.listTool.getItems()) {
-            list.add(tool);
-        }
-        this.toolService
-            .setTools(FXCollections.observableArrayList(actionStep -> new Observable[] { actionStep.nameProperty() }));
         this.listTool.setItems(this.toolService.getTools());
-        this.toolService
-            .createToolsFromMap();
     }
 }

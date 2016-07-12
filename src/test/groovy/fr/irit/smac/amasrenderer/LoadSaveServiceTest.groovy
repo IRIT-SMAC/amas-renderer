@@ -25,8 +25,6 @@ public class LoadSaveServiceTest extends Specification{
         toolService = ToolService.getInstance()
         toolService.setTools(FXCollections.observableArrayList(new ArrayList<>()))
         infrastructureService = InfrastructureService.getInstance()
-        graphService.createAgentGraph()
-        GraphService.getInstance().setAgentMap(new HashMap<>())
         loadSaveService = LoadSaveService.getInstance()
     }
 
@@ -68,7 +66,7 @@ public class LoadSaveServiceTest extends Specification{
         then:
         graphService.getGraph().getNodeCount() == 4
         infrastructureService.getInfrastructure().getName() == "BasicInfrastructure"
-        toolService.getTools().size() == 4
+        toolService.getTools().size() == 6
         Files.delete(Paths.get(file.getPath()))
     }
 }

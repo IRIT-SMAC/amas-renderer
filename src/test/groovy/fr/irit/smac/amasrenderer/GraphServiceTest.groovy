@@ -16,7 +16,6 @@ class GraphServiceTest extends Specification{
     def setup() {
 
         graphService = GraphService.getInstance()
-        graphService.createAgentGraph()
         graphService.setAgentMap(new HashMap<String,Object>())
         graphService.idCount.set(0)
     }

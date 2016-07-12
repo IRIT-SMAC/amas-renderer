@@ -1,0 +1,44 @@
+{
+	"primaryFeature":{
+		"skill":{
+			"className":"package.implementationclass"
+		},
+		"className":"package.implementationclass",
+		"knowledge":{
+			"className":"package.implementationclass"
+		}
+		
+	},
+	"commonFeatures":{
+		"featureBasic":{
+			"skill":{
+				"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.SkillBasic"
+			},
+			"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
+			"knowledge":{
+				"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+				"id":""
+			}
+			
+		},
+		"className":"package.implementationclass",
+		"featureSocial":{
+			"skill":{
+				"className":"fr.irit.smac.amasfactory.agent.features.social.impl.SkillSocial"
+			},
+			"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
+			"knowledge":{
+				"className":"fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial",
+				"portMap":{
+					
+				},
+				"targetMap":{
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+}

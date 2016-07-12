@@ -153,6 +153,8 @@ public final class Const {
     public static final String GS_UI_STYLESHEET = "ui.stylesheet";
 
     public static final String MAIN_SPRITE = "main";
+
+    public static final Object SERVICES = "services";
     
     /**
      * Instantiates a new const (just to hide the constructor).

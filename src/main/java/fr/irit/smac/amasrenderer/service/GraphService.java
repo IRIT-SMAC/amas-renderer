@@ -21,6 +21,8 @@
  */
 package fr.irit.smac.amasrenderer.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +36,9 @@ import org.graphstream.graph.implementations.AbstractGraph;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
+
+import com.fasterxml.jackson.databind.InjectableValues;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.AgentModel;
@@ -59,12 +64,50 @@ public class GraphService {
 
     private AtomicInteger idCount;
 
+    private boolean loadNewAgent = true;
+
     public SpriteManager getSpriteManager() {
         return spriteManager;
     }
 
     private GraphService() {
+
         this.idCount = new AtomicInteger(0);
+        this.graph = new MultiGraph("AMAS Rendering");
+        this.graph.addAttribute(Const.GS_UI_STYLESHEET, "url(" + getClass().getResource("../css/graph.css") + ")");
+        spriteManager = new SpriteManager(this.graph);
+        this.graph.setNodeFactory((id, g) -> {
+
+            AgentModel node = null;
+
+            if (loadNewAgent) {
+                File file = new File(getClass().getResource("../json/initial_agent.json").getFile());
+
+                if (file != null) {
+                    final ObjectMapper mapper = new ObjectMapper();
+                    final InjectableValues.Std injectableValues = new InjectableValues.Std();
+                    injectableValues.addValue(AbstractGraph.class, (AbstractGraph) g);
+                    injectableValues.addValue(String.class, id);
+                    mapper.setInjectableValues(injectableValues);
+
+                    try {
+                        node = mapper.readValue(file, AgentModel.class);
+                        node.setId(id);
+
+                    }
+                    catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+            else {
+                node = new AgentModel((AbstractGraph) g, id);
+            }
+
+            return node;
+        });
+        this.setQualityGraph();
     }
 
     /**
@@ -73,19 +116,8 @@ public class GraphService {
      * @return single instance of GraphService
      */
     public static GraphService getInstance() {
+
         return instance;
-    }
-
-    /**
-     * Creates and initializes the agent graph.
-     */
-    public void createAgentGraph() {
-
-        this.graph = new MultiGraph("AMAS Rendering");
-        this.graph.addAttribute(Const.GS_UI_STYLESHEET, "url(" + getClass().getResource("../css/graph.css") + ")");
-        spriteManager = new SpriteManager(this.graph);
-        this.graph.setNodeFactory((id, g) -> new AgentModel((AbstractGraph) g, id));
-        this.setQualityGraph();
     }
 
     /**
@@ -108,12 +140,11 @@ public class GraphService {
     public void addNode(double x, double y) {
 
         String id = idCount.toString();
-
+        this.loadNewAgent = true;
         AgentModel node = this.graph.addNode(id);
         node.changeAttribute(Const.NODE_XY, x, y);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.GS_UI_LABEL, id);
-        node.initAttributesMap();
         this.agentMap.put(id, node.getAttributesMap());
         this.handleNodeNameChange(node, id);
 
@@ -131,12 +162,12 @@ public class GraphService {
     public void addNode(String idModel, Map<String, Object> attributesMap, Map<String, String> idModelToGraphMap) {
 
         String idGraph = idCount.toString();
-
+        this.loadNewAgent = false;
         AgentModel node = this.graph.addNode(idGraph);
         node.setName(idModel);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.GS_UI_LABEL, idModel);
-        node.setAttributesMap(attributesMap);
+        node.setAttributes(attributesMap);
         this.agentMap.put(idModel, node.getAttributesMap());
         idModelToGraphMap.put(idModel, idGraph);
         this.handleNodeNameChange(node, idGraph);
@@ -148,7 +179,7 @@ public class GraphService {
 
         agentModel.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-                
+
                 this.agentMap.remove(oldValue);
                 this.agentMap.put(newValue, agentModel.getAttributesMap());
                 agentModel.setAttribute(Const.GS_UI_LABEL, newValue);
@@ -333,8 +364,8 @@ public class GraphService {
 
         String agentId = (String) ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) agent
             .get(Const.COMMON_FEATURES)).get(Const.FEATURE_BASIC)).get(Const.KNOWLEDGE)).get(Const.ID);
-        AgentModel agentModel = (AgentModel) this.graph.getNode(idModelToGraphMap.get(agentId));
 
+        AgentModel agentModel = (AgentModel) this.graph.getNode(idModelToGraphMap.get(agentId));
         targets.forEach(
             (k, v) -> {
 
@@ -400,7 +431,9 @@ public class GraphService {
 
     public void updateGraphFromFile(Map<String, Object> agentMap) {
 
-        this.clearGraph();
+        if (this.agentMap != null) {
+            this.clearGraph();
+        }
         this.setAgentMap(agentMap);
         this.fillAgentGraphFromMap();
         this.setQualityGraph();

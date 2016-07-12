@@ -683,7 +683,6 @@ public class GraphController extends LoadSecondaryWindowController
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.graphService.createAgentGraph();
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         this.viewer = new Viewer(this.graphService.getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         this.viewer.enableAutoLayout();

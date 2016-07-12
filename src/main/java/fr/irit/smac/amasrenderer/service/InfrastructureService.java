@@ -21,7 +21,7 @@
  */
 package fr.irit.smac.amasrenderer.service;
 
-import java.util.HashMap;
+import java.io.File;
 import java.util.Map;
 
 import fr.irit.smac.amasrenderer.Const;
@@ -70,18 +70,20 @@ public class InfrastructureService {
     /**
      * Updates the infrastructure depending on the infrastructure of a JSON file
      * 
-     * @param infrastructureFile
+     * @param infrastructure
      */
-    public void updateInfrastructureFromFile(InfrastructureModel infrastructureFile) {
+    public void updateInfrastructureFromFile(InfrastructureModel infrastructure) {
 
-        String[] infrastructureName = infrastructureFile.getAttributesMap().get(Const.CLASSNAME).toString()
+
+        String[] infrastructureName = infrastructure.getAttributesMap().get(Const.CLASSNAME).toString()
             .split("\\.");
-        InfrastructureService.getInstance().getInfrastructure()
+        infrastructure
             .setName(infrastructureName[infrastructureName.length - 1]);
-        InfrastructureService.getInstance().getInfrastructure().setAttributes(infrastructureFile.getAttributesMap());
-
+        infrastructure.setAttributes(infrastructure.getAttributesMap());
+        
+        this.infrastructure = infrastructure;
         @SuppressWarnings("unchecked")
-        Map<String, Object> toolMap = (Map<String, Object>) this.infrastructure.getAttributesMap().get("services");
+        Map<String, Object> toolMap = (Map<String, Object>) this.infrastructure.getAttributesMap().get(Const.SERVICES);
         ToolService.getInstance().updateToolFromFile(toolMap);
     }
 
@@ -90,14 +92,7 @@ public class InfrastructureService {
      */
     public void init() {
 
-        Map<String, Object> attributesMap = new HashMap<>();
-
-        this.infrastructure = new InfrastructureModel(Const.INFRASTRUCTURE_NAME, attributesMap);
-        attributesMap.put(Const.CLASSNAME, Const.INFRASTRUCTURE_CLASSNAME);
-
-        Map<String, Object> toolMap = new HashMap<>();
-        attributesMap.put("services", toolMap);
-
-        ToolService.getInstance().init(toolMap);
+        File file = new File(getClass().getResource("../json/initial_config.json").getFile());
+        LoadSaveService.getInstance().load(file);
     }
 }

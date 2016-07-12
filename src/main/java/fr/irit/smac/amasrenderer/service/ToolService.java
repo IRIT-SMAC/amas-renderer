@@ -26,7 +26,9 @@ import java.util.Map;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.ToolModel;
+import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -41,6 +43,8 @@ public class ToolService {
     private static ToolService instance = new ToolService();
 
     private ToolService() {
+
+        this.setTools(FXCollections.observableArrayList(actionStep -> new Observable[] { actionStep.nameProperty() }));
     }
 
     /**
@@ -133,6 +137,7 @@ public class ToolService {
     }
 
     public void updateToolFromFile(Map<String, Object> toolMap) {
+        
         this.setToolMap(toolMap);
         this.createToolsFromMap();
 
@@ -140,21 +145,5 @@ public class ToolService {
         Map<String, Object> agentMap = (HashMap<String, Object>) ((Map<String, Object>) toolMap
             .get(Const.AGENT_HANDLER_SERVICE)).get(Const.AGENT_MAP);
         GraphService.getInstance().updateGraphFromFile(agentMap);
-    }
-
-    public void init(Map<String, Object> toolMap) {
-
-        this.setToolMap(toolMap);
-        Map<String, Object> agentHandlerService = new HashMap<>();
-        Map<String, Object> agentMap = new HashMap<>();
-        agentHandlerService.put(Const.CLASSNAME, Const.AGENT_HANDLER_CLASSNAME);
-        agentHandlerService.put(Const.AGENT_MAP, agentMap);
-        Map<String, Object> executionService = new HashMap<>();
-        executionService.put(Const.CLASSNAME, Const.EXECUTION_CLASSNAME);
-        toolMap.put(Const.AGENT_HANDLER_SERVICE, agentHandlerService);
-        toolMap.put(Const.EXECUTION_SERVICE, executionService);
-
-        GraphService.getInstance().setAgentMap(agentMap);
-
     }
 }

@@ -22,6 +22,7 @@
 package fr.irit.smac.amasrenderer.util.attributes;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
@@ -89,9 +90,9 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
             add.setOnAction(evt -> {
 
                 if (item.getValue().equals(Const.COMMON_FEATURES)) {
-                    
+
                     TreeItem<String> feature = new TreeItem<>(Const.FEATURE);
-                    
+
                     TreeItem<String> skill = new TreeItem<>(Const.SKILL);
                     TreeItem<String> skillVal = new TreeItem<>(Const.CLASSNAME);
                     TreeItem<String> skillClassNameVal = new TreeItem<>(
@@ -99,7 +100,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
                     skillVal.getChildren().add(skillClassNameVal);
                     skill.getChildren().add(skillVal);
                     feature.getChildren().add(skill);
-                    
+
                     TreeItem<String> knowledge = new TreeItem<>(Const.KNOWLEDGE);
                     TreeItem<String> knowledgeVal = new TreeItem<>(Const.CLASSNAME);
                     TreeItem<String> knowledgeClassNameVal = new TreeItem<>(
@@ -107,13 +108,13 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
                     knowledgeVal.getChildren().add(knowledgeClassNameVal);
                     knowledge.getChildren().add(knowledgeVal);
                     feature.getChildren().add(knowledge);
-                    
+
                     TreeItem<String> className = new TreeItem<>(Const.CLASSNAME);
                     TreeItem<String> classNameVal = new TreeItem<>(
                         Const.FEATURE_DEFAULT_CLASSNAME);
                     className.getChildren().add(classNameVal);
                     feature.getChildren().add(className);
-                    
+
                     item.getChildren().add(feature);
                 }
                 else if (item.getValue().equals(Const.PORT_MAP)) {
@@ -142,7 +143,6 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
             rename.setOnAction(evt -> startEdit());
 
             if (!this.isRequiredKeySingle && !this.isProtected) {
-
                 if (this.isRequiredKeyComplex) {
                     rename.setDisable(true);
                     delete.setDisable(true);
@@ -152,7 +152,8 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
                     delete.setDisable(true);
                     add.setDisable(true);
                     rename.setDisable(false);
-                } else if (this.isNotExpanded) {
+                }
+                else if (this.isNotExpanded) {
                     delete.setDisable(true);
                     add.setDisable(true);
                     rename.setDisable(true);
@@ -201,17 +202,17 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         this.isParentSingleNode = false;
         this.isNotExpanded = false;
 
-        this.isRequiredKeySingle = Arrays.asList(currentModel.getRequiredKeySingle()).contains(item.getValue());
-        this.isNotExpanded = Arrays.asList(currentModel.getNotExpanded()).contains(item.getValue());
-        
+        this.isRequiredKeySingle = Stream.of(currentModel.getRequiredKeySingle())
+            .anyMatch(s -> item.getValue().contains(s));
+        this.isNotExpanded = Stream.of(currentModel.getNotExpanded()).anyMatch(s -> item.getValue().endsWith(s));
         TreeItem<String> parent = item.getParent();
         if (parent != null) {
-            this.isParentSingleNode = Arrays.asList(currentModel.getRequiredKeySingle())
-                .contains(parent.getValue());
-            this.isProtected = Arrays.asList(currentModel.getProtectedValue())
-                .contains(parent.getValue());
+            this.isParentSingleNode = Stream.of(currentModel.getRequiredKeySingle())
+                .anyMatch(s -> item.getValue().contains(s));
+            this.isProtected = Stream.of(currentModel.getProtectedValue()).anyMatch(s -> item.getValue().contains(s));
         }
-        this.isRequiredKeyComplex = Arrays.asList(currentModel.getRequiredKeyComplex()).contains(item.getValue());
+        this.isRequiredKeyComplex = Stream.of(currentModel.getRequiredKeyComplex())
+            .anyMatch(s -> item.getValue().contains(s));
     }
 
     @Override
