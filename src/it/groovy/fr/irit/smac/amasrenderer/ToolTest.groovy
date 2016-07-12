@@ -38,11 +38,11 @@ class ToolTest extends GuiSpecification{
         when:
         fx.clickOn("#buttonAddService")
                         .clickOn("#textfieldTool")
-                        .write("messaging")
+                        .write("my")
                         .clickOn("#buttonConfirm")
 
         then:
-        toolService.getTools().get(2).getName() == "messagingService"
+        toolService.getTools().get(toolService.getTools().size()-1).getName() == "myService"
     }
 
     def "check if a tool is deleted by clicking on the corresponding button"() {
@@ -50,7 +50,7 @@ class ToolTest extends GuiSpecification{
         given:
         fx.clickOn("#buttonAddService")
                         .clickOn("#textfieldTool")
-                        .write("messaging")
+                        .write("my")
                         .clickOn("#buttonConfirm")
         int nbTools = toolService.getTools().size()
 

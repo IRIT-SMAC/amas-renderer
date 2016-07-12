@@ -37,6 +37,9 @@ class GraphNodeAttributeTest extends GuiSpecification{
     String agentId = "0"
 
     @Shared
+    String knowledgeId = "knowledge"
+
+    @Shared
     String defaultNameItem = "item"
 
     @Shared
@@ -70,8 +73,8 @@ class GraphNodeAttributeTest extends GuiSpecification{
         graphService = GraphService.getInstance()
 
         MultiGraph model = graphService.getGraph()
+        graphService.idCount.set(0)
         graphService.addNode(0,0)
-
         sleep(2000)
 
     }
@@ -79,19 +82,18 @@ class GraphNodeAttributeTest extends GuiSpecification{
     def "check if an attribute is correctly added"() {
 
         given:
-        Map<String,Object> agent = GraphService.getInstance().getAgentMap().get(agentId)
-        int nbChildren = agent.size()
+        int nbChildren = graphService.getAgentMap().get(agentId).get("primaryFeature").get("knowledge").size()
 
         when:
         fx.rightClickOn(graphId)
-                        .rightClickOn(agentId)
+                        .rightClickOn(knowledgeId)
                         .clickOn(addItem)
                         .rightClickOn(defaultNameItem)
                         .clickOn(addItem)
                         .clickOn(confButton)
 
         then:
-        agent.size() == nbChildren + 1
+        graphService.getAgentMap().get(agentId).get("primaryFeature").get("knowledge").size() == nbChildren + 1
     }
 
     def "check if an attribute is correctly updated"() {
@@ -116,13 +118,12 @@ class GraphNodeAttributeTest extends GuiSpecification{
 
         given:
         fx.rightClickOn(graphId)
-                        .rightClickOn(agentId)
+                        .rightClickOn(knowledgeId)
                         .clickOn(addItem)
                         .rightClickOn(defaultNameItem)
                         .clickOn(addItem)
                         .clickOn(confButton)
-        Map<String,Object> agent = GraphService.getInstance().getAgentMap().get(agentId)
-        int nbChildren = agent.size()
+        int nbChildren = graphService.getAgentMap().get(agentId).get("primaryFeature").get("knowledge").size()
         sleep(2000)
 
         when:
@@ -132,6 +133,6 @@ class GraphNodeAttributeTest extends GuiSpecification{
                         .clickOn(confButton)
 
         then:
-        GraphService.getInstance().getAgentMap().get(agentId).size() == nbChildren - 1
+        graphService.getAgentMap().get(agentId).get("primaryFeature").get("knowledge").size() == nbChildren - 1
     }
 }

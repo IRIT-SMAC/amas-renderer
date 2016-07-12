@@ -24,6 +24,11 @@ package fr.irit.smac.amasrenderer.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fr.irit.smac.amasrenderer.Const;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -32,14 +37,17 @@ public class TargetModel implements IModel {
 
     private StringProperty name;
 
-    private Map<String, Object> attributesMap;
+    private Map<String, Object> attributesMap = new HashMap<>();
 
     private String agentId;
 
+    @JsonIgnore
     private String agentTarget;
 
+    @JsonIgnore
     private String portSource;
 
+    @JsonIgnore
     private String portTarget;
 
     private static final String[] REQUIRED_KEY_SINGLE  = { Const.AGENT_TARGET, Const.PORT_SOURCE, Const.PORT_TARGET,
@@ -48,17 +56,9 @@ public class TargetModel implements IModel {
     private static final String[] NOT_EXPANDED         = {};
     private static final String[] REQUIRED_KEY_COMPLEX = {};
 
-    public TargetModel() {
 
-    }
-
-    public TargetModel(String agentId, String id) {
+    public TargetModel (@JacksonInject String id) {
         this.attributesMap = new HashMap<String, Object>();
-        this.agentTarget = agentId;
-        this.attributesMap.put(Const.AGENT_TARGET, agentId);
-        this.attributesMap.put(Const.PORT_SOURCE, null);
-        this.attributesMap.put(Const.PORT_TARGET, null);
-        this.attributesMap.put(Const.CLASSNAME, "fr.irit.smac.amasfactory.agent.features.social.impl.Target");
         this.name = new SimpleStringProperty(id);
     }
 
@@ -74,7 +74,7 @@ public class TargetModel implements IModel {
         return this.attributesMap;
     }
 
-    public void setAttributesMap(Map<String, Object> attributesMap) {
+    public void setAttributesMp(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
     }
 
@@ -142,5 +142,18 @@ public class TargetModel implements IModel {
 
     public String getPortTarget() {
         return portTarget;
+    }
+
+    /**
+     * Used by Jackson to deserialize the infrastructure
+     * 
+     * @param name
+     *            name of the attribute
+     * @param value
+     *            value of the attribute
+     */
+    @JsonAnySetter
+    public void setAttributesMap(String name, Object value) {
+        this.attributesMap.put(name, value);
     }
 }

@@ -211,13 +211,26 @@ public class GraphService {
 
         Edge edge = addEdgeGraph(idGraphNodeSource, idGraphNodeTarget, id);
         Sprite mainSprite = addSpriteEdgeGraph(id, null, null);
-        TargetModel targetModel = new TargetModel(idGraphNodeTarget, id);
-        targetModel.setAgentId(idModelNodeSource);
 
-        ((AgentModel) this.graph.getNode(idModelNodeSource)).addTarget(targetModel, id);
+        File file = new File(getClass().getResource("../json/initial_target.json").getFile());
+        final ObjectMapper mapper = new ObjectMapper();
+        final InjectableValues.Std injectableValues = new InjectableValues.Std();
+        injectableValues.addValue(String.class, id);
+        mapper.setInjectableValues(injectableValues);
 
-        this.handleTargetModelChange(targetModel, edge, mainSprite,
-            ((AgentModel) this.graph.getNode(idModelNodeSource)));
+        try {
+            TargetModel targetModel = null;
+            targetModel = mapper.readValue(file, TargetModel.class);
+            targetModel.setAgentId(idModelNodeSource);
+            targetModel.setAgentTarget(this.graph.getNode(idGraphNodeTarget).getAttribute(Const.GS_UI_LABEL));
+            ((AgentModel) this.graph.getNode(idModelNodeSource)).addTarget(targetModel, id);
+            this.handleTargetModelChange(targetModel, edge, mainSprite,
+                ((AgentModel) this.graph.getNode(idModelNodeSource)));
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     private void handleTargetModelChange(TargetModel targetModel, Edge edge, Sprite mainSprite, AgentModel agentModel) {
@@ -293,10 +306,12 @@ public class GraphService {
      */
     public void removeEdge(String id) {
 
-        this.spriteManager.removeSprite(id.concat(Const.TARGET_PORT_SPRITE));
-        this.spriteManager.removeSprite(id.concat(Const.SOURCE_PORT_SPRITE));
-        this.spriteManager.removeSprite(id.concat(Const.MAIN_SPRITE));
-        this.graph.removeEdge(id);
+        if (this.graph.getEdge(id) != null) {
+            this.spriteManager.removeSprite(id.concat(Const.TARGET_PORT_SPRITE));
+            this.spriteManager.removeSprite(id.concat(Const.SOURCE_PORT_SPRITE));
+            this.spriteManager.removeSprite(id.concat(Const.MAIN_SPRITE));
+            this.graph.removeEdge(id);
+        }
     }
 
     /**
@@ -307,12 +322,7 @@ public class GraphService {
      */
     public void removeNode(Node n) {
 
-        Iterable<Edge> edges = n.getEachEdge();
-        if (edges != null) {
-            for (Edge edge : edges) {
-                this.removeEdge(edge.getId());
-            }
-        }
+        n.getEachEdge().forEach(edge -> this.removeEdge(edge.getId()));
         this.graph.removeNode(n.getId());
         this.agentMap.remove(n.getId());
     }

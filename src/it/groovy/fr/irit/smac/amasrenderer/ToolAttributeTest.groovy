@@ -19,7 +19,7 @@ class ToolAttributeTest extends GuiSpecification{
     String itemId = "complexNode"
 
     @Shared
-    String service = "messagingService"
+    String service = "myService"
 
     @Shared
     String addItem = "#addAttributeItem"
@@ -65,7 +65,7 @@ class ToolAttributeTest extends GuiSpecification{
                         .clickOn(confButton)
 
         then:
-        toolService.getTools().get(2).getAttributesMap().get(itemId).size() == 2
+        toolService.getTools().get(toolService.getTools().size()-1).getAttributesMap().get(itemId).size() == 2
     }
 
     @IgnoreIf({
@@ -86,7 +86,7 @@ class ToolAttributeTest extends GuiSpecification{
                         .clickOn(confButton)
 
         then:
-        toolService.getTools().get(2).getAttributesMap().get(itemId + extraName) != null
+        toolService.getTools().get((toolService.getTools().size()-1)).getAttributesMap().get(itemId + extraName) != null
     }
 
     def "check if deleting an attribute works"() {
@@ -98,6 +98,6 @@ class ToolAttributeTest extends GuiSpecification{
                         .clickOn(confButton)
 
         then:
-        toolService.getTools().get(2).getAttributesMap().size() == 1
+        toolService.getTools().get((toolService.getTools().size()-1)).getAttributesMap().size() == 1
     }
 }
