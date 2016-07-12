@@ -212,6 +212,36 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Handle license files -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>${license-maven-plugin-version}</version>
+				<configuration>
+					<licenseName>lgpl_v3</licenseName>
+					<roots>
+						<root>src/main/java</root>
+					</roots>
+					<!-- Break some files otherwise -->
+					<addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+				</configuration>
+				<executions>
+					<execution>
+						<id>first</id>
+						<goals>
+							<goal>update-file-header</goal>
+						</goals>
+						<phase>process-sources</phase>
+					</execution>
+					<execution>
+						<id>update-license</id>
+						<goals>
+							<goal>update-project-license</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -256,39 +286,33 @@
 										<ignore></ignore>
 									</action>
 								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											license-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.7,)
+										</versionRange>
+										<goals>
+											<goal>
+												update-file-header
+											</goal>
+											<goal>
+												update-project-license
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
-				</plugin>
-				<!-- Handle license files -->
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>license-maven-plugin</artifactId>
-					<version>${license-maven-plugin-version}</version>
-					<configuration>
-						<licenseName>lgpl_v3</licenseName>
-						<roots>
-							<root>src/main/java</root>
-						</roots>
-						<!-- Break some files otherwise -->
-						<addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
-					</configuration>
-					<executions>
-						<execution>
-							<id>first</id>
-							<goals>
-								<goal>update-file-header</goal>
-							</goals>
-							<phase>process-sources</phase>
-						</execution>
-						<execution>
-							<id>update-license</id>
-							<goals>
-								<goal>update-project-license</goal>
-							</goals>
-							<phase>generate-resources</phase>
-						</execution>
-					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
