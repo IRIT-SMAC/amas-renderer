@@ -5,6 +5,11 @@
 	<artifactId>amas-renderer</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>amas-renderer</name>
+	<organization>
+		<name>IRIT - SMAC Team</name>
+		<url>http://irit.fr/-SMAC-team-</url>
+	</organization>
+	<inceptionYear>2016</inceptionYear>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,6 +23,7 @@
 		<jacoco-maven-plugin-version>0.7.6.201602180812</jacoco-maven-plugin-version>
 		<build-helper-maven-plugin-version>1.10</build-helper-maven-plugin-version>
 		<jackson.version>2.7.3</jackson.version>
+		<license-maven-plugin-version>1.7</license-maven-plugin-version>
 	</properties>
 
 	<repositories>
@@ -253,6 +259,36 @@
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
+				</plugin>
+				<!-- Handle license files -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<version>${license-maven-plugin-version}</version>
+					<configuration>
+						<licenseName>lgpl_v3</licenseName>
+						<roots>
+							<root>src/main/java</root>
+						</roots>
+						<!-- Break some files otherwise -->
+						<addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+					</configuration>
+					<executions>
+						<execution>
+							<id>first</id>
+							<goals>
+								<goal>update-file-header</goal>
+							</goals>
+							<phase>process-sources</phase>
+						</execution>
+						<execution>
+							<id>update-license</id>
+							<goals>
+								<goal>update-project-license</goal>
+							</goals>
+							<phase>generate-resources</phase>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
