@@ -93,15 +93,11 @@ public class PortController implements Initializable, ISecondaryWindowController
         Edge e = (Edge) this.sprite.getAttachment();
         Node node = e.getSourceNode();
         
-        System.out.println(e.getAttribute(Const.GS_UI_LABEL).toString());
-
         this.targetModel = this.graphService.getTargetModel(node.getId(), e.getAttribute(Const.GS_UI_LABEL).toString());
-        System.out.println(targetModel);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         // Nothing to do
     }
 

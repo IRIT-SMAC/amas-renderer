@@ -605,8 +605,9 @@ public class GraphController extends LoadSecondaryWindowController
 
         this.getEdge(e);
         if (this.source != null && this.target != null) {
+
             this.graphService.addEdge(this.source.getId(), this.target.getId(),
-                this.target.getId().concat(this.edgeCreatedCount.toString()), source.getAttribute(Const.GS_UI_LABEL));
+                this.target.getId().concat(this.edgeCreatedCount.toString()), source.getId());
         }
         this.edgeCreatedCount++;
         this.unselectSource();
@@ -623,7 +624,8 @@ public class GraphController extends LoadSecondaryWindowController
         GraphicElement sprite = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
 
         if (sprite != null && !(sprite instanceof Node)) {
-            this.graphService.removeEdge(sprite.getId());
+            this.graphService
+                .removeEdge(this.graphService.getSpriteManager().getSprite(sprite.getId()).getAttachment().getId());
             this.unselectSource();
         }
     }

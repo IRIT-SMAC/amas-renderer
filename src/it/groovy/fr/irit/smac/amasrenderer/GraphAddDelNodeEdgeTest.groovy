@@ -78,6 +78,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         positionDown = height-gap*2
         positionUpEdge = positionUp + gapEdge
         positionDownEdge = positionDown - gapEdge*2
+        graphService.idCount.set(0)
 
         fx.clickOn(graphId)
     }
@@ -242,7 +243,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         given:
         graphService.addNode(0.0,positionUp)
         graphService.addNode(0.0,positionDown)
-        graphService.addEdge(agentId,agentId2,agentId2)
+        graphService.addEdge(agentId,agentId2,agentId2,agentId)
         fx.clickOn("#buttonDelEdge")
         int oneEdge = graphService.getGraph().getEdgeCount()
         sleep(waitingTime)
@@ -260,7 +261,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         given:
         graphService.addNode(0.0,positionUp)
         graphService.addNode(0.0,positionDown)
-        graphService.addEdge(agentId,agentId2, agentId2)
+        graphService.addEdge(agentId,agentId2, agentId2,agentId)
         int oneEdge = graphService.getGraph().getEdgeCount()
         sleep(waitingTime)
 
@@ -281,7 +282,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         int nbEdge = graphService.getGraph().getEdgeCount()
         graphService.addNode(0.0,positionUp)
         graphService.addNode(0.0,positionDown)
-        graphService.addEdge(agentId,agentId2,agentId2)
+        graphService.addEdge(agentId,agentId2,agentId2,agentId)
         int oneEdge = graphService.getGraph().getEdgeCount()
         sleep(waitingTime)
         fx.clickOn(button)

@@ -23,7 +23,8 @@
 							},
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
-								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic"
+								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+								"id":"11"
 							}
 						},
 						"className":"package.implementationclass",
@@ -62,8 +63,7 @@
 								}
 							}
 						}
-					},
-					"id":"11"
+					}
 				},
 				"1":{
 					"primaryFeature":{
@@ -82,7 +82,8 @@
 							},
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
-								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic"
+								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+								"id":"1"
 							}
 						},
 						"className":"package.implementationclass",
@@ -121,8 +122,7 @@
 								}
 							}
 						}
-					},
-					"id":"1"
+					}
 				},
 				"12":{
 					"primaryFeature":{
@@ -141,7 +141,8 @@
 							},
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
-								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic"
+								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+								"id":"12"
 							}
 						},
 						"className":"package.implementationclass",
@@ -180,8 +181,7 @@
 								}
 							}
 						}
-					},
-					"id":"12"
+					}
 				},
 				"2":{
 					"primaryFeature":{
@@ -200,7 +200,8 @@
 							},
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
-								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic"
+								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+								"id":"2"
 							}
 						},
 						"className":"package.implementationclass",
@@ -239,8 +240,7 @@
 								}
 							}
 						}
-					},
-					"id":"2"
+					}
 				},
 				"3":{
 					"primaryFeature":{
@@ -259,7 +259,8 @@
 							},
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
-								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic"
+								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+								"id":"3"
 							}
 						},
 						"className":"package.implementationclass",
@@ -298,8 +299,7 @@
 								}
 							}
 						}
-					},
-					"id":"3"
+					}
 				},
 				"4":{
 					"primaryFeature":{
@@ -318,7 +318,8 @@
 							},
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
-								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic"
+								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+								"id":"4"
 							}
 						},
 						"className":"package.implementationclass",
@@ -357,8 +358,7 @@
 								}
 							}
 						}
-					},
-					"id":"4"
+					}
 				},
 				"5":{
 					"primaryFeature":{
@@ -377,7 +377,8 @@
 							},
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
-								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic"
+								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+								"id":"5"
 							}
 						},
 						"className":"package.implementationclass",
@@ -416,8 +417,7 @@
 								}
 							}
 						}
-					},
-					"id":"5"
+					}
 				},
 				"6":{
 					"primaryFeature":{
@@ -436,7 +436,8 @@
 							},
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
-								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic"
+								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+								"id":"6"
 							}
 						},
 						"className":"package.implementationclass",
@@ -475,8 +476,7 @@
 								}
 							}
 						}
-					},
-					"id":"6"
+					}
 				},
 				"7":{
 					"primaryFeature":{
@@ -495,7 +495,8 @@
 							},
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
-								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic"
+								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+								"id":"7"
 							}
 						},
 						"className":"package.implementationclass",
@@ -534,8 +535,7 @@
 								}
 							}
 						}
-					},
-					"id":"7"
+					}
 				},
 				"8":{
 					"primaryFeature":{
@@ -554,7 +554,8 @@
 							},
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
-								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic"
+								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+								"id":"8"
 							}
 						},
 						"className":"package.implementationclass",
@@ -593,8 +594,7 @@
 								}
 							}
 						}
-					},
-					"id":"8"
+					}
 				},
 				"9":{
 					"primaryFeature":{
@@ -613,7 +613,8 @@
 							},
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
-								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic"
+								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+								"id":"9"
 							}
 						},
 						"className":"package.implementationclass",
@@ -652,8 +653,7 @@
 								}
 							}
 						}
-					},
-					"id":"9"
+					}
 				},
 				"10":{
 					"primaryFeature":{
@@ -672,7 +672,8 @@
 							},
 							"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 							"knowledge":{
-								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic"
+								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
+								"id":"10"
 							}
 						},
 						"className":"package.implementationclass",
@@ -711,8 +712,7 @@
 								}
 							}
 						}
-					},
-					"id":"10"
+					}
 				}
 			},
 			"className":"fr.irit.smac.amasfactory.service.agenthandler.impl.BasicAgentHandler"

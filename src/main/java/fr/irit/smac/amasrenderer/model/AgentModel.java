@@ -142,7 +142,6 @@ public class AgentModel extends MultiNode implements Node, IModel {
     public void initAttributesMap() {
 
         HashMap<String, Object> attributesMap = new HashMap<>();
-        attributesMap.put(Const.ID, this.id);
 
         Map<String, Object> primaryFeature = this.createFeature(Const.PRIMARY_FEATURE, Const.EXAMPLE_CLASSNAME,
             Const.EXAMPLE_CLASSNAME, Const.EXAMPLE_CLASSNAME);
@@ -207,7 +206,6 @@ public class AgentModel extends MultiNode implements Node, IModel {
     public void setId(String id) {
         ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) this.attributesMap
             .get(Const.COMMON_FEATURES)).get(Const.FEATURE_BASIC)).get(Const.KNOWLEDGE)).put(Const.ID, id);
-        this.attributesMap.put(Const.ID, id);
     }
 
 }
