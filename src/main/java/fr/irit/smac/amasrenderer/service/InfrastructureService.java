@@ -74,7 +74,8 @@ public class InfrastructureService {
      */
     public void updateInfrastructureFromFile(InfrastructureModel infrastructure) {
 
-
+        infrastructure.getAttributesMap().put("services", infrastructure.getServices());
+        infrastructure.getAttributesMap().put("className", infrastructure.getClassName());
         String[] infrastructureName = infrastructure.getAttributesMap().get(Const.CLASSNAME).toString()
             .split("\\.");
         infrastructure
@@ -82,9 +83,7 @@ public class InfrastructureService {
         infrastructure.setAttributes(infrastructure.getAttributesMap());
         
         this.infrastructure = infrastructure;
-        @SuppressWarnings("unchecked")
-        Map<String, Object> toolMap = (Map<String, Object>) this.infrastructure.getAttributesMap().get(Const.SERVICES);
-        ToolService.getInstance().updateToolFromFile(toolMap);
+        ToolService.getInstance().updateToolFromFile(infrastructure.getServices());
     }
 
     /**

@@ -36,7 +36,6 @@ import org.graphstream.ui.view.Viewer;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
-import fr.irit.smac.amasrenderer.model.AgentModel;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
@@ -72,7 +71,7 @@ public class GraphController extends LoadSecondaryWindowController
 
     private Viewer viewer;
 
-    private AgentModel selectedAgent;
+    private Node selectedAgent;
 
     private Node source = null;
 

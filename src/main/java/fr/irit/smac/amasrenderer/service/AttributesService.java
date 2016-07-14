@@ -102,6 +102,7 @@ public class AttributesService {
                 map.put(item.getValue(), null);
             }
             else {
+
                 map.put(item.getValue(), node.get(0).getValue());
             }
         }
@@ -124,27 +125,28 @@ public class AttributesService {
     @SuppressWarnings("unchecked")
     public void fillAttributes(Map<String, Object> attributesMap, TreeItem<String> parent, IModel model) {
 
-        parent.expandedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                BooleanProperty bb = (BooleanProperty) observable;
-                if (model != null) {
-                    for (String notExpanded : model.getNotExpanded()) {
-                        if (parent.getValue().contains(notExpanded)) {
-                            TreeItem<String> t = (TreeItem<String>) bb.getBean();
-                            t.setExpanded(false);
-                        }
-                    }
-                }
-            }
-        });
+        // parent.expandedProperty().addListener(new ChangeListener<Boolean>() {
+        // @Override
+        // public void changed(ObservableValue<? extends Boolean> observable,
+        // Boolean oldValue, Boolean newValue) {
+        // BooleanProperty bb = (BooleanProperty) observable;
+        // if (model != null) {
+        // for (String notExpanded : model.getNotExpanded()) {
+        // if (parent.getValue().contains(notExpanded)) {
+        // TreeItem<String> t = (TreeItem<String>) bb.getBean();
+        // t.setExpanded(false);
+        // }
+        // }
+        // }
+        // }
+        // });
 
-        parent.setExpanded(true);
-        Iterator<Map.Entry<String, Object>> attributeIterator = attributesMap.entrySet().iterator();
-        while (attributeIterator.hasNext()) {
-            Map.Entry<String, Object> attribute = attributeIterator.next();
-            String name = attribute.getKey();
-            Object value = attribute.getValue();
+        // parent.setExpanded(true);
+        // Iterator<Map.Entry<String, Object>> attributeIterator =
+        // attributesMap.entrySet().iterator();
+        attributesMap.forEach((k, v) -> {
+            String name = k;
+            Object value = v;
 
             if (value instanceof HashMap<?, ?>) {
 
@@ -152,11 +154,18 @@ public class AttributesService {
                 item.setValue(name);
                 fillAttributes((HashMap<String, Object>) value, item, model);
                 parent.getChildren().add(item);
+                
+                item.valueProperty().addListener((c, oldValue, newValue) -> {
+                    attributesMap.put(newValue, attributesMap.get(oldValue));
+                    attributesMap.remove(oldValue);
+                });
+                
             }
             else {
                 TreeItem<String> item = new TreeItem<>();
                 item.setValue(name);
                 TreeItem<String> item2 = new TreeItem<>();
+
                 if (value != null) {
                     item2.setValue(value.toString());
                 }
@@ -165,9 +174,19 @@ public class AttributesService {
                 }
                 item.getChildren().add(item2);
                 item.setExpanded(true);
+
+                item.valueProperty().addListener((c, oldValue, newValue) -> {
+                    attributesMap.put(newValue, attributesMap.get(oldValue));
+                    attributesMap.remove(oldValue);
+                });
+
+                item2.valueProperty().addListener((c, oldValue, newValue) -> {
+                    attributesMap.put(item.getValue(), newValue);
+                });
+                
                 parent.getChildren().add(item);
             }
-        }
+        });
 
     }
 

@@ -6,7 +6,7 @@ import javafx.scene.layout.BorderPane
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
-import fr.irit.smac.amasrenderer.model.ToolModel
+import fr.irit.smac.amasrenderer.model.tool.ToolModel;
 import fr.irit.smac.amasrenderer.service.ToolService
 
 @Stepwise

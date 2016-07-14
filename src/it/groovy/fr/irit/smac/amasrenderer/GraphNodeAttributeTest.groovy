@@ -15,7 +15,7 @@ import spock.lang.Shared
 import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.controller.MainController
 import fr.irit.smac.amasrenderer.controller.graph.GraphController
-import fr.irit.smac.amasrenderer.model.AgentModel
+import fr.irit.smac.amasrenderer.model.agent.AgentModel;
 import fr.irit.smac.amasrenderer.service.GraphService
 
 @IgnoreIf({

@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 import fr.irit.smac.amasrenderer.controller.IParentWindowModal;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
-import fr.irit.smac.amasrenderer.model.ToolModel;
+import fr.irit.smac.amasrenderer.model.tool.ToolModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;

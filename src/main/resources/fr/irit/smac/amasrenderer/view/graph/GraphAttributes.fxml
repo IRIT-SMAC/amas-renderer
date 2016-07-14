@@ -3,13 +3,15 @@
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane styleClass="secondaryWindow" stylesheets="@../../css/secondaryWindow.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.irit.smac.amasrenderer.controller.graph.NodeAttributesController">
    <children>
       <Label prefHeight="42.0" styleClass="title" text="Attributs de l'agent" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <TreeView fx:id="tree" editable="true" focusTraversable="false" prefHeight="311.0" prefWidth="610.0" styleClass="tree" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
       <Button fx:id="confButton" layoutX="801.0" layoutY="536.0" mnemonicParsing="false" onAction="#confirmButton" prefHeight="33.0" prefWidth="106.0" text="Confirmer" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="15.0">
          <styleClass>
             <String fx:value="buttonSecondaryWindow" />
@@ -22,5 +24,49 @@
             <String fx:value="buttonSecondaryWindowKo" />
          </styleClass>
       </Button>
+      <TabPane layoutX="9.0" layoutY="64.0" prefHeight="460.0" prefWidth="984.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+        <tabs>
+          <Tab text="Liste des ports">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="431.0" prefWidth="985.0">
+                     <children>
+                        <ListView fx:id="listPort" layoutY="50.0" onMouseClicked="#clickOnList" prefHeight="145.0" prefWidth="984.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#addPort" text="Ajouter un port" />
+                        <TreeView fx:id="treePort" layoutY="200.0" prefHeight="235.0" prefWidth="984.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="200.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="PrimaryFeature">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TreeView fx:id="treeP" layoutY="50.0" prefHeight="381.0" prefWidth="972.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="FeatureCommons">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="451.0" prefWidth="984.0">
+                     <children>
+                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#addFeature" text="Ajouter une feature" />
+                        <ListView fx:id="listFeatures" layoutY="50.0" onMouseClicked="#clickOnFeaturesList" prefHeight="145.0" prefWidth="984.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                        <TreeView fx:id="tree" editable="true" focusTraversable="false" layoutY="200.0" prefHeight="235.0" prefWidth="984.0" styleClass="tree" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="200.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Autres attributs">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TreeView fx:id="treeP1" prefHeight="381.0" prefWidth="972.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
    </children>
 </AnchorPane>

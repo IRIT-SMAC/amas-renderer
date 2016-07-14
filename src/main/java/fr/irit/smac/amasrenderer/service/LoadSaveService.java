@@ -26,6 +26,10 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.graphstream.graph.implementations.AbstractGraph;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -81,9 +85,15 @@ public class LoadSaveService {
      */
     public void load(File file) {
 
+        
         if (file != null) {
             ObjectMapper mapper = new ObjectMapper();
+            mapper.setSerializationInclusion(Include.NON_NULL);
             try {
+                final InjectableValues.Std injectableValues = new InjectableValues.Std();
+                injectableValues.addValue(AbstractGraph.class, (AbstractGraph) GraphService.getInstance().getGraph());
+                injectableValues.addValue(String.class, GraphService.getInstance().getIdCount());
+                mapper.setInjectableValues(injectableValues);
                 InfrastructureModel infrastructure = mapper.readValue(file, InfrastructureModel.class);
                 InfrastructureService.getInstance().updateInfrastructureFromFile(infrastructure);
             }

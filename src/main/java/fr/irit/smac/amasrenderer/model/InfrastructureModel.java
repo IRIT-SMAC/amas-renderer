@@ -26,7 +26,9 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import fr.irit.smac.amasrenderer.model.tool.ToolsModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -36,6 +38,13 @@ import javafx.beans.property.StringProperty;
 public class InfrastructureModel implements IModel {
 
     private Map<String, Object> attributesMap = new HashMap<>();
+
+    
+    @JsonProperty
+    private String className;
+    
+    @JsonProperty
+    private ToolsModel services;
 
     private static final String[] REQUIRED_KEY_SINGLE  = {};
     private static final String[] PROTECTED_VALUE      = {};
@@ -127,4 +136,13 @@ public class InfrastructureModel implements IModel {
     public String getNewName(String name) {
         return name;
     }
+
+    public String getClassName() {
+        return this.className;
+    }
+    
+    public ToolsModel getServices() {
+        return this.services;
+    }
+
 }

@@ -21,11 +21,10 @@
  */
 package fr.irit.smac.amasrenderer.service;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.ToolModel;
+import fr.irit.smac.amasrenderer.model.tool.ToolModel;
+import fr.irit.smac.amasrenderer.model.tool.ToolsModel;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -38,7 +37,7 @@ public class ToolService {
 
     private ObservableList<ToolModel> tools;
 
-    private Map<String, Object> toolMap;
+    private ToolsModel toolMap;
 
     private static ToolService instance = new ToolService();
 
@@ -84,13 +83,13 @@ public class ToolService {
     public void addTool(ToolModel tool) {
 
         this.tools.add(tool);
-        toolMap.put(tool.getName(),
-            tool.getAttributesMap());
+        // toolMap.getServices().put(tool.getName(),
+        // tool);
         tool.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-                toolMap.remove(oldValue);
-                toolMap.put(newValue,
-                    tool.getAttributesMap());
+                toolMap.getServices().remove(oldValue);
+                toolMap.getServices().put(newValue,
+                    tool);
             });
     }
 
@@ -104,11 +103,11 @@ public class ToolService {
 
         this.getTools().clear();
 
-        for (Map.Entry<String, Object> pair : this.toolMap.entrySet()) {
-            if (pair.getKey().contains(Const.TOOL)) {
-                this.addTool(new ToolModel(pair.getKey(), pair.getValue()));
-            }
-        }
+        this.toolMap.getServices().forEach((k, v) -> {
+            v.setName(k);
+            v.getAttributesMap().put("className", v.getClassName());
+            this.addTool(v);
+        });
     }
 
     /**
@@ -128,22 +127,24 @@ public class ToolService {
         this.getTools().clear();
     }
 
-    public Map<String, Object> getToolMap() {
-        return toolMap;
+    public ToolsModel getToolMap() {
+        return this.toolMap;
     }
 
-    public void setToolMap(Map<String, Object> toolMap) {
+    public void setToolsModel(ToolsModel toolMap) {
         this.toolMap = toolMap;
     }
 
-    public void updateToolFromFile(Map<String, Object> toolMap) {
-        
-        this.setToolMap(toolMap);
-        this.createToolsFromMap();
+    public void updateToolFromFile(ToolsModel tools) {
 
-        @SuppressWarnings("unchecked")
-        Map<String, Object> agentMap = (HashMap<String, Object>) ((Map<String, Object>) toolMap
-            .get(Const.AGENT_HANDLER_SERVICE)).get(Const.AGENT_MAP);
-        GraphService.getInstance().updateGraphFromFile(agentMap);
+        this.setToolsModel(tools);
+        this.createToolsFromMap();
+        
+        
+
+//        @SuppressWarnings("unchecked")
+//        Map<String, Object> agentMap = (HashMap<String, Object>) ((Map<String, Object>) toolMap
+//            .get(Const.AGENT_HANDLER_SERVICE)).get(Const.AGENT_MAP);
+        GraphService.getInstance().updateGraphFromFile(tools.getAgentHandlerToolModel().getAgentMap());
     }
 }

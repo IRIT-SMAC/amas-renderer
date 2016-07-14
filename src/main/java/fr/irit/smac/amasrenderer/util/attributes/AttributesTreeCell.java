@@ -240,6 +240,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         if (notEmpty && notRequiredComplex && notRequiredKeySingle && notProtectedValue && notExpanded) {
 
             if (getTreeItem().getParent() == null) {
+                
                 super.commitEdit(currentModel.getNewName(newValue));
             }
             else {

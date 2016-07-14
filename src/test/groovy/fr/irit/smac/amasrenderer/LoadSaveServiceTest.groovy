@@ -6,7 +6,7 @@ import java.nio.file.Paths
 import javafx.collections.FXCollections
 import spock.lang.Shared
 import spock.lang.Specification
-import fr.irit.smac.amasrenderer.model.ToolModel
+import fr.irit.smac.amasrenderer.model.tool.ToolModel;
 import fr.irit.smac.amasrenderer.service.GraphService
 import fr.irit.smac.amasrenderer.service.InfrastructureService
 import fr.irit.smac.amasrenderer.service.LoadSaveService

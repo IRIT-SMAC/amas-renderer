@@ -21,6 +21,8 @@
  */
 package fr.irit.smac.amasrenderer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Used by each model of the program
  */
@@ -32,6 +34,7 @@ public interface IModel {
      * @param name
      *            the name
      */
+    @JsonIgnore
     public void setName(String name);
 
     /**
@@ -39,6 +42,7 @@ public interface IModel {
      * 
      * @return the name
      */
+    @JsonIgnore
     public String getName();
 
     /**
@@ -47,6 +51,7 @@ public interface IModel {
      * @param name
      * @return the new name
      */
+    @JsonIgnore
     public String getNewName(String name);
 
     /**
@@ -54,6 +59,7 @@ public interface IModel {
      * 
      * @return the keys
      */
+    @JsonIgnore
     public String[] getRequiredKeySingle();
 
     /**
@@ -61,6 +67,7 @@ public interface IModel {
      * 
      * @return the values
      */
+    @JsonIgnore
     public String[] getProtectedValue();
 
     /**
@@ -68,6 +75,7 @@ public interface IModel {
      * 
      * @return the attributes
      */
+    @JsonIgnore
     public String[] getNotExpanded();
 
     /**
@@ -75,5 +83,6 @@ public interface IModel {
      * 
      * @return the keys
      */
+    @JsonIgnore
     public String[] getRequiredKeyComplex();
 }

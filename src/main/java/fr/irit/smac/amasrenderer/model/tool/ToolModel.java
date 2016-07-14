@@ -19,12 +19,18 @@
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
  * #L%
  */
-package fr.irit.smac.amasrenderer.model;
+package fr.irit.smac.amasrenderer.model.tool;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import fr.irit.smac.amasrenderer.Const;
+import fr.irit.smac.amasrenderer.model.IModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -35,23 +41,32 @@ public class ToolModel implements IModel {
 
     private StringProperty name;
 
+    @JsonIgnoreProperties(allowGetters=false,allowSetters=true)
+    private String className;
+
+    @JsonIgnore
     private Map<String, Object> attributesMap = new HashMap<>();
 
-    private static final String[] REQUIRED_KEY_SINGLE  = {};
-    private static final String[] PROTECTED_VALUE      = {};
-    private static final String[] NOT_EXPANDED         = { Const.AGENT_MAP };
+    private static final String[] REQUIRED_KEY_SINGLE = {};
+    private static final String[] PROTECTED_VALUE = {};
+    private static final String[] NOT_EXPANDED = { Const.AGENT_MAP };
     private static final String[] REQUIRED_KEY_COMPLEX = {};
+
+    public ToolModel() {
+        attributesMap = new HashMap<>();
+        this.name = new SimpleStringProperty();
+    }
 
     @SuppressWarnings("unchecked")
     public ToolModel(String name, Object map) {
         super();
 
         this.name = new SimpleStringProperty(this.getNewName(name));
+        this.className = Const.EXAMPLE_CLASSNAME;
+
         this.attributesMap = (Map<String, Object>) map;
 
-        if (this.attributesMap.get(Const.CLASSNAME) == null) {
-            this.attributesMap.put(Const.CLASSNAME, Const.EXAMPLE_CLASSNAME);
-        }
+        this.attributesMap.put(Const.CLASSNAME, this.className);
     }
 
     /**
@@ -69,6 +84,11 @@ public class ToolModel implements IModel {
      * @param attributesMap
      *            the attributes
      */
+    @JsonAnySetter
+    public void setAttrMap(String name, Object value) {
+        this.attributesMap.put(name, value);
+    }
+
     public void setAttributesMap(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
     }
@@ -115,5 +135,14 @@ public class ToolModel implements IModel {
     @Override
     public String getNewName(String name) {
         return name.endsWith(Const.TOOL) ? name : name.concat(Const.TOOL);
+    }
+
+    public String getClassName() {
+        return this.className;
+    }
+    
+    @JsonAnyGetter
+    public Map<String,Object> getMap() {
+      return this.attributesMap;
     }
 }

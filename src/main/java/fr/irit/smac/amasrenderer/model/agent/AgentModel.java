@@ -19,54 +19,71 @@
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
  * #L%
  */
-package fr.irit.smac.amasrenderer.model;
+package fr.irit.smac.amasrenderer.model.agent;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.graphstream.graph.Node;
-import org.graphstream.graph.implementations.AbstractGraph;
-import org.graphstream.graph.implementations.MultiNode;
-
-import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.irit.smac.amasrenderer.Const;
+import fr.irit.smac.amasrenderer.model.IModel;
+import fr.irit.smac.amasrenderer.model.agent.feature.CommonFeaturesModel;
+import fr.irit.smac.amasrenderer.model.agent.feature.FeatureModel;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.PortModel;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.TargetModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
  * This model is about an agent. An agent is a MultiNode
  */
-public class AgentModel extends MultiNode implements Node, IModel {
+public class AgentModel implements IModel {
 
     private StringProperty name;
 
     private Map<String, Object> attributesMap = new HashMap<>();
 
-    @JsonIgnore
-    private Map<String, Object> commonFeatures;
-
+    @JsonProperty
     private Map<String, TargetModel> targets;
 
-    private Map<String, Object> portMap;
+    private Map<String, PortModel> portMap;
 
+    @JsonProperty
+    private FeatureModel primaryFeature;
+    
+    @JsonProperty
+    private CommonFeaturesModel commonFeatures;
+    
     private Map<String, Object> targetMap;
+
+    private String setIdGraph;
 
     private static final String[] REQUIRED_KEY_SINGLE  = {};
     private static final String[] PROTECTED_VALUE      = {};
     private static final String[] NOT_EXPANDED         = { Const.TARGET_MAP };
     private static final String[] REQUIRED_KEY_COMPLEX = { Const.SKILL, Const.KNOWLEDGE, Const.PORT_MAP };
 
-    public AgentModel(@JacksonInject AbstractGraph graph, @JacksonInject String id) {
+    public AgentModel() {
 
-        super(graph, id);
-        this.name = new SimpleStringProperty(id);
+        this.name = new SimpleStringProperty();
         this.targets = new HashMap<>();
         this.targetMap = new HashMap<>();
         this.portMap = new HashMap<>();
     }
+    
+    public AgentModel(String id) {
+
+        this.name = new SimpleStringProperty(id);
+        this.targets = new HashMap<>();
+        this.targetMap = new HashMap<>();
+        this.portMap = new HashMap<>();
+        this.commonFeatures = new CommonFeaturesModel();
+        this.primaryFeature = new FeatureModel();
+        this.setId(id);
+    }
+
 
     /**
      * Adds a target to the agent
@@ -101,16 +118,6 @@ public class AgentModel extends MultiNode implements Node, IModel {
     public Map<String, Object> getAttributesMap() {
         return attributesMap;
     }
-
-    /**
-     * Sets the attributes of the agent
-     * 
-     * @param attributesMap
-     *            the attributes
-     */
-    // public void setAttributesMap(Map<String, Object> attributesMap) {
-    // this.attributesMap = attributesMap;
-    // }
 
     @Override
     public String[] getRequiredKeySingle() {
@@ -154,13 +161,29 @@ public class AgentModel extends MultiNode implements Node, IModel {
         return this.targets;
     }
 
-    public Map<String, Object> getPortMap() {
+    public Map<String, PortModel> getPortMap() {
         return this.portMap;
     }
 
     public void setId(String id) {
-        ((Map<String, Object>) ((Map<String, Object>) ((Map<String, Object>) this.attributesMap
-            .get(Const.COMMON_FEATURES)).get(Const.FEATURE_BASIC)).get(Const.KNOWLEDGE)).put(Const.ID, id);
+        this.commonFeatures.getFeatureBasic().getKnowledge().setId(id);
     }
 
+    public void setIdGraph(String idGraph) {
+        this.setIdGraph = idGraph;
+    }
+    
+    public String getIdGraph() {
+        return this.setIdGraph;
+    }
+
+    public CommonFeaturesModel getCommonFeaturesModel() {
+        return this.commonFeatures;
+    }
+
+    public FeatureModel getPrimaryFeature() {
+        return this.primaryFeature;
+    }
+
+    
 }

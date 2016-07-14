@@ -19,17 +19,18 @@
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
  * #L%
  */
-package fr.irit.smac.amasrenderer.model;
+package fr.irit.smac.amasrenderer.model.agent.feature.social;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import fr.irit.smac.amasrenderer.Const;
+import fr.irit.smac.amasrenderer.model.IModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -41,14 +42,18 @@ public class TargetModel implements IModel {
 
     private String agentId;
 
-    @JsonIgnore
+    @JsonProperty
+    private String className;
+    
+    @JsonProperty
     private String agentTarget;
 
-    @JsonIgnore
+    @JsonProperty
     private String portSource;
 
-    @JsonIgnore
     private String portTarget;
+
+    private String idGraph;
 
     private static final String[] REQUIRED_KEY_SINGLE  = { Const.AGENT_TARGET, Const.PORT_SOURCE, Const.PORT_TARGET,
         Const.CLASSNAME };
@@ -56,8 +61,19 @@ public class TargetModel implements IModel {
     private static final String[] NOT_EXPANDED         = {};
     private static final String[] REQUIRED_KEY_COMPLEX = {};
 
-
-    public TargetModel (@JacksonInject String id) {
+    public TargetModel() {
+        this.attributesMap = new HashMap<String, Object>();
+        this.name = new SimpleStringProperty();
+    }
+    
+    @JsonSetter
+    public void setPortTarget(String portTarget) {
+        this.portTarget = portTarget;
+        this.attributesMap.put("portTarget", portTarget);
+    }
+    
+    
+    public TargetModel(@JacksonInject String id) {
         this.attributesMap = new HashMap<String, Object>();
         this.name = new SimpleStringProperty(id);
     }
@@ -155,5 +171,9 @@ public class TargetModel implements IModel {
     @JsonAnySetter
     public void setAttributesMap(String name, Object value) {
         this.attributesMap.put(name, value);
+    }
+
+    public void setIdGraph(String idGraph) {
+        this.idGraph = idGraph;
     }
 }
