@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Knowledge {
 
-    @JsonProperty
     private String className;
     
     @JsonIgnore
@@ -26,5 +25,10 @@ public class Knowledge {
 
     public Map<String, Object> getAttributesMap() {
         return attributesMap;
+    }
+
+    @JsonIgnore
+    public String getClassName() {
+        return className;
     }
 }

@@ -12,7 +12,6 @@ public class AgentHandlerToolModel extends ToolModel{
     private Map<String,AgentModel> agentMap;
     
     public AgentHandlerToolModel() {
-        
     }
 
     public Map<String, AgentModel> getAgentMap() {

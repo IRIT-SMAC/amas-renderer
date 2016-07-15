@@ -74,9 +74,9 @@ public class InfrastructureService {
      */
     public void updateInfrastructureFromFile(InfrastructureModel infrastructure) {
 
-        infrastructure.getAttributesMap().put("services", infrastructure.getServices());
-        infrastructure.getAttributesMap().put("className", infrastructure.getClassName());
-        String[] infrastructureName = infrastructure.getAttributesMap().get(Const.CLASSNAME).toString()
+//        infrastructure.getAttributesMap().put("services", infrastructure.getServices());
+//        infrastructure.getAttributesMap().put("className", infrastructure.getClassName());
+        String[] infrastructureName = infrastructure.getClassName().toString()
             .split("\\.");
         infrastructure
             .setName(infrastructureName[infrastructureName.length - 1]);

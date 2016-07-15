@@ -27,7 +27,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
@@ -41,7 +41,6 @@ public class ToolModel implements IModel {
 
     private StringProperty name;
 
-    @JsonIgnoreProperties(allowGetters=false,allowSetters=true)
     private String className;
 
     @JsonIgnore
@@ -125,6 +124,7 @@ public class ToolModel implements IModel {
         return name.endsWith(Const.TOOL) ? name : name.concat(Const.TOOL);
     }
 
+    @JsonIgnore
     public String getClassName() {
         return this.className;
     }
@@ -133,4 +133,10 @@ public class ToolModel implements IModel {
     public Map<String,Object> getMap() {
       return this.attributesMap;
     }
+    
+    @JsonSetter
+    public void setClassName(String className) {
+        this.className = className;
+    }
+    
 }

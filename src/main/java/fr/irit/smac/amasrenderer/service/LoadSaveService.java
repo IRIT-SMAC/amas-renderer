@@ -69,7 +69,7 @@ public class LoadSaveService {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.enable(SerializationFeature.INDENT_OUTPUT);
                 mapper.writeValue(file,
-                    InfrastructureService.getInstance().getInfrastructure().getAttributesMap());
+                    InfrastructureService.getInstance().getInfrastructure());
             }
             catch (IOException e) {
                 LOGGER.log(Level.SEVERE, "Impossible to save the data.", e);

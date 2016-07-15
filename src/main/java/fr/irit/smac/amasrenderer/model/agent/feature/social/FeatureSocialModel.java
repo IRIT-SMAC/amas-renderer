@@ -1,39 +1,25 @@
 package fr.irit.smac.amasrenderer.model.agent.feature.social;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import fr.irit.smac.amasrenderer.model.agent.feature.Knowledge;
-import fr.irit.smac.amasrenderer.model.agent.feature.Skill;
+import javafx.beans.property.SimpleStringProperty;
 
-public class FeatureSocialModel extends Knowledge {
+public class FeatureSocialModel extends AbstractFeatureModel {
 
     @JsonProperty
     public String className;
     
     @JsonProperty
     private KnowledgeSocial knowledge;
-    
-    @JsonProperty
-    private Skill skill;
-    
-    private Map<String,Object> features = new HashMap<>();
-    
+
     public FeatureSocialModel() {
+        this.name = new SimpleStringProperty("FeatureSocial");
         this.knowledge = new KnowledgeSocial();
+        this.attributesMap.put("knowledge", knowledge.getAttributesMap());
     }
 
     public KnowledgeSocial getKnowledge() {
         return knowledge;
     }
-    
-    @JsonAnySetter
-    public void setAttributesMap(String name, Object value) {
-        this.features.put(name, value);
-    }
-    
     
 }

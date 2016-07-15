@@ -1,20 +1,21 @@
 package fr.irit.smac.amasrenderer.util.attributes;
 
 import fr.irit.smac.amasrenderer.model.agent.feature.FeatureModel;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.AbstractFeatureModel;
 import javafx.util.StringConverter;
 
-public class FeatureModelConverter extends StringConverter<FeatureModel> {
+public class FeatureModelConverter extends StringConverter<AbstractFeatureModel> {
     
-    private FeatureModel featureModel;
+    private AbstractFeatureModel featureModel;
     
     @Override
-    public String toString(FeatureModel value) {
+    public String toString(AbstractFeatureModel value) {
         featureModel = value;
         return (value != null) ? value.getName() : "";
     }
 
     @Override
-    public FeatureModel fromString(String value) {
+    public AbstractFeatureModel fromString(String value) {
         featureModel.setName(value);
 //        featureModel.setId(value);
         return featureModel;

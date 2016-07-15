@@ -23,6 +23,7 @@ package fr.irit.smac.amasrenderer.service;
 
 import java.util.Map;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.tool.ToolModel;
 import fr.irit.smac.amasrenderer.model.tool.ToolsModel;
 import javafx.beans.Observable;
@@ -105,9 +106,12 @@ public class ToolService {
 
         this.toolMap.getServices().forEach((k, v) -> {
             v.setName(k);
-            v.getAttributesMap().put("className", v.getClassName());
+            v.getAttributesMap().put(Const.CLASSNAME, v.getClassName());
             this.addTool(v);
         });
+        
+        this.toolMap.getAgentHandlerToolModel().setName("agentHandlerService");
+        this.addTool(this.toolMap.getAgentHandlerToolModel());
     }
 
     /**

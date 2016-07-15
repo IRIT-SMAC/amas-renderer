@@ -6,7 +6,9 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class KnowledgeSocial {
+import fr.irit.smac.amasrenderer.model.agent.feature.Knowledge;
+
+public class KnowledgeSocial extends Knowledge {
 
     @JsonProperty
     private Map<String, TargetModel> targetMap;

@@ -24,14 +24,15 @@ package fr.irit.smac.amasrenderer.model.agent;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
 import fr.irit.smac.amasrenderer.model.agent.feature.CommonFeaturesModel;
 import fr.irit.smac.amasrenderer.model.agent.feature.FeatureModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.social.PortModel;
 import fr.irit.smac.amasrenderer.model.agent.feature.social.TargetModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -43,9 +44,10 @@ public class AgentModel implements IModel {
 
     private StringProperty name;
 
+    @JsonIgnore
     private Map<String, Object> attributesMap = new HashMap<>();
 
-    @JsonProperty
+    @JsonIgnore
     private Map<String, TargetModel> targets;
 
     @JsonProperty
@@ -56,7 +58,8 @@ public class AgentModel implements IModel {
     
     private Map<String, Object> targetMap;
 
-    private String setIdGraph;
+    @JsonIgnore
+    private String idGraph;
 
     private static final String[] PROTECTED_VALUE      = {};
     private static final String[] NOT_EXPANDED         = { Const.TARGET_MAP };
@@ -100,6 +103,11 @@ public class AgentModel implements IModel {
         this.attributesMap.put(name, value);
     }
 
+    @JsonAnyGetter
+    public Map<String, Object> getAttributeMap() {
+        return attributesMap;
+    }
+    
     public void setAttributes(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
     }
@@ -149,14 +157,17 @@ public class AgentModel implements IModel {
         this.commonFeatures.getFeatureBasic().getKnowledge().setId(id);
     }
 
+    @JsonIgnore
     public void setIdGraph(String idGraph) {
-        this.setIdGraph = idGraph;
+        this.idGraph = idGraph;
     }
     
+    @JsonIgnore
     public String getIdGraph() {
-        return this.setIdGraph;
+        return this.idGraph;
     }
 
+    @JsonIgnore
     public CommonFeaturesModel getCommonFeaturesModel() {
         return this.commonFeatures;
     }

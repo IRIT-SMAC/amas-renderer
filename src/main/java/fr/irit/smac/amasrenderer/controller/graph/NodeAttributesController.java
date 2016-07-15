@@ -31,6 +31,7 @@ import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.IModel;
 import fr.irit.smac.amasrenderer.model.agent.AgentModel;
 import fr.irit.smac.amasrenderer.model.agent.feature.FeatureModel;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.AbstractFeatureModel;
 import fr.irit.smac.amasrenderer.model.agent.feature.social.PortModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.GraphService;
@@ -84,14 +85,14 @@ public class NodeAttributesController implements ISecondaryWindowController {
     private ListView<PortModel> listPort;
 
     @FXML
-    private ListView<FeatureModel> listFeatures;
+    private ListView<AbstractFeatureModel> listFeatures;
 
     @FXML
     private Button addPort;
 
     private ObservableList<PortModel> ports;
 
-    private ObservableList<FeatureModel> features;
+    private ObservableList<AbstractFeatureModel> features;
 
     /**
      * When the confirm button is clicked, the attributes are updated depending
@@ -126,7 +127,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
     @FXML
     public void clickOnFeatureList() {
 
-        FeatureModel selectedLabel = listFeatures.getSelectionModel().getSelectedItem();
+        AbstractFeatureModel selectedLabel = listFeatures.getSelectionModel().getSelectedItem();
         if (selectedLabel != null) {
             TreeItem<String> root = new TreeItem<>(selectedLabel.getName());
             treeCommonFeatures.setRoot(root);
@@ -139,7 +140,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
                 agent.getCommonFeaturesModel().getFeatures().put(newvalue, selectedLabel);
             });
 
-            features.addListener((ListChangeListener<? super FeatureModel>) c -> {
+            features.addListener((ListChangeListener<? super AbstractFeatureModel>) c -> {
                 c.next();
                 if (c.wasRemoved() && !c.wasUpdated() && !c.wasPermutated() && !c.wasReplaced()) {
                     treeCommonFeatures.setRoot(null);
@@ -209,12 +210,12 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
     private void initCommonsFeatures() {
 
-        List<FeatureModel> fList = new ArrayList<>(agent.getCommonFeaturesModel().getFeatures().values());
+        List<AbstractFeatureModel> fList = new ArrayList<>(agent.getCommonFeaturesModel().getFeatures().values());
         features = FXCollections.observableList(fList);
         listFeatures.setItems(features);
         listFeatures.setEditable(true);
         listFeatures
-            .setCellFactory(p -> new AttributesListCell<FeatureModel>(new AttributesContextMenu(true),
+            .setCellFactory(p -> new AttributesListCell<AbstractFeatureModel>(new AttributesContextMenu(true),
                 new FeatureModelConverter(), features, listFeatures));
 
         treePrimaryFeature.getRoot().setExpanded(true);

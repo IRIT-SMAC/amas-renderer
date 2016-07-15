@@ -7,13 +7,14 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 public class ToolsModel {
 
     @JsonProperty
     private String className;
 
-    @JsonProperty
+    @JsonProperty()
     private AgentHandlerToolModel agentHandlerService;
     
     @JsonIgnore
@@ -26,7 +27,6 @@ public class ToolsModel {
 
     @JsonAnySetter
     public void setServicesMap(String name, ToolModel value) {
-
         this.services.put(name, value);
     }
 
@@ -38,13 +38,11 @@ public class ToolsModel {
         return this.services;
     }
 
+    @JsonIgnore
     public AgentHandlerToolModel getAgentHandlerToolModel() {
         return agentHandlerService;
     }
 
-    public void setAgentHandlerToolModel(AgentHandlerToolModel agentHandlerToolModel) {
-        this.agentHandlerService = agentHandlerToolModel;
-    }
     
     @JsonAnyGetter
     public Map<String,ToolModel> getMap() {

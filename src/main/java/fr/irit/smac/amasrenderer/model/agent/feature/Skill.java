@@ -5,11 +5,9 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Skill {
 
-    @JsonProperty
     private String className;
     
     @JsonIgnore
@@ -24,7 +22,13 @@ public class Skill {
       return this.attributesMap;
     }
 
+    @JsonIgnore
     public Map<String, Object> getAttributesMap() {
         return attributesMap;
+    }
+
+    @JsonIgnore
+    public String getClassName() {
+        return className;
     }
 }

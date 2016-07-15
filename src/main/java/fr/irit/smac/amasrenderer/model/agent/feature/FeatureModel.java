@@ -1,89 +1,46 @@
 package fr.irit.smac.amasrenderer.model.agent.feature;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import fr.irit.smac.amasrenderer.model.IModel;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.AbstractFeatureModel;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
-public class FeatureModel implements IModel {
+public class FeatureModel extends AbstractFeatureModel {
 
-    private StringProperty name;
 
-    @JsonProperty
-    public String className;
+    private String className;
     
-    @JsonProperty
-    public Knowledge knowledge;
-    
-    @JsonProperty
-    public Skill skill;
-    
-    @JsonIgnore
-    private Map<String,Object> attributesMap = new HashMap<>();
-    
+    private Knowledge knowledge;
+        
     public FeatureModel() {
 
         this.knowledge = new Knowledge();
-        this.skill = new Skill();
         this.attributesMap.put("knowledge", knowledge.getAttributesMap());
         this.attributesMap.put("className", className);
-        this.attributesMap.put("skill", skill.getAttributesMap());
     }
     
     public FeatureModel(String id) {
 
         this.name = new SimpleStringProperty(id);
         this.knowledge = new Knowledge();
-        this.skill = new Skill();
         this.attributesMap.put("knowledge", knowledge.getAttributesMap());
         this.attributesMap.put("className", className);
-        this.attributesMap.put("skill", skill.getAttributesMap());
     }
     
-    @JsonAnyGetter
-    public Map<String,Object> getMap() {
-      return this.attributesMap;
+    @JsonProperty
+    public void setClassName(String className) {
+        this.className = className;
     }
 
-    public Map<String, Object> getAttributesMap() {
-        return attributesMap;
+    @JsonProperty
+    public void setKnowledge(Knowledge knowledge) {
+        this.knowledge = knowledge;
     }
 
-    @Override
-    public String getNewName(String name) {
-        // TODO Auto-generated method stub
-        return null;
+    @JsonProperty
+    public void setSkill(Skill skill) {
+        this.skill = skill;
     }
 
-    @Override
-    public String[] getProtectedValue() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String[] getNotExpanded() {
-        // TODO Auto-generated method stub
-        return null;
-    }
     
-    public StringProperty nameProperty() {
-        return this.name;
-    }
-    
-    @Override
-    public String getName() {
-        return this.name.get();
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name.set(name);
-    }
 }
