@@ -46,10 +46,8 @@ public class InfrastructureModel implements IModel {
     @JsonProperty
     private ToolsModel services;
 
-    private static final String[] REQUIRED_KEY_SINGLE  = {};
     private static final String[] PROTECTED_VALUE      = {};
     private static final String[] NOT_EXPANDED         = { "Service" };
-    private static final String[] REQUIRED_KEY_COMPLEX = {};
 
     private StringProperty name;
 
@@ -113,11 +111,6 @@ public class InfrastructureModel implements IModel {
     }
 
     @Override
-    public String[] getRequiredKeySingle() {
-        return REQUIRED_KEY_SINGLE;
-    }
-
-    @Override
     public String[] getProtectedValue() {
         return PROTECTED_VALUE;
     }
@@ -125,11 +118,6 @@ public class InfrastructureModel implements IModel {
     @Override
     public String[] getNotExpanded() {
         return NOT_EXPANDED;
-    }
-
-    @Override
-    public String[] getRequiredKeyComplex() {
-        return REQUIRED_KEY_COMPLEX;
     }
 
     @Override

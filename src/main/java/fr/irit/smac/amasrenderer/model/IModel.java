@@ -53,15 +53,7 @@ public interface IModel {
      */
     @JsonIgnore
     public String getNewName(String name);
-
-    /**
-     * Gets all the key with a single value
-     * 
-     * @return the keys
-     */
-    @JsonIgnore
-    public String[] getRequiredKeySingle();
-
+    
     /**
      * Gets all the value the user don't have to update
      * 
@@ -78,11 +70,4 @@ public interface IModel {
     @JsonIgnore
     public String[] getNotExpanded();
 
-    /**
-     * Gets all the key with a complex value
-     * 
-     * @return the keys
-     */
-    @JsonIgnore
-    public String[] getRequiredKeyComplex();
 }

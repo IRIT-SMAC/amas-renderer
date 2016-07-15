@@ -39,8 +39,6 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
 
     private final AttributesContextMenu contextMenu;
 
-    private boolean isRequiredKeyComplex;
-    private boolean isRequiredKeySingle;
     private boolean isProtected;
     private boolean isParentSingleNode;
 
@@ -76,6 +74,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
             MenuItem delete = menu.getDelete();
             MenuItem rename = menu.getRename();
             MenuItem add = menu.getAdd();
+            MenuItem addSingle = menu.getAddSingle();
             boolean root = item.getParent() == null;
 
             checkConstraintsNode(item);
@@ -87,68 +86,22 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
                 });
             }
 
+            addSingle.setOnAction(evt -> {
+                TreeItem<String> item2 = new TreeItem<>("item : null");
+                item.getChildren().add(item2);
+                menu.freeActionListeners();
+            });
+            
             add.setOnAction(evt -> {
-
-                if (item.getValue().equals(Const.COMMON_FEATURES)) {
-
-                    TreeItem<String> feature = new TreeItem<>(Const.FEATURE);
-
-                    TreeItem<String> skill = new TreeItem<>(Const.SKILL);
-                    TreeItem<String> skillVal = new TreeItem<>(Const.CLASSNAME);
-                    TreeItem<String> skillClassNameVal = new TreeItem<>(
-                        Const.EXAMPLE_CLASSNAME);
-                    skillVal.getChildren().add(skillClassNameVal);
-                    skill.getChildren().add(skillVal);
-                    feature.getChildren().add(skill);
-
-                    TreeItem<String> knowledge = new TreeItem<>(Const.KNOWLEDGE);
-                    TreeItem<String> knowledgeVal = new TreeItem<>(Const.CLASSNAME);
-                    TreeItem<String> knowledgeClassNameVal = new TreeItem<>(
-                        Const.EXAMPLE_CLASSNAME);
-                    knowledgeVal.getChildren().add(knowledgeClassNameVal);
-                    knowledge.getChildren().add(knowledgeVal);
-                    feature.getChildren().add(knowledge);
-
-                    TreeItem<String> className = new TreeItem<>(Const.CLASSNAME);
-                    TreeItem<String> classNameVal = new TreeItem<>(
-                        Const.FEATURE_DEFAULT_CLASSNAME);
-                    className.getChildren().add(classNameVal);
-                    feature.getChildren().add(className);
-
-                    item.getChildren().add(feature);
-                }
-                else if (item.getValue().equals(Const.PORT_MAP)) {
-                    TreeItem<String> port = new TreeItem<>(Const.PORT);
-                    TreeItem<String> id = new TreeItem<>(Const.ID);
-                    TreeItem<String> idVal = new TreeItem<>(Const.PORT);
-                    id.getChildren().add(idVal);
-                    port.getChildren().add(id);
-                    TreeItem<String> type = new TreeItem<>(Const.TYPE);
-                    TreeItem<String> typeVal = new TreeItem<>(Const.PORT_TYPE_DEFAULT_CLASSNAME);
-                    type.getChildren().add(typeVal);
-                    port.getChildren().add(type);
-                    TreeItem<String> className = new TreeItem<>(Const.CLASSNAME);
-                    TreeItem<String> classNameVal = new TreeItem<>(
-                        Const.PORT_DEFAULT_CLASSNAME);
-                    className.getChildren().add(classNameVal);
-                    port.getChildren().add(className);
-                    item.getChildren().add(port);
-                }
-                else {
-                    item.getChildren().add(new TreeItem<>("item"));
-                }
+                TreeItem<String> item2 = new TreeItem<>("item");
+                item.getChildren().add(item2);
                 menu.freeActionListeners();
             });
 
             rename.setOnAction(evt -> startEdit());
 
-            if (!this.isRequiredKeySingle && !this.isProtected) {
-                if (this.isRequiredKeyComplex) {
-                    rename.setDisable(true);
-                    delete.setDisable(true);
-                    add.setDisable(false);
-                }
-                else if (this.isParentSingleNode) {
+            if (!this.isProtected) {
+                if (this.isParentSingleNode) {
                     delete.setDisable(true);
                     add.setDisable(true);
                     rename.setDisable(false);
@@ -174,6 +127,11 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
                 delete.setDisable(true);
                 add.setDisable(true);
             }
+            
+            if (item.getValue().contains(":")) {
+                addSingle.setDisable(true);
+                add.setDisable(true);
+            }
         }
     }
 
@@ -196,28 +154,20 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
     private void checkConstraintsNode(TreeItem<String> item) {
 
         IModel currentModel = this.model;
-        this.isRequiredKeySingle = false;
         this.isProtected = false;
-        this.isRequiredKeyComplex = false;
         this.isParentSingleNode = false;
         this.isNotExpanded = false;
 
-        this.isRequiredKeySingle = Stream.of(currentModel.getRequiredKeySingle())
-            .anyMatch(s -> item.getValue().contains(s));
         this.isNotExpanded = Stream.of(currentModel.getNotExpanded()).anyMatch(s -> item.getValue().endsWith(s));
         TreeItem<String> parent = item.getParent();
         if (parent != null) {
-            this.isParentSingleNode = Stream.of(currentModel.getRequiredKeySingle())
-                .anyMatch(s -> item.getValue().contains(s));
             this.isProtected = Stream.of(currentModel.getProtectedValue()).anyMatch(s -> item.getValue().contains(s));
         }
-        this.isRequiredKeyComplex = Stream.of(currentModel.getRequiredKeyComplex())
-            .anyMatch(s -> item.getValue().contains(s));
     }
 
     @Override
     public void startEdit() {
-        if (this.isRequiredKeySingle || this.isProtected || this.isRequiredKeyComplex) {
+        if (this.isProtected) {
             this.cancelEdit();
         }
         else {
@@ -231,16 +181,14 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         IModel currentModel = this.model;
 
         boolean notEmpty = !newValue.trim().isEmpty();
-        boolean notRequiredComplex = !Arrays.asList(currentModel.getRequiredKeyComplex()).contains(newValue);
-        boolean notRequiredKeySingle = !Arrays.asList(currentModel.getRequiredKeySingle()).contains(newValue);
         boolean notProtectedValue = !Arrays.asList(currentModel.getProtectedValue()).contains(newValue);
         boolean notExpanded = !Arrays.stream(currentModel.getNotExpanded()).allMatch(s -> newValue.contains(s))
             || currentModel.getNotExpanded().length == 0;
 
-        if (notEmpty && notRequiredComplex && notRequiredKeySingle && notProtectedValue && notExpanded) {
+        if (notEmpty && notProtectedValue && notExpanded) {
 
             if (getTreeItem().getParent() == null) {
-                
+
                 super.commitEdit(currentModel.getNewName(newValue));
             }
             else {

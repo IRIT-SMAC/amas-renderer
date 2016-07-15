@@ -83,12 +83,6 @@ public class PortModel implements IModel{
     }
 
     @Override
-    public String[] getRequiredKeySingle() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public String[] getProtectedValue() {
         // TODO Auto-generated method stub
         return null;
@@ -96,12 +90,6 @@ public class PortModel implements IModel{
 
     @Override
     public String[] getNotExpanded() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String[] getRequiredKeyComplex() {
         // TODO Auto-generated method stub
         return null;
     }

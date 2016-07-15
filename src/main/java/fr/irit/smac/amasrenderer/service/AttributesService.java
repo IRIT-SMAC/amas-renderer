@@ -21,15 +21,13 @@
  */
 package fr.irit.smac.amasrenderer.service;
 
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
@@ -111,6 +109,10 @@ public class AttributesService {
         }
     }
 
+    public void test() {
+
+    }
+
     /**
      * Recursive method allowing to fill the tree depending on the attributes
      * map
@@ -125,25 +127,6 @@ public class AttributesService {
     @SuppressWarnings("unchecked")
     public void fillAttributes(Map<String, Object> attributesMap, TreeItem<String> parent, IModel model) {
 
-        // parent.expandedProperty().addListener(new ChangeListener<Boolean>() {
-        // @Override
-        // public void changed(ObservableValue<? extends Boolean> observable,
-        // Boolean oldValue, Boolean newValue) {
-        // BooleanProperty bb = (BooleanProperty) observable;
-        // if (model != null) {
-        // for (String notExpanded : model.getNotExpanded()) {
-        // if (parent.getValue().contains(notExpanded)) {
-        // TreeItem<String> t = (TreeItem<String>) bb.getBean();
-        // t.setExpanded(false);
-        // }
-        // }
-        // }
-        // }
-        // });
-
-        // parent.setExpanded(true);
-        // Iterator<Map.Entry<String, Object>> attributeIterator =
-        // attributesMap.entrySet().iterator();
         attributesMap.forEach((k, v) -> {
             String name = k;
             Object value = v;
@@ -154,40 +137,93 @@ public class AttributesService {
                 item.setValue(name);
                 fillAttributes((HashMap<String, Object>) value, item, model);
                 parent.getChildren().add(item);
-                
-                item.valueProperty().addListener((c, oldValue, newValue) -> {
-                    attributesMap.put(newValue, attributesMap.get(oldValue));
-                    attributesMap.remove(oldValue);
-                });
-                
+                this.updateComplexNode(attributesMap, item);
+
             }
             else {
                 TreeItem<String> item = new TreeItem<>();
-                item.setValue(name);
-                TreeItem<String> item2 = new TreeItem<>();
 
                 if (value != null) {
-                    item2.setValue(value.toString());
+                    item.setValue(name + " : " + value.toString());
                 }
-                else {
-                    item2.setValue("null");
+                else if (!name.contains("null")) {
+                    item.setValue(name + " : " + "null");
                 }
-                item.getChildren().add(item2);
+
                 item.setExpanded(true);
-
-                item.valueProperty().addListener((c, oldValue, newValue) -> {
-                    attributesMap.put(newValue, attributesMap.get(oldValue));
-                    attributesMap.remove(oldValue);
-                });
-
-                item2.valueProperty().addListener((c, oldValue, newValue) -> {
-                    attributesMap.put(item.getValue(), newValue);
-                });
-                
+                this.checkSingleNode(attributesMap, item);
                 parent.getChildren().add(item);
             }
         });
 
+        checkComplexNode(attributesMap, parent);
     }
 
+    public void checkComplexNode(Map<String, Object> attributesMap, TreeItem<String> parent) {
+
+        parent.getChildren().addListener((ListChangeListener<? super TreeItem<String>>) c -> {
+            c.next();
+            if (c.wasAdded()) {
+
+                TreeItem<String> t = (TreeItem<String>) c.getAddedSubList().get(0);
+
+                if (t.getValue().contains(":")) {
+                    String[] val = t.getValue().split("\\:");
+                    attributesMap.put(val[0].trim(), val[1]);
+                    checkSingleNode(attributesMap, t);
+                }
+                else {
+                    Map<String, Object> map = new HashMap<>();
+                    attributesMap.put(t.getValue(), map);
+                    this.updateComplexNode(attributesMap, t);
+                    this.checkComplexNode(map, t);
+                }
+
+            }
+            else if (c.wasRemoved()) {
+
+                TreeItem<String> t = (TreeItem<String>) c.getRemoved().get(0);
+                
+                if (t.getValue().contains(":")) {
+                    String[] val = t.getValue().split("\\:");
+                    attributesMap.remove(val[0].trim());
+                } else {
+                    attributesMap.remove(t.getValue());
+                }
+            }
+
+        });
+
+    }
+
+    private void updateComplexNode(Map<String, Object> attributesMap, TreeItem<String> item) {
+
+        item.valueProperty().addListener((c, oldValue, newValue) -> {
+            Map<String, Object> mapItem = (Map<String, Object>) attributesMap.get(oldValue);
+            attributesMap.remove(oldValue);
+            attributesMap.put(newValue, mapItem);
+        });
+
+    }
+
+    private void checkSingleNode(Map<String, Object> attributesMap, TreeItem<String> item) {
+
+        item.valueProperty().addListener((c, oldValue, newValue) -> {
+            String[] newValueSplit = newValue.split("\\:");
+            String[] oldValueSplit = oldValue.split("\\:");
+            attributesMap.remove(oldValueSplit[0].trim());
+            attributesMap.put(newValueSplit[0].trim(), newValueSplit[1]);
+        });
+//
+//        item.getParent().getChildren().addListener((ListChangeListener<? super TreeItem<String>>) c -> {
+//            c.next();
+//            System.out.println("**");
+//            if (c.wasRemoved()) {
+//                System.out.println("***");
+//                TreeItem<String> t = (TreeItem<String>) c.getRemoved().get(0);
+//                attributesMap.remove(t.getValue());
+//            }
+//        });
+
+    }
 }

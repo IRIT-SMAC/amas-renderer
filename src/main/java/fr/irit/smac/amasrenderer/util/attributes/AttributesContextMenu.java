@@ -38,13 +38,17 @@ public class AttributesContextMenu {
 
     private final MenuItem rename;
 
+    private final MenuItem addSingle ;
+
     private static final String ADD_ITEM_ID = "addAttributeItem";
 
     private static final String DELETE_ITEM_ID = "removeAttributeItem";
 
     private static final String RENAME_ITEM_ID = "renameAttributeItem";
 
-    private static final String ADD_ITEM = "Ajouter";
+    private static final String ADD_ITEM = "Ajouter un attribut parent";
+
+    private static final String ADD_ITEM_SINGLE = "Ajouter un attribut simple";
 
     private static final String DELETE_ITEM = "Supprimer";
 
@@ -57,12 +61,13 @@ public class AttributesContextMenu {
         this.delete.setId(DELETE_ITEM_ID);
         this.rename = new MenuItem(RENAME_ITEM);
         this.rename.setId(RENAME_ITEM_ID);
-
+        this.addSingle = new MenuItem(ADD_ITEM_SINGLE);
+        
         if (forAList) {
             this.contextMenu = new ContextMenu(delete, rename);
         }
         else {
-            this.contextMenu = new ContextMenu(add, delete, rename);
+            this.contextMenu = new ContextMenu(add, addSingle, delete, rename);
         }
     }
 
@@ -89,6 +94,10 @@ public class AttributesContextMenu {
         this.add.setOnAction(null);
         this.delete.setOnAction(null);
         this.rename.setOnAction(null);
+    }
+
+    public MenuItem getAddSingle() {
+        return this.addSingle;
     }
 
 }

@@ -55,11 +55,8 @@ public class TargetModel implements IModel {
 
     private String idGraph;
 
-    private static final String[] REQUIRED_KEY_SINGLE  = { Const.AGENT_TARGET, Const.PORT_SOURCE, Const.PORT_TARGET,
-        Const.CLASSNAME };
     private static final String[] PROTECTED_VALUE      = { Const.AGENT_TARGET, Const.PORT_SOURCE, Const.PORT_TARGET };
     private static final String[] NOT_EXPANDED         = {};
-    private static final String[] REQUIRED_KEY_COMPLEX = {};
 
     public TargetModel() {
         this.attributesMap = new HashMap<String, Object>();
@@ -116,11 +113,6 @@ public class TargetModel implements IModel {
     }
 
     @Override
-    public String[] getRequiredKeySingle() {
-        return REQUIRED_KEY_SINGLE;
-    }
-
-    @Override
     public String[] getProtectedValue() {
         return PROTECTED_VALUE;
     }
@@ -128,11 +120,6 @@ public class TargetModel implements IModel {
     @Override
     public String[] getNotExpanded() {
         return NOT_EXPANDED;
-    }
-
-    @Override
-    public String[] getRequiredKeyComplex() {
-        return REQUIRED_KEY_COMPLEX;
     }
 
     public String getAgentId() {

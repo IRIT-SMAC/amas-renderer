@@ -60,10 +60,8 @@ public class AgentModel implements IModel {
 
     private String setIdGraph;
 
-    private static final String[] REQUIRED_KEY_SINGLE  = {};
     private static final String[] PROTECTED_VALUE      = {};
     private static final String[] NOT_EXPANDED         = { Const.TARGET_MAP };
-    private static final String[] REQUIRED_KEY_COMPLEX = { Const.SKILL, Const.KNOWLEDGE, Const.PORT_MAP };
 
     public AgentModel() {
 
@@ -120,11 +118,6 @@ public class AgentModel implements IModel {
     }
 
     @Override
-    public String[] getRequiredKeySingle() {
-        return REQUIRED_KEY_SINGLE;
-    }
-
-    @Override
     public String[] getProtectedValue() {
         return PROTECTED_VALUE;
     }
@@ -132,11 +125,6 @@ public class AgentModel implements IModel {
     @Override
     public String[] getNotExpanded() {
         return NOT_EXPANDED;
-    }
-
-    @Override
-    public String[] getRequiredKeyComplex() {
-        return REQUIRED_KEY_COMPLEX;
     }
 
     @Override

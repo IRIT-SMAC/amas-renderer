@@ -24,7 +24,9 @@ package fr.irit.smac.amasrenderer.controller.graph;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.graphstream.graph.Node;
 
@@ -41,24 +43,16 @@ import fr.irit.smac.amasrenderer.util.attributes.AttributesListCell;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;
 import fr.irit.smac.amasrenderer.util.attributes.FeatureModelConverter;
 import fr.irit.smac.amasrenderer.util.attributes.PortModelConverter;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
@@ -83,6 +77,9 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
 
     @FXML
     private TreeView<String> treePort;
+    
+    @FXML
+    private TreeView<String> treeOtherAttributes;
 
     private Stage stage;
 
@@ -160,7 +157,7 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
             TreeItem<String> root = new TreeItem<>(selectedLabel.getName());
             this.tree.setRoot(root);
             root.setExpanded(true);
-            this.attributesService.fillAttributes(selectedLabel.getAttributesMap(), root, (IModel) selectedLabel);
+//            this.attributesService.fillAttributes(selectedLabel.getAttributesMap(), root, (IModel) selectedLabel);
 
             this.tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
@@ -206,7 +203,7 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
             TreeItem<String> root = new TreeItem<>(selectedLabel.getName());
             this.treePort.setRoot(root);
             treePort.setEditable(true);
-            this.attributesService.fillAttributes(selectedLabel.getAttributesMap(), root, (IModel) selectedLabel);
+//            this.attributesService.fillAttributes(selectedLabel.getAttributesMap(), root, (IModel) selectedLabel);
             root.setExpanded(true);
 
             ports.addListener(new ListChangeListener<PortModel>() {
@@ -221,7 +218,7 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
                     }
                 }
             });
-
+            
             selectedLabel.idProperty().addListener((observable, oldvalue, newvalue) -> {
                 root.setValue(selectedLabel.getName());
                 agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().put(newvalue, selectedLabel);
@@ -264,7 +261,8 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
 
         TreeItem<String> root = new TreeItem<>("PrimaryFeature");
         this.treeP.setRoot(root);
-        this.attributesService.fillAttributes(agent.getPrimaryFeature().getAttributesMap(), root,
+        Map<String,Object> m = agent.getPrimaryFeature().getAttributesMap();
+        this.attributesService.fillAttributes(m, root,
             (IModel) agent.getPrimaryFeature());
 
         this.treeP.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
@@ -294,6 +292,26 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
         
         treeP.getRoot().setExpanded(true);
         treeP.setEditable(true);
+        
+        TreeItem<String> rootOtherAttributes = new TreeItem<>(this.agent.getName());
+        this.treeOtherAttributes.setRoot(rootOtherAttributes);
+//        this.attributesService.fillAttributes(agent.getAttributesMap(), root,
+//            (IModel) agent);
+        treeOtherAttributes.setEditable(true);
+        
+        this.treeOtherAttributes.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+
+            private final AttributesContextMenu contextMenu = new AttributesContextMenu(false);
+            @SuppressWarnings("rawtypes")
+            private final StringConverter converter = new DefaultStringConverter();
+
+            @SuppressWarnings("unchecked")
+            @Override
+            public TreeCell<String> call(TreeView<String> param) {
+                return new AttributesTreeCell(this.contextMenu, this.converter,
+                    agent);
+            }
+        });
     }
 
 }
