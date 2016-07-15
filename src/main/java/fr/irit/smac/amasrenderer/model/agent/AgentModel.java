@@ -48,8 +48,6 @@ public class AgentModel implements IModel {
     @JsonProperty
     private Map<String, TargetModel> targets;
 
-    private Map<String, PortModel> portMap;
-
     @JsonProperty
     private FeatureModel primaryFeature;
     
@@ -68,7 +66,6 @@ public class AgentModel implements IModel {
         this.name = new SimpleStringProperty();
         this.targets = new HashMap<>();
         this.targetMap = new HashMap<>();
-        this.portMap = new HashMap<>();
     }
     
     public AgentModel(String id) {
@@ -76,7 +73,6 @@ public class AgentModel implements IModel {
         this.name = new SimpleStringProperty(id);
         this.targets = new HashMap<>();
         this.targetMap = new HashMap<>();
-        this.portMap = new HashMap<>();
         this.commonFeatures = new CommonFeaturesModel();
         this.primaryFeature = new FeatureModel();
         this.setId(id);
@@ -147,10 +143,6 @@ public class AgentModel implements IModel {
 
     public Map<String, TargetModel> getTargets() {
         return this.targets;
-    }
-
-    public Map<String, PortModel> getPortMap() {
-        return this.portMap;
     }
 
     public void setId(String id) {
