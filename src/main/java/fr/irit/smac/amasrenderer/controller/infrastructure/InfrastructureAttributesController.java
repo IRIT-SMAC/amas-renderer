@@ -89,7 +89,7 @@ public class InfrastructureAttributesController implements Initializable, ISecon
         this.tree.setEditable(true);
         tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
-            private final AttributesContextMenu contextMenu = new AttributesContextMenu();
+            private final AttributesContextMenu contextMenu = new AttributesContextMenu(false);
             @SuppressWarnings("rawtypes")
             private final StringConverter converter = new DefaultStringConverter();
 

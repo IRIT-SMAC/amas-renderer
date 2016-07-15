@@ -8,13 +8,13 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.util.StringConverter;
 
-public class AttributesListCell<PortModel> extends TextFieldListCell<PortModel> {
+public class AttributesListCell<T> extends TextFieldListCell<T> {
 
     private final AttributesContextMenu contextMenu;
-    private ObservableList<PortModel> list;
-    private ListView<fr.irit.smac.amasrenderer.model.agent.feature.social.PortModel> liste;
+    private ObservableList<T> list;
+    private ListView<T> liste;
 
-    public AttributesListCell(AttributesContextMenu contextMenu, StringConverter<PortModel> converter, ObservableList<PortModel> ports, ListView<fr.irit.smac.amasrenderer.model.agent.feature.social.PortModel> listPort) {
+    public AttributesListCell(AttributesContextMenu contextMenu, StringConverter<T> converter, ObservableList<T> ports, ListView<T> listPort) {
         super(converter);
         if (contextMenu == null) {
             throw new NullPointerException();
@@ -28,7 +28,7 @@ public class AttributesListCell<PortModel> extends TextFieldListCell<PortModel> 
         });
     }
 
-    private void prepareContextMenu(ListView<PortModel> item) {
+    private void prepareContextMenu(ListView<T> item) {
 
         if (item != null) {
 
@@ -45,7 +45,7 @@ public class AttributesListCell<PortModel> extends TextFieldListCell<PortModel> 
     }
     
     @Override
-    public void updateItem(PortModel item, boolean empty) {
+    public void updateItem(T item, boolean empty) {
         super.updateItem(item, empty);
         if (!empty) {
             setContextMenu("nocontext".equals(item) ? null : contextMenu.getContextMenu());

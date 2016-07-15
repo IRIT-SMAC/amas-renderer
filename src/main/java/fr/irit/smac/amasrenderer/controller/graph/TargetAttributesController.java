@@ -95,7 +95,7 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
 
         this.tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
-            private final AttributesContextMenu contextMenu = new AttributesContextMenu();
+            private final AttributesContextMenu contextMenu = new AttributesContextMenu(false);
             @SuppressWarnings("rawtypes")
             private final StringConverter converter = new DefaultStringConverter();
 
