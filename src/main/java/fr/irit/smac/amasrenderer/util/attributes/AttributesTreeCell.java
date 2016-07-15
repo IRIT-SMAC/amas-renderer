@@ -24,7 +24,6 @@ package fr.irit.smac.amasrenderer.util.attributes;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
@@ -54,7 +53,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
             throw new NullPointerException();
         }
         this.contextMenu = contextMenu;
-        this.setOnContextMenuRequested(evt -> {
+        setOnContextMenuRequested(evt -> {
             prepareContextMenu(getTreeItem());
             evt.consume();
         });
@@ -70,7 +69,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
 
         if (item != null) {
 
-            AttributesContextMenu menu = this.contextMenu;
+            AttributesContextMenu menu = contextMenu;
             MenuItem delete = menu.getDelete();
             MenuItem rename = menu.getRename();
             MenuItem add = menu.getAdd();
@@ -91,7 +90,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
                 item.getChildren().add(item2);
                 menu.freeActionListeners();
             });
-            
+
             add.setOnAction(evt -> {
                 TreeItem<String> item2 = new TreeItem<>("item");
                 item.getChildren().add(item2);
@@ -100,13 +99,13 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
 
             rename.setOnAction(evt -> startEdit());
 
-            if (!this.isProtected) {
-                if (this.isParentSingleNode) {
+            if (!isProtected) {
+                if (isParentSingleNode) {
                     delete.setDisable(true);
                     add.setDisable(true);
                     rename.setDisable(false);
                 }
-                else if (this.isNotExpanded) {
+                else if (isNotExpanded) {
                     delete.setDisable(true);
                     add.setDisable(true);
                     rename.setDisable(true);
@@ -127,7 +126,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
                 delete.setDisable(true);
                 add.setDisable(true);
             }
-            
+
             if (item.getValue().contains(":")) {
                 addSingle.setDisable(true);
                 add.setDisable(true);
@@ -153,22 +152,23 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
      */
     private void checkConstraintsNode(TreeItem<String> item) {
 
-        IModel currentModel = this.model;
-        this.isProtected = false;
-        this.isParentSingleNode = false;
-        this.isNotExpanded = false;
+        IModel currentModel = model;
+        isProtected = false;
+        isParentSingleNode = false;
+        isNotExpanded = false;
 
-        this.isNotExpanded = Stream.of(currentModel.getNotExpanded()).anyMatch(s -> item.getValue().endsWith(s));
+        isNotExpanded = Stream.of(currentModel.getNotExpanded()).anyMatch(s -> item.getValue().endsWith(s));
         TreeItem<String> parent = item.getParent();
         if (parent != null) {
-            this.isProtected = Stream.of(currentModel.getProtectedValue()).anyMatch(s -> item.getValue().contains(s));
+            isProtected = Stream.of(currentModel.getProtectedValue()).anyMatch(s -> item.getValue().contains(s));
         }
     }
 
     @Override
     public void startEdit() {
-        if (this.isProtected) {
-            this.cancelEdit();
+
+        if (isProtected) {
+            cancelEdit();
         }
         else {
             super.startEdit();
@@ -178,21 +178,32 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
     @Override
     public void commitEdit(String newValue) {
 
-        IModel currentModel = this.model;
+        IModel currentModel = model;
 
         boolean notEmpty = !newValue.trim().isEmpty();
         boolean notProtectedValue = !Arrays.asList(currentModel.getProtectedValue()).contains(newValue);
         boolean notExpanded = !Arrays.stream(currentModel.getNotExpanded()).allMatch(s -> newValue.contains(s))
             || currentModel.getNotExpanded().length == 0;
+        boolean correctSyntaxAttribute = true;
 
-        if (notEmpty && notProtectedValue && notExpanded) {
+        String value = newValue;
+        if (getTreeItem().getValue().contains(":")) {
+            String[] newValueSplit = newValue.split("\\:");
+            if (newValueSplit.length != 2) {
+                correctSyntaxAttribute = false;
+            } else {
+                value = newValueSplit[0].trim() + " : " + newValueSplit[1].trim();
+            }
+        }
+
+        if (notEmpty && notProtectedValue && notExpanded && correctSyntaxAttribute) {
 
             if (getTreeItem().getParent() == null) {
 
-                super.commitEdit(currentModel.getNewName(newValue));
+                super.commitEdit(currentModel.getNewName(value));
             }
             else {
-                super.commitEdit(newValue);
+                super.commitEdit(value);
             }
         }
 

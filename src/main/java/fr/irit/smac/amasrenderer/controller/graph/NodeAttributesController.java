@@ -200,6 +200,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
         treeOtherAttributes.setRoot(root);
         attributesService.fillAttributes(agent.getAttributesMap(), root, (IModel) agent);
         treeOtherAttributes.setEditable(true);
+        root.setExpanded(true);
 
         treeOtherAttributes.setCellFactory(c -> {
             return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), agent);
