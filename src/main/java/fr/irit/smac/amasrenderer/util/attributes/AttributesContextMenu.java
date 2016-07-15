@@ -50,14 +50,20 @@ public class AttributesContextMenu {
 
     private static final String RENAME_ITEM = "Renommer";
 
-    public AttributesContextMenu() {
+    public AttributesContextMenu(boolean forAList) {
         this.add = new MenuItem(ADD_ITEM);
         this.add.setId(ADD_ITEM_ID);
         this.delete = new MenuItem(DELETE_ITEM);
         this.delete.setId(DELETE_ITEM_ID);
         this.rename = new MenuItem(RENAME_ITEM);
         this.rename.setId(RENAME_ITEM_ID);
-        this.contextMenu = new ContextMenu(add, delete, rename);
+
+        if (forAList) {
+            this.contextMenu = new ContextMenu(delete, rename);
+        }
+        else {
+            this.contextMenu = new ContextMenu(add, delete, rename);
+        }
     }
 
     public ContextMenu getContextMenu() {

@@ -24,7 +24,6 @@ package fr.irit.smac.amasrenderer.controller.graph;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.graphstream.graph.Node;
@@ -38,18 +37,27 @@ import fr.irit.smac.amasrenderer.model.agent.feature.social.PortModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.GraphService;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
+import fr.irit.smac.amasrenderer.util.attributes.AttributesListCell;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;
+import fr.irit.smac.amasrenderer.util.attributes.PortModelConverter;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
@@ -71,10 +79,10 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
 
     @FXML
     private TreeView<String> treeP;
-    
+
     @FXML
     private TreeView<String> treePort;
-    
+
     private Stage stage;
 
     private AgentModel agent;
@@ -102,7 +110,6 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
      * When the confirm button is clicked, the attributes are updated depending
      * on the tree
      */
-    @SuppressWarnings("unchecked")
     @FXML
     public void confirmButton() {
 
@@ -110,7 +117,7 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
         // tree.getRoot(),
         // (Map<String, Object>)
         // GraphService.getInstance().getAgentMap().get(id), agent);
-//        this.newAgentName = tree.getRoot().getValue();
+        // this.newAgentName = tree.getRoot().getValue();
         // this.agent.setAttribute(Const.GS_UI_LABEL, newAgentName);
         this.stage.close();
     }
@@ -151,12 +158,12 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
         if (selectedLabel != null) {
             TreeItem<String> root = new TreeItem<>(this.id);
             this.tree.setRoot(root);
+            root.setExpanded(true);
             this.attributesService.fillAttributes(selectedLabel.getAttributesMap(), root, (IModel) selectedLabel);
-
 
             this.tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
-                private final AttributesContextMenu contextMenu = new AttributesContextMenu();
+                private final AttributesContextMenu contextMenu = new AttributesContextMenu(false);
                 @SuppressWarnings("rawtypes")
                 private final StringConverter converter = new DefaultStringConverter();
 
@@ -170,20 +177,38 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
         }
 
     }
-    
+
     @FXML
     public void clickOnList() {
 
         PortModel selectedLabel = this.listPort.getSelectionModel().getSelectedItem();
         if (selectedLabel != null) {
-            TreeItem<String> root = new TreeItem<>(this.id);
+            TreeItem<String> root = new TreeItem<>(selectedLabel.getName());
             this.treePort.setRoot(root);
+            treePort.setEditable(true);
             this.attributesService.fillAttributes(selectedLabel.getAttributesMap(), root, (IModel) selectedLabel);
+            root.setExpanded(true);
 
+            ports.addListener(new ListChangeListener<PortModel>() {
 
+                @Override
+                public void onChanged(javafx.collections.ListChangeListener.Change<? extends PortModel> c) {
+                    while (c.next()) {
+                        if (c.wasRemoved() && !c.wasUpdated() && !c.wasPermutated() && !c.wasReplaced()) {
+                            treePort.setRoot(null);
+                        }
+                    }
+                }
+            });
+
+            selectedLabel.idProperty().addListener((observable, oldvalue, newvalue) -> {
+                root.setValue(selectedLabel.getName());
+                agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().put(newvalue, selectedLabel);
+            });
+            
             this.treePort.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
-                private final AttributesContextMenu contextMenu = new AttributesContextMenu();
+                private final AttributesContextMenu contextMenu = new AttributesContextMenu(false);
                 @SuppressWarnings("rawtypes")
                 private final StringConverter converter = new DefaultStringConverter();
 
@@ -205,12 +230,9 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
         this.stage = stage;
         this.agent = GraphService.getInstance().getAgentMap().get(node.getAttribute(Const.GS_UI_LABEL));
         this.id = node.getAttribute(Const.GS_UI_LABEL);
-        // @SuppressWarnings("unchecked")
-        // HashMap<String, Object> agentMap = (HashMap<String, Object>)
-        // GraphService.getInstance().getAgentMap()
-        // .get(this.id);
 
-        List<PortModel> pList = new ArrayList<>(agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().values());
+        List<PortModel> pList = new ArrayList<>(
+            agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().values());
         List<FeatureModel> fList = new ArrayList<>(agent.getCommonFeaturesModel().getFeatures().values());
 
         ports = FXCollections.observableList(pList);
@@ -218,15 +240,15 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
 
         features = FXCollections.observableList(fList);
         listFeatures.setItems(features);
-        
+
         TreeItem<String> root = new TreeItem<>(this.id);
         this.treeP.setRoot(root);
-        this.attributesService.fillAttributes(agent.getPrimaryFeature().getAttributesMap(), root, (IModel) agent.getPrimaryFeature());
-
+        this.attributesService.fillAttributes(agent.getPrimaryFeature().getAttributesMap(), root,
+            (IModel) agent.getPrimaryFeature());
 
         this.treeP.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
-            private final AttributesContextMenu contextMenu = new AttributesContextMenu();
+            private final AttributesContextMenu contextMenu = new AttributesContextMenu(false);
             @SuppressWarnings("rawtypes")
             private final StringConverter converter = new DefaultStringConverter();
 
@@ -238,24 +260,11 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
             }
         });
 
-        // this.tree.setCellFactory(new Callback<TreeView<String>,
-        // TreeCell<String>>() {
-        //
-        // private final AttributesContextMenu contextMenu = new
-        // AttributesContextMenu();
-        // @SuppressWarnings("rawtypes")
-        // private final StringConverter converter = new
-        // DefaultStringConverter();
-        //
-        // @SuppressWarnings("unchecked")
-        // @Override
-        // public TreeCell<String> call(TreeView<String> param) {
-        // return new AttributesTreeCell(this.contextMenu, this.converter,
-        // agent);
-        // }
-        //
-        // });
+        listPort.setEditable(true);
 
+        this.listPort
+            .setCellFactory(p -> new AttributesListCell<PortModel>(new AttributesContextMenu(true),
+                new PortModelConverter(), ports, listPort));
     }
 
 }
