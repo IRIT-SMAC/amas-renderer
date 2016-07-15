@@ -21,12 +21,8 @@
  */
 package fr.irit.smac.amasrenderer.controller.graph;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.graphstream.graph.Node;
 
@@ -47,37 +43,30 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
 /**
  * This controller is related to the attributes of an agent
  */
-public class NodeAttributesController implements Initializable, ISecondaryWindowController {
+public class NodeAttributesController implements ISecondaryWindowController {
 
     @FXML
     private Button confButton;
 
     @FXML
-    private Button cancButton;
+    private TreeView<String> treeCommonFeatures;
 
     @FXML
-    private TreeView<String> tree;
+    private TreeView<String> treePrimaryFeature;
 
     @FXML
-    private TreeView<String> treeP;
+    private TreeView<String> treePortMap;
 
-    @FXML
-    private TreeView<String> treePort;
-    
     @FXML
     private TreeView<String> treeOtherAttributes;
 
@@ -117,78 +106,44 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
         // GraphService.getInstance().getAgentMap().get(id), agent);
         // this.newAgentName = tree.getRoot().getValue();
         // this.agent.setAttribute(Const.GS_UI_LABEL, newAgentName);
-        this.stage.close();
-    }
-
-    /**
-     * When the cancel button is clicked, the attributes are not updated and the
-     * window is closed
-     */
-    @FXML
-    public void cancelButton() {
         stage.close();
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        this.tree.setEditable(true);
     }
 
     @FXML
     public void addPort() {
-        PortModel p = new PortModel("hello");
+        PortModel p = new PortModel("port");
         ports.add(p);
-        agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().put("hello", p);
+        agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().put("Port", p);
     }
 
     @FXML
     public void addFeature() {
-        FeatureModel f = new FeatureModel("feature");
+        FeatureModel f = new FeatureModel("Feature");
         features.add(f);
-        agent.getCommonFeaturesModel().getFeatures().put("feature", f);
+        agent.getCommonFeaturesModel().getFeatures().put("Feature", f);
     }
 
     @FXML
-    public void clickOnFeaturesList() {
+    public void clickOnFeatureList() {
 
-        FeatureModel selectedLabel = this.listFeatures.getSelectionModel().getSelectedItem();
+        FeatureModel selectedLabel = listFeatures.getSelectionModel().getSelectedItem();
         if (selectedLabel != null) {
             TreeItem<String> root = new TreeItem<>(selectedLabel.getName());
-            this.tree.setRoot(root);
+            treeCommonFeatures.setRoot(root);
             root.setExpanded(true);
-//            this.attributesService.fillAttributes(selectedLabel.getAttributesMap(), root, (IModel) selectedLabel);
+            attributesService.fillAttributes(selectedLabel.getAttributesMap(), root, (IModel) selectedLabel);
 
-            this.tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
-
-                private final AttributesContextMenu contextMenu = new AttributesContextMenu(false);
-                @SuppressWarnings("rawtypes")
-                private final StringConverter converter = new DefaultStringConverter();
-
-                @SuppressWarnings("unchecked")
-                @Override
-                public TreeCell<String> call(TreeView<String> param) {
-                    return new AttributesTreeCell(this.contextMenu, this.converter,
-                        agent);
-                }
-            });
-            
             selectedLabel.nameProperty().addListener((observable, oldvalue, newvalue) -> {
                 root.setValue(selectedLabel.getName());
                 agent.getCommonFeaturesModel().getFeatures().remove(oldvalue);
                 agent.getCommonFeaturesModel().getFeatures().put(newvalue, selectedLabel);
             });
-            
-            features.addListener(new ListChangeListener<FeatureModel>() {
 
-                @Override
-                public void onChanged(javafx.collections.ListChangeListener.Change<? extends FeatureModel> c) {
-                    while (c.next()) {
-                        if (c.wasRemoved() && !c.wasUpdated() && !c.wasPermutated() && !c.wasReplaced()) {
-                            tree.setRoot(null);
-                            agent.getCommonFeaturesModel().getFeatures().remove(selectedLabel.getName());
-                        }
-                    }
+            features.addListener((ListChangeListener<? super FeatureModel>) c -> {
+                c.next();
+                if (c.wasRemoved() && !c.wasUpdated() && !c.wasPermutated() && !c.wasReplaced()) {
+                    treeCommonFeatures.setRoot(null);
+                    agent.getCommonFeaturesModel().getFeatures().remove(selectedLabel.getName());
                 }
             });
         }
@@ -196,47 +151,31 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
     }
 
     @FXML
-    public void clickOnList() {
+    public void clickOnPortList() {
 
-        PortModel selectedLabel = this.listPort.getSelectionModel().getSelectedItem();
+        PortModel selectedLabel = listPort.getSelectionModel().getSelectedItem();
         if (selectedLabel != null) {
             TreeItem<String> root = new TreeItem<>(selectedLabel.getName());
-            this.treePort.setRoot(root);
-            treePort.setEditable(true);
-//            this.attributesService.fillAttributes(selectedLabel.getAttributesMap(), root, (IModel) selectedLabel);
+            treePortMap.setRoot(root);
+            treePortMap.setEditable(true);
+            attributesService.fillAttributes(selectedLabel.getAttributesMap(), root, (IModel) selectedLabel);
             root.setExpanded(true);
 
-            ports.addListener(new ListChangeListener<PortModel>() {
-
-                @Override
-                public void onChanged(javafx.collections.ListChangeListener.Change<? extends PortModel> c) {
-                    while (c.next()) {
-                        if (c.wasRemoved() && !c.wasUpdated() && !c.wasPermutated() && !c.wasReplaced()) {
-                            treePort.setRoot(null);
-                            agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().remove(selectedLabel.getName());
-                        }
-                    }
+            ports.addListener((ListChangeListener<? super PortModel>) c -> {
+                c.next();
+                if (c.wasRemoved() && !c.wasUpdated() && !c.wasPermutated() && !c.wasReplaced()) {
+                    treePortMap.setRoot(null);
+                    agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap()
+                        .remove(selectedLabel.getName());
                 }
             });
-            
+
             selectedLabel.idProperty().addListener((observable, oldvalue, newvalue) -> {
                 root.setValue(selectedLabel.getName());
-                agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().put(newvalue, selectedLabel);
+                agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().put(newvalue,
+                    selectedLabel);
             });
-            
-            this.treePort.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
-                private final AttributesContextMenu contextMenu = new AttributesContextMenu(false);
-                @SuppressWarnings("rawtypes")
-                private final StringConverter converter = new DefaultStringConverter();
-
-                @SuppressWarnings("unchecked")
-                @Override
-                public TreeCell<String> call(TreeView<String> param) {
-                    return new AttributesTreeCell(this.contextMenu, this.converter,
-                        agent);
-                }
-            });
         }
 
     }
@@ -246,71 +185,71 @@ public class NodeAttributesController implements Initializable, ISecondaryWindow
 
         Node node = (Node) args[0];
         this.stage = stage;
-        this.agent = GraphService.getInstance().getAgentMap().get(node.getAttribute(Const.GS_UI_LABEL));
-        this.id = node.getAttribute(Const.GS_UI_LABEL);
+        agent = GraphService.getInstance().getAgentMap().get(node.getAttribute(Const.GS_UI_LABEL));
+        id = node.getAttribute(Const.GS_UI_LABEL);
+
+        initPortMap();
+        initPrimaryFeature();
+        initCommonsFeatures();
+        initOtherAttributes();
+    }
+
+    private void initOtherAttributes() {
+
+        TreeItem<String> root = new TreeItem<>(agent.getName());
+        treeOtherAttributes.setRoot(root);
+        attributesService.fillAttributes(agent.getAttributesMap(), root, (IModel) agent);
+        treeOtherAttributes.setEditable(true);
+
+        treeOtherAttributes.setCellFactory(c -> {
+            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), agent);
+        });
+    }
+
+    private void initCommonsFeatures() {
+
+        List<FeatureModel> fList = new ArrayList<>(agent.getCommonFeaturesModel().getFeatures().values());
+        features = FXCollections.observableList(fList);
+        listFeatures.setItems(features);
+        listFeatures.setEditable(true);
+        listFeatures
+            .setCellFactory(p -> new AttributesListCell<FeatureModel>(new AttributesContextMenu(true),
+                new FeatureModelConverter(), features, listFeatures));
+
+        treePrimaryFeature.getRoot().setExpanded(true);
+        treePrimaryFeature.setEditable(true);
+
+        treeCommonFeatures.setCellFactory(c -> {
+            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), agent);
+        });
+
+    }
+
+    private void initPortMap() {
 
         List<PortModel> pList = new ArrayList<>(
             agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().values());
-        List<FeatureModel> fList = new ArrayList<>(agent.getCommonFeaturesModel().getFeatures().values());
-
         ports = FXCollections.observableList(pList);
         listPort.setItems(ports);
-
-        features = FXCollections.observableList(fList);
-        listFeatures.setItems(features);
-
-        TreeItem<String> root = new TreeItem<>("PrimaryFeature");
-        this.treeP.setRoot(root);
-        Map<String,Object> m = agent.getPrimaryFeature().getAttributesMap();
-        this.attributesService.fillAttributes(m, root,
-            (IModel) agent.getPrimaryFeature());
-
-        this.treeP.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
-
-            private final AttributesContextMenu contextMenu = new AttributesContextMenu(false);
-            @SuppressWarnings("rawtypes")
-            private final StringConverter converter = new DefaultStringConverter();
-
-            @SuppressWarnings("unchecked")
-            @Override
-            public TreeCell<String> call(TreeView<String> param) {
-                return new AttributesTreeCell(this.contextMenu, this.converter,
-                    agent);
-            }
-        });
-
         listPort.setEditable(true);
-
-        this.listPort
+        listPort
             .setCellFactory(p -> new AttributesListCell<PortModel>(new AttributesContextMenu(true),
                 new PortModelConverter(), ports, listPort));
-        
-        listFeatures.setEditable(true);
-        this.listFeatures
-        .setCellFactory(p -> new AttributesListCell<FeatureModel>(new AttributesContextMenu(true),
-            new FeatureModelConverter(), features, listFeatures));
-        
-        treeP.getRoot().setExpanded(true);
-        treeP.setEditable(true);
-        
-        TreeItem<String> rootOtherAttributes = new TreeItem<>(this.agent.getName());
-        this.treeOtherAttributes.setRoot(rootOtherAttributes);
-//        this.attributesService.fillAttributes(agent.getAttributesMap(), root,
-//            (IModel) agent);
-        treeOtherAttributes.setEditable(true);
-        
-        this.treeOtherAttributes.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
-            private final AttributesContextMenu contextMenu = new AttributesContextMenu(false);
-            @SuppressWarnings("rawtypes")
-            private final StringConverter converter = new DefaultStringConverter();
+        treePortMap.setCellFactory(c -> {
+            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), agent);
+        });
+    }
 
-            @SuppressWarnings("unchecked")
-            @Override
-            public TreeCell<String> call(TreeView<String> param) {
-                return new AttributesTreeCell(this.contextMenu, this.converter,
-                    agent);
-            }
+    private void initPrimaryFeature() {
+
+        TreeItem<String> root = new TreeItem<>("PrimaryFeature");
+        treePrimaryFeature.setRoot(root);
+        attributesService.fillAttributes(agent.getPrimaryFeature().getAttributesMap(), root,
+            (IModel) agent.getPrimaryFeature());
+
+        treePrimaryFeature.setCellFactory(c -> {
+            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), agent);
         });
     }
 

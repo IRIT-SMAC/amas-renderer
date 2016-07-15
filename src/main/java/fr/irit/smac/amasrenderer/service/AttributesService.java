@@ -214,16 +214,5 @@ public class AttributesService {
             attributesMap.remove(oldValueSplit[0].trim());
             attributesMap.put(newValueSplit[0].trim(), newValueSplit[1]);
         });
-//
-//        item.getParent().getChildren().addListener((ListChangeListener<? super TreeItem<String>>) c -> {
-//            c.next();
-//            System.out.println("**");
-//            if (c.wasRemoved()) {
-//                System.out.println("***");
-//                TreeItem<String> t = (TreeItem<String>) c.getRemoved().get(0);
-//                attributesMap.remove(t.getValue());
-//            }
-//        });
-
     }
 }
