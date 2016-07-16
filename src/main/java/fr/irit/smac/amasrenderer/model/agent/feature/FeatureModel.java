@@ -2,8 +2,6 @@ package fr.irit.smac.amasrenderer.model.agent.feature;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javafx.beans.property.SimpleStringProperty;
-
 public class FeatureModel extends AbstractFeatureModel {
 
     private String className;
@@ -11,14 +9,6 @@ public class FeatureModel extends AbstractFeatureModel {
     private Knowledge knowledge;
         
     public FeatureModel() {
-    }
-    
-    public FeatureModel(String id) {
-
-        this.name = new SimpleStringProperty(id);
-        this.knowledge = new Knowledge();
-        this.attributesMap.put("knowledge", knowledge.getAttributesMap());
-        this.attributesMap.put("className", className);
     }
     
     @JsonProperty

@@ -32,11 +32,6 @@ public class AbstractFeatureModel implements IModel {
         this.name = new SimpleStringProperty();
     }
 
-    public AbstractFeatureModel(String id) {
-        this.name = new SimpleStringProperty(id);
-        this.attributesMap.put("skill", skill.getAttributesMap());
-    }
-
     public StringProperty nameProperty() {
         return this.name;
     }

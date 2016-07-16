@@ -62,14 +62,6 @@ public class TargetModel implements IModel {
         this.name = new SimpleStringProperty();
     }
 
-    public TargetModel(String id, Map<String, Object> attributesMap) {
-        this.attributesMap = attributesMap;
-        this.agentTarget = (String) attributesMap.get(Const.AGENT_TARGET);
-        this.portSource = (String) attributesMap.get(Const.PORT_SOURCE);
-        this.portTarget = (String) attributesMap.get(Const.PORT_TARGET);
-        this.name = new SimpleStringProperty(id);
-    }
-
     @JsonIgnore
     public Map<String, Object> getAttributesMap() {
         return this.attributesMap;

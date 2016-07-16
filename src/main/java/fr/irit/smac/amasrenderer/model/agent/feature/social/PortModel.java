@@ -28,15 +28,6 @@ public class PortModel implements IModel{
         this.name = new SimpleStringProperty();
     }
 
-    public PortModel(String id) {
-        
-        this.name = new SimpleStringProperty(id);
-        this.id = id;
-        this.attributesMap.put("id", id);
-        this.attributesMap.put("className", className);
-        this.attributesMap.put("type", type);
-    }
-
     @JsonProperty
     public void setId(String id) {
         this.id = id;
