@@ -205,6 +205,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
 
             if (getTreeItem().getParent() == null) {
 
+                currentModel.setName(currentModel.getNewName(value));
                 super.commitEdit(currentModel.getNewName(value));
             }
             else {

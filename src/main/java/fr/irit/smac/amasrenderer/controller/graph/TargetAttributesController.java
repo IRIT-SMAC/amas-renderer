@@ -21,9 +21,6 @@
  */
 package fr.irit.smac.amasrenderer.controller.graph;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.spriteManager.Sprite;
@@ -36,7 +33,6 @@ import fr.irit.smac.amasrenderer.service.GraphService;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
@@ -46,7 +42,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
-public class TargetAttributesController implements Initializable, ISecondaryWindowController {
+public class TargetAttributesController implements ISecondaryWindowController {
 
     @FXML
     private Button confButton;
@@ -76,11 +72,14 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
         Edge e = (Edge) sprite.getAttachment();
         Node node = e.getSourceNode();
 
-        this.targetModel = this.graphService.getTargetModel(node.getId(), e.getAttribute(Const.GS_UI_LABEL));
+        this.targetModel = this.graphService.getTargetModel(node.getAttribute(Const.GS_UI_LABEL), e.getAttribute(Const.GS_UI_LABEL));
 
         TreeItem<String> root = new TreeItem<>(e.getAttribute(Const.GS_UI_LABEL));
         this.tree.setRoot(root);
         this.attributesService.fillAttributes(this.targetModel.getAttributesMap(), root, this.targetModel);
+
+        this.tree.setEditable(true);
+        root.setExpanded(true);
 
         this.tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 
@@ -95,12 +94,6 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
             }
 
         });
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        this.tree.setEditable(true);
     }
 
 }

@@ -75,10 +75,6 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
     private AgentModel agent;
 
-    private String newAgentName = null;
-
-    private String id;
-
     private AttributesService attributesService = AttributesService.getInstance();
 
     @FXML
@@ -100,28 +96,21 @@ public class NodeAttributesController implements ISecondaryWindowController {
      */
     @FXML
     public void confirmButton() {
-
-        // this.attributesService.updateAttributesMap(tree.getRoot().getValue(),
-        // tree.getRoot(),
-        // (Map<String, Object>)
-        // GraphService.getInstance().getAgentMap().get(id), agent);
-        // this.newAgentName = tree.getRoot().getValue();
-        // this.agent.setAttribute(Const.GS_UI_LABEL, newAgentName);
         stage.close();
     }
 
     @FXML
     public void addPort() {
-        PortModel p = new PortModel("port");
-        ports.add(p);
-        agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().put("Port", p);
+        PortModel port = GraphService.getInstance().addPort(agent);
+        ports.add(port);
     }
 
     @FXML
     public void addFeature() {
-        FeatureModel f = new FeatureModel("Feature");
-        features.add(f);
-        agent.getCommonFeaturesModel().getFeatures().put("Feature", f);
+        
+        FeatureModel feature = GraphService.getInstance().addFeature(agent);
+        features.add(feature);
+        
     }
 
     @FXML
@@ -194,7 +183,6 @@ public class NodeAttributesController implements ISecondaryWindowController {
         Node node = (Node) args[0];
         this.stage = stage;
         agent = GraphService.getInstance().getAgentMap().get(node.getAttribute(Const.GS_UI_LABEL));
-        id = node.getAttribute(Const.GS_UI_LABEL);
 
         initPortMap();
         initPrimaryFeature();

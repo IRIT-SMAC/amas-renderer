@@ -4,23 +4,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.irit.smac.amasrenderer.model.agent.feature.Knowledge;
 
 public class KnowledgeSocial extends Knowledge {
 
-    @JsonProperty
     private Map<String, TargetModel> targetMap = new HashMap<>();
 
-    @JsonProperty
     private Map<String, PortModel> portMap = new HashMap<>();
 
     public KnowledgeSocial() {
-        this.attributesMap.put("portMap", portMap);
-        this.attributesMap.put("targetMap", targetMap);
     }
 
+    @JsonIgnore
     public Map<String, TargetModel> getTargetMap() {
         return this.targetMap;
     }
@@ -30,12 +28,20 @@ public class KnowledgeSocial extends Knowledge {
         this.attributesMap.put(name, value);
     }
 
+    @JsonIgnore
     public Map<String, PortModel> getPortMap() {
         return portMap;
     }
 
+    @JsonProperty
     public void setPortMap(Map<String, PortModel> portMap) {
         this.portMap = portMap;
+        this.attributesMap.put("portMap", portMap);
     }
 
+    @JsonProperty
+    public void setTargetMap(Map<String, TargetModel> targetMap) {
+        this.targetMap = targetMap;
+        this.attributesMap.put("targetMap", targetMap);
+    }
 }

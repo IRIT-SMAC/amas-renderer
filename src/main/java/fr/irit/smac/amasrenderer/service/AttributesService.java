@@ -131,12 +131,12 @@ public class AttributesService {
             }
 
         });
-
     }
 
     private void updateComplexNode(Map<String, Object> attributesMap, TreeItem<String> item) {
 
         item.valueProperty().addListener((c, oldValue, newValue) -> {
+            @SuppressWarnings("unchecked")
             Map<String, Object> mapItem = (Map<String, Object>) attributesMap.get(oldValue);
             attributesMap.remove(oldValue);
             attributesMap.put(newValue, mapItem);

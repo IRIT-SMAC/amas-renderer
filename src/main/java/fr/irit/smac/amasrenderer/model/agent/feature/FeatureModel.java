@@ -11,10 +11,6 @@ public class FeatureModel extends AbstractFeatureModel {
     private Knowledge knowledge;
         
     public FeatureModel() {
-
-        this.knowledge = new Knowledge();
-        this.attributesMap.put("knowledge", knowledge.getAttributesMap());
-        this.attributesMap.put("className", className);
     }
     
     public FeatureModel(String id) {
@@ -28,17 +24,18 @@ public class FeatureModel extends AbstractFeatureModel {
     @JsonProperty
     public void setClassName(String className) {
         this.className = className;
+        this.attributesMap.put("className", className);
     }
 
     @JsonProperty
     public void setKnowledge(Knowledge knowledge) {
         this.knowledge = knowledge;
+        this.attributesMap.put("knowledge", knowledge.getAttributesMap());
     }
 
     @JsonProperty
     public void setSkill(Skill skill) {
         this.skill = skill;
+        this.attributesMap.put("skill", skill.getAttributesMap());
     }
-
-    
 }

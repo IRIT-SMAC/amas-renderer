@@ -19,19 +19,17 @@ public class AbstractFeatureModel implements IModel {
 
     protected Skill skill;
 
+    @JsonProperty
     protected String className;
 
     @JsonIgnore
     protected Map<String, Object> attributesMap = new HashMap<>();
 
-    private static final String[] NOT_EXPANDED = { Const.PORT_MAP, Const.TARGET_MAP };
+    private static final String[] NOT_EXPANDED = { };
     private static final String[] PROTECTED_VALUE = { Const.SKILL, Const.KNOWLEDGE };
 
     public AbstractFeatureModel() {
         this.name = new SimpleStringProperty();
-        this.skill = new Skill();
-        this.attributesMap.put("className", className);
-        this.attributesMap.put("skill", skill.getAttributesMap());
     }
 
     public AbstractFeatureModel(String id) {
@@ -49,6 +47,12 @@ public class AbstractFeatureModel implements IModel {
 
     public void setName(String name) {
         this.name.set(name);
+    }
+
+    @JsonProperty
+    public void setClassName(String className) {
+        this.className = className;
+        this.attributesMap.put("className", className);
     }
 
     @JsonIgnore
@@ -72,13 +76,11 @@ public class AbstractFeatureModel implements IModel {
 
     @Override
     public String getNewName(String name) {
-        // TODO Auto-generated method stub
-        return null;
+        return name;
     }
 
     @Override
     public String[] getProtectedValue() {
-        // TODO Auto-generated method stub
         return PROTECTED_VALUE;
     }
 
@@ -95,5 +97,6 @@ public class AbstractFeatureModel implements IModel {
     @JsonProperty
     public void setSkill(Skill skill) {
         this.skill = skill;
+        this.attributesMap.put("skill", skill.getAttributesMap());
     }
 }

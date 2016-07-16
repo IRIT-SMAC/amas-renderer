@@ -24,9 +24,9 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="431.0" prefWidth="985.0">
                      <children>
-                        <ListView fx:id="listPort" layoutY="50.0" onMouseClicked="#clickOnPortList" prefHeight="145.0" prefWidth="984.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#addPort" text="Ajouter un port" />
-                        <TreeView fx:id="treePortMap" layoutY="200.0" prefHeight="235.0" prefWidth="984.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="200.0" />
+                        <ListView fx:id="listPort" layoutY="65.0" onMouseClicked="#clickOnPortList" prefHeight="130.0" prefWidth="972.0" styleClass="list" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#addPort" styleClass="buttonSecondaryWindowAdd" text="Ajouter un port" />
+                        <TreeView fx:id="treePortMap" layoutY="200.0" prefHeight="235.0" prefWidth="984.0" styleClass="tree" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="200.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -35,7 +35,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TreeView fx:id="treePrimaryFeature" layoutY="50.0" prefHeight="381.0" prefWidth="972.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0" />
+                        <TreeView fx:id="treePrimaryFeature" layoutY="9.0" prefHeight="408.0" prefWidth="972.0" styleClass="tree" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -44,8 +44,8 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="451.0" prefWidth="984.0">
                      <children>
-                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#addFeature" text="Ajouter une feature" />
-                        <ListView fx:id="listFeatures" layoutY="50.0" onMouseClicked="#clickOnFeatureList" prefHeight="145.0" prefWidth="984.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#addFeature" styleClass="buttonSecondaryWindowAdd" text="Ajouter une feature" />
+                        <ListView fx:id="listFeatures" layoutY="65.0" onMouseClicked="#clickOnFeatureList" prefHeight="130.0" prefWidth="972.0" styleClass="list" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                         <TreeView fx:id="treeCommonFeatures" editable="true" focusTraversable="false" layoutY="200.0" prefHeight="235.0" prefWidth="984.0" styleClass="tree" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="200.0" />
                      </children>
                   </AnchorPane>
@@ -55,7 +55,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TreeView fx:id="treeOtherAttributes" prefHeight="381.0" prefWidth="972.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0" />
+                        <TreeView fx:id="treeOtherAttributes" layoutY="10.0" prefHeight="407.0" prefWidth="972.0" styleClass="tree" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                      </children>
                   </AnchorPane>
               </content>

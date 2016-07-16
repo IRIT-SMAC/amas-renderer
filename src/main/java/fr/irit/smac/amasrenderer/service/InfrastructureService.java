@@ -22,9 +22,7 @@
 package fr.irit.smac.amasrenderer.service;
 
 import java.io.File;
-import java.util.Map;
 
-import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
 
 /**
@@ -74,8 +72,6 @@ public class InfrastructureService {
      */
     public void updateInfrastructureFromFile(InfrastructureModel infrastructure) {
 
-//        infrastructure.getAttributesMap().put("services", infrastructure.getServices());
-//        infrastructure.getAttributesMap().put("className", infrastructure.getClassName());
         String[] infrastructureName = infrastructure.getClassName().toString()
             .split("\\.");
         infrastructure

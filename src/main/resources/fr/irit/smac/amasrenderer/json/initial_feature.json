@@ -1,0 +1,10 @@
+{
+	"skill":{
+		"className":"package.implementationclass"
+	},
+	"className":"package.implementationclass",
+	"knowledge":{
+		"className":"package.implementationclass"
+	}
+	
+}

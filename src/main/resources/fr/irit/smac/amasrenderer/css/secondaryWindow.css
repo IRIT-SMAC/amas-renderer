@@ -36,6 +36,21 @@
 	-fx-font-family: "Open Sans";
 }
 
+.buttonSecondaryWindowAdd {
+    -fx-background-radius: 5.0px;
+    -fx-font-size: 15.0px;
+	-fx-font-weight: bold;
+	-fx-pref-height: 40.0;
+	-fx-pref-width: 180.0;
+	-fx-font-family: "Open Sans";
+	-fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #B4DEDA, #99D1CB);
+	-fx-text-fill: #FFF;
+}
+
+.buttonSecondaryWindowAdd:hover {
+	-fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #99C9C5, #84B3AE);
+}
+
 .buttonSecondaryWindowKo {
 	-fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #dbdbdb, #e0e0e0);
 	-fx-text-fill: #000000;
@@ -55,8 +70,31 @@
     -fx-background-color: linear-gradient( from 0.0 100.0 to 100.0 -100.0, #a21f1b, #901c18);
 }
 
+.tab {
+    -fx-font-size: 14.0px;
+	-fx-pref-height: 40.0;
+	-fx-font-family: "Open Sans";
+	-fx-text-fill: #FF0000;
+	-fx-background-color: linear-gradient( from 0.0 100.0 to 0.0 -100.0, #EDEDED, #E3E3E3);
+	-fx-background-radius: 1.0px;
+}
+
+.tab:selected {
+	-fx-background-color: linear-gradient( from 0.0 100.0 to 0.0 -100.0, #F5F5F5, #F2F2F2);
+	-fx-border-color: #888 #888 #f4f4f4 #888;
+    -fx-border-width: 1.5px 1.5px 1.0px 1.5px;
+	-fx-border-radius: 1.0px;
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+}
+
 .tree {
-	-fx-font-size: 12.0pt;
+	-fx-font-size: 10.0pt;
+    -fx-font-family: "Open Sans";
+}
+
+.list {
+	-fx-font-size: 10.0pt;
     -fx-font-family: "Open Sans";
 }
 
@@ -66,7 +104,7 @@
 
 .endOfInput {
 	-fx-text-fill: darkgray;
-	-fx-font-size: 15pt;
+	-fx-font-size: 15.0pt;
 }
 
 .text-input {

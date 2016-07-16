@@ -1,7 +1,5 @@
 package fr.irit.smac.amasrenderer.util.attributes;
 
-import com.lowagie.text.ListItem;
-
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;

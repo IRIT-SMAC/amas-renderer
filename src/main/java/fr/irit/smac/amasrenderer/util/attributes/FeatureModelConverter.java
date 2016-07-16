@@ -1,7 +1,6 @@
 package fr.irit.smac.amasrenderer.util.attributes;
 
 import fr.irit.smac.amasrenderer.model.agent.feature.AbstractFeatureModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.FeatureModel;
 import javafx.util.StringConverter;
 
 public class FeatureModelConverter extends StringConverter<AbstractFeatureModel> {
@@ -17,7 +16,6 @@ public class FeatureModelConverter extends StringConverter<AbstractFeatureModel>
     @Override
     public AbstractFeatureModel fromString(String value) {
         featureModel.setName(value);
-//        featureModel.setId(value);
         return featureModel;
     }
 }

@@ -62,16 +62,6 @@ public class TargetModel implements IModel {
         this.name = new SimpleStringProperty();
     }
 
-    public TargetModel(String id) {
-        this.attributesMap = new HashMap<String, Object>();
-        this.portSource = null;
-        this.portTarget = null;
-        attributesMap.put(Const.PORT_SOURCE, portSource);
-        attributesMap.put(Const.PORT_TARGET, portTarget);
-        attributesMap.put(Const.CLASSNAME, className);
-        this.name = new SimpleStringProperty(id);
-    }
-
     public TargetModel(String id, Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
         this.agentTarget = (String) attributesMap.get(Const.AGENT_TARGET);
@@ -100,13 +90,11 @@ public class TargetModel implements IModel {
 
     @Override
     public String getName() {
-
         return this.name.get();
     }
 
     @Override
     public String getNewName(String name) {
-
         return name;
     }
 
@@ -133,6 +121,7 @@ public class TargetModel implements IModel {
         return this.agentTarget;
     }
 
+    @JsonSetter
     public void setAgentTarget(String newValue) {
         this.agentTarget = newValue;
         this.attributesMap.put(Const.AGENT_TARGET, newValue);
@@ -162,7 +151,7 @@ public class TargetModel implements IModel {
         this.idGraph = idGraph;
     }
 
-
+    @JsonSetter
     public void setPortSource(String portName) {
         this.portSource = portName;
         this.attributesMap.put("portSource", portSource);

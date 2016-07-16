@@ -21,8 +21,6 @@
  */
 package fr.irit.smac.amasrenderer.service;
 
-import java.util.Map;
-
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.tool.ToolModel;
 import fr.irit.smac.amasrenderer.model.tool.ToolsModel;
@@ -84,8 +82,6 @@ public class ToolService {
     public void addTool(ToolModel tool) {
 
         this.tools.add(tool);
-        // toolMap.getServices().put(tool.getName(),
-        // tool);
         tool.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
                 toolMap.getServices().remove(oldValue);

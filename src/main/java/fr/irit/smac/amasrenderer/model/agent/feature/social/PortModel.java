@@ -5,8 +5,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.irit.smac.amasrenderer.model.IModel;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,13 +15,10 @@ public class PortModel implements IModel{
 
     private StringProperty name;
 
-    @JsonIgnoreProperties(allowGetters=false,allowSetters=true)
     private String type;
 
-    @JsonIgnoreProperties(allowGetters=false,allowSetters=true)
     private String id;
     
-    @JsonIgnoreProperties(allowGetters=false,allowSetters=true)
     private String className;
 
     @JsonIgnore
@@ -41,7 +37,7 @@ public class PortModel implements IModel{
         this.attributesMap.put("type", type);
     }
 
-    @JsonSetter
+    @JsonProperty
     public void setId(String id) {
         this.id = id;
         this.name.set(id);
@@ -78,8 +74,7 @@ public class PortModel implements IModel{
 
     @Override
     public String getNewName(String name) {
-        // TODO Auto-generated method stub
-        return null;
+        return name;
     }
 
     @Override
@@ -94,4 +89,15 @@ public class PortModel implements IModel{
         return null;
     }
 
+    @JsonProperty
+    public void setType(String type) {
+        this.type = type;
+        this.attributesMap.put("type", type);
+    }
+
+    @JsonProperty
+    public void setClassName(String className) {
+        this.className = className;
+        this.attributesMap.put("className", className);
+    }
 }

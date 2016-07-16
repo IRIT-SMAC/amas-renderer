@@ -47,40 +47,22 @@ public class AgentModel implements IModel {
     @JsonIgnore
     private Map<String, Object> attributesMap = new HashMap<>();
 
-    @JsonIgnore
-    private Map<String, TargetModel> targets;
-
     @JsonProperty
     private FeatureModel primaryFeature;
-    
+
     @JsonProperty
     private CommonFeaturesModel commonFeatures;
-    
-    private Map<String, Object> targetMap;
 
     @JsonIgnore
     private String idGraph;
 
-    private static final String[] PROTECTED_VALUE      = {};
-    private static final String[] NOT_EXPANDED         = { Const.TARGET_MAP };
+    private static final String[] PROTECTED_VALUE = {};
+    private static final String[] NOT_EXPANDED    = { Const.TARGET_MAP };
 
     public AgentModel() {
 
         this.name = new SimpleStringProperty();
-        this.targets = new HashMap<>();
-        this.targetMap = new HashMap<>();
     }
-    
-    public AgentModel(String id) {
-
-        this.name = new SimpleStringProperty(id);
-        this.targets = new HashMap<>();
-        this.targetMap = new HashMap<>();
-        this.commonFeatures = new CommonFeaturesModel();
-        this.primaryFeature = new FeatureModel();
-        this.setId(id);
-    }
-
 
     /**
      * Adds a target to the agent
@@ -89,13 +71,12 @@ public class AgentModel implements IModel {
      *            the target to add
      */
     public void addTarget(TargetModel targetModel, String id) {
-        this.targets.put(id, targetModel);
-        this.targetMap.put(id, targetModel.getAttributesMap());
+        getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap().put(id,
+            targetModel);
     }
 
     public void removeTarget(String id) {
-        this.targets.remove(id);
-        this.targetMap.remove(id);
+        getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap().remove(id);
     }
 
     @JsonAnySetter
@@ -107,7 +88,7 @@ public class AgentModel implements IModel {
     public Map<String, Object> getAttributeMap() {
         return attributesMap;
     }
-    
+
     public void setAttributes(Map<String, Object> attributesMap) {
         this.attributesMap = attributesMap;
     }
@@ -148,11 +129,7 @@ public class AgentModel implements IModel {
     public String getNewName(String name) {
         return name;
     }
-
-    public Map<String, TargetModel> getTargets() {
-        return this.targets;
-    }
-
+    
     public void setId(String id) {
         this.commonFeatures.getFeatureBasic().getKnowledge().setId(id);
     }
@@ -161,7 +138,7 @@ public class AgentModel implements IModel {
     public void setIdGraph(String idGraph) {
         this.idGraph = idGraph;
     }
-    
+
     @JsonIgnore
     public String getIdGraph() {
         return this.idGraph;
@@ -176,5 +153,4 @@ public class AgentModel implements IModel {
         return this.primaryFeature;
     }
 
-    
 }
