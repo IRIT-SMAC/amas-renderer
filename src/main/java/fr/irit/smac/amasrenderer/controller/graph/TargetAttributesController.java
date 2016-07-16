@@ -52,9 +52,6 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
     private Button confButton;
 
     @FXML
-    private Button cancButton;
-
-    @FXML
     private TreeView<String> tree;
 
     private Stage stage;
@@ -67,12 +64,6 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
 
     @FXML
     public void confirmButton() {
-
-        this.stage.close();
-    }
-
-    @FXML
-    public void cancelButton() {
 
         this.stage.close();
     }

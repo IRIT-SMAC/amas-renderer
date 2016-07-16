@@ -54,9 +54,6 @@ public class ToolAttributesController extends LoadSecondaryWindowController
     private Button confButton;
 
     @FXML
-    private Button cancButton;
-
-    @FXML
     private ImageView delButton;
 
     @FXML
@@ -83,18 +80,6 @@ public class ToolAttributesController extends LoadSecondaryWindowController
      */
     @FXML
     public void confirmButton() {
-
-        attributesService.updateAttributesMap(tree.getRoot().getValue(), tree.getRoot(),
-            tool.getAttributesMap(), tool);
-        stage.close();
-    }
-
-    /**
-     * When the cancel button is clicked, the attributes are not updated and the
-     * modal window is closed
-     */
-    @FXML
-    public void cancelButton() {
 
         stage.close();
     }

@@ -16,11 +16,5 @@
             <String fx:value="buttonSecondaryWindowOk" />
          </styleClass>
 				</Button>
-				<Button fx:id="cancButton" focusTraversable="false" layoutX="19.0" layoutY="536.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="33.0" prefWidth="99.0" text="Annuler" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0">
-         <styleClass>
-            <String fx:value="buttonSecondaryWindow" />
-            <String fx:value="buttonSecondaryWindowKo" />
-         </styleClass>
-      </Button>
    </children>
 </AnchorPane>

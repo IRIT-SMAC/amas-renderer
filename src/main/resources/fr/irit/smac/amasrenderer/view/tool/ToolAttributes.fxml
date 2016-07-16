@@ -18,12 +18,6 @@
             <String fx:value="buttonSecondaryWindowOk" />
          </styleClass>
 				</Button>
-				<Button fx:id="cancButton" focusTraversable="false" layoutX="19.0" layoutY="536.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="33.0" prefWidth="99.0" text="Annuler" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0">
-         <styleClass>
-            <String fx:value="buttonSecondaryWindow" />
-            <String fx:value="buttonSecondaryWindowKo" />
-         </styleClass>
-      </Button>
       <ImageView fx:id="delButton" fitWidth="40.0" layoutX="13.0" layoutY="8.0" onMouseClicked="#deleteButton" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="10.0">
          <image>
             <Image url="@../../image/buttonDeleteTool.png" />

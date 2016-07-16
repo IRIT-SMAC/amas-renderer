@@ -21,15 +21,12 @@
  */
 package fr.irit.smac.amasrenderer.service;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
 /**
@@ -45,73 +42,6 @@ public class AttributesService {
 
     public static AttributesService getInstance() {
         return instance;
-    }
-
-    /**
-     * Update the attributes
-     * 
-     * @param id
-     *            the id of the model
-     * @param item
-     *            the tree
-     * @param attributesMap
-     *            the attributes of the model
-     * @param model
-     *            the model
-     */
-    public void updateAttributesMap(String id, TreeItem<String> item, Map<String, Object> attributesMap,
-        IModel model) {
-
-        attributesMap.clear();
-        Map<String, Object> map = new HashMap<>();
-        map.forEach((k, v) -> attributesMap.put(k, v));
-
-        for (TreeItem<String> subItem : item.getChildren()) {
-            this.updateChildrenAttributesMap(subItem, attributesMap, subItem.getValue());
-        }
-
-        if (model != null) {
-            model.setName(id);
-        }
-    }
-
-    /**
-     * Recursive method which allows to end the update of the attributes
-     * 
-     * @param item
-     *            the current part of the tree
-     * @param map
-     *            the attributes of the current node
-     * @param key
-     *            the key of the current attribute
-     */
-    public void updateChildrenAttributesMap(TreeItem<String> item, Map<String, Object> map, String key) {
-
-        ObservableList<TreeItem<String>> node = item.getChildren();
-
-        if (node.size() > 1 || (node.size() == 1 && !node.get(0).getChildren().isEmpty())) {
-            Map<String, Object> newMap = new HashMap<>();
-            for (TreeItem<String> subItem : node) {
-                updateChildrenAttributesMap(subItem, newMap, subItem.getValue());
-            }
-            map.put(key, newMap);
-        }
-        else if (!node.isEmpty()) {
-            if (node.get(0).getValue().equals(Const.NULL_STRING)) {
-                map.put(item.getValue(), null);
-            }
-            else {
-
-                map.put(item.getValue(), node.get(0).getValue());
-            }
-        }
-        else if (item.getValue().equals(Const.PORT_MAP)) {
-            map.put(item.getValue(), new HashMap<>());
-        }
-    }
-
-    public void test() {
-
     }
 
     /**

@@ -119,7 +119,7 @@ public class GraphService {
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.GS_UI_LABEL, id);
         this.agentMap.put(id, agent);
-        // this.handleNodeNameChange(node, id);
+         this.handleNodeNameChange(agent, id);
 
         idCount.incrementAndGet();
     }
@@ -144,7 +144,7 @@ public class GraphService {
         // node.setAttributes(attributesMap);
         // this.agentMap.put(idModel, node);
         // idModelToGraphMap.put(idModel, idGraph);
-        // this.handleNodeNameChange(node, idGraph);
+//         this.handleNodeNameChange(node, idGraph);
 
         idCount.incrementAndGet();
     }

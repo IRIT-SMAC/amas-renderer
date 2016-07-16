@@ -50,9 +50,6 @@ public class InfrastructureAttributesController implements Initializable, ISecon
     private Button confButton;
 
     @FXML
-    private Button cancButton;
-
-    @FXML
     private TreeView<String> tree;
 
     private Stage stage;
@@ -67,18 +64,6 @@ public class InfrastructureAttributesController implements Initializable, ISecon
      */
     @FXML
     public void confirmButton() {
-
-        this.attributesService.updateAttributesMap(this.tree.getRoot().getValue(), this.tree.getRoot(),
-            infra.getAttributesMap(), this.infra);
-        this.stage.close();
-    }
-
-    /**
-     * When the cancel button is clicked, the attributes are not updated and the
-     * window is closed
-     */
-    @FXML
-    public void cancelButton() {
 
         this.stage.close();
     }
