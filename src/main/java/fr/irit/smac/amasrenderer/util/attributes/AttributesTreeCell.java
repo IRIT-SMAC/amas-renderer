@@ -105,11 +105,6 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
                     add.setDisable(true);
                     rename.setDisable(false);
                 }
-                else if (isNotExpanded) {
-                    delete.setDisable(true);
-                    add.setDisable(true);
-                    rename.setDisable(true);
-                }
                 else if (item.getParent() == null) {
                     delete.setDisable(true);
                     add.setDisable(false);
@@ -124,12 +119,18 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
             else {
                 rename.setDisable(true);
                 delete.setDisable(true);
-                add.setDisable(true);
             }
 
             if (item.getValue().contains(":")) {
                 addSingle.setDisable(true);
                 add.setDisable(true);
+            }
+
+            if (isNotExpanded) {
+                delete.setDisable(true);
+                add.setDisable(true);
+                addSingle.setDisable(true);
+                rename.setDisable(true);
             }
         }
     }
@@ -157,9 +158,12 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         isParentSingleNode = false;
         isNotExpanded = false;
 
-        isNotExpanded = Stream.of(currentModel.getNotExpanded()).anyMatch(s -> item.getValue().endsWith(s));
+        if (currentModel.getNotExpanded() != null) {
+            isNotExpanded = Stream.of(currentModel.getNotExpanded()).anyMatch(s -> item.getValue().endsWith(s));
+        }
+        
         TreeItem<String> parent = item.getParent();
-        if (parent != null) {
+        if (parent != null && currentModel.getProtectedValue() != null) {
             isProtected = Stream.of(currentModel.getProtectedValue()).anyMatch(s -> item.getValue().contains(s));
         }
     }
@@ -191,7 +195,8 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
             String[] newValueSplit = newValue.split("\\:");
             if (newValueSplit.length != 2) {
                 correctSyntaxAttribute = false;
-            } else {
+            }
+            else {
                 value = newValueSplit[0].trim() + " : " + newValueSplit[1].trim();
             }
         }

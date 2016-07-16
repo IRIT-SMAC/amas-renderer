@@ -24,6 +24,7 @@ package fr.irit.smac.amasrenderer.service;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
@@ -135,10 +136,16 @@ public class AttributesService {
 
                 TreeItem<String> item = new TreeItem<>();
                 item.setValue(name);
-                fillAttributes((HashMap<String, Object>) value, item, model);
-                parent.getChildren().add(item);
-                this.updateComplexNode(attributesMap, item);
 
+                boolean isNotExpanded = Stream.of(model.getNotExpanded())
+                    .anyMatch(s -> name.endsWith(s));
+
+                parent.getChildren().add(item);
+
+                if (!isNotExpanded) {
+                    fillAttributes((HashMap<String, Object>) value, item, model);
+                    this.updateComplexNode(attributesMap, item);
+                }
             }
             else {
                 TreeItem<String> item = new TreeItem<>();
@@ -183,11 +190,12 @@ public class AttributesService {
             else if (c.wasRemoved()) {
 
                 TreeItem<String> t = (TreeItem<String>) c.getRemoved().get(0);
-                
+
                 if (t.getValue().contains(":")) {
                     String[] val = t.getValue().split("\\:");
                     attributesMap.remove(val[0].trim());
-                } else {
+                }
+                else {
                     attributesMap.remove(t.getValue());
                 }
             }

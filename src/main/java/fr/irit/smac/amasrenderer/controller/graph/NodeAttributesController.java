@@ -147,6 +147,10 @@ public class NodeAttributesController implements ISecondaryWindowController {
                     agent.getCommonFeaturesModel().getFeatures().remove(selectedLabel.getName());
                 }
             });
+            
+            treeCommonFeatures.setCellFactory(c -> {
+                return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), selectedLabel);
+            });
         }
 
     }
@@ -177,6 +181,9 @@ public class NodeAttributesController implements ISecondaryWindowController {
                     selectedLabel);
             });
 
+            treePortMap.setCellFactory(c -> {
+                return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), selectedLabel);
+            });
         }
 
     }
@@ -220,11 +227,6 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
         treePrimaryFeature.getRoot().setExpanded(true);
         treePrimaryFeature.setEditable(true);
-
-        treeCommonFeatures.setCellFactory(c -> {
-            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), agent);
-        });
-
     }
 
     private void initPortMap() {
@@ -237,10 +239,6 @@ public class NodeAttributesController implements ISecondaryWindowController {
         listPort
             .setCellFactory(p -> new AttributesListCell<PortModel>(new AttributesContextMenu(true),
                 new PortModelConverter(), ports, listPort));
-
-        treePortMap.setCellFactory(c -> {
-            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), agent);
-        });
     }
 
     private void initPrimaryFeature() {
@@ -251,7 +249,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
             (IModel) agent.getPrimaryFeature());
 
         treePrimaryFeature.setCellFactory(c -> {
-            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), agent);
+            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), agent.getPrimaryFeature());
         });
     }
 
