@@ -21,6 +21,16 @@
       </Button>
       <TabPane layoutX="9.0" layoutY="64.0" prefHeight="460.0" prefWidth="984.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
         <tabs>
+            <Tab text="Id">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="7.0" layoutY="14.0" prefHeight="38.0" prefWidth="120.0" styleClass="singleAttribute" text="Id : " />
+                        <TextField fx:id="textFieldId" layoutX="67.0" layoutY="15.0" prefHeight="37.0" prefWidth="898.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
           <Tab text="Liste des ports">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="431.0" prefWidth="985.0">

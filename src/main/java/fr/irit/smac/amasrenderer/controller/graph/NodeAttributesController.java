@@ -89,7 +89,10 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
     @FXML
     private TextField textFieldClassName;
-    
+
+    @FXML
+    private TextField textFieldId;
+
     private ObservableList<PortModel> ports;
 
     private ObservableList<AbstractFeatureModel> features;
@@ -188,14 +191,28 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
         Node node = (Node) args[0];
         this.stage = stage;
-        textFieldClassName.textProperty().addListener(c -> agent.getCommonFeaturesModel().setClassName(textFieldClassName.getText()));
         agent = GraphService.getInstance().getAgentMap().get(node.getAttribute(Const.GS_UI_LABEL));
-        textFieldClassName.setText(agent.getCommonFeaturesModel().getClassName());
 
+        initTextFields();
         initPortMap();
         initPrimaryFeature();
         initCommonsFeatures();
         initOtherAttributes();
+    }
+
+    private void initTextFields() {
+        
+        textFieldClassName.textProperty()
+            .addListener(c -> agent.getCommonFeaturesModel().setClassName(textFieldClassName.getText()));
+        textFieldClassName.setText(agent.getCommonFeaturesModel().getClassName());
+        textFieldId.setText(agent.getCommonFeaturesModel().getFeatureBasic().getKnowledge().getId());
+        textFieldId.textProperty().addListener(
+            c -> {
+                String id = textFieldId.getText();
+                agent.setName(id);
+                agent.getCommonFeaturesModel().getFeatureBasic().getKnowledge().setId(id);
+                treeOtherAttributes.getRoot().setValue(id);
+            });
     }
 
     private void initOtherAttributes() {
