@@ -26,11 +26,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.graph.implementations.MultiNode;
 import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
 
@@ -60,7 +60,7 @@ public class GraphService {
 
     private boolean displayMain;
 
-    private AtomicInteger idCount;
+    private Integer idCount;
 
     public SpriteManager getSpriteManager() {
         return spriteManager;
@@ -72,7 +72,7 @@ public class GraphService {
 
     private GraphService() {
 
-        this.idCount = new AtomicInteger(0);
+        this.idCount = 0;
         this.graph = new MultiGraph("AMAS Rendering");
         this.graph.addAttribute(Const.GS_UI_STYLESHEET, "url(" + getClass().getResource("../css/graph.css") + ")");
         spriteManager = new SpriteManager(this.graph);
@@ -122,7 +122,7 @@ public class GraphService {
             agent.setIdGraph(id);
             this.agentMap.put(id, agent);
             this.handleNodeNameChange(agent, id);
-            idCount.incrementAndGet();
+            idCount++;
         }
         catch (IOException e) {
             // TODO Auto-generated catch block
@@ -149,7 +149,7 @@ public class GraphService {
         node.setAttribute(Const.GS_UI_LABEL, idModel);
         this.handleNodeNameChange(agent, idGraph);
 
-        idCount.incrementAndGet();
+        idCount++;
     }
 
     public void handleNodeNameChange(AgentModel agentModel, String idGraph) {
@@ -270,7 +270,7 @@ public class GraphService {
         sprite.setPosition(position);
         this.displaySprite(sprite, portSpriteVisible, Const.PORT_SPRITE_CLASS, Const.EDGE_SPRITE_CLASS_BACKGROUND);
 
-        idCount.incrementAndGet();
+        idCount++;
     }
 
     /**
@@ -298,11 +298,12 @@ public class GraphService {
      * @param n
      *            the node
      */
-    public void removeNode(Node n) {
+    public void removeNode(String id) {
 
-        n.getEachEdge().forEach(edge -> removeEdge(edge.getId()));
-        this.graph.removeNode(n.getId());
-        this.agentMap.remove(n.getAttribute(Const.GS_UI_LABEL));
+        MultiNode node = graph.getNode(id);
+        node.getEachEdge().forEach(edge -> removeEdge(edge.getId()));
+        this.graph.removeNode(node);
+        this.agentMap.remove(id);
     }
 
     /**
@@ -351,7 +352,7 @@ public class GraphService {
                 Edge edge = this.addEdgeGraph(agent.getIdGraph(), targetIdGraph, k);
                 Sprite mainSprite = addSpriteEdgeGraph(k, v.getPortSource(), v.getPortTarget());
                 this.handleTargetModelChange(v, edge, mainSprite, agent);
-                this.idCount.incrementAndGet();
+                idCount++;
             });
     }
 
@@ -573,9 +574,5 @@ public class GraphService {
 
     private boolean getDisplayMain() {
         return this.displayMain;
-    }
-
-    public void incrementIdCount() {
-        this.idCount.incrementAndGet();
     }
 }

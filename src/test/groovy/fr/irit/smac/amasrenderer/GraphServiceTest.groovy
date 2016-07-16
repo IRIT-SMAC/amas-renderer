@@ -1,6 +1,5 @@
 package fr.irit.smac.amasrenderer
 
-import org.graphstream.graph.Edge
 import org.graphstream.graph.implementations.MultiNode
 
 import spock.lang.Shared
@@ -17,7 +16,7 @@ class GraphServiceTest extends Specification{
 
         graphService = GraphService.getInstance()
         graphService.setAgentMap(new HashMap<String,Object>())
-        graphService.idCount.set(0)
+        graphService.idCount = 0
     }
 
     def 'check if an agent is added and removed'() {
@@ -28,8 +27,6 @@ class GraphServiceTest extends Specification{
         then:
         MultiNode node = graphService.getGraph().getNode(agentId)
         node.getId() == agentId
-        node.getAttribute("xy") == [5.0, 10.0]
-        node.getAttribute("layout.weight") == Const.LAYOUT_WEIGHT_NODE
 
         when:
         graphService.removeNode(node)
@@ -39,7 +36,7 @@ class GraphServiceTest extends Specification{
     }
 
     def 'check if an edge is added and removed'() {
-        
+
         when:
         graphService.addNode(5.0,10.0)
         graphService.addNode(10.0,5.0)

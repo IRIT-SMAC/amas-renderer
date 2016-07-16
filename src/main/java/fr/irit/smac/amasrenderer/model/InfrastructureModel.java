@@ -21,13 +21,12 @@
  */
 package fr.irit.smac.amasrenderer.model;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.tool.ToolsModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -37,7 +36,6 @@ import javafx.beans.property.StringProperty;
  */
 public class InfrastructureModel extends ModelWithAttributesMap implements IModel {
 
-    @JsonProperty
     private String className;
     
     @JsonProperty
@@ -95,10 +93,17 @@ public class InfrastructureModel extends ModelWithAttributesMap implements IMode
         return name;
     }
 
+    @JsonIgnore
     public String getClassName() {
         return this.className;
     }
     
+    @JsonProperty
+    public void setClassName(String className) {
+        this.className = className;
+        attributesMap.put(Const.CLASSNAME, className);
+    }
+
     public ToolsModel getServices() {
         return this.services;
     }

@@ -59,7 +59,6 @@ public class LoadSaveServiceTest extends Specification{
         File file = new File("./configTest.json")
         LoadSaveService.getInstance().save(file)
 
-
         when:
         LoadSaveService.getInstance().load(file)
 

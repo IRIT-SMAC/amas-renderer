@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.MultiNode;
 import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.spriteManager.Sprite;
@@ -567,7 +568,7 @@ public class GraphController extends LoadSecondaryWindowController
 
         GraphicElement selected = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (selected != null && selected instanceof Node) {
-            this.graphService.removeNode((Node) selected);
+            this.graphService.removeNode(selected.getAttribute(Const.GS_UI_LABEL));
         }
     }
 

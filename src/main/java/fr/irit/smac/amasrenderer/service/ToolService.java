@@ -82,6 +82,7 @@ public class ToolService {
     public void addTool(ToolModel tool) {
 
         this.tools.add(tool);
+        this.toolMap.getServices().put(tool.getName(), tool);
         tool.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
                 toolMap.getServices().remove(oldValue);
@@ -105,9 +106,15 @@ public class ToolService {
             v.getAttributesMap().put(Const.CLASSNAME, v.getClassName());
             this.addTool(v);
         });
-        
+
         this.toolMap.getAgentHandlerToolModel().setName("agentHandlerService");
-        this.addTool(this.toolMap.getAgentHandlerToolModel());
+        this.tools.add(toolMap.getAgentHandlerToolModel());
+        toolMap.getAgentHandlerToolModel().nameProperty()
+            .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+                toolMap.getServices().remove(oldValue);
+                toolMap.getServices().put(newValue,
+                    toolMap.getAgentHandlerToolModel());
+            });
     }
 
     /**
@@ -139,12 +146,7 @@ public class ToolService {
 
         this.setToolsModel(tools);
         this.createToolsFromMap();
-        
-        
 
-//        @SuppressWarnings("unchecked")
-//        Map<String, Object> agentMap = (HashMap<String, Object>) ((Map<String, Object>) toolMap
-//            .get(Const.AGENT_HANDLER_SERVICE)).get(Const.AGENT_MAP);
         GraphService.getInstance().updateGraphFromFile(tools.getAgentHandlerToolModel().getAgentMap());
     }
 }

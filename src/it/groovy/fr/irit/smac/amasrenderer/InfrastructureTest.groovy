@@ -1,15 +1,12 @@
 package fr.irit.smac.amasrenderer
 
 import javafx.fxml.FXMLLoader
-import javafx.scene.control.Label
-import javafx.scene.control.TextField
-import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.BorderPane
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
-import fr.irit.smac.amasrenderer.service.GraphService
+import fr.irit.smac.amasrenderer.model.InfrastructureModel
 import fr.irit.smac.amasrenderer.service.InfrastructureService
 
 @IgnoreIf({
@@ -22,7 +19,7 @@ class InfrastructureTest extends GuiSpecification{
     InfrastructureService infrastructureService
 
     @Shared
-    String itemId = "className"
+    String itemId = "className : fr.irit.smac.amasfactory.impl.BasicInfrastructure"
 
     def setup() {
         setupStage { stage ->
@@ -57,7 +54,7 @@ class InfrastructureTest extends GuiSpecification{
                         .clickOn("#confButton")
 
         then:
-        Map<String,Object> infrastructure = infrastructureService.getInfrastructure().getAttributesMap()
-        infrastructure.get(itemId + extraName) != null
+        InfrastructureModel infrastructure = infrastructureService.getInfrastructure()
+        infrastructure.getAttributesMap().get(Const.CLASSNAME).contains("Hello")
     }
 }

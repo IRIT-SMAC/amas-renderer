@@ -88,12 +88,14 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
             addSingle.setOnAction(evt -> {
                 TreeItem<String> item2 = new TreeItem<>("item : null");
                 item.getChildren().add(item2);
+                item.setExpanded(true);
                 menu.freeActionListeners();
             });
 
             add.setOnAction(evt -> {
                 TreeItem<String> item2 = new TreeItem<>("item");
                 item.getChildren().add(item2);
+                item.setExpanded(true);
                 menu.freeActionListeners();
             });
 
