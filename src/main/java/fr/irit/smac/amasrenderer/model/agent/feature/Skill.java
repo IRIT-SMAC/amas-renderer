@@ -21,31 +21,16 @@
  */
 package fr.irit.smac.amasrenderer.model.agent.feature;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Skill {
+import fr.irit.smac.amasrenderer.model.ModelWithAttributesMap;
+
+public class Skill extends ModelWithAttributesMap {
 
     private String className;
 
-    @JsonIgnore
-    private Map<String, Object> attributesMap = new HashMap<>();
-
     public Skill() {
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getMap() {
-        return this.attributesMap;
-    }
-
-    @JsonIgnore
-    public Map<String, Object> getAttributesMap() {
-        return attributesMap;
     }
 
     @JsonIgnore

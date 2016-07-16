@@ -35,11 +35,8 @@ import javafx.beans.property.StringProperty;
 /**
  * This model is about the infrastructure
  */
-public class InfrastructureModel implements IModel {
+public class InfrastructureModel extends ModelWithAttributesMap implements IModel {
 
-    private Map<String, Object> attributesMap = new HashMap<>();
-
-    
     @JsonProperty
     private String className;
     
@@ -81,33 +78,6 @@ public class InfrastructureModel implements IModel {
 
     public StringProperty nameProperty() {
         return name;
-    }
-
-    /**
-     * Used by Jackson to serialize the infrastructure
-     * 
-     * @return the attributes
-     */
-    @JsonAnyGetter
-    public Map<String, Object> getAttributesMap() {
-        return this.attributesMap;
-    }
-
-    /**
-     * Used by Jackson to deserialize the infrastructure
-     * 
-     * @param name
-     *            name of the attribute
-     * @param value
-     *            value of the attribute
-     */
-    @JsonAnySetter
-    public void setAttributesMap(String name, Object value) {
-        this.attributesMap.put(name, value);
-    }
-
-    public void setAttributes(Map<String, Object> attributesMap) {
-        this.attributesMap = attributesMap;
     }
 
     @Override

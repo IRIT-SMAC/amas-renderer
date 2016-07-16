@@ -36,18 +36,12 @@ public class ToolsModel {
 
     @JsonProperty()
     private AgentHandlerToolModel agentHandlerService;
-    
+
     @JsonIgnore
     private Map<String, ToolModel> services = new HashMap<>();
 
-    
     public ToolsModel() {
 
-    }
-
-    @JsonAnySetter
-    public void setServicesMap(String name, ToolModel value) {
-        this.services.put(name, value);
     }
 
     public String getClassName() {
@@ -63,9 +57,13 @@ public class ToolsModel {
         return agentHandlerService;
     }
 
-    
+    @JsonAnySetter
+    public void setServicesMap(String name, ToolModel value) {
+        this.services.put(name, value);
+    }
+
     @JsonAnyGetter
-    public Map<String,ToolModel> getMap() {
-      return this.services;
+    public Map<String, ToolModel> getMap() {
+        return this.services;
     }
 }

@@ -24,27 +24,23 @@ package fr.irit.smac.amasrenderer.model.tool;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
+import fr.irit.smac.amasrenderer.model.ModelWithAttributesMap;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
  * This model is about a tool
  */
-public class ToolModel implements IModel {
+public class ToolModel extends ModelWithAttributesMap implements IModel {
 
     private StringProperty name;
 
     private String className;
-
-    @JsonIgnore
-    private Map<String, Object> attributesMap = new HashMap<>();
 
     private static final String[] PROTECTED_VALUE = {};
     private static final String[] NOT_EXPANDED = { Const.AGENT_MAP };
@@ -64,30 +60,6 @@ public class ToolModel implements IModel {
         this.attributesMap = (Map<String, Object>) map;
 
         this.attributesMap.put(Const.CLASSNAME, this.className);
-    }
-
-    /**
-     * Gets the attributes of the tool
-     * 
-     * @return the attributes
-     */
-    public Map<String, Object> getAttributesMap() {
-        return attributesMap;
-    }
-
-    /**
-     * Sets the attributes of the tool
-     * 
-     * @param attributesMap
-     *            the attributes
-     */
-    @JsonAnySetter
-    public void setAttrMap(String name, Object value) {
-        this.attributesMap.put(name, value);
-    }
-
-    public void setAttributesMap(Map<String, Object> attributesMap) {
-        this.attributesMap = attributesMap;
     }
 
     @Override
@@ -127,11 +99,6 @@ public class ToolModel implements IModel {
     @JsonIgnore
     public String getClassName() {
         return this.className;
-    }
-    
-    @JsonAnyGetter
-    public Map<String,Object> getMap() {
-      return this.attributesMap;
     }
     
     @JsonSetter

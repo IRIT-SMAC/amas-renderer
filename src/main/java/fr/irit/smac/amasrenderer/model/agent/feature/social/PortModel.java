@@ -21,18 +21,15 @@
  */
 package fr.irit.smac.amasrenderer.model.agent.feature.social;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.irit.smac.amasrenderer.model.IModel;
+import fr.irit.smac.amasrenderer.model.ModelWithAttributesMap;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class PortModel implements IModel{
+public class PortModel extends ModelWithAttributesMap implements IModel{
 
     private StringProperty name;
 
@@ -41,21 +38,11 @@ public class PortModel implements IModel{
     private String id;
     
     private String className;
-
-    @JsonIgnore
-    private Map<String,Object> attributesMap = new HashMap<>();
     
     public PortModel() {
         this.name = new SimpleStringProperty();
     }
 
-    @JsonProperty
-    public void setId(String id) {
-        this.id = id;
-        this.name.set(id);
-        this.attributesMap.put("id", id);
-    }
-    
     @Override
     public String toString() {
         return this.name.get();
@@ -65,14 +52,41 @@ public class PortModel implements IModel{
         return this.name;
     }
     
-    public Map<String, Object> getAttributesMap() {
-        return attributesMap;
+    @JsonIgnore
+    public String getType() {
+        return type;
     }
 
-    @JsonAnyGetter
-    public Map<String,Object> getMap() {
-      return this.attributesMap;
+    @JsonIgnore
+    public String getId() {
+        return id;
     }
+
+    @JsonIgnore
+    public String getClassName() {
+        return className;
+    }
+
+    @JsonProperty
+    public void setId(String id) {
+        this.id = id;
+        this.name.set(id);
+        this.attributesMap.put("id", id);
+    }
+    
+    @JsonProperty
+    public void setType(String type) {
+        this.type = type;
+        this.attributesMap.put("type", type);
+    }
+
+    @JsonProperty
+    public void setClassName(String className) {
+        this.className = className;
+        this.attributesMap.put("className", className);
+    }
+    
+
 
     @Override
     public void setName(String name) {
@@ -99,17 +113,5 @@ public class PortModel implements IModel{
     public String[] getNotExpanded() {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    @JsonProperty
-    public void setType(String type) {
-        this.type = type;
-        this.attributesMap.put("type", type);
-    }
-
-    @JsonProperty
-    public void setClassName(String className) {
-        this.className = className;
-        this.attributesMap.put("className", className);
     }
 }

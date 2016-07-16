@@ -21,16 +21,12 @@
  */
 package fr.irit.smac.amasrenderer.model.agent;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
+import fr.irit.smac.amasrenderer.model.ModelWithAttributesMap;
 import fr.irit.smac.amasrenderer.model.agent.feature.CommonFeaturesModel;
 import fr.irit.smac.amasrenderer.model.agent.feature.FeatureModel;
 import fr.irit.smac.amasrenderer.model.agent.feature.social.TargetModel;
@@ -40,12 +36,9 @@ import javafx.beans.property.StringProperty;
 /**
  * This model is about an agent. An agent is a MultiNode
  */
-public class AgentModel implements IModel {
+public class AgentModel extends ModelWithAttributesMap implements IModel {
 
     private StringProperty name;
-
-    @JsonIgnore
-    private Map<String, Object> attributesMap = new HashMap<>();
 
     @JsonProperty
     private FeatureModel primaryFeature;
@@ -77,29 +70,6 @@ public class AgentModel implements IModel {
 
     public void removeTarget(String id) {
         getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap().remove(id);
-    }
-
-    @JsonAnySetter
-    public void setAttributesMap(String name, Object value) {
-        this.attributesMap.put(name, value);
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAttributeMap() {
-        return attributesMap;
-    }
-
-    public void setAttributes(Map<String, Object> attributesMap) {
-        this.attributesMap = attributesMap;
-    }
-
-    /**
-     * Gets the attributes of the agent
-     * 
-     * @return the attributes of the agent
-     */
-    public Map<String, Object> getAttributesMap() {
-        return attributesMap;
     }
 
     @Override

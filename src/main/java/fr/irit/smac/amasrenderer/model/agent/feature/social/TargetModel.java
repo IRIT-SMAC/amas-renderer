@@ -21,27 +21,18 @@
  */
 package fr.irit.smac.amasrenderer.model.agent.feature.social;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
+import fr.irit.smac.amasrenderer.model.ModelWithAttributesMap;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class TargetModel implements IModel {
+public class TargetModel extends ModelWithAttributesMap implements IModel {
 
     private StringProperty name;
-
-    private Map<String, Object> attributesMap = new HashMap<>();
-
-    @JsonIgnore
-    private String agentId;
 
     private String className;
 
@@ -52,23 +43,13 @@ public class TargetModel implements IModel {
     private String portTarget;
 
     @JsonIgnore
-    private String idGraph;
+    private String agentId;
 
     private static final String[] PROTECTED_VALUE = { Const.AGENT_TARGET, Const.PORT_SOURCE, Const.PORT_TARGET };
     private static final String[] NOT_EXPANDED    = {};
 
     public TargetModel() {
-        this.attributesMap = new HashMap<String, Object>();
         this.name = new SimpleStringProperty();
-    }
-
-    @JsonIgnore
-    public Map<String, Object> getAttributesMap() {
-        return this.attributesMap;
-    }
-
-    public void setAttributesMp(Map<String, Object> attributesMap) {
-        this.attributesMap = attributesMap;
     }
 
     @Override
@@ -90,16 +71,6 @@ public class TargetModel implements IModel {
         return name;
     }
 
-    @Override
-    public String[] getProtectedValue() {
-        return PROTECTED_VALUE;
-    }
-
-    @Override
-    public String[] getNotExpanded() {
-        return NOT_EXPANDED;
-    }
-
     public String getAgentId() {
         return this.agentId;
     }
@@ -108,15 +79,27 @@ public class TargetModel implements IModel {
         this.agentId = agentId;
     }
 
-    @JsonIgnore
-    public String getAgentTarget() {
-        return this.agentTarget;
-    }
-
     @JsonSetter
     public void setAgentTarget(String newValue) {
         this.agentTarget = newValue;
         this.attributesMap.put(Const.AGENT_TARGET, newValue);
+    }
+
+    @JsonSetter
+    public void setPortSource(String portName) {
+        this.portSource = portName;
+        this.attributesMap.put("portSource", portSource);
+    }
+    
+    @JsonSetter
+    public void setPortTarget(String portTarget) {
+        this.portTarget = portTarget;
+        this.attributesMap.put("portTarget", portTarget);
+    }
+    
+    @JsonIgnore
+    public String getAgentTarget() {
+        return this.agentTarget;
     }
 
     @JsonIgnore
@@ -133,32 +116,14 @@ public class TargetModel implements IModel {
     public String getClassName() {
         return className;
     }
-    
-    @JsonAnySetter
-    public void setAttributesMap(String name, Object value) {
-        this.attributesMap.put(name, value);
+
+    @Override
+    public String[] getProtectedValue() {
+        return PROTECTED_VALUE;
     }
 
-    public void setIdGraph(String idGraph) {
-        this.idGraph = idGraph;
+    @Override
+    public String[] getNotExpanded() {
+        return NOT_EXPANDED;
     }
-
-    @JsonSetter
-    public void setPortSource(String portName) {
-        this.portSource = portName;
-        this.attributesMap.put("portSource", portSource);
-    }
-    
-    @JsonSetter
-    public void setPortTarget(String portTarget) {
-        this.portTarget = portTarget;
-        this.attributesMap.put("portTarget", portTarget);
-    }
-    
-    @JsonAnyGetter
-    public Map<String,Object> getAttri() {
-        return attributesMap;
-    }
-    
-    
 }

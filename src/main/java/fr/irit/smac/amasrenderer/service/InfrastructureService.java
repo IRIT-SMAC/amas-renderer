@@ -76,7 +76,6 @@ public class InfrastructureService {
             .split("\\.");
         infrastructure
             .setName(infrastructureName[infrastructureName.length - 1]);
-        infrastructure.setAttributes(infrastructure.getAttributesMap());
         
         this.infrastructure = infrastructure;
         ToolService.getInstance().updateToolFromFile(infrastructure.getServices());

@@ -21,6 +21,7 @@
  */
 package fr.irit.smac.amasrenderer.model.agent.feature;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FeatureModel extends AbstractFeatureModel {
@@ -48,5 +49,15 @@ public class FeatureModel extends AbstractFeatureModel {
     public void setSkill(Skill skill) {
         this.skill = skill;
         this.attributesMap.put("skill", skill.getAttributesMap());
+    }
+
+    @JsonIgnore
+    public String getClassName() {
+        return className;
+    }
+
+    @JsonIgnore
+    public Knowledge getKnowledge() {
+        return knowledge;
     }
 }
