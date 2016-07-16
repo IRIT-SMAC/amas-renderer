@@ -1,4 +1,4 @@
-package fr.irit.smac.amasrenderer.model.agent.feature.social;
+package fr.irit.smac.amasrenderer.model.agent.feature;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.irit.smac.amasrenderer.model.IModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.Skill;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -19,12 +18,15 @@ public class AbstractFeatureModel implements IModel {
 
     protected Skill skill;
     
+    protected String className;
+    
     @JsonIgnore
     protected Map<String, Object> attributesMap = new HashMap<>();
 
     public AbstractFeatureModel() {
         this.name = new SimpleStringProperty();
         this.skill = new Skill();
+        this.attributesMap.put("className", className);
         this.attributesMap.put("skill", skill.getAttributesMap());
     }
     
@@ -45,6 +47,11 @@ public class AbstractFeatureModel implements IModel {
         this.name.set(name);
     }
 
+    @JsonIgnore
+    public String getClassName() {
+        return this.className;
+    }
+    
     @JsonAnySetter
     public void setAttributesMap(String name, Object value) {
         this.attributesMap.put(name, value);

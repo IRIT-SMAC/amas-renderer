@@ -5,14 +5,13 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Knowledge {
 
     private String className;
     
     @JsonIgnore
-    private Map<String,Object> attributesMap = new HashMap<>();
+    protected Map<String,Object> attributesMap = new HashMap<>();
     
     public Knowledge() {
         this.attributesMap.put("className", className);

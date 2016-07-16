@@ -1,16 +1,12 @@
 package fr.irit.smac.amasrenderer.model.agent.feature.basic;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import fr.irit.smac.amasrenderer.model.agent.feature.social.AbstractFeatureModel;
+import fr.irit.smac.amasrenderer.model.agent.feature.AbstractFeatureModel;
 import javafx.beans.property.SimpleStringProperty;
 
 public class FeatureBasicModel extends AbstractFeatureModel{
 
-    @JsonProperty
-    public String className;
-    
-    @JsonProperty
     private KnowledgeBasic knowledge;
 
     public FeatureBasicModel() {
@@ -19,6 +15,7 @@ public class FeatureBasicModel extends AbstractFeatureModel{
         this.attributesMap.put("knowledge", knowledge.getAttributesMap());
     }
 
+    @JsonIgnore
     public KnowledgeBasic getKnowledge() {
         return this.knowledge;
     }

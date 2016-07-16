@@ -1,22 +1,23 @@
 package fr.irit.smac.amasrenderer.model.agent.feature.basic;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import fr.irit.smac.amasrenderer.model.agent.feature.Knowledge;
 
 public class KnowledgeBasic extends Knowledge {
 
-    @JsonProperty
     String id;
 
     public KnowledgeBasic() {
-    }
-
-    public String getId() {
-        return this.id;
+        attributesMap.put("id", id);
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @JsonIgnore
+    public String getId() {
+        return id;
     }
 }

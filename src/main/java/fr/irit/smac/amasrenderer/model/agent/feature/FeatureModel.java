@@ -2,11 +2,9 @@ package fr.irit.smac.amasrenderer.model.agent.feature;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import fr.irit.smac.amasrenderer.model.agent.feature.social.AbstractFeatureModel;
 import javafx.beans.property.SimpleStringProperty;
 
 public class FeatureModel extends AbstractFeatureModel {
-
 
     private String className;
     

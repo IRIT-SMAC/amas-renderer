@@ -6,10 +6,8 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.irit.smac.amasrenderer.model.agent.feature.basic.FeatureBasicModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.social.AbstractFeatureModel;
 import fr.irit.smac.amasrenderer.model.agent.feature.social.FeatureSocialModel;
 
 public class CommonFeaturesModel {
