@@ -46,6 +46,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
@@ -86,6 +87,9 @@ public class NodeAttributesController implements ISecondaryWindowController {
     @FXML
     private Button addPort;
 
+    @FXML
+    private TextField textFieldClassName;
+    
     private ObservableList<PortModel> ports;
 
     private ObservableList<AbstractFeatureModel> features;
@@ -107,10 +111,10 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
     @FXML
     public void addFeature() {
-        
+
         FeatureModel feature = GraphService.getInstance().addFeature(agent);
         features.add(feature);
-        
+
     }
 
     @FXML
@@ -136,9 +140,10 @@ public class NodeAttributesController implements ISecondaryWindowController {
                     agent.getCommonFeaturesModel().getFeatures().remove(selectedLabel.getName());
                 }
             });
-            
+
             treeCommonFeatures.setCellFactory(c -> {
-                return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), selectedLabel);
+                return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(),
+                    selectedLabel);
             });
         }
 
@@ -171,7 +176,8 @@ public class NodeAttributesController implements ISecondaryWindowController {
             });
 
             treePortMap.setCellFactory(c -> {
-                return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), selectedLabel);
+                return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(),
+                    selectedLabel);
             });
         }
 
@@ -182,7 +188,9 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
         Node node = (Node) args[0];
         this.stage = stage;
+        textFieldClassName.textProperty().addListener(c -> agent.getCommonFeaturesModel().setClassName(textFieldClassName.getText()));
         agent = GraphService.getInstance().getAgentMap().get(node.getAttribute(Const.GS_UI_LABEL));
+        textFieldClassName.setText(agent.getCommonFeaturesModel().getClassName());
 
         initPortMap();
         initPrimaryFeature();
@@ -237,7 +245,8 @@ public class NodeAttributesController implements ISecondaryWindowController {
             (IModel) agent.getPrimaryFeature());
 
         treePrimaryFeature.setCellFactory(c -> {
-            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), agent.getPrimaryFeature());
+            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(),
+                agent.getPrimaryFeature());
         });
     }
 

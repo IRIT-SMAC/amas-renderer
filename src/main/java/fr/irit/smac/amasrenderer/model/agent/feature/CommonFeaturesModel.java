@@ -48,6 +48,14 @@ public class CommonFeaturesModel {
         this.featureBasic = new FeatureBasicModel();
     }
     
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
     @JsonIgnore
     public FeatureBasicModel getFeatureBasic() {
         return featureBasic;

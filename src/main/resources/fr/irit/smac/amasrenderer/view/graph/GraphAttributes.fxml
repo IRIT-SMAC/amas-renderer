@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 
@@ -44,9 +45,11 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="451.0" prefWidth="984.0">
                      <children>
-                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#addFeature" styleClass="buttonSecondaryWindowAdd" text="Ajouter une feature" />
-                        <ListView fx:id="listFeatures" layoutY="65.0" onMouseClicked="#clickOnFeatureList" prefHeight="130.0" prefWidth="972.0" styleClass="list" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                        <Button layoutX="14.0" layoutY="58.0" mnemonicParsing="false" onAction="#addFeature" styleClass="buttonSecondaryWindowAdd" text="Ajouter une feature" />
+                        <ListView fx:id="listFeatures" layoutY="106.0" onMouseClicked="#clickOnFeatureList" prefHeight="89.0" prefWidth="972.0" styleClass="list" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                         <TreeView fx:id="treeCommonFeatures" editable="true" focusTraversable="false" layoutY="200.0" prefHeight="235.0" prefWidth="984.0" styleClass="tree" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="200.0" />
+                        <TextField fx:id="textFieldClassName" layoutX="104.0" layoutY="15.0" prefHeight="37.0" prefWidth="622.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="10.0" />
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="38.0" prefWidth="120.0" styleClass="singleAttribute" text="ClassName :" />
                      </children>
                   </AnchorPane>
               </content>
