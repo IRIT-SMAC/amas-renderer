@@ -68,8 +68,6 @@ public class TargetAttributesController implements Initializable, ISecondaryWind
     @FXML
     public void confirmButton() {
 
-        this.attributesService.updateAttributesMap(this.tree.getRoot().getValue(), this.tree.getRoot(),
-            targetModel.getAttributesMap(), this.targetModel);
         this.stage.close();
     }
 

@@ -24,9 +24,9 @@ package fr.irit.smac.amasrenderer.model.agent.feature.social;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import fr.irit.smac.amasrenderer.Const;
@@ -40,38 +40,35 @@ public class TargetModel implements IModel {
 
     private Map<String, Object> attributesMap = new HashMap<>();
 
+    @JsonIgnore
     private String agentId;
 
-    @JsonProperty
     private String className;
-    
-    @JsonProperty
+
     private String agentTarget;
 
-    @JsonProperty
     private String portSource;
 
     private String portTarget;
 
+    @JsonIgnore
     private String idGraph;
 
-    private static final String[] PROTECTED_VALUE      = { Const.AGENT_TARGET, Const.PORT_SOURCE, Const.PORT_TARGET };
-    private static final String[] NOT_EXPANDED         = {};
+    private static final String[] PROTECTED_VALUE = { Const.AGENT_TARGET, Const.PORT_SOURCE, Const.PORT_TARGET };
+    private static final String[] NOT_EXPANDED    = {};
 
     public TargetModel() {
         this.attributesMap = new HashMap<String, Object>();
         this.name = new SimpleStringProperty();
     }
-    
-    @JsonSetter
-    public void setPortTarget(String portTarget) {
-        this.portTarget = portTarget;
-        this.attributesMap.put("portTarget", portTarget);
-    }
-    
-    
-    public TargetModel(@JacksonInject String id) {
+
+    public TargetModel(String id) {
         this.attributesMap = new HashMap<String, Object>();
+        this.portSource = null;
+        this.portTarget = null;
+        attributesMap.put(Const.PORT_SOURCE, portSource);
+        attributesMap.put(Const.PORT_TARGET, portTarget);
+        attributesMap.put(Const.CLASSNAME, className);
         this.name = new SimpleStringProperty(id);
     }
 
@@ -83,6 +80,7 @@ public class TargetModel implements IModel {
         this.name = new SimpleStringProperty(id);
     }
 
+    @JsonIgnore
     public Map<String, Object> getAttributesMap() {
         return this.attributesMap;
     }
@@ -130,6 +128,7 @@ public class TargetModel implements IModel {
         this.agentId = agentId;
     }
 
+    @JsonIgnore
     public String getAgentTarget() {
         return this.agentTarget;
     }
@@ -139,22 +138,21 @@ public class TargetModel implements IModel {
         this.attributesMap.put(Const.AGENT_TARGET, newValue);
     }
 
+    @JsonIgnore
     public String getPortSource() {
         return portSource;
     }
 
+    @JsonIgnore
     public String getPortTarget() {
         return portTarget;
     }
 
-    /**
-     * Used by Jackson to deserialize the infrastructure
-     * 
-     * @param name
-     *            name of the attribute
-     * @param value
-     *            value of the attribute
-     */
+    @JsonIgnore
+    public String getClassName() {
+        return className;
+    }
+    
     @JsonAnySetter
     public void setAttributesMap(String name, Object value) {
         this.attributesMap.put(name, value);
@@ -163,4 +161,23 @@ public class TargetModel implements IModel {
     public void setIdGraph(String idGraph) {
         this.idGraph = idGraph;
     }
+
+
+    public void setPortSource(String portName) {
+        this.portSource = portName;
+        this.attributesMap.put("portSource", portSource);
+    }
+    
+    @JsonSetter
+    public void setPortTarget(String portTarget) {
+        this.portTarget = portTarget;
+        this.attributesMap.put("portTarget", portTarget);
+    }
+    
+    @JsonAnyGetter
+    public Map<String,Object> getAttri() {
+        return attributesMap;
+    }
+    
+    
 }

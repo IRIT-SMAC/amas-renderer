@@ -119,7 +119,7 @@ public class GraphService {
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.GS_UI_LABEL, id);
         this.agentMap.put(id, agent);
-//        this.handleNodeNameChange(node, id);
+        // this.handleNodeNameChange(node, id);
 
         idCount.incrementAndGet();
     }
@@ -186,28 +186,34 @@ public class GraphService {
         Edge edge = addEdgeGraph(idGraphNodeSource, idGraphNodeTarget, id);
         Sprite mainSprite = addSpriteEdgeGraph(id, null, null);
 
-        TargetModel targetModel = new TargetModel();
+        TargetModel targetModel = new TargetModel(id);
         targetModel.setAgentTarget(this.graph.getNode(idGraphNodeTarget).getAttribute(Const.GS_UI_LABEL));
         targetModel.setAgentId(idModelNodeSource);
-//        File file = new File(getClass().getResource("../json/initial_target.json").getFile());
-//        final ObjectMapper mapper = new ObjectMapper();
-//        final InjectableValues.Std injectableValues = new InjectableValues.Std();
-//        injectableValues.addValue(String.class, id);
-//        mapper.setInjectableValues(injectableValues);
-//
-//        try {
-//            TargetModel targetModel = null;
-//            targetModel = mapper.readValue(file, TargetModel.class);
-//            targetModel.setAgentId(idModelNodeSource);
-//            targetModel.setAgentTarget(this.graph.getNode(idGraphNodeTarget).getAttribute(Const.GS_UI_LABEL));
-//            ((AgentModel) this.graph.getNode(idModelNodeSource)).addTarget(targetModel, id);
-//            this.handleTargetModelChange(targetModel, edge, mainSprite,
-//                ((AgentModel) this.graph.getNode(idModelNodeSource)));
-//        }
-//        catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
+        String idd = this.graph.getNode(idGraphNodeSource).getAttribute(Const.GS_UI_LABEL);
+        agentMap.get(idd).getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap().put(id,
+            targetModel);
+        // File file = new
+        // File(getClass().getResource("../json/initial_target.json").getFile());
+        // final ObjectMapper mapper = new ObjectMapper();
+        // final InjectableValues.Std injectableValues = new
+        // InjectableValues.Std();
+        // injectableValues.addValue(String.class, id);
+        // mapper.setInjectableValues(injectableValues);
+        //
+        // try {
+        // TargetModel targetModel = null;
+        // targetModel = mapper.readValue(file, TargetModel.class);
+        // targetModel.setAgentId(idModelNodeSource);
+        // targetModel.setAgentTarget(this.graph.getNode(idGraphNodeTarget).getAttribute(Const.GS_UI_LABEL));
+        // ((AgentModel)
+        // this.graph.getNode(idModelNodeSource)).addTarget(targetModel, id);
+        // this.handleTargetModelChange(targetModel, edge, mainSprite,
+        // ((AgentModel) this.graph.getNode(idModelNodeSource)));
+        // }
+        // catch (IOException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // }
     }
 
     private void handleTargetModelChange(TargetModel targetModel, Edge edge, Sprite mainSprite, AgentModel agentModel) {
@@ -418,7 +424,8 @@ public class GraphService {
 
     public TargetModel getTargetModel(String agentId, String targetId) {
 
-        return ((AgentModel) this.graph.getNode(agentId)).getTargets().get(targetId);
+        return agentMap.get(agentId).getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap()
+            .get(targetId);
     }
 
     public void updateGraphFromFile(Map<String, AgentModel> agentMap) {

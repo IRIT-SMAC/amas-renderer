@@ -67,11 +67,11 @@ public class PortController implements Initializable, ISecondaryWindowController
         }
 
         if (this.sprite.getAttribute(Const.SUBTYPE_SPRITE).equals(Const.SOURCE_PORT_SPRITE)) {
-            this.targetModel.getAttributesMap().put(Const.PORT_SOURCE, portName);
+            this.targetModel.setPortSource(portName);
             this.sprite.setAttribute(Const.GS_UI_LABEL, portName);
         }
         else if (sprite.getAttribute(Const.SUBTYPE_SPRITE).equals(Const.TARGET_PORT_SPRITE)) {
-            this.targetModel.getAttributesMap().put(Const.PORT_TARGET, portName);
+            this.targetModel.setPortTarget(portName);
             this.sprite.setAttribute(Const.GS_UI_LABEL, portName);
         }
 
