@@ -35,13 +35,10 @@ import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
 /**
@@ -88,18 +85,8 @@ public class ToolAttributesController extends LoadSecondaryWindowController
     public void initialize(URL location, ResourceBundle resources) {
 
         this.tree.setEditable(true);
-        tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
-
-            private final AttributesContextMenu contextMenu = new AttributesContextMenu(false);
-            @SuppressWarnings("rawtypes")
-            private final StringConverter converter = new DefaultStringConverter();
-
-            @SuppressWarnings("unchecked")
-            @Override
-            public TreeCell<String> call(TreeView<String> param) {
-                return new AttributesTreeCell(contextMenu, converter, tool);
-            }
-
+        this.tree.setCellFactory(c -> {
+            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), tool);
         });
     }
 

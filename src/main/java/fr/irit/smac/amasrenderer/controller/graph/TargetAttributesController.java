@@ -34,12 +34,9 @@ import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
 public class TargetAttributesController implements ISecondaryWindowController {
@@ -72,7 +69,8 @@ public class TargetAttributesController implements ISecondaryWindowController {
         Edge e = (Edge) sprite.getAttachment();
         Node node = e.getSourceNode();
 
-        this.targetModel = this.graphService.getTargetModel(node.getAttribute(Const.GS_UI_LABEL), e.getAttribute(Const.GS_UI_LABEL));
+        this.targetModel = this.graphService.getTargetModel(node.getAttribute(Const.GS_UI_LABEL),
+            e.getAttribute(Const.GS_UI_LABEL));
 
         TreeItem<String> root = new TreeItem<>(e.getAttribute(Const.GS_UI_LABEL));
         this.tree.setRoot(root);
@@ -81,19 +79,10 @@ public class TargetAttributesController implements ISecondaryWindowController {
         this.tree.setEditable(true);
         root.setExpanded(true);
 
-        this.tree.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
-
-            private final AttributesContextMenu contextMenu = new AttributesContextMenu(false);
-            @SuppressWarnings("rawtypes")
-            private final StringConverter converter = new DefaultStringConverter();
-
-            @SuppressWarnings("unchecked")
-            @Override
-            public TreeCell<String> call(TreeView<String> param) {
-                return new AttributesTreeCell(this.contextMenu, this.converter, targetModel);
-            }
-
+        this.tree.setCellFactory(c -> {
+            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), targetModel);
         });
+
     }
 
 }
