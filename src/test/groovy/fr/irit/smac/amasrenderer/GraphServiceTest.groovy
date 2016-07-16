@@ -29,7 +29,7 @@ class GraphServiceTest extends Specification{
         node.getId() == agentId
 
         when:
-        graphService.removeNode(node)
+        graphService.removeNode(node.getId())
 
         then:
         graphService.getGraph().getNode(agentId) == null
