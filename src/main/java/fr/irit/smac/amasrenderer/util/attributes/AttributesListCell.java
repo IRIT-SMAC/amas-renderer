@@ -31,15 +31,15 @@ public class AttributesListCell<T> extends TextFieldListCell<T> {
 
     private final AttributesContextMenu contextMenu;
     private ObservableList<T> list;
-    private ListView<T> liste;
+    private ListView<T> listView;
 
-    public AttributesListCell(AttributesContextMenu contextMenu, StringConverter<T> converter, ObservableList<T> ports, ListView<T> listPort) {
+    public AttributesListCell(AttributesContextMenu contextMenu, StringConverter<T> converter, ObservableList<T> list, ListView<T> listView) {
         super(converter);
         if (contextMenu == null) {
             throw new NullPointerException();
         }
-        this.list = ports;
-        this.liste = listPort;
+        this.list = list;
+        this.listView = listView;
         this.contextMenu = contextMenu;
         this.setOnContextMenuRequested(evt -> {
             prepareContextMenu(getListView());
@@ -51,13 +51,13 @@ public class AttributesListCell<T> extends TextFieldListCell<T> {
 
         if (item != null) {
 
-            AttributesContextMenu menu = this.contextMenu;
+            AttributesContextMenu menu = contextMenu;
             MenuItem delete = menu.getDelete();
             MenuItem rename = menu.getRename();
 
             rename.setOnAction(evt -> startEdit());
             delete.setOnAction(evt -> {
-                list.remove(liste.getSelectionModel().getSelectedItem());
+                list.remove(listView.getSelectionModel().getSelectedItem());
                 menu.freeActionListeners();
             });
         }

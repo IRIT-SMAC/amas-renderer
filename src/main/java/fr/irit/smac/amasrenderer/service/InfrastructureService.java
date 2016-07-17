@@ -52,17 +52,7 @@ public class InfrastructureService {
      * @return the infrastructure
      */
     public InfrastructureModel getInfrastructure() {
-        return this.infrastructure;
-    }
-
-    /**
-     * Sets the infrastructure.
-     *
-     * @param infrastructure
-     *            the new infrastructure
-     */
-    public void setInfrastructure(InfrastructureModel infrastructure) {
-        this.infrastructure = infrastructure;
+        return infrastructure;
     }
 
     /**

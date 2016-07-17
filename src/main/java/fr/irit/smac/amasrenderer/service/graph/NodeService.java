@@ -85,7 +85,7 @@ public class NodeService {
             agent.setName(id);
             agent.getCommonFeaturesModel().getFeatureBasic().getKnowledge().setId(id);
             agentMap.put(id, agent);
-            this.handleNodeNameChange(agent);
+            handleNodeNameChange(agent);
             idCount.incrementAndGet();
         }
         catch (IOException e) {
@@ -110,14 +110,14 @@ public class NodeService {
         agent.setName(id);
         idCount.incrementAndGet();
 
-        this.handleNodeNameChange(agent);
+        handleNodeNameChange(agent);
 
     }
 
     public Node addNodeGraph(String id) {
 
         String idGraph = idCount.toString();
-        Node node = this.graph.addNode(idGraph);
+        Node node = graph.addNode(idGraph);
         node.setAttribute(Const.NODE_WEIGHT, Const.LAYOUT_WEIGHT_NODE);
         node.setAttribute(Const.GS_UI_LABEL, id);
 
@@ -159,8 +159,8 @@ public class NodeService {
 
         MultiNode node = graph.getNode(id);
         node.getEachEdge().forEach(edge -> graphNodeService.removeEdge(edge.getId()));
-        this.graph.removeNode(node);
-        this.agentMap.remove(id);
+        graph.removeNode(node);
+        agentMap.remove(id);
 
         return node.getEdgeSet();
     }

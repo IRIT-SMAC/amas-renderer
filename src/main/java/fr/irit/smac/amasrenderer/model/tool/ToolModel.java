@@ -42,17 +42,17 @@ public class ToolModel extends ModelWithAttributesMap implements IModel {
     public ToolModel() {
 
         attributesMap = new HashMap<>();
-        this.name = new SimpleStringProperty();
+        name = new SimpleStringProperty();
     }
 
     @Override
     public String toString() {
-        return this.name.get();
+        return name.get();
     }
 
     @Override
     public String getName() {
-        return this.name.get();
+        return name.get();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ToolModel extends ModelWithAttributesMap implements IModel {
     }
 
     public StringProperty nameProperty() {
-        return this.name;
+        return name;
     }
 
     @Override

@@ -90,10 +90,10 @@ public class MainController {
      */
     public void init() {
 
-        Window window = this.rootLayout.getScene().getWindow();
-        this.graphController.setWindow(window);
-        this.toolController.setWindow(window);
-        this.infrastructureController.setWindow(window);
-        this.menuBarController.setWindow(window);
+        Window window = rootLayout.getScene().getWindow();
+        graphController.setWindow(window);
+        toolController.setWindow(window);
+        infrastructureController.setWindow(window);
+        menuBarController.setWindow(window);
     }
 }

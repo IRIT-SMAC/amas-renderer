@@ -57,9 +57,9 @@ public class ToolDeletionController implements ISecondaryWindowController {
     @FXML
     public void clickConfirm() {
 
-        this.toolService.removeTool(this.tool);
-        InfrastructureService.getInstance().getInfrastructure().getAttributesMap().remove(this.toolName);
-        this.parentWindowModal.closeWindow();
+        toolService.removeTool(tool);
+        InfrastructureService.getInstance().getInfrastructure().getAttributesMap().remove(toolName);
+        parentWindowModal.closeWindow();
     }
 
     /**
@@ -68,7 +68,7 @@ public class ToolDeletionController implements ISecondaryWindowController {
      */
     @FXML
     public void clickCancel() {
-        this.stage.close();
+        stage.close();
     }
 
     /**
@@ -84,10 +84,10 @@ public class ToolDeletionController implements ISecondaryWindowController {
     @Override
     public void init(Stage stageSecondaryWindow, Object... args) {
 
-        this.stage = stageSecondaryWindow;
-        this.parentWindowModal = (IParentWindowModal) args[0];
-        this.tool = (ToolModel) args[1];
-        this.toolName = this.tool.getName();
+        stage = stageSecondaryWindow;
+        parentWindowModal = (IParentWindowModal) args[0];
+        tool = (ToolModel) args[1];
+        toolName = tool.getName();
     }
 
 }

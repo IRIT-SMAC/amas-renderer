@@ -54,10 +54,10 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
     @FXML
     public void clickOnToolList() {
 
-        this.selectedLabel = this.listTool.getSelectionModel().getSelectedItem();
-        if (this.selectedLabel != null && this.selectedLabel.getName() != "") {
-            this.loadFxml(this.window, "view/tool/ToolAttributes.fxml", true, this.selectedLabel);
-            this.listTool.getSelectionModel().clearSelection();
+        selectedLabel = listTool.getSelectionModel().getSelectedItem();
+        if (selectedLabel != null && selectedLabel.getName() != "") {
+            loadFxml(window, "view/tool/ToolAttributes.fxml", true, selectedLabel);
+            listTool.getSelectionModel().clearSelection();
         }
     }
 
@@ -71,7 +71,7 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
     @FXML
     public void addTool() throws IOException {
 
-        this.loadFxml(this.window, "view/tool/ToolAddition.fxml", false);
+        loadFxml(window, "view/tool/ToolAddition.fxml", false);
     }
 
     /*
@@ -83,6 +83,6 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.listTool.setItems(this.toolService.getTools());
+        listTool.setItems(toolService.getTools());
     }
 }

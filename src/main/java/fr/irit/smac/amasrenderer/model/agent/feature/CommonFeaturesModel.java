@@ -44,8 +44,8 @@ public class CommonFeaturesModel {
     private String className;
     
     public CommonFeaturesModel() {
-        this.featureSocial = new FeatureSocialModel();
-        this.featureBasic = new FeatureBasicModel();
+        featureSocial = new FeatureSocialModel();
+        featureBasic = new FeatureBasicModel();
     }
     
     public String getClassName() {
@@ -68,12 +68,12 @@ public class CommonFeaturesModel {
 
     @JsonAnyGetter
     public Map<String,AbstractFeatureModel> getMap() {
-      return this.features;
+      return features;
     }
     
     @JsonAnySetter
     public void setAttributesMap(String name, AbstractFeatureModel value) {
-        this.features.put(name, value);
+        features.put(name, value);
         value.setName(name);
     }
     

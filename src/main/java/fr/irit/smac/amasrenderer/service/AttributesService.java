@@ -75,7 +75,7 @@ public class AttributesService {
 
                 if (!isNotExpanded) {
                     fillAttributes((HashMap<String, Object>) value, item, model);
-                    this.updateComplexNode(attributesMap, item);
+                    updateComplexNode(attributesMap, item);
                 }
             }
             else {
@@ -89,7 +89,7 @@ public class AttributesService {
                 }
 
                 item.setExpanded(true);
-                this.checkSingleNode(attributesMap, item);
+                checkSingleNode(attributesMap, item);
                 parent.getChildren().add(item);
             }
         });
@@ -113,8 +113,8 @@ public class AttributesService {
                 else {
                     Map<String, Object> map = new HashMap<>();
                     attributesMap.put(t.getValue(), map);
-                    this.updateComplexNode(attributesMap, t);
-                    this.checkComplexNode(map, t);
+                    updateComplexNode(attributesMap, t);
+                    checkComplexNode(map, t);
                 }
 
             }

@@ -61,14 +61,14 @@ public class InfrastructureAttributesController implements Initializable, ISecon
     @FXML
     public void confirmButton() {
 
-        this.stage.close();
+        stage.close();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.tree.setEditable(true);
-        this.tree.setCellFactory(c -> {
+        tree.setEditable(true);
+        tree.setCellFactory(c -> {
             return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), infra);
         });
     }
@@ -77,11 +77,11 @@ public class InfrastructureAttributesController implements Initializable, ISecon
     public void init(Stage stage, Object... args) {
 
         InfrastructureModel infrastructure = (InfrastructureModel) args[0];
-        this.infra = infrastructure;
+        infra = infrastructure;
         this.stage = stage;
         TreeItem<String> root = new TreeItem<>(infrastructure.getName());
-        this.tree.setRoot(root);
+        tree.setRoot(root);
         root.setExpanded(true);
-        this.attributesService.fillAttributes(infrastructure.getAttributesMap(), root, infrastructure);
+        attributesService.fillAttributes(infrastructure.getAttributesMap(), root, infrastructure);
     }
 }

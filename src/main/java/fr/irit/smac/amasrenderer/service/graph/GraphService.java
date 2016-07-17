@@ -66,11 +66,11 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
 
     private GraphService() {
 
-        this.idCount = new AtomicInteger(0);
-        this.graph = new MultiGraph("AMAS Rendering");
-        this.graph.addAttribute(Const.GS_UI_STYLESHEET, "url(" + getClass().getResource("../../css/graph.css") + ")");
-        spriteManager = new SpriteManager(this.graph);
-        this.setQualityGraph();
+        idCount = new AtomicInteger(0);
+        graph = new MultiGraph("AMAS Rendering");
+        graph.addAttribute(Const.GS_UI_STYLESHEET, "url(" + getClass().getResource("../../css/graph.css") + ")");
+        spriteManager = new SpriteManager(graph);
+        setQualityGraph();
 
         nodeService.init(graph, idCount, this);
         edgeService.init(graph, idCount, spriteManager, this);
@@ -93,7 +93,7 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
      * @return the graph
      */
     public MultiGraph getGraph() {
-        return this.graph;
+        return graph;
     }
 
     public SpriteManager getSpriteManager() {
@@ -141,7 +141,7 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
             nodeService.addNode(agentId, agent);
         });
 
-        this.agentMap.forEach((agentId, agent) -> {
+        agentMap.forEach((agentId, agent) -> {
 
             Map<String, TargetModel> targets = agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge()
                 .getTargetMap();
@@ -158,14 +158,14 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
      */
     public void clearGraph() {
 
-        this.agentMap.clear();
-        this.graph.clear();
+        agentMap.clear();
+        graph.clear();
         List<String> idSpriteList = new ArrayList<>();
-        this.spriteManager.forEach(s -> idSpriteList.add(s.getId()));
-        idSpriteList.stream().forEach(id -> this.spriteManager.removeSprite(id));
-        this.spriteManager.forEach(s -> this.spriteManager.removeSprite(s.getId()));
-        this.graph.addAttribute(Const.GS_UI_STYLESHEET, "url(" + getClass().getResource("../../css/graph.css") + ")");
-        this.setQualityGraph();
+        spriteManager.forEach(s -> idSpriteList.add(s.getId()));
+        idSpriteList.stream().forEach(id -> spriteManager.removeSprite(id));
+        spriteManager.forEach(s -> spriteManager.removeSprite(s.getId()));
+        graph.addAttribute(Const.GS_UI_STYLESHEET, "url(" + getClass().getResource("../../css/graph.css") + ")");
+        setQualityGraph();
     }
 
     /**
@@ -173,9 +173,9 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
      */
     public void setQualityGraph() {
 
-        this.graph.addAttribute(Const.GS_UI_QUALITY);
-        this.graph.addAttribute(Const.GS_LAYOUT_QUALITY, 4);
-        this.graph.addAttribute(Const.GS_ANTIALIAS);
+        graph.addAttribute(Const.GS_UI_QUALITY);
+        graph.addAttribute(Const.GS_LAYOUT_QUALITY, 4);
+        graph.addAttribute(Const.GS_ANTIALIAS);
     }
 
     public TargetModel getTargetModel(String agentId, String targetId) {
@@ -187,11 +187,12 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
     public void updateGraphFromFile(Map<String, AgentModel> agentMap) {
 
         if (this.agentMap != null) {
-            this.clearGraph();
+            clearGraph();
         }
-        this.setAgentMap(agentMap);
-        this.fillAgentGraphFromMap();
-        this.setQualityGraph();
+        
+        setAgentMap(agentMap);
+        fillAgentGraphFromMap();
+        setQualityGraph();
     }
 
     public void addNode(double x, double y) {

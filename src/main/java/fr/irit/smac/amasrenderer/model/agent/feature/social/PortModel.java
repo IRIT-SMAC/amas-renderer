@@ -39,16 +39,16 @@ public class PortModel extends ModelWithAttributesMap implements IModel{
     private String id;
     
     public PortModel() {
-        this.name = new SimpleStringProperty();
+        name = new SimpleStringProperty();
     }
 
     @Override
     public String toString() {
-        return this.name.get();
+        return name.get();
     }
     
     public StringProperty idProperty() {
-        return this.name;
+        return name;
     }
     
     @JsonIgnore
@@ -64,14 +64,14 @@ public class PortModel extends ModelWithAttributesMap implements IModel{
     @JsonProperty
     public void setId(String id) {
         this.id = id;
-        this.name.set(id);
-        this.attributesMap.put(Const.ID, id);
+        name.set(id);
+        attributesMap.put(Const.ID, id);
     }
     
     @JsonProperty
     public void setType(String type) {
         this.type = type;
-        this.attributesMap.put(Const.TYPE, type);
+        attributesMap.put(Const.TYPE, type);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class PortModel extends ModelWithAttributesMap implements IModel{
 
     @Override
     public String getName() {
-        return this.name.get();
+        return name.get();
     }
 
     @Override

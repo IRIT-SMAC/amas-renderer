@@ -49,7 +49,7 @@ public class GraphResetController implements ISecondaryWindowController {
     public void clickConfirm() {
 
         graphService.clearGraph();
-        this.stage.close();
+        stage.close();
     }
 
     /**
@@ -57,13 +57,13 @@ public class GraphResetController implements ISecondaryWindowController {
      */
     @FXML
     public void clickCancel() {
-        this.stage.close();
+        stage.close();
     }
 
     @Override
     public void init(Stage stageSecondaryWindow, Object... args) {
 
-        this.stage = stageSecondaryWindow;
+        stage = stageSecondaryWindow;
     }
 
 }

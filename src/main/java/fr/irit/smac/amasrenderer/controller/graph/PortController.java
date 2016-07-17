@@ -60,40 +60,40 @@ public class PortController implements Initializable, ISecondaryWindowController
     @FXML
     public void clickConfirm() {
 
-        String portName = this.textfieldTool.getText();
+        String portName = textfieldTool.getText();
 
         if (portName.trim().isEmpty() || portName.trim().equals(Const.NULL_STRING)) {
             portName = null;
         }
 
-        if (this.sprite.getAttribute(Const.SUBTYPE_SPRITE).equals(Const.SOURCE_PORT_SPRITE)) {
-            this.targetModel.setPortSource(portName);
-            this.sprite.setAttribute(Const.GS_UI_LABEL, portName);
+        if (sprite.getAttribute(Const.SUBTYPE_SPRITE).equals(Const.SOURCE_PORT_SPRITE)) {
+            targetModel.setPortSource(portName);
+            sprite.setAttribute(Const.GS_UI_LABEL, portName);
         }
         else if (sprite.getAttribute(Const.SUBTYPE_SPRITE).equals(Const.TARGET_PORT_SPRITE)) {
-            this.targetModel.setPortTarget(portName);
-            this.sprite.setAttribute(Const.GS_UI_LABEL, portName);
+            targetModel.setPortTarget(portName);
+            sprite.setAttribute(Const.GS_UI_LABEL, portName);
         }
 
-        this.stage.close();
+        stage.close();
 
     }
 
     @FXML
     public void clickCancel() {
 
-        this.stage.close();
+        stage.close();
     }
 
     @Override
     public void init(Stage stage, Object... args) {
 
         this.stage = stage;
-        this.sprite = (Sprite) args[0];
-        Edge e = (Edge) this.sprite.getAttachment();
+        sprite = (Sprite) args[0];
+        Edge e = (Edge) sprite.getAttachment();
         Node node = e.getSourceNode();
         
-        this.targetModel = this.graphService.getTargetModel(node.getAttribute(Const.GS_UI_LABEL), e.getAttribute(Const.GS_UI_LABEL).toString());
+        targetModel = graphService.getTargetModel(node.getAttribute(Const.GS_UI_LABEL), e.getAttribute(Const.GS_UI_LABEL).toString());
     }
 
     @Override

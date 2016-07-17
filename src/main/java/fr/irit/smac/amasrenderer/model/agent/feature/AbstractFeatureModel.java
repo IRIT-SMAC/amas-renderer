@@ -42,15 +42,15 @@ public class AbstractFeatureModel extends ModelWithAttributesMap implements IMod
     private static final String[] PROTECTED_VALUE = { Const.SKILL, Const.KNOWLEDGE };
 
     public AbstractFeatureModel() {
-        this.name = new SimpleStringProperty();
+        name = new SimpleStringProperty();
     }
 
     public StringProperty nameProperty() {
-        return this.name;
+        return name;
     }
 
     public String getName() {
-        return this.name.get();
+        return name.get();
     }
 
     public void setName(String name) {
@@ -84,6 +84,6 @@ public class AbstractFeatureModel extends ModelWithAttributesMap implements IMod
     @JsonProperty
     public void setSkill(Skill skill) {
         this.skill = skill;
-        this.attributesMap.put("skill", skill.getAttributesMap());
+        attributesMap.put("skill", skill.getAttributesMap());
     }
 }

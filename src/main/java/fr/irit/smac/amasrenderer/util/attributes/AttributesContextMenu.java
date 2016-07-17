@@ -38,7 +38,7 @@ public class AttributesContextMenu {
 
     private final MenuItem rename;
 
-    private final MenuItem addSingle ;
+    private final MenuItem addSingle;
 
     private static final String ADD_ITEM_ID = "addAttributeItem";
 
@@ -55,19 +55,19 @@ public class AttributesContextMenu {
     private static final String RENAME_ITEM = "Renommer";
 
     public AttributesContextMenu(boolean forAList) {
-        this.add = new MenuItem(ADD_ITEM);
-        this.add.setId(ADD_ITEM_ID);
-        this.delete = new MenuItem(DELETE_ITEM);
-        this.delete.setId(DELETE_ITEM_ID);
-        this.rename = new MenuItem(RENAME_ITEM);
-        this.rename.setId(RENAME_ITEM_ID);
-        this.addSingle = new MenuItem(ADD_ITEM_SINGLE);
-        
+        add = new MenuItem(ADD_ITEM);
+        add.setId(ADD_ITEM_ID);
+        delete = new MenuItem(DELETE_ITEM);
+        delete.setId(DELETE_ITEM_ID);
+        rename = new MenuItem(RENAME_ITEM);
+        rename.setId(RENAME_ITEM_ID);
+        addSingle = new MenuItem(ADD_ITEM_SINGLE);
+
         if (forAList) {
-            this.contextMenu = new ContextMenu(delete, rename);
+            contextMenu = new ContextMenu(delete, rename);
         }
         else {
-            this.contextMenu = new ContextMenu(add, addSingle, delete, rename);
+            contextMenu = new ContextMenu(add, addSingle, delete, rename);
         }
     }
 
@@ -91,13 +91,13 @@ public class AttributesContextMenu {
      * This method prevents memory leak by setting all actionListeners to null
      */
     public void freeActionListeners() {
-        this.add.setOnAction(null);
-        this.delete.setOnAction(null);
-        this.rename.setOnAction(null);
+        add.setOnAction(null);
+        delete.setOnAction(null);
+        rename.setOnAction(null);
     }
 
     public MenuItem getAddSingle() {
-        return this.addSingle;
+        return addSingle;
     }
 
 }

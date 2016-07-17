@@ -87,12 +87,12 @@ public class EdgeService {
                 id);
             Sprite mainSprite = addSpriteEdgeGraph(id, null, null);
             targetModel = mapper.readValue(file, TargetModel.class);
-            targetModel.setAgentTarget(this.graph.getNode(idNodeTarget).getAttribute(Const.GS_UI_LABEL));
+            targetModel.setAgentTarget(graph.getNode(idNodeTarget).getAttribute(Const.GS_UI_LABEL));
             targetModel.setAgentId(idNodeSource);
             targetModel.setName(id);
             agentMap.get(idNodeSource).getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap().put(id,
                 targetModel);
-            this.handleTargetModelChange(targetModel, edge, mainSprite, agentMap.get(targetModel.getAgentId()));
+            handleTargetModelChange(targetModel, edge, mainSprite, agentMap.get(targetModel.getAgentId()));
         }
         catch (IOException e) {
             // TODO Auto-generated catch block
@@ -103,9 +103,9 @@ public class EdgeService {
     public void addEdge(String k, TargetModel v, AgentModel agent) {
 
         String targetIdGraph = agentMap.get(v.getAgentTarget()).getIdGraph();
-        Edge edge = this.addEdgeGraph(agent.getIdGraph(), targetIdGraph, k);
+        Edge edge = addEdgeGraph(agent.getIdGraph(), targetIdGraph, k);
         Sprite mainSprite = addSpriteEdgeGraph(k, v.getPortSource(), v.getPortTarget());
-        this.handleTargetModelChange(v, edge, mainSprite, agent);
+        handleTargetModelChange(v, edge, mainSprite, agent);
     }
 
     private void handleTargetModelChange(TargetModel targetModel, Edge edge, Sprite mainSprite, AgentModel agentModel) {
@@ -139,8 +139,8 @@ public class EdgeService {
 
     private Sprite addSpriteEdgeGraph(String label, String portSource, String portTarget) {
 
-        String idGraph = this.idCount.toString();
-        Sprite mainSprite = this.spriteManager.addSprite(idGraph.concat(Const.MAIN_SPRITE));
+        String idGraph = idCount.toString();
+        Sprite mainSprite = spriteManager.addSprite(idGraph.concat(Const.MAIN_SPRITE));
         mainSprite.attachToEdge(idGraph);
         mainSprite.setPosition(0.5);
         mainSprite.addAttribute(Const.GS_UI_LABEL, label);
@@ -150,10 +150,10 @@ public class EdgeService {
         graphEdgeService.displaySprite(mainSprite, graphEdgeService.getDisplayMain(),
             Const.MAIN_SPRITE_CLASS, Const.EDGE_SPRITE_CLASS_BACKGROUND);
 
-        this.createPortSourceToEdge(idGraph, label, Const.SOURCE_PORT_SPRITE,
+        createPortSourceToEdge(idGraph, label, Const.SOURCE_PORT_SPRITE,
             portSource, 0.2,
             graphEdgeService.getDisplayPort());
-        this.createPortSourceToEdge(idGraph, label, Const.TARGET_PORT_SPRITE,
+        createPortSourceToEdge(idGraph, label, Const.TARGET_PORT_SPRITE,
             portTarget, 0.8,
             graphEdgeService.getDisplayPort());
 
@@ -165,7 +165,7 @@ public class EdgeService {
     private void createPortSourceToEdge(String id, String label, String subType, String port, double position,
         boolean portSpriteVisible) {
 
-        Sprite sprite = this.spriteManager.addSprite(id.concat(subType));
+        Sprite sprite = spriteManager.addSprite(id.concat(subType));
         sprite.addAttribute(Const.GS_UI_LABEL, port);
         sprite.addAttribute(Const.TYPE_SPRITE, Const.PORT);
         sprite.addAttribute(Const.SUBTYPE_SPRITE, subType);
@@ -185,14 +185,14 @@ public class EdgeService {
      */
     public void removeEdge(String id) {
 
-        if (this.graph.getEdge(id) != null) {
+        if (graph.getEdge(id) != null) {
             String sourceNodeIdModel = graph.getEdge(id).getSourceNode().getAttribute(Const.GS_UI_LABEL);
             agentMap.get(sourceNodeIdModel).getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap()
                 .remove(graph.getEdge(id).getAttribute(Const.GS_UI_LABEL));
-            this.spriteManager.removeSprite(id.concat(Const.TARGET_PORT_SPRITE));
-            this.spriteManager.removeSprite(id.concat(Const.SOURCE_PORT_SPRITE));
-            this.spriteManager.removeSprite(id.concat(Const.MAIN_SPRITE));
-            this.graph.removeEdge(id);
+            spriteManager.removeSprite(id.concat(Const.TARGET_PORT_SPRITE));
+            spriteManager.removeSprite(id.concat(Const.SOURCE_PORT_SPRITE));
+            spriteManager.removeSprite(id.concat(Const.MAIN_SPRITE));
+            graph.removeEdge(id);
         }
     }
 

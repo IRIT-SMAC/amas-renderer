@@ -34,13 +34,13 @@ public class FeatureModel extends AbstractFeatureModel {
     @JsonProperty
     public void setKnowledge(Knowledge knowledge) {
         this.knowledge = knowledge;
-        this.attributesMap.put("knowledge", knowledge.getAttributesMap());
+        attributesMap.put("knowledge", knowledge.getAttributesMap());
     }
 
     @JsonProperty
     public void setSkill(Skill skill) {
         this.skill = skill;
-        this.attributesMap.put("skill", skill.getAttributesMap());
+        attributesMap.put("skill", skill.getAttributesMap());
     }
 
     @JsonIgnore

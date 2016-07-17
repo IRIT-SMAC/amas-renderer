@@ -43,15 +43,15 @@ public class ErrorWindowController implements ISecondaryWindowController{
     @FXML
     public void clickClose() {
         
-        this.stage.close();
+        stage.close();
     }
     
     @Override
     public void init(Stage stage, Object... args) {
     
         this.stage = stage;
-        this.titleError.setText((String) args[0]);
-        this.infoError.setText((String) args[1]);
+        titleError.setText((String) args[0]);
+        infoError.setText((String) args[1]);
     }
 
 }

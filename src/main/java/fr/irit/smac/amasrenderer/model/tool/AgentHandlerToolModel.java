@@ -36,6 +36,6 @@ public class AgentHandlerToolModel extends ToolModel{
     }
 
     public Map<String, AgentModel> getAgentMap() {
-        return this.agentMap;
+        return agentMap;
     }
 }

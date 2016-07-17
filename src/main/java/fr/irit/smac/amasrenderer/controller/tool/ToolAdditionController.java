@@ -80,10 +80,10 @@ public class ToolAdditionController implements Initializable, ISecondaryWindowCo
                 toolService.addTool(toolName);
             }
 
-            this.stage.close();
+            stage.close();
         }
         else {
-            this.invalidField.setVisible(true);
+            invalidField.setVisible(true);
         }
     }
 
@@ -93,12 +93,12 @@ public class ToolAdditionController implements Initializable, ISecondaryWindowCo
      */
     @FXML
     public void clickCancel() {
-        this.stage.close();
+        stage.close();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.invalidField.setVisible(false);
+        invalidField.setVisible(false);
     }
 
     @Override

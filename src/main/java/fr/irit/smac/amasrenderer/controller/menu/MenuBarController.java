@@ -63,16 +63,16 @@ public class MenuBarController extends LoadSecondaryWindowController {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(EXTENSION_FILTER_DESCRIPTION,
             EXTENSION_FILTER_EXTENSION);
         fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showOpenDialog(this.window);
+        File file = fileChooser.showOpenDialog(window);
 
         try {
-            this.loadSaveService.load(file);
+            loadSaveService.load(file);
         }
         catch (Exception e) {
 
             GraphService.getInstance().clearGraph();
             LOGGER.log(Level.SEVERE, "An error occured during the loading of a configuration file", e);
-            this.loadFxmlIndependent("view/ErrorWindow.fxml", "Chargement du fichier impossible",
+            loadFxmlIndependent("view/ErrorWindow.fxml", "Chargement du fichier impossible",
                 "Le fichier de configuration n'a pu être chargé en raison d'un contenu non conforme à celui attendu.");
         }
     }
@@ -99,8 +99,8 @@ public class MenuBarController extends LoadSecondaryWindowController {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(EXTENSION_FILTER_DESCRIPTION,
             EXTENSION_FILTER_EXTENSION);
         fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showSaveDialog(this.window);
-        this.loadSaveService.save(file);
+        File file = fileChooser.showSaveDialog(window);
+        loadSaveService.save(file);
     }
 
     /**
@@ -110,6 +110,6 @@ public class MenuBarController extends LoadSecondaryWindowController {
     @FXML
     public void clickDocumentation() {
 
-        this.loadFxmlIndependent("view/help/Documentation.fxml");
+        loadFxmlIndependent("view/help/Documentation.fxml");
     }
 }

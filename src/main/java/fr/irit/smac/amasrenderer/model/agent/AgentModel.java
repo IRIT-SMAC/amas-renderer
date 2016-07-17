@@ -54,7 +54,7 @@ public class AgentModel extends ModelWithAttributesMap implements IModel {
 
     public AgentModel() {
 
-        this.name = new SimpleStringProperty();
+        name = new SimpleStringProperty();
     }
 
     /**
@@ -84,7 +84,7 @@ public class AgentModel extends ModelWithAttributesMap implements IModel {
 
     @Override
     public String getName() {
-        return this.name.get();
+        return name.get();
     }
 
     @Override
@@ -93,7 +93,7 @@ public class AgentModel extends ModelWithAttributesMap implements IModel {
     }
 
     public StringProperty nameProperty() {
-        return this.name;
+        return name;
     }
 
     public String getNewName(String name) {
@@ -101,7 +101,7 @@ public class AgentModel extends ModelWithAttributesMap implements IModel {
     }
     
     public void setId(String id) {
-        this.commonFeatures.getFeatureBasic().getKnowledge().setId(id);
+        commonFeatures.getFeatureBasic().getKnowledge().setId(id);
     }
 
     @JsonIgnore
@@ -111,16 +111,16 @@ public class AgentModel extends ModelWithAttributesMap implements IModel {
 
     @JsonIgnore
     public String getIdGraph() {
-        return this.idGraph;
+        return idGraph;
     }
 
     @JsonIgnore
     public CommonFeaturesModel getCommonFeaturesModel() {
-        return this.commonFeatures;
+        return commonFeatures;
     }
 
     public FeatureModel getPrimaryFeature() {
-        return this.primaryFeature;
+        return primaryFeature;
     }
 
 }

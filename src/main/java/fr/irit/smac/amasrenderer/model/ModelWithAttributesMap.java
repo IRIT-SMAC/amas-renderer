@@ -40,7 +40,7 @@ public abstract class ModelWithAttributesMap {
     
     @JsonIgnore
     public String getClassName() {
-        return this.className;
+        return className;
     }
     
     @JsonProperty
@@ -56,6 +56,6 @@ public abstract class ModelWithAttributesMap {
     
     @JsonAnySetter
     public void setAttributesMap(String name, Object value) {
-        this.attributesMap.put(name, value);
+        attributesMap.put(name, value);
     }
 }

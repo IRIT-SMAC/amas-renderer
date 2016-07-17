@@ -59,7 +59,7 @@ public class PortDisplayService {
 
     public void hideSpriteEdge(String type) {
 
-        this.spriteManager.forEach(s -> {
+        spriteManager.forEach(s -> {
             if (s.getAttribute(Const.TYPE_SPRITE).equals(type)) {
                 s.setAttribute(Const.GS_UI_CLASS, Const.EDGE_SPRITE_CLASS_BACKGROUND);
             }
@@ -69,7 +69,7 @@ public class PortDisplayService {
     public void displaySpriteEdge(boolean displayNode, Node foregroundNode, String type, String styleClass) {
 
         if (displayNode) {
-            this.spriteManager.forEach(s -> {
+            spriteManager.forEach(s -> {
                 Edge edge = (Edge) s.getAttachment();
                 String id = foregroundNode.getId();
                 if ((edge.getSourceNode().getId() == id
@@ -79,7 +79,7 @@ public class PortDisplayService {
             });
         }
         else {
-            this.spriteManager.forEach(s -> {
+            spriteManager.forEach(s -> {
                 if (s.getAttribute(Const.TYPE_SPRITE).equals(type)) {
                     s.setAttribute(Const.GS_UI_CLASS, styleClass);
                 }
@@ -91,16 +91,16 @@ public class PortDisplayService {
     public void displayForegroundNode(Node foregroundNode) {
 
         String id = foregroundNode.getId();
-        this.graph.getEachNode().forEach(node -> {
+        graph.getEachNode().forEach(node -> {
             if (node.getId() != id) {
                 node.addAttribute(Const.GS_UI_CLASS, Const.NODE_CLASS_BACKGROUND);
             }
         });
 
-        this.graph.getEachEdge().forEach(edge -> {
+        graph.getEachEdge().forEach(edge -> {
             if (edge.getSourceNode().getId() != id && edge.getTargetNode().getId() != id) {
                 edge.addAttribute(Const.GS_UI_CLASS, Const.EDGE_SPRITE_CLASS_BACKGROUND);
-                this.spriteManager.forEach(s -> {
+                spriteManager.forEach(s -> {
                     if (s.getAttachment().equals(edge)) {
                         s.setAttribute(Const.GS_UI_CLASS, Const.EDGE_SPRITE_CLASS_BACKGROUND);
                     }
@@ -112,36 +112,36 @@ public class PortDisplayService {
     public void displayBackgroundNode(Node backgroundNode) {
 
         String id = backgroundNode.getId();
-        this.graph.getEachNode().forEach(node -> {
+        graph.getEachNode().forEach(node -> {
             if (node.getId() == id) {
                 node.removeAttribute(Const.GS_UI_CLASS);
             }
         });
 
-        this.graph.getEachEdge().forEach(edge -> {
+        graph.getEachEdge().forEach(edge -> {
             if (edge.getSourceNode().getId() == id || edge.getTargetNode().getId() == id) {
                 edge.removeAttribute(Const.GS_UI_CLASS);
-                this.displaySprite(getDisplayMain(), this.getDisplayPort(), edge);
+                displaySprite(getDisplayMain(), getDisplayPort(), edge);
             }
         });
     }
 
     public void displayAllNodes() {
 
-        this.graph.getEachNode().forEach(node -> {
+        graph.getEachNode().forEach(node -> {
             node.removeAttribute(Const.GS_UI_CLASS);
         });
 
-        this.graph.getEachEdge().forEach(edge -> {
+        graph.getEachEdge().forEach(edge -> {
             edge.removeAttribute(Const.GS_UI_CLASS);
-            this.displaySprite(this.getDisplayMain(), this.getDisplayPort(), edge);
+            displaySprite(getDisplayMain(), getDisplayPort(), edge);
         });
     }
 
     private void displaySprite(boolean mainSpriteVisible, boolean portSpriteVisible, Edge edge) {
 
         if (mainSpriteVisible || portSpriteVisible) {
-            this.spriteManager.forEach(s -> {
+            spriteManager.forEach(s -> {
 
                 if (s.getAttachment().equals(edge)) {
 
@@ -156,19 +156,19 @@ public class PortDisplayService {
         }
     }
 
-    public void setDisplayPort(boolean visible) {
-        this.displayPort = visible;
+    public void setDisplayPort(boolean displayPort) {
+        this.displayPort = displayPort;
     }
 
-    public void setDisplayMain(boolean visible) {
-        this.displayMain = visible;
+    public void setDisplayMain(boolean displayMain) {
+        this.displayMain = displayMain;
     }
 
     public boolean getDisplayPort() {
-        return this.displayPort;
+        return displayPort;
     }
 
     public boolean getDisplayMain() {
-        return this.displayMain;
+        return displayMain;
     }
 }

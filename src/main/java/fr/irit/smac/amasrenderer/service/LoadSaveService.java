@@ -91,10 +91,6 @@ public class LoadSaveService {
             ObjectMapper mapper = new ObjectMapper();
             mapper.setSerializationInclusion(Include.NON_NULL);
             try {
-                final InjectableValues.Std injectableValues = new InjectableValues.Std();
-                injectableValues.addValue(AbstractGraph.class, (AbstractGraph) GraphService.getInstance().getGraph());
-                injectableValues.addValue(String.class, GraphService.getInstance().getIdCountString());
-                mapper.setInjectableValues(injectableValues);
                 InfrastructureModel infrastructure = mapper.readValue(file, InfrastructureModel.class);
                 InfrastructureService.getInstance().updateInfrastructureFromFile(infrastructure);
             }

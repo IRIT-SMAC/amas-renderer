@@ -68,7 +68,7 @@ public class ToolAttributesController extends LoadSecondaryWindowController
     @FXML
     public void deleteButton() {
 
-        this.loadFxml(this.window, "view/tool/ToolDeletion.fxml", false, this, this.tool);
+        loadFxml(window, "view/tool/ToolDeletion.fxml", false, this, tool);
     }
 
     /**
@@ -84,28 +84,28 @@ public class ToolAttributesController extends LoadSecondaryWindowController
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.tree.setEditable(true);
-        this.tree.setCellFactory(c -> {
+        tree.setEditable(true);
+        tree.setCellFactory(c -> {
             return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), tool);
         });
     }
 
     @Override
     public void closeWindow() {
-        this.stage.close();
+        stage.close();
     }
 
     @Override
     public void init(Stage stage, Object... args) {
 
         ToolModel currentTool = (ToolModel) args[0];
-        this.tool = currentTool;
+        tool = currentTool;
         this.stage = stage;
         TreeItem<String> root = new TreeItem<>(currentTool.getName());
-        this.tree.setRoot(root);
+        tree.setRoot(root);
         root.setExpanded(true);
         HashMap<String, Object> toolAttributes = (HashMap<String, Object>) currentTool.getAttributesMap();
-        this.attributesService.fillAttributes(toolAttributes, root, currentTool);
+        attributesService.fillAttributes(toolAttributes, root, currentTool);
     }
 
 }

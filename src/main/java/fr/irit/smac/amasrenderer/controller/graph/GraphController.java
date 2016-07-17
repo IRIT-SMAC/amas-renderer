@@ -85,8 +85,6 @@ public class GraphController extends LoadSecondaryWindowController
 
     private EButtonsAddDelState buttonsAddDelState;
 
-    private Integer edgeCreatedCount = 0;
-
     private EDisplayNodeState displayNodeState;
 
     private Node foregroundNode;
@@ -101,10 +99,10 @@ public class GraphController extends LoadSecondaryWindowController
     public void handleOnKeyPressed(KeyEvent e) {
 
         if (e.isControlDown()) {
-            this.shortcutState = EShortcutState.CTRL_DOWN;
+            shortcutState = EShortcutState.CTRL_DOWN;
         }
         else if (e.isShiftDown()) {
-            this.shortcutState = EShortcutState.SHIFT_DOWN;
+            shortcutState = EShortcutState.SHIFT_DOWN;
         }
     }
 
@@ -114,15 +112,15 @@ public class GraphController extends LoadSecondaryWindowController
     @FXML
     public void handleOnKeyReleased() {
 
-        switch (this.shortcutState) {
+        switch (shortcutState) {
 
             case CTRL_DOWN:
-                this.shortcutState = EShortcutState.AT_EASE;
+                shortcutState = EShortcutState.AT_EASE;
                 break;
 
             case SHIFT_DOWN:
-                this.shortcutState = EShortcutState.AT_EASE;
-                this.unselectSource();
+                shortcutState = EShortcutState.AT_EASE;
+                unselectSource();
                 break;
 
             default:
@@ -136,9 +134,9 @@ public class GraphController extends LoadSecondaryWindowController
     @FXML
     public void handleOnMouseReleased() {
 
-        if (this.graphState == EGraphState.SELECTED_NODE) {
-            this.graphState = EGraphState.AT_EASE;
-            this.unselectNode(this.selectedElement);
+        if (graphState == EGraphState.SELECTED_NODE) {
+            graphState = EGraphState.AT_EASE;
+            unselectNode(selectedElement);
         }
     }
 
@@ -151,9 +149,9 @@ public class GraphController extends LoadSecondaryWindowController
     @FXML
     public void handleOnMouseDragged(MouseEvent e) {
 
-        if (this.graphState == EGraphState.SELECTED_NODE) {
-            this.graphState = EGraphState.SELECTED_NODE;
-            this.moveSelectedNode(this.selectedElement, e);
+        if (graphState == EGraphState.SELECTED_NODE) {
+            graphState = EGraphState.SELECTED_NODE;
+            moveSelectedNode(selectedElement, e);
         }
     }
 
@@ -166,7 +164,7 @@ public class GraphController extends LoadSecondaryWindowController
     @FXML
     public void handleOnScroll(ScrollEvent e) {
 
-        this.zoomOrUnzoom(e);
+        zoomOrUnzoom(e);
     }
 
     /**
@@ -178,9 +176,9 @@ public class GraphController extends LoadSecondaryWindowController
     @FXML
     public void handleOnMousePressed(MouseEvent e) {
 
-        this.handleButtonsAddDelState();
-        this.handleShortcutState(e);
-        this.handleGraphState(e);
+        handleButtonsAddDelState();
+        handleShortcutState(e);
+        handleGraphState(e);
     }
 
     /**
@@ -189,24 +187,24 @@ public class GraphController extends LoadSecondaryWindowController
      */
     public void handleButtonsAddDelState() {
 
-        if (this.graphState != EGraphState.READY_TO_ADD_EDGE_TARGET) {
+        if (graphState != EGraphState.READY_TO_ADD_EDGE_TARGET) {
 
-            switch (this.buttonsAddDelState) {
+            switch (buttonsAddDelState) {
 
                 case BUTTON_ADD_NODE:
-                    this.graphState = EGraphState.READY_TO_ADD_NODE;
+                    graphState = EGraphState.READY_TO_ADD_NODE;
                     break;
 
                 case BUTTON_DELETE_NODE:
-                    this.graphState = EGraphState.READY_TO_DELETE_NODE;
+                    graphState = EGraphState.READY_TO_DELETE_NODE;
                     break;
 
                 case BUTTON_ADD_EDGE:
-                    this.graphState = EGraphState.READY_TO_ADD_EDGE_SOURCE;
+                    graphState = EGraphState.READY_TO_ADD_EDGE_SOURCE;
                     break;
 
                 case BUTTON_DELETE_EDGE:
-                    this.graphState = EGraphState.READY_TO_DELETE_EDGE;
+                    graphState = EGraphState.READY_TO_DELETE_EDGE;
                     break;
 
                 default:
@@ -224,14 +222,14 @@ public class GraphController extends LoadSecondaryWindowController
      */
     public void handleShortcutState(MouseEvent e) {
 
-        switch (this.shortcutState) {
+        switch (shortcutState) {
 
             case CTRL_DOWN:
-                this.readyToAddOrDeleteNode(e);
+                readyToAddOrDeleteNode(e);
                 break;
 
             case SHIFT_DOWN:
-                this.readyToAddOrDeleteEdge(e);
+                readyToAddOrDeleteEdge(e);
                 break;
 
             default:
@@ -247,42 +245,42 @@ public class GraphController extends LoadSecondaryWindowController
      */
     public void handleGraphState(MouseEvent e) {
 
-        if (this.graphState == EGraphState.AT_EASE) {
+        if (graphState == EGraphState.AT_EASE) {
 
-            this.graphState = EGraphState.AT_EASE;
-            this.handleAttributesOrSelectNode(e);
+            graphState = EGraphState.AT_EASE;
+            handleAttributesOrSelectNode(e);
         }
         else {
 
-            this.handleUnselectedNodeDisplay();
-            switch (this.graphState) {
+            handleUnselectedNodeDisplay();
+            switch (graphState) {
 
                 case AT_EASE:
-                    this.graphState = EGraphState.AT_EASE;
-                    this.handleAttributesOrSelectNode(e);
+                    graphState = EGraphState.AT_EASE;
+                    handleAttributesOrSelectNode(e);
                     break;
                 case READY_TO_ADD_NODE:
-                    this.graphState = EGraphState.AT_EASE;
-                    this.createNode(e);
+                    graphState = EGraphState.AT_EASE;
+                    createNode(e);
                     break;
 
                 case READY_TO_DELETE_NODE:
-                    this.graphState = EGraphState.AT_EASE;
-                    this.removeNode(e);
+                    graphState = EGraphState.AT_EASE;
+                    removeNode(e);
                     break;
 
                 case READY_TO_ADD_EDGE_SOURCE:
-                    this.readyToAddEdgeSource(e, EGraphState.READY_TO_ADD_EDGE_TARGET);
+                    readyToAddEdgeSource(e, EGraphState.READY_TO_ADD_EDGE_TARGET);
                     break;
 
                 case READY_TO_ADD_EDGE_TARGET:
-                    this.graphState = EGraphState.AT_EASE;
-                    this.addEdge(e);
+                    graphState = EGraphState.AT_EASE;
+                    addEdge(e);
                     break;
 
                 case READY_TO_DELETE_EDGE:
-                    this.graphState = EGraphState.AT_EASE;
-                    this.removeEdge(e);
+                    graphState = EGraphState.AT_EASE;
+                    removeEdge(e);
                     break;
 
                 default:
@@ -295,46 +293,46 @@ public class GraphController extends LoadSecondaryWindowController
     @Override
     public void changedStateButtonsAddDel(EButtonsAddDelState state) {
 
-        this.graphNode.requestFocus();
-        this.buttonsAddDelState = state;
+        graphNode.requestFocus();
+        buttonsAddDelState = state;
     }
 
     @Override
     public void changedStateOtherButtons(EOthersButtonsState state) {
 
-        this.graphNode.requestFocus();
+        graphNode.requestFocus();
 
         switch (state) {
 
             case RESET_VIEW:
-                this.graphView.getCamera().resetView();
+                graphView.getCamera().resetView();
                 break;
             case AUTO_LAYOUT:
-                this.viewer.enableAutoLayout();
+                viewer.enableAutoLayout();
                 break;
             case NO_AUTO_LAYOUT:
-                this.viewer.disableAutoLayout();
+                viewer.disableAutoLayout();
                 break;
             case RESET_GRAPH:
-                this.loadFxml(window, "view/graph/ClearGraph.fxml", true, (Class<?>) null);
+                loadFxml(window, "view/graph/ClearGraph.fxml", true, (Class<?>) null);
                 break;
             case HIDE_PORT:
-                this.graphService.hideSpriteEdge(Const.PORT);
-                this.graphService.setDisplayPort(false);
+                graphService.hideSpriteEdge(Const.PORT);
+                graphService.setDisplayPort(false);
                 break;
             case DISPLAY_PORT:
-                this.graphService.displaySpriteEdge(this.displayNodeState == EDisplayNodeState.ACTIVE,
-                    this.foregroundNode, Const.PORT, Const.PORT_SPRITE_CLASS);
-                this.graphService.setDisplayPort(true);
+                graphService.displaySpriteEdge(displayNodeState == EDisplayNodeState.ACTIVE,
+                    foregroundNode, Const.PORT, Const.PORT_SPRITE_CLASS);
+                graphService.setDisplayPort(true);
                 break;
             case HIDE_MAIN_SPRITE:
-                this.graphService.hideSpriteEdge(Const.MAIN_SPRITE_EDGE);
-                this.graphService.setDisplayMain(false);
+                graphService.hideSpriteEdge(Const.MAIN_SPRITE_EDGE);
+                graphService.setDisplayMain(false);
                 break;
             case DISPLAY_MAIN_SPRITE:
-                this.graphService.displaySpriteEdge(this.displayNodeState == EDisplayNodeState.ACTIVE,
-                    this.foregroundNode, Const.MAIN_SPRITE_EDGE, Const.MAIN_SPRITE_CLASS);
-                this.graphService.setDisplayMain(true);
+                graphService.displaySpriteEdge(displayNodeState == EDisplayNodeState.ACTIVE,
+                    foregroundNode, Const.MAIN_SPRITE_EDGE, Const.MAIN_SPRITE_CLASS);
+                graphService.setDisplayMain(true);
                 break;
             default:
                 break;
@@ -350,11 +348,11 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void readyToAddOrDeleteEdge(MouseEvent e) {
 
-        if (e.isPrimaryButtonDown() && !(this.graphState == EGraphState.READY_TO_ADD_EDGE_TARGET)) {
-            this.graphState = EGraphState.READY_TO_ADD_EDGE_SOURCE;
+        if (e.isPrimaryButtonDown() && !(graphState == EGraphState.READY_TO_ADD_EDGE_TARGET)) {
+            graphState = EGraphState.READY_TO_ADD_EDGE_SOURCE;
         }
         else if (e.isSecondaryButtonDown()) {
-            this.graphState = EGraphState.READY_TO_DELETE_EDGE;
+            graphState = EGraphState.READY_TO_DELETE_EDGE;
         }
     }
 
@@ -371,9 +369,9 @@ public class GraphController extends LoadSecondaryWindowController
 
         GraphicElement selected = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (selected != null && selected instanceof Node) {
-            this.source = (Node) selected;
-            this.graphState = nextState;
-            this.selectSource();
+            source = (Node) selected;
+            graphState = nextState;
+            selectSource();
         }
     }
 
@@ -385,10 +383,10 @@ public class GraphController extends LoadSecondaryWindowController
     private void readyToAddOrDeleteNode(MouseEvent e) {
 
         if (e.isPrimaryButtonDown()) {
-            this.graphState = EGraphState.READY_TO_ADD_NODE;
+            graphState = EGraphState.READY_TO_ADD_NODE;
         }
         else if (e.isSecondaryButtonDown()) {
-            this.graphState = EGraphState.READY_TO_DELETE_NODE;
+            graphState = EGraphState.READY_TO_DELETE_NODE;
         }
     }
 
@@ -399,16 +397,16 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void zoomOrUnzoom(ScrollEvent e) {
 
-        Double scale = this.graphView.getCamera().getViewPercent();
+        Double scale = graphView.getCamera().getViewPercent();
         if (e.getDeltaY() >= 0) {
-            this.graphView.getCamera().setViewPercent(scale * Const.SCALE_UNZOOM_RATIO);
+            graphView.getCamera().setViewPercent(scale * Const.SCALE_UNZOOM_RATIO);
         }
         else {
-            this.graphView.getCamera().setViewPercent(scale * Const.SCALE_ZOOM_RATIO);
+            graphView.getCamera().setViewPercent(scale * Const.SCALE_ZOOM_RATIO);
         }
-        Point3 newCenter = this.graphView.getCamera().getViewCenter()
-            .interpolate(this.graphView.getCamera().transformPxToGu(e.getX(), e.getY()), Const.TRANSLATE_ZOOM_RATIO);
-        this.graphView.getCamera().setViewCenter(newCenter.x, newCenter.y, newCenter.z);
+        Point3 newCenter = graphView.getCamera().getViewCenter()
+            .interpolate(graphView.getCamera().transformPxToGu(e.getX(), e.getY()), Const.TRANSLATE_ZOOM_RATIO);
+        graphView.getCamera().setViewCenter(newCenter.x, newCenter.y, newCenter.z);
     }
 
     /**
@@ -421,24 +419,24 @@ public class GraphController extends LoadSecondaryWindowController
     private void handleAttributesOrSelectNode(MouseEvent e) {
 
         if (e.isSecondaryButtonDown()) {
-            this.graphState = EGraphState.AT_EASE;
-            this.handleAttributesOrSelectSprite(e);
+            graphState = EGraphState.AT_EASE;
+            handleAttributesOrSelectSprite(e);
 
         }
         else if (e.isPrimaryButtonDown()) {
-            this.selectNode(e);
+            selectNode(e);
         }
     }
 
     private void handleAttributesOrSelectSprite(MouseEvent e) {
 
-        GraphicElement elt = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        GraphicElement elt = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
 
         if (elt != null && elt instanceof Node) {
-            this.handleAttributes(elt);
+            handleAttributes(elt);
         }
-        else if (this.selectedElement != null) {
-            this.clickOnSpriteEdge(elt);
+        else if (selectedElement != null) {
+            clickOnSpriteEdge(elt);
         }
     }
 
@@ -450,59 +448,59 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void selectNode(MouseEvent e) {
 
-        this.selectedElement = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
-        if (this.selectedElement instanceof Node) {
+        selectedElement = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        if (selectedElement instanceof Node) {
 
-            this.handleSelectedNodeDisplay();
+            handleSelectedNodeDisplay();
 
-            this.graphState = EGraphState.SELECTED_NODE;
-            this.graphView.requestFocus();
-            for (Node node : this.graphService.getGraph()) {
+            graphState = EGraphState.SELECTED_NODE;
+            graphView.requestFocus();
+            for (Node node : graphService.getGraph()) {
                 node.addAttribute(Const.GS_UI_CLICKED);
                 node.removeAttribute(Const.GS_UI_CLICKED);
             }
-            this.graphView.freezeElement(selectedElement, true);
-            this.selectedElement.addAttribute(Const.GS_UI_CLICKED);
+            graphView.freezeElement(selectedElement, true);
+            selectedElement.addAttribute(Const.GS_UI_CLICKED);
 
         }
-        else if (this.selectedElement != null) {
-            this.clickOnSpriteEdge(this.selectedElement);
+        else if (selectedElement != null) {
+            clickOnSpriteEdge(selectedElement);
         }
         else {
-            this.handleUnselectedNodeDisplay();
+            handleUnselectedNodeDisplay();
         }
     }
 
     private void clickOnSpriteEdge(GraphicElement elt) {
 
-        Sprite s = this.graphService.getSpriteManager().getSprite(elt.getId());
+        Sprite s = graphService.getSpriteManager().getSprite(elt.getId());
         if (s.getAttribute(Const.GS_UI_CLASS) != Const.EDGE_SPRITE_CLASS_BACKGROUND) {
             if (s.getAttribute(Const.TYPE_SPRITE) != Const.MAIN_SPRITE_EDGE) {
-                this.loadFxml(window, "view/graph/Port.fxml", true, s);
+                loadFxml(window, "view/graph/Port.fxml", true, s);
             }
             else {
-                this.loadFxml(window, "view/graph/TargetAttributes.fxml", true, s);
+                loadFxml(window, "view/graph/TargetAttributes.fxml", true, s);
             }
         }
     }
 
     private void handleUnselectedNodeDisplay() {
 
-        if (this.displayNodeState == EDisplayNodeState.ACTIVE) {
-            this.displayNodeState = EDisplayNodeState.AT_EASE;
-            this.graphService.displayAllNodes();
+        if (displayNodeState == EDisplayNodeState.ACTIVE) {
+            displayNodeState = EDisplayNodeState.AT_EASE;
+            graphService.displayAllNodes();
         }
     }
 
     private void handleSelectedNodeDisplay() {
 
-        this.foregroundNode = (Node) this.selectedElement;
-        if (this.displayNodeState == EDisplayNodeState.ACTIVE) {
-            this.graphService.displayBackgroundNode(this.foregroundNode);
+        foregroundNode = (Node) selectedElement;
+        if (displayNodeState == EDisplayNodeState.ACTIVE) {
+            graphService.displayBackgroundNode(foregroundNode);
         }
 
-        this.displayNodeState = EDisplayNodeState.ACTIVE;
-        this.graphService.displayForegroundNode(this.foregroundNode);
+        displayNodeState = EDisplayNodeState.ACTIVE;
+        graphService.displayForegroundNode(foregroundNode);
     }
 
     /**
@@ -513,8 +511,8 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void handleAttributes(GraphicElement elt) {
 
-        this.selectedAgent = this.graphService.getGraph().getNode(((Node) elt).getId());
-        this.loadFxml(window, "view/graph/GraphAttributes.fxml", true, this.selectedAgent);
+        selectedAgent = graphService.getGraph().getNode(((Node) elt).getId());
+        loadFxml(window, "view/graph/GraphAttributes.fxml", true, selectedAgent);
     }
 
     /**
@@ -528,8 +526,8 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void unselectNode(GraphicElement element) {
 
-        this.graphView.freezeElement(element, false);
-        this.selectedElement = null;
+        graphView.freezeElement(element, false);
+        selectedElement = null;
     }
 
     /**
@@ -542,7 +540,7 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void moveSelectedNode(GraphicElement element, MouseEvent event) {
 
-        this.graphView.moveElementAtPx(element, event.getX(), event.getY());
+        graphView.moveElementAtPx(element, event.getX(), event.getY());
     }
 
     /**
@@ -553,8 +551,8 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void createNode(MouseEvent e) {
 
-        Point3 clicLoc = this.graphView.getCamera().transformPxToGu(e.getX(), e.getY());
-        this.graphService.addNode(clicLoc.x, clicLoc.y);
+        Point3 clicLoc = graphView.getCamera().transformPxToGu(e.getX(), e.getY());
+        graphService.addNode(clicLoc.x, clicLoc.y);
     }
 
     /**
@@ -565,9 +563,9 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void removeNode(MouseEvent e) {
 
-        GraphicElement selected = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        GraphicElement selected = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (selected != null && selected instanceof Node) {
-            this.graphService.removeNode(selected.getAttribute(Const.GS_UI_LABEL));
+            graphService.removeNode(selected.getAttribute(Const.GS_UI_LABEL));
         }
     }
 
@@ -576,10 +574,10 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void selectSource() {
 
-        if (this.source != null && !this.source.hasAttribute(Const.GS_UI_SELECTED)) {
-            this.source.addAttribute(Const.GS_UI_SELECTED);
+        if (source != null && !source.hasAttribute(Const.GS_UI_SELECTED)) {
+            source.addAttribute(Const.GS_UI_SELECTED);
         }
-        this.target = null;
+        target = null;
     }
 
     /**
@@ -588,9 +586,9 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void unselectSource() {
 
-        if (this.source != null) {
-            this.source.removeAttribute(Const.GS_UI_SELECTED);
-            this.source = null;
+        if (source != null) {
+            source.removeAttribute(Const.GS_UI_SELECTED);
+            source = null;
         }
     }
 
@@ -602,13 +600,12 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void addEdge(MouseEvent e) {
 
-        this.getEdge(e);
-        if (this.source != null && this.target != null) {
+        getEdge(e);
+        if (source != null && target != null) {
 
-            this.graphService.addEdge(this.source.getAttribute(Const.GS_UI_LABEL), this.target.getAttribute(Const.GS_UI_LABEL));
+            graphService.addEdge(source.getAttribute(Const.GS_UI_LABEL), target.getAttribute(Const.GS_UI_LABEL));
         }
-        this.edgeCreatedCount++;
-        this.unselectSource();
+        unselectSource();
     }
 
     /**
@@ -619,12 +616,12 @@ public class GraphController extends LoadSecondaryWindowController
      */
     private void removeEdge(MouseEvent e) {
 
-        GraphicElement sprite = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        GraphicElement sprite = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
 
         if (sprite != null && !(sprite instanceof Node)) {
-            this.graphService
-                .removeEdge(this.graphService.getSpriteManager().getSprite(sprite.getId()).getAttachment().getId());
-            this.unselectSource();
+            graphService
+                .removeEdge(graphService.getSpriteManager().getSprite(sprite.getId()).getAttachment().getId());
+            unselectSource();
         }
     }
 
@@ -639,10 +636,10 @@ public class GraphController extends LoadSecondaryWindowController
 
         Edge edge = null;
 
-        GraphicElement selected = this.graphView.findNodeOrSpriteAt(e.getX(), e.getY());
+        GraphicElement selected = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
         if (selected != null && selected instanceof Node) {
             target = (Node) selected;
-            edge = this.graphService.getGraph().getEdge(this.source + "" + this.target);
+            edge = graphService.getGraph().getEdge(source + "" + target);
         }
         return edge;
     }
@@ -653,7 +650,7 @@ public class GraphController extends LoadSecondaryWindowController
      * @return the graph view
      */
     public ViewPanel getGraphView() {
-        return this.graphView;
+        return graphView;
     }
 
     /**
@@ -682,18 +679,18 @@ public class GraphController extends LoadSecondaryWindowController
     public void initialize(URL location, ResourceBundle resources) {
 
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-        this.viewer = new Viewer(this.graphService.getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-        this.viewer.enableAutoLayout();
-        this.graphView = this.viewer.addDefaultView(false);
-        this.removeDefaultListeners();
-        this.graphState = EGraphState.AT_EASE;
-        this.shortcutState = EShortcutState.AT_EASE;
-        this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
-        this.displayNodeState = EDisplayNodeState.AT_EASE;
-        this.graphToolboxController.setGraphButtonsState(this);
-        this.graphNode.setContent(this.graphView);
-        this.graphService.setDisplayMain(true);
-        this.graphService.setDisplayPort(true);
+        viewer = new Viewer(graphService.getGraph(), Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+        viewer.enableAutoLayout();
+        graphView = viewer.addDefaultView(false);
+        removeDefaultListeners();
+        graphState = EGraphState.AT_EASE;
+        shortcutState = EShortcutState.AT_EASE;
+        buttonsAddDelState = EButtonsAddDelState.AT_EASE;
+        displayNodeState = EDisplayNodeState.AT_EASE;
+        graphToolboxController.setGraphButtonsState(this);
+        graphNode.setContent(graphView);
+        graphService.setDisplayMain(true);
+        graphService.setDisplayPort(true);
     }
 
     @Override

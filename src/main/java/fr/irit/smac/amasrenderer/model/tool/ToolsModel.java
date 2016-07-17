@@ -45,11 +45,7 @@ public class ToolsModel {
     }
 
     public String getClassName() {
-        return this.className;
-    }
-
-    public Map<String, ToolModel> getServices() {
-        return this.services;
+        return className;
     }
 
     @JsonIgnore
@@ -59,11 +55,11 @@ public class ToolsModel {
 
     @JsonAnySetter
     public void setServicesMap(String name, ToolModel value) {
-        this.services.put(name, value);
+        services.put(name, value);
     }
 
     @JsonAnyGetter
-    public Map<String, ToolModel> getMap() {
-        return this.services;
+    public Map<String, ToolModel> getServices() {
+        return services;
     }
 }

@@ -43,21 +43,12 @@ public class InfrastructureModel extends ModelWithAttributesMap implements IMode
     private StringProperty name;
 
     public InfrastructureModel() {
-        this.name = new SimpleStringProperty();
-    }
-
-    public InfrastructureModel(String name) {
-        this.name = new SimpleStringProperty(name);
-    }
-
-    public InfrastructureModel(String key, Map<String, Object> value) {
-        this.name = new SimpleStringProperty(key);
-        this.attributesMap = value;
+        name = new SimpleStringProperty();
     }
 
     @Override
     public String toString() {
-        return this.name.get();
+        return name.get();
     }
 
     @Override
@@ -90,7 +81,7 @@ public class InfrastructureModel extends ModelWithAttributesMap implements IMode
     }
 
     public ToolsModel getServices() {
-        return this.services;
+        return services;
     }
 
 }

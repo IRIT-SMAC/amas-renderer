@@ -63,19 +63,19 @@ public abstract class LoadSecondaryWindowController {
     public void loadFxml(Window window, String resourcePath, boolean isResizable, Object... argsInit) {
 
         try {
-            this.loaderSecondaryWindow = new FXMLLoader();
-            this.loaderSecondaryWindow.setLocation(AmasRenderer.class.getResource(resourcePath));
-            Pane root = this.loaderSecondaryWindow.load();
-            this.stageSecondaryWindow = new Stage();
-            this.stageSecondaryWindow.initModality(Modality.WINDOW_MODAL);
-            this.stageSecondaryWindow.initOwner(window);
+            loaderSecondaryWindow = new FXMLLoader();
+            loaderSecondaryWindow.setLocation(AmasRenderer.class.getResource(resourcePath));
+            Pane root = loaderSecondaryWindow.load();
+            stageSecondaryWindow = new Stage();
+            stageSecondaryWindow.initModality(Modality.WINDOW_MODAL);
+            stageSecondaryWindow.initOwner(window);
             Scene scene = new Scene(root);
-            this.stageSecondaryWindow.setScene(scene);
-            this.stageSecondaryWindow.setResizable(isResizable);
+            stageSecondaryWindow.setScene(scene);
+            stageSecondaryWindow.setResizable(isResizable);
             scene.setFill(Color.BLACK);
-            ISecondaryWindowController controller = this.loaderSecondaryWindow.getController();
-            controller.init(this.stageSecondaryWindow, argsInit);
-            this.stageSecondaryWindow.showAndWait();
+            ISecondaryWindowController controller = loaderSecondaryWindow.getController();
+            controller.init(stageSecondaryWindow, argsInit);
+            stageSecondaryWindow.showAndWait();
         }
         catch (IOException e) {
             LOGGER.log(Level.SEVERE, "The loading of the fxml has failed", e);

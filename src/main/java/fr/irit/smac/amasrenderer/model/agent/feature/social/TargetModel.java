@@ -47,7 +47,7 @@ public class TargetModel extends ModelWithAttributesMap implements IModel {
     private static final String[] NOT_EXPANDED    = {};
 
     public TargetModel() {
-        this.name = new SimpleStringProperty();
+        name = new SimpleStringProperty();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class TargetModel extends ModelWithAttributesMap implements IModel {
 
     @Override
     public String getName() {
-        return this.name.get();
+        return name.get();
     }
 
     @Override
@@ -70,7 +70,7 @@ public class TargetModel extends ModelWithAttributesMap implements IModel {
     }
 
     public String getAgentId() {
-        return this.agentId;
+        return agentId;
     }
 
     public void setAgentId(String agentId) {
@@ -78,26 +78,26 @@ public class TargetModel extends ModelWithAttributesMap implements IModel {
     }
 
     @JsonSetter
-    public void setAgentTarget(String newValue) {
-        this.agentTarget = newValue;
-        this.attributesMap.put(Const.AGENT_TARGET, newValue);
+    public void setAgentTarget(String agentTarget) {
+        this.agentTarget = agentTarget;
+        attributesMap.put(Const.AGENT_TARGET, agentTarget);
     }
 
     @JsonSetter
     public void setPortSource(String portName) {
         this.portSource = portName;
-        this.attributesMap.put(Const.PORT_SOURCE, portSource);
+        attributesMap.put(Const.PORT_SOURCE, portSource);
     }
     
     @JsonSetter
     public void setPortTarget(String portTarget) {
         this.portTarget = portTarget;
-        this.attributesMap.put(Const.PORT_TARGET, portTarget);
+        attributesMap.put(Const.PORT_TARGET, portTarget);
     }
     
     @JsonIgnore
     public String getAgentTarget() {
-        return this.agentTarget;
+        return agentTarget;
     }
 
     @JsonIgnore

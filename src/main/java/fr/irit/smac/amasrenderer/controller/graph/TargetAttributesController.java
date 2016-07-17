@@ -58,7 +58,7 @@ public class TargetAttributesController implements ISecondaryWindowController {
     @FXML
     public void confirmButton() {
 
-        this.stage.close();
+        stage.close();
     }
 
     @Override
@@ -69,17 +69,17 @@ public class TargetAttributesController implements ISecondaryWindowController {
         Edge e = (Edge) sprite.getAttachment();
         Node node = e.getSourceNode();
 
-        this.targetModel = this.graphService.getTargetModel(node.getAttribute(Const.GS_UI_LABEL),
+        targetModel = graphService.getTargetModel(node.getAttribute(Const.GS_UI_LABEL),
             e.getAttribute(Const.GS_UI_LABEL));
 
         TreeItem<String> root = new TreeItem<>(e.getAttribute(Const.GS_UI_LABEL));
-        this.tree.setRoot(root);
-        this.attributesService.fillAttributes(this.targetModel.getAttributesMap(), root, this.targetModel);
+        tree.setRoot(root);
+        attributesService.fillAttributes(targetModel.getAttributesMap(), root, targetModel);
 
-        this.tree.setEditable(true);
+        tree.setEditable(true);
         root.setExpanded(true);
 
-        this.tree.setCellFactory(c -> {
+        tree.setCellFactory(c -> {
             return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), targetModel);
         });
 

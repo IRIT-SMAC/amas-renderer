@@ -41,7 +41,7 @@ public class KnowledgeSocial extends Knowledge {
 
     @JsonIgnore
     public Map<String, TargetModel> getTargetMap() {
-        return this.targetMap;
+        return targetMap;
     }
 
     @JsonIgnore
@@ -52,12 +52,12 @@ public class KnowledgeSocial extends Knowledge {
     @JsonProperty
     public void setPortMap(Map<String, PortModel> portMap) {
         this.portMap = portMap;
-        this.attributesMap.put(Const.PORT_MAP, portMap);
+        attributesMap.put(Const.PORT_MAP, portMap);
     }
 
     @JsonProperty
     public void setTargetMap(Map<String, TargetModel> targetMap) {
         this.targetMap = targetMap;
-        this.attributesMap.put(Const.TARGET_MAP, targetMap);
+        attributesMap.put(Const.TARGET_MAP, targetMap);
     }
 }

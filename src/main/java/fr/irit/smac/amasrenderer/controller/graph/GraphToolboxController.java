@@ -86,7 +86,7 @@ public class GraphToolboxController implements Initializable {
      *            the implementation
      */
     public void setGraphButtonsState(IGraphButtonsState graphButtonsState) {
-        this.graphToolboxState = graphButtonsState;
+        graphToolboxState = graphButtonsState;
     }
 
     /**
@@ -96,13 +96,13 @@ public class GraphToolboxController implements Initializable {
     @FXML
     public void buttonAddNode() {
 
-        if (this.buttonsAddDelState == EButtonsAddDelState.BUTTON_ADD_NODE) {
-            this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
-            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
+        if (buttonsAddDelState == EButtonsAddDelState.BUTTON_ADD_NODE) {
+            buttonsAddDelState = EButtonsAddDelState.AT_EASE;
+            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
         }
         else {
-            this.buttonsAddDelState = EButtonsAddDelState.BUTTON_ADD_NODE;
-            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_ADD_NODE);
+            buttonsAddDelState = EButtonsAddDelState.BUTTON_ADD_NODE;
+            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_ADD_NODE);
         }
     }
 
@@ -113,13 +113,13 @@ public class GraphToolboxController implements Initializable {
     @FXML
     public void buttonDeleteNode() {
 
-        if (this.buttonsAddDelState == EButtonsAddDelState.BUTTON_DELETE_NODE) {
-            this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
-            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
+        if (buttonsAddDelState == EButtonsAddDelState.BUTTON_DELETE_NODE) {
+            buttonsAddDelState = EButtonsAddDelState.AT_EASE;
+            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
         }
         else {
-            this.buttonsAddDelState = EButtonsAddDelState.BUTTON_DELETE_NODE;
-            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_DELETE_NODE);
+            buttonsAddDelState = EButtonsAddDelState.BUTTON_DELETE_NODE;
+            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_DELETE_NODE);
         }
 
     }
@@ -131,13 +131,13 @@ public class GraphToolboxController implements Initializable {
     @FXML
     public void buttonAddEdge() {
 
-        if (this.buttonsAddDelState == EButtonsAddDelState.BUTTON_ADD_EDGE) {
-            this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
-            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
+        if (buttonsAddDelState == EButtonsAddDelState.BUTTON_ADD_EDGE) {
+            buttonsAddDelState = EButtonsAddDelState.AT_EASE;
+            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
         }
         else {
-            this.buttonsAddDelState = EButtonsAddDelState.BUTTON_ADD_EDGE;
-            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_ADD_EDGE);
+            buttonsAddDelState = EButtonsAddDelState.BUTTON_ADD_EDGE;
+            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_ADD_EDGE);
         }
     }
 
@@ -148,13 +148,13 @@ public class GraphToolboxController implements Initializable {
     @FXML
     public void buttonDeleteEdge() {
 
-        if (this.buttonsAddDelState == EButtonsAddDelState.BUTTON_DELETE_EDGE) {
-            this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
-            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
+        if (buttonsAddDelState == EButtonsAddDelState.BUTTON_DELETE_EDGE) {
+            buttonsAddDelState = EButtonsAddDelState.AT_EASE;
+            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.AT_EASE);
         }
         else {
-            this.buttonsAddDelState = EButtonsAddDelState.BUTTON_DELETE_EDGE;
-            this.graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_DELETE_EDGE);
+            buttonsAddDelState = EButtonsAddDelState.BUTTON_DELETE_EDGE;
+            graphToolboxState.changedStateButtonsAddDel(EButtonsAddDelState.BUTTON_DELETE_EDGE);
         }
     }
 
@@ -165,7 +165,7 @@ public class GraphToolboxController implements Initializable {
     @FXML
     public void buttonViewCenter() {
 
-        this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.RESET_VIEW);
+        graphToolboxState.changedStateOtherButtons(EOthersButtonsState.RESET_VIEW);
     }
 
     /**
@@ -175,7 +175,7 @@ public class GraphToolboxController implements Initializable {
     @FXML
     public void buttonResetGraph() {
 
-        this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.RESET_GRAPH);
+        graphToolboxState.changedStateOtherButtons(EOthersButtonsState.RESET_GRAPH);
     }
 
     /**
@@ -185,13 +185,13 @@ public class GraphToolboxController implements Initializable {
     @FXML
     public void buttonHidePort() {
 
-        if (this.hidePortState == EOthersButtonsState.HIDE_PORT) {
-            this.hidePortState = EOthersButtonsState.DISPLAY_PORT;
-            this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.DISPLAY_PORT);
+        if (hidePortState == EOthersButtonsState.HIDE_PORT) {
+            hidePortState = EOthersButtonsState.DISPLAY_PORT;
+            graphToolboxState.changedStateOtherButtons(EOthersButtonsState.DISPLAY_PORT);
         }
         else {
-            this.hidePortState = EOthersButtonsState.HIDE_PORT;
-            this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.HIDE_PORT);
+            hidePortState = EOthersButtonsState.HIDE_PORT;
+            graphToolboxState.changedStateOtherButtons(EOthersButtonsState.HIDE_PORT);
         }
     }
     
@@ -202,13 +202,13 @@ public class GraphToolboxController implements Initializable {
     @FXML
     public void buttonHideMainSprite() {
 
-        if (this.hideMainSpriteState == EOthersButtonsState.HIDE_MAIN_SPRITE) {
-            this.hideMainSpriteState = EOthersButtonsState.DISPLAY_MAIN_SPRITE;
-            this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.DISPLAY_MAIN_SPRITE);
+        if (hideMainSpriteState == EOthersButtonsState.HIDE_MAIN_SPRITE) {
+            hideMainSpriteState = EOthersButtonsState.DISPLAY_MAIN_SPRITE;
+            graphToolboxState.changedStateOtherButtons(EOthersButtonsState.DISPLAY_MAIN_SPRITE);
         }
         else {
-            this.hideMainSpriteState = EOthersButtonsState.HIDE_MAIN_SPRITE;
-            this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.HIDE_MAIN_SPRITE);
+            hideMainSpriteState = EOthersButtonsState.HIDE_MAIN_SPRITE;
+            graphToolboxState.changedStateOtherButtons(EOthersButtonsState.HIDE_MAIN_SPRITE);
         }
     }
 
@@ -219,13 +219,13 @@ public class GraphToolboxController implements Initializable {
     @FXML
     public void autoLayout() {
 
-        if (this.autoLayoutState == EOthersButtonsState.AUTO_LAYOUT) {
-            this.autoLayoutState = EOthersButtonsState.NO_AUTO_LAYOUT;
-            this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.NO_AUTO_LAYOUT);
+        if (autoLayoutState == EOthersButtonsState.AUTO_LAYOUT) {
+            autoLayoutState = EOthersButtonsState.NO_AUTO_LAYOUT;
+            graphToolboxState.changedStateOtherButtons(EOthersButtonsState.NO_AUTO_LAYOUT);
         }
         else {
-            this.autoLayoutState = EOthersButtonsState.AUTO_LAYOUT;
-            this.graphToolboxState.changedStateOtherButtons(EOthersButtonsState.AUTO_LAYOUT);
+            autoLayoutState = EOthersButtonsState.AUTO_LAYOUT;
+            graphToolboxState.changedStateOtherButtons(EOthersButtonsState.AUTO_LAYOUT);
 
         }
     }
@@ -233,10 +233,10 @@ public class GraphToolboxController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.buttonsAddDelState = EButtonsAddDelState.AT_EASE;
-        this.autoLayoutState = EOthersButtonsState.AUTO_LAYOUT;
-        this.hidePortState = EOthersButtonsState.DISPLAY_PORT;
-        this.hideMainSpriteState = EOthersButtonsState.DISPLAY_MAIN_SPRITE;
+        buttonsAddDelState = EButtonsAddDelState.AT_EASE;
+        autoLayoutState = EOthersButtonsState.AUTO_LAYOUT;
+        hidePortState = EOthersButtonsState.DISPLAY_PORT;
+        hideMainSpriteState = EOthersButtonsState.DISPLAY_MAIN_SPRITE;
     }
 
     /**
