@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import fr.irit.smac.amasrenderer.model.InfrastructureModel;
+import fr.irit.smac.amasrenderer.service.graph.GraphService;
 
 /**
  * This service is related to the business logic about the loading and the
@@ -92,7 +93,7 @@ public class LoadSaveService {
             try {
                 final InjectableValues.Std injectableValues = new InjectableValues.Std();
                 injectableValues.addValue(AbstractGraph.class, (AbstractGraph) GraphService.getInstance().getGraph());
-                injectableValues.addValue(String.class, GraphService.getInstance().getIdCount());
+                injectableValues.addValue(String.class, GraphService.getInstance().getIdCountString());
                 mapper.setInjectableValues(injectableValues);
                 InfrastructureModel infrastructure = mapper.readValue(file, InfrastructureModel.class);
                 InfrastructureService.getInstance().updateInfrastructureFromFile(infrastructure);

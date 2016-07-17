@@ -6,11 +6,11 @@ import java.nio.file.Paths
 import javafx.collections.FXCollections
 import spock.lang.Shared
 import spock.lang.Specification
-import fr.irit.smac.amasrenderer.model.tool.ToolModel;
-import fr.irit.smac.amasrenderer.service.GraphService
+import fr.irit.smac.amasrenderer.model.tool.ToolModel
 import fr.irit.smac.amasrenderer.service.InfrastructureService
 import fr.irit.smac.amasrenderer.service.LoadSaveService
 import fr.irit.smac.amasrenderer.service.ToolService
+import fr.irit.smac.amasrenderer.service.graph.GraphService;
 
 public class LoadSaveServiceTest extends Specification{
 
@@ -54,8 +54,8 @@ public class LoadSaveServiceTest extends Specification{
         graphService.addNode(0,0)
         graphService.addNode(0,0)
         graphService.addNode(0,0)
-        toolService.addTool(new ToolModel("tool", new HashMap<String,Object>()))
-        toolService.addTool(new ToolModel("tool2", new HashMap<String,Object>()))
+        toolService.addTool("tool")
+        toolService.addTool("tool2")
         File file = new File("./configTest.json")
         LoadSaveService.getInstance().save(file)
 

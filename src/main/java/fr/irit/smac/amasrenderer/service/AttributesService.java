@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.TreeItem;
@@ -83,8 +84,8 @@ public class AttributesService {
                 if (value != null) {
                     item.setValue(name + " : " + value.toString());
                 }
-                else if (!name.contains("null")) {
-                    item.setValue(name + " : " + "null");
+                else if (!name.contains(Const.NULL_STRING)) {
+                    item.setValue(name + " : " + Const.NULL_STRING);
                 }
 
                 item.setExpanded(true);

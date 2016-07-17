@@ -34,8 +34,6 @@ public class TargetModel extends ModelWithAttributesMap implements IModel {
 
     private StringProperty name;
 
-    private String className;
-
     private String agentTarget;
 
     private String portSource;
@@ -88,13 +86,13 @@ public class TargetModel extends ModelWithAttributesMap implements IModel {
     @JsonSetter
     public void setPortSource(String portName) {
         this.portSource = portName;
-        this.attributesMap.put("portSource", portSource);
+        this.attributesMap.put(Const.PORT_SOURCE, portSource);
     }
     
     @JsonSetter
     public void setPortTarget(String portTarget) {
         this.portTarget = portTarget;
-        this.attributesMap.put("portTarget", portTarget);
+        this.attributesMap.put(Const.PORT_TARGET, portTarget);
     }
     
     @JsonIgnore
@@ -110,11 +108,6 @@ public class TargetModel extends ModelWithAttributesMap implements IModel {
     @JsonIgnore
     public String getPortTarget() {
         return portTarget;
-    }
-
-    @JsonIgnore
-    public String getClassName() {
-        return className;
     }
 
     @Override

@@ -12,7 +12,7 @@ import spock.lang.Shared
 import spock.lang.Stepwise
 import fr.irit.smac.amasrenderer.controller.MainController
 import fr.irit.smac.amasrenderer.controller.graph.GraphController
-import fr.irit.smac.amasrenderer.service.GraphService
+import fr.irit.smac.amasrenderer.service.graph.GraphService;
 
 @IgnoreIf({
     System.getenv("TRAVIS") != null
@@ -77,7 +77,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         positionDown = height-gap*2
         positionUpEdge = positionUp + gapEdge
         positionDownEdge = positionDown - gapEdge*2
-        graphService.idCount = 0
+        graphService.getIdCount().set(0)
 
         fx.clickOn(graphId)
     }
@@ -234,7 +234,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         given:
         graphService.addNode(0.0,positionUp)
         graphService.addNode(0.0,positionDown)
-        graphService.addEdge(agentId,agentId2,agentId2,agentId)
+        graphService.addEdge(agentId,agentId2)
         fx.clickOn("#buttonDelEdge")
         sleep(waitingTime)
 
@@ -251,7 +251,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         given:
         graphService.addNode(0.0,positionUp)
         graphService.addNode(0.0,positionDown)
-        graphService.addEdge(agentId,agentId2, agentId2,agentId)
+        graphService.addEdge(agentId,agentId2)
         sleep(waitingTime)
 
         when:
@@ -271,7 +271,7 @@ class GraphAddDelNodeEdgeTest extends GuiSpecification{
         int nbEdge = graphService.getGraph().getEdgeCount()
         graphService.addNode(0.0,positionUp)
         graphService.addNode(0.0,positionDown)
-        graphService.addEdge(agentId,agentId2,agentId2,agentId)
+        graphService.addEdge(agentId,agentId2)
         sleep(waitingTime)
         fx.clickOn(button)
         fx.moveTo(graphId)

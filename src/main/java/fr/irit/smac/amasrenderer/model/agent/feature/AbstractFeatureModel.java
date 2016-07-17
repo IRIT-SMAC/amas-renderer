@@ -38,9 +38,6 @@ public class AbstractFeatureModel extends ModelWithAttributesMap implements IMod
 
     protected Skill skill;
 
-    @JsonProperty
-    protected String className;
-
     private static final String[] NOT_EXPANDED = { };
     private static final String[] PROTECTED_VALUE = { Const.SKILL, Const.KNOWLEDGE };
 
@@ -58,17 +55,6 @@ public class AbstractFeatureModel extends ModelWithAttributesMap implements IMod
 
     public void setName(String name) {
         this.name.set(name);
-    }
-
-    @JsonProperty
-    public void setClassName(String className) {
-        this.className = className;
-        this.attributesMap.put("className", className);
-    }
-
-    @JsonIgnore
-    public String getClassName() {
-        return this.className;
     }
 
     public Map<String, Object> getAttributesMap() {

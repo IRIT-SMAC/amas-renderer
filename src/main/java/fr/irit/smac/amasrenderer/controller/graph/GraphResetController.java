@@ -22,7 +22,7 @@
 package fr.irit.smac.amasrenderer.controller.graph;
 
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
-import fr.irit.smac.amasrenderer.service.GraphService;
+import fr.irit.smac.amasrenderer.service.graph.GraphService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;

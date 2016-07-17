@@ -34,7 +34,7 @@ import fr.irit.smac.amasrenderer.model.agent.feature.AbstractFeatureModel;
 import fr.irit.smac.amasrenderer.model.agent.feature.FeatureModel;
 import fr.irit.smac.amasrenderer.model.agent.feature.social.PortModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
-import fr.irit.smac.amasrenderer.service.GraphService;
+import fr.irit.smac.amasrenderer.service.graph.GraphService;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesListCell;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;
@@ -72,12 +72,6 @@ public class NodeAttributesController implements ISecondaryWindowController {
     @FXML
     private TreeView<String> treeOtherAttributes;
 
-    private Stage stage;
-
-    private AgentModel agent;
-
-    private AttributesService attributesService = AttributesService.getInstance();
-
     @FXML
     private ListView<PortModel> listPort;
 
@@ -92,6 +86,14 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
     @FXML
     private TextField textFieldId;
+    
+    private Stage stage;
+
+    private AgentModel agent;
+
+    private AttributesService attributesService = AttributesService.getInstance();
+
+    private GraphService graphService = GraphService.getInstance();
 
     private ObservableList<PortModel> ports;
 
@@ -108,14 +110,14 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
     @FXML
     public void addPort() {
-        PortModel port = GraphService.getInstance().addPort(agent);
+        PortModel port = graphService.addPort(agent);
         ports.add(port);
     }
 
     @FXML
     public void addFeature() {
 
-        FeatureModel feature = GraphService.getInstance().addFeature(agent);
+        FeatureModel feature = graphService.addFeature(agent);
         features.add(feature);
 
     }
@@ -191,7 +193,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
         Node node = (Node) args[0];
         this.stage = stage;
-        agent = GraphService.getInstance().getAgentMap().get(node.getAttribute(Const.GS_UI_LABEL));
+        agent = graphService.getAgentMap().get(node.getAttribute(Const.GS_UI_LABEL));
 
         initTextFields();
         initPortMap();
@@ -256,7 +258,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
     private void initPrimaryFeature() {
 
-        TreeItem<String> root = new TreeItem<>("PrimaryFeature");
+        TreeItem<String> root = new TreeItem<>(Const.PRIMARY_FEATURE);
         treePrimaryFeature.setRoot(root);
         attributesService.fillAttributes(agent.getPrimaryFeature().getAttributesMap(), root,
             (IModel) agent.getPrimaryFeature());

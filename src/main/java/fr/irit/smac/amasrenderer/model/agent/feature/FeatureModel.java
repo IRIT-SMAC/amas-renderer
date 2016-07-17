@@ -26,17 +26,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FeatureModel extends AbstractFeatureModel {
 
-    private String className;
-    
     private Knowledge knowledge;
         
     public FeatureModel() {
-    }
-    
-    @JsonProperty
-    public void setClassName(String className) {
-        this.className = className;
-        this.attributesMap.put("className", className);
     }
 
     @JsonProperty
@@ -49,11 +41,6 @@ public class FeatureModel extends AbstractFeatureModel {
     public void setSkill(Skill skill) {
         this.skill = skill;
         this.attributesMap.put("skill", skill.getAttributesMap());
-    }
-
-    @JsonIgnore
-    public String getClassName() {
-        return className;
     }
 
     @JsonIgnore

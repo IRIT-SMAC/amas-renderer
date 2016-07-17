@@ -35,7 +35,7 @@ public class FeatureBasicModel extends AbstractFeatureModel {
     private KnowledgeBasic knowledge;
 
     public FeatureBasicModel() {
-        this.name = new SimpleStringProperty("featureBasic");
+        this.name = new SimpleStringProperty(Const.FEATURE_BASIC);
     }
 
     @JsonIgnore
@@ -46,7 +46,7 @@ public class FeatureBasicModel extends AbstractFeatureModel {
     @JsonProperty
     public void setKnowledge(KnowledgeBasic knowledge) {
         this.knowledge = knowledge;
-        this.attributesMap.put("knowledge", knowledge.getAttributesMap());
+        this.attributesMap.put(Const.KNOWLEDGE, knowledge.getAttributesMap());
     }
 
     @Override

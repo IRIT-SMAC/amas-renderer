@@ -60,21 +60,11 @@ public final class Const {
 
     public static final String SECONDARY_WINDOW = "secondaryWindow";
 
-    public static final String AGENT_HANDLER_CLASSNAME = "fr.irit.smac.amasfactory.service.agenthandler.impl.BasicAgentHandler";
-
-    public static final String EXECUTION_CLASSNAME = "fr.irit.smac.amasfactory.service.execution.impl.TwoStepAgExecutionService";
-    
     public static final String AGENT_MAP = "agentMap";
 
     public static final String EXECUTION_SERVICE = "executionService";
 
     public static final String AGENT_HANDLER_SERVICE = "agentHandlerService";
-
-    public static final String INFRASTRUCTURE_CLASSNAME = "fr.irit.smac.amasfactory.impl.BasicInfrastructure";
-
-    public static final String INFRASTRUCTURE_NAME = "BasicInfrastructure";
-
-    public static final String EXAMPLE_CLASSNAME = "package.implementationclass";
 
     public static final String ID = "id";
 
@@ -107,10 +97,6 @@ public final class Const {
     public static final String SKILL = "skill";
 
     public static final String PORT_MAP = "portMap";
-
-    public static final String PORT_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.social.impl.Port";
-
-    public static final String PORT_TYPE_DEFAULT_CLASSNAME = "java.lang.String";
     
     public static final String PORT = "port";
 
@@ -126,18 +112,8 @@ public final class Const {
     
     public static final String FEATURE_BASIC = "featureBasic";
 
-    public static final String FEATURE_BASIC_KNOWLEDGE_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic";
-
-    public static final String FEATURE_BASIC_SKILL_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.basic.impl.SkillBasic";
-
     public static final String FEATURE_SOCIAL = "featureSocial";
-
-    public static final String FEATURE_SOCIAL_KNOWLEDGE_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.social.impl.KnowledgeSocial";
-
-    public static final String FEATURE_SOCIAL_SKILL_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.social.impl.SkillSocial";
     
-    public static final String FEATURE_DEFAULT_CLASSNAME = "fr.irit.smac.amasfactory.agent.features.impl.Feature";
-
     public static final String FEATURE = "feature";
 
     public static final String PRIMARY_FEATURE = "primaryFeature";

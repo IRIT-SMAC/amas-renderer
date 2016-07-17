@@ -31,7 +31,7 @@ import org.graphstream.ui.spriteManager.Sprite;
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.agent.feature.social.TargetModel;
-import fr.irit.smac.amasrenderer.service.GraphService;
+import fr.irit.smac.amasrenderer.service.graph.GraphService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;

@@ -29,7 +29,7 @@ import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.agent.feature.social.TargetModel;
 import fr.irit.smac.amasrenderer.service.AttributesService;
-import fr.irit.smac.amasrenderer.service.GraphService;
+import fr.irit.smac.amasrenderer.service.graph.GraphService;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;
 import javafx.fxml.FXML;

@@ -22,7 +22,6 @@
 package fr.irit.smac.amasrenderer.controller.tool;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
@@ -68,18 +67,17 @@ public class ToolAdditionController implements Initializable, ISecondaryWindowCo
             && !toolName.trim().isEmpty()
             && !toolName.trim().contains(" ")) {
 
-            ToolModel tool = new ToolModel(toolName,
-                new HashMap<String, Object>());
+            
 
             boolean found = false;
             for (ToolModel item : ToolService.getInstance().getTools()) {
-                if (item.getName().equals(tool.getName())) {
+                if (item.getName().equals(toolName)) {
                     found = true;
                 }
             }
 
             if (!found) {
-                toolService.addTool(tool);
+                toolService.addTool(toolName);
             }
 
             this.stage.close();

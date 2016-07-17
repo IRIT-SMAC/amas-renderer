@@ -24,6 +24,7 @@ package fr.irit.smac.amasrenderer.model.agent.feature.social;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
 import fr.irit.smac.amasrenderer.model.ModelWithAttributesMap;
 import javafx.beans.property.SimpleStringProperty;
@@ -36,8 +37,6 @@ public class PortModel extends ModelWithAttributesMap implements IModel{
     private String type;
 
     private String id;
-    
-    private String className;
     
     public PortModel() {
         this.name = new SimpleStringProperty();
@@ -62,31 +61,18 @@ public class PortModel extends ModelWithAttributesMap implements IModel{
         return id;
     }
 
-    @JsonIgnore
-    public String getClassName() {
-        return className;
-    }
-
     @JsonProperty
     public void setId(String id) {
         this.id = id;
         this.name.set(id);
-        this.attributesMap.put("id", id);
+        this.attributesMap.put(Const.ID, id);
     }
     
     @JsonProperty
     public void setType(String type) {
         this.type = type;
-        this.attributesMap.put("type", type);
+        this.attributesMap.put(Const.TYPE, type);
     }
-
-    @JsonProperty
-    public void setClassName(String className) {
-        this.className = className;
-        this.attributesMap.put("className", className);
-    }
-    
-
 
     @Override
     public void setName(String name) {

@@ -45,8 +45,8 @@ class ToolAttributeTest extends GuiSpecification{
             Map<String,Object> map = new HashMap<>()
             Map<String,Object> complexNodeMap = new HashMap<>()
             complexNodeMap.put("node1", "value1")
-            map.put(itemId, complexNodeMap)
-            toolService.addTool(new ToolModel(service, map))
+            toolService.addTool(service)
+            toolService.getToolMap().getServices().get(service).getAttributesMap().put(itemId, complexNodeMap)
 
             return rootLayout
         }

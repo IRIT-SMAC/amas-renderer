@@ -28,7 +28,6 @@ import java.util.ResourceBundle;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
-import org.graphstream.graph.implementations.MultiNode;
 import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.spriteManager.Sprite;
@@ -37,7 +36,7 @@ import org.graphstream.ui.view.Viewer;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
-import fr.irit.smac.amasrenderer.service.GraphService;
+import fr.irit.smac.amasrenderer.service.graph.GraphService;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -606,8 +605,7 @@ public class GraphController extends LoadSecondaryWindowController
         this.getEdge(e);
         if (this.source != null && this.target != null) {
 
-            this.graphService.addEdge(this.source.getId(), this.target.getId(),
-                this.target.getId().concat(this.edgeCreatedCount.toString()), source.getId());
+            this.graphService.addEdge(this.source.getAttribute(Const.GS_UI_LABEL), this.target.getAttribute(Const.GS_UI_LABEL));
         }
         this.edgeCreatedCount++;
         this.unselectSource();

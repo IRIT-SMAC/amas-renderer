@@ -21,26 +21,10 @@
  */
 package fr.irit.smac.amasrenderer.model.agent.feature;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import fr.irit.smac.amasrenderer.model.ModelWithAttributesMap;
 
 public class Knowledge extends ModelWithAttributesMap {
 
-    private String className;
-
     public Knowledge() {
-    }
-
-    @JsonIgnore
-    public String getClassName() {
-        return className;
-    }
-
-    @JsonProperty
-    public void setClassName(String className) {
-        this.className = className;
-        this.attributesMap.put("className", className);
     }
 }

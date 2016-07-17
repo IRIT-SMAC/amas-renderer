@@ -35,7 +35,7 @@ public class FeatureSocialModel extends AbstractFeatureModel {
     private KnowledgeSocial knowledge;
 
     public FeatureSocialModel() {
-        this.name = new SimpleStringProperty("featureSocial");
+        this.name = new SimpleStringProperty(Const.FEATURE_SOCIAL);
     }
 
     @JsonIgnore
@@ -46,7 +46,7 @@ public class FeatureSocialModel extends AbstractFeatureModel {
     @JsonProperty
     public void setKnowledge(KnowledgeSocial knowledge) {
         this.knowledge = knowledge;
-        this.attributesMap.put("knowledge", knowledge.getAttributesMap());
+        this.attributesMap.put(Const.KNOWLEDGE, knowledge.getAttributesMap());
     }
     
     @Override

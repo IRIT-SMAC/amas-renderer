@@ -1,10 +1,12 @@
 package fr.irit.smac.amasrenderer
 
+import java.util.concurrent.atomic.AtomicInteger
+
 import org.graphstream.graph.implementations.MultiNode
 
 import spock.lang.Shared
 import spock.lang.Specification
-import fr.irit.smac.amasrenderer.service.GraphService
+import fr.irit.smac.amasrenderer.service.graph.GraphService
 
 class GraphServiceTest extends Specification{
 
@@ -16,7 +18,7 @@ class GraphServiceTest extends Specification{
 
         graphService = GraphService.getInstance()
         graphService.setAgentMap(new HashMap<String,Object>())
-        graphService.idCount = 0
+        graphService.getIdCount().set(0)
     }
 
     def 'check if an agent is added and removed'() {
@@ -40,7 +42,7 @@ class GraphServiceTest extends Specification{
         when:
         graphService.addNode(5.0,10.0)
         graphService.addNode(10.0,5.0)
-        graphService.addEdge(agentId, agentId2, agentId + agentId2, agentId)
+        graphService.addEdge(agentId, agentId2)
 
         then:
         graphService.getGraph().getEdge(0) != null

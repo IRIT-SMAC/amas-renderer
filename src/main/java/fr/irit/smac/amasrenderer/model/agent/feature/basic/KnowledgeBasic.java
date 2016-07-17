@@ -24,6 +24,7 @@ package fr.irit.smac.amasrenderer.model.agent.feature.basic;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.agent.feature.Knowledge;
 
 public class KnowledgeBasic extends Knowledge {
@@ -36,7 +37,7 @@ public class KnowledgeBasic extends Knowledge {
     @JsonProperty
     public void setId(String id) {
         this.id = id;
-        attributesMap.put("id", id);
+        attributesMap.put(Const.ID, id);
     }
 
     @JsonIgnore

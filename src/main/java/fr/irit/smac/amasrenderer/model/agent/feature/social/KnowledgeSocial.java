@@ -27,6 +27,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.agent.feature.Knowledge;
 
 public class KnowledgeSocial extends Knowledge {
@@ -51,12 +52,12 @@ public class KnowledgeSocial extends Knowledge {
     @JsonProperty
     public void setPortMap(Map<String, PortModel> portMap) {
         this.portMap = portMap;
-        this.attributesMap.put("portMap", portMap);
+        this.attributesMap.put(Const.PORT_MAP, portMap);
     }
 
     @JsonProperty
     public void setTargetMap(Map<String, TargetModel> targetMap) {
         this.targetMap = targetMap;
-        this.attributesMap.put("targetMap", targetMap);
+        this.attributesMap.put(Const.TARGET_MAP, targetMap);
     }
 }

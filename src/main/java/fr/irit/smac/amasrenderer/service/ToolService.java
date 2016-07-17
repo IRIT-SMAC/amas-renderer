@@ -21,9 +21,15 @@
  */
 package fr.irit.smac.amasrenderer.service;
 
+import java.io.File;
+import java.io.IOException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.tool.ToolModel;
 import fr.irit.smac.amasrenderer.model.tool.ToolsModel;
+import fr.irit.smac.amasrenderer.service.graph.GraphService;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -79,18 +85,23 @@ public class ToolService {
      * @param tool
      *            the tool
      */
-    public void addTool(ToolModel tool) {
+    public void addToolToTools(ToolModel tool) {
 
         this.tools.add(tool);
         this.toolMap.getServices().put(tool.getName(), tool);
-        tool.nameProperty()
-            .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-                toolMap.getServices().remove(oldValue);
-                toolMap.getServices().put(newValue,
-                    tool);
-            });
+        handleToolModelChange(tool);
     }
 
+    private void handleToolModelChange(ToolModel tool) {
+        
+        tool.nameProperty()
+        .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            toolMap.getServices().remove(oldValue);
+            toolMap.getServices().put(newValue,
+                tool);
+        });
+    }
+    
     /**
      * Creates the tools from a tool map.
      *
@@ -104,17 +115,12 @@ public class ToolService {
         this.toolMap.getServices().forEach((k, v) -> {
             v.setName(k);
             v.getAttributesMap().put(Const.CLASSNAME, v.getClassName());
-            this.addTool(v);
+            this.addToolToTools(v);
         });
 
-        this.toolMap.getAgentHandlerToolModel().setName("agentHandlerService");
+        this.toolMap.getAgentHandlerToolModel().setName(Const.AGENT_HANDLER_SERVICE);
         this.tools.add(toolMap.getAgentHandlerToolModel());
-        toolMap.getAgentHandlerToolModel().nameProperty()
-            .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-                toolMap.getServices().remove(oldValue);
-                toolMap.getServices().put(newValue,
-                    toolMap.getAgentHandlerToolModel());
-            });
+        handleToolModelChange(toolMap.getAgentHandlerToolModel());
     }
 
     /**
@@ -148,5 +154,21 @@ public class ToolService {
         this.createToolsFromMap();
 
         GraphService.getInstance().updateGraphFromFile(tools.getAgentHandlerToolModel().getAgentMap());
+    }
+    
+    public void addTool(String id) {
+        
+        File file = new File(getClass().getResource("../json/initial_tool.json").getFile());
+        final ObjectMapper mapper = new ObjectMapper();
+        ToolModel tool = null;
+        try {
+            tool = mapper.readValue(file, ToolModel.class);
+            tool.setName(tool.getNewName(id));
+            addToolToTools(tool);
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

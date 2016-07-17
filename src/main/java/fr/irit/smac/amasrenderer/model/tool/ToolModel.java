@@ -22,10 +22,6 @@
 package fr.irit.smac.amasrenderer.model.tool;
 
 import java.util.HashMap;
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSetter;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
@@ -40,26 +36,13 @@ public class ToolModel extends ModelWithAttributesMap implements IModel {
 
     private StringProperty name;
 
-    private String className;
-
     private static final String[] PROTECTED_VALUE = {};
-    private static final String[] NOT_EXPANDED = { Const.AGENT_MAP };
+    private static final String[] NOT_EXPANDED    = { Const.AGENT_MAP };
 
     public ToolModel() {
+
         attributesMap = new HashMap<>();
         this.name = new SimpleStringProperty();
-    }
-
-    @SuppressWarnings("unchecked")
-    public ToolModel(String name, Object map) {
-        super();
-
-        this.name = new SimpleStringProperty(this.getNewName(name));
-        this.className = Const.EXAMPLE_CLASSNAME;
-
-        this.attributesMap = (Map<String, Object>) map;
-
-        this.attributesMap.put(Const.CLASSNAME, this.className);
     }
 
     @Override
@@ -95,15 +78,4 @@ public class ToolModel extends ModelWithAttributesMap implements IModel {
     public String getNewName(String name) {
         return name.endsWith(Const.TOOL) ? name : name.concat(Const.TOOL);
     }
-
-    @JsonIgnore
-    public String getClassName() {
-        return this.className;
-    }
-    
-    @JsonSetter
-    public void setClassName(String className) {
-        this.className = className;
-    }
-    
 }
