@@ -23,56 +23,47 @@ package fr.irit.smac.amasrenderer.service;
 
 import java.io.File;
 
-import fr.irit.smac.amasrenderer.model.InfrastructureModel;
+import fr.irit.smac.amasrenderer.model.Infrastructure;
 
 /**
  * This service is related to the business logic about the infrastructure
  */
 public class InfrastructureService {
 
-    private InfrastructureModel infrastructure;
+    private Infrastructure infrastructure;
 
     private static InfrastructureService instance = new InfrastructureService();
 
     private InfrastructureService() {
     }
 
-    /**
-     * Gets the single instance of InfrastructureService.
-     *
-     * @return single instance of InfrastructureService
-     */
     public static InfrastructureService getInstance() {
         return instance;
     }
 
-    /**
-     * Gets the infrastructure.
-     *
-     * @return the infrastructure
-     */
-    public InfrastructureModel getInfrastructure() {
+    public Infrastructure getInfrastructure() {
         return infrastructure;
     }
 
     /**
-     * Updates the infrastructure depending on the infrastructure of a JSON file
+     * Updates the infrastructure depending on a given infrastructure
      * 
      * @param infrastructure
      */
-    public void updateInfrastructureFromFile(InfrastructureModel infrastructure) {
+    public void updateInfrastructure(Infrastructure infrastructure) {
 
         String[] infrastructureName = infrastructure.getClassName().toString()
             .split("\\.");
         infrastructure
             .setName(infrastructureName[infrastructureName.length - 1]);
-        
+
         this.infrastructure = infrastructure;
         ToolService.getInstance().updateToolFromFile(infrastructure.getServices());
     }
 
     /**
-     * Initialize a default infrastructure
+     * Initialises a default infrastructure. The infrastructure to instantiate
+     * is defined in a json file
      */
     public void init() {
 

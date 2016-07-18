@@ -248,7 +248,7 @@ public class GraphController extends LoadSecondaryWindowController
         if (graphState == EGraphState.AT_EASE) {
 
             graphState = EGraphState.AT_EASE;
-            handleAttributesOrSelectNode(e);
+            handleAttributesOrSelectNodeOrSprite(e);
         }
         else {
 
@@ -257,7 +257,7 @@ public class GraphController extends LoadSecondaryWindowController
 
                 case AT_EASE:
                     graphState = EGraphState.AT_EASE;
-                    handleAttributesOrSelectNode(e);
+                    handleAttributesOrSelectNodeOrSprite(e);
                     break;
                 case READY_TO_ADD_NODE:
                     graphState = EGraphState.AT_EASE;
@@ -410,13 +410,13 @@ public class GraphController extends LoadSecondaryWindowController
     }
 
     /**
-     * Handles the attribute or selects a node depending on the mouse button
-     * down
+     * Handles the attributes or selects a node or a sprite depending on the
+     * mouse button down
      * 
      * @param e
      *            the event
      */
-    private void handleAttributesOrSelectNode(MouseEvent e) {
+    private void handleAttributesOrSelectNodeOrSprite(MouseEvent e) {
 
         if (e.isSecondaryButtonDown()) {
             graphState = EGraphState.AT_EASE;
@@ -428,6 +428,12 @@ public class GraphController extends LoadSecondaryWindowController
         }
     }
 
+    /**
+     * Handles the attributes or selects a sprite depending on the mouse button
+     * down
+     * 
+     * @param e
+     */
     private void handleAttributesOrSelectSprite(MouseEvent e) {
 
         GraphicElement elt = graphView.findNodeOrSpriteAt(e.getX(), e.getY());
@@ -436,12 +442,12 @@ public class GraphController extends LoadSecondaryWindowController
             handleAttributes(elt);
         }
         else if (selectedElement != null) {
-            clickOnSpriteEdge(elt);
+            selectSpriteEdge(elt);
         }
     }
 
     /**
-     * Selected the selected node
+     * Selects the selected node
      *
      * @param event
      *            the event
@@ -464,14 +470,19 @@ public class GraphController extends LoadSecondaryWindowController
 
         }
         else if (selectedElement != null) {
-            clickOnSpriteEdge(selectedElement);
+            selectSpriteEdge(selectedElement);
         }
         else {
             handleUnselectedNodeDisplay();
         }
     }
 
-    private void clickOnSpriteEdge(GraphicElement elt) {
+    /**
+     * Selects a sprite of an edge
+     * 
+     * @param elt
+     */
+    private void selectSpriteEdge(GraphicElement elt) {
 
         Sprite s = graphService.getSpriteManager().getSprite(elt.getId());
         if (s.getAttribute(Const.GS_UI_CLASS) != Const.EDGE_SPRITE_CLASS_BACKGROUND) {
@@ -484,6 +495,9 @@ public class GraphController extends LoadSecondaryWindowController
         }
     }
 
+    /**
+     * Handles the behaviour when a node is unselected
+     */
     private void handleUnselectedNodeDisplay() {
 
         if (displayNodeState == EDisplayNodeState.ACTIVE) {
@@ -492,6 +506,9 @@ public class GraphController extends LoadSecondaryWindowController
         }
     }
 
+    /**
+     * Handles the behaviour when a node is selected
+     */
     private void handleSelectedNodeDisplay() {
 
         foregroundNode = (Node) selectedElement;

@@ -32,15 +32,17 @@ import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.agent.AgentModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.FeatureModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.social.PortModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.social.TargetModel;
+import fr.irit.smac.amasrenderer.model.agent.Agent;
+import fr.irit.smac.amasrenderer.model.agent.feature.Feature;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.Port;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.Target;
 import fr.irit.smac.amasrenderer.service.graph.EdgeService.IGraphEdgeService;
 import fr.irit.smac.amasrenderer.service.graph.NodeService.IGraphNodeService;
 
 /**
- * This service is related to the business logic about the graph of agents
+ * This service is related to the business logic about the graph of agents. It
+ * uses subservices EdgeService, FeatureService, NodeService, PortDisplayService
+ * and PortService
  */
 public class GraphService implements IGraphEdgeService, IGraphNodeService {
 
@@ -48,7 +50,7 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
 
     private static GraphService instance = new GraphService();
 
-    private Map<String, AgentModel> agentMap;
+    private Map<String, Agent> agentMap;
 
     private SpriteManager spriteManager;
 
@@ -77,21 +79,11 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
         portDisplayService.init(graph, spriteManager);
     }
 
-    /**
-     * Gets the single instance of GraphService.
-     * 
-     * @return single instance of GraphService
-     */
     public static GraphService getInstance() {
 
         return instance;
     }
 
-    /**
-     * Gets the graph
-     *
-     * @return the graph
-     */
     public MultiGraph getGraph() {
         return graph;
     }
@@ -103,39 +95,22 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
     public String getIdCountString() {
         return idCount.toString();
     }
-    
+
     public AtomicInteger getIdCount() {
         return idCount;
     }
 
-    /**
-     * Gets the agent map
-     * 
-     * @return the agent map
-     */
-    public Map<String, AgentModel> getAgentMap() {
+    public Map<String, Agent> getAgentMap() {
         return agentMap;
     }
 
-    /**
-     * Sets the agent map
-     * 
-     * @param agentMap
-     *            the agent map
-     */
-    public void setAgentMap(Map<String, AgentModel> agentMap) {
+    public void setAgentMap(Map<String, Agent> agentMap) {
         this.agentMap = agentMap;
         nodeService.setAgentMap(agentMap);
         edgeService.setAgentMap(agentMap);
     }
-    
-    /**
-     * Fills the agent graph from a map
-     * 
-     * @param map
-     *            the agent map
-     */
-    public void fillAgentGraphFromMap() {
+
+    public void fillAgentGraphFromAgentMap() {
 
         agentMap.forEach((agentId, agent) -> {
             nodeService.addNode(agentId, agent);
@@ -143,7 +118,7 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
 
         agentMap.forEach((agentId, agent) -> {
 
-            Map<String, TargetModel> targets = agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge()
+            Map<String, Target> targets = agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge()
                 .getTargetMap();
 
             targets.forEach(
@@ -153,9 +128,6 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
         });
     }
 
-    /**
-     * Empties the graph and resets the stylesheet
-     */
     public void clearGraph() {
 
         agentMap.clear();
@@ -168,9 +140,6 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
         setQualityGraph();
     }
 
-    /**
-     * Sets the quality of the rendering of the graph
-     */
     public void setQualityGraph() {
 
         graph.addAttribute(Const.GS_UI_QUALITY);
@@ -178,20 +147,20 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
         graph.addAttribute(Const.GS_ANTIALIAS);
     }
 
-    public TargetModel getTargetModel(String agentId, String targetId) {
+    public Target getTargetModel(String agentId, String targetId) {
 
         return agentMap.get(agentId).getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap()
             .get(targetId);
     }
 
-    public void updateGraphFromFile(Map<String, AgentModel> agentMap) {
+    public void updateGraphFromAgentMap(Map<String, Agent> agentMap) {
 
         if (this.agentMap != null) {
             clearGraph();
         }
-        
+
         setAgentMap(agentMap);
-        fillAgentGraphFromMap();
+        fillAgentGraphFromAgentMap();
         setQualityGraph();
     }
 
@@ -216,16 +185,16 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
         edgeService.removeEdge(id);
     }
 
-    public FeatureModel addFeature(AgentModel agent) {
+    public Feature addFeature(Agent agent) {
         return featureService.addFeature(agent);
     }
 
-    public PortModel addPort(AgentModel agent) {
+    public Port addPort(Agent agent) {
         return portService.addPort(agent);
     }
 
     public void displaySpriteEdge(boolean displayNode, Node foregroundNode, String type, String styleClass) {
-        portDisplayService.displaySpriteEdge(displayNode, foregroundNode, type, styleClass);
+        portDisplayService.displaySpritesEdge(displayNode, foregroundNode, type, styleClass);
     }
 
     public void setDisplayPort(boolean visible) {
@@ -249,7 +218,7 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
     }
 
     public void displayAllNodes() {
-        portDisplayService.displayAllNodes();
+        portDisplayService.displayAllNodesNormally();
     }
 
     @Override

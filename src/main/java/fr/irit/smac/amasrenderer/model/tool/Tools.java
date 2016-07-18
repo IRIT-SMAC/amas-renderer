@@ -19,48 +19,50 @@
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
  * #L%
  */
-package fr.irit.smac.amasrenderer.model.agent.feature.social;
+package fr.irit.smac.amasrenderer.model.tool;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.agent.feature.Knowledge;
-
 /**
- * This model is about the social knowledge of an agent
+ * This model contains the map of services (tools)
  */
-public class KnowledgeSocial extends Knowledge {
+public class Tools {
 
-    private Map<String, Target> targetMap = new HashMap<>();
+    @JsonProperty
+    private String className;
 
-    private Map<String, Port> portMap = new HashMap<>();
+    @JsonProperty()
+    private AgentHandlerTool agentHandlerService;
 
-    public KnowledgeSocial() {
+    @JsonIgnore
+    private Map<String, Tool> services = new HashMap<>();
+
+    public Tools() {
+
+    }
+
+    public String getClassName() {
+        return className;
     }
 
     @JsonIgnore
-    public Map<String, Target> getTargetMap() {
-        return targetMap;
+    public AgentHandlerTool getAgentHandlerToolModel() {
+        return agentHandlerService;
     }
 
-    @JsonIgnore
-    public Map<String, Port> getPortMap() {
-        return portMap;
+    @JsonAnySetter
+    public void setServicesMap(String name, Tool value) {
+        services.put(name, value);
     }
 
-    @JsonProperty
-    public void setPortMap(Map<String, Port> portMap) {
-        this.portMap = portMap;
-        attributesMap.put(Const.PORT_MAP, portMap);
-    }
-
-    @JsonProperty
-    public void setTargetMap(Map<String, Target> targetMap) {
-        this.targetMap = targetMap;
-        attributesMap.put(Const.TARGET_MAP, targetMap);
+    @JsonAnyGetter
+    public Map<String, Tool> getServices() {
+        return services;
     }
 }

@@ -21,24 +21,20 @@
  */
 package fr.irit.smac.amasrenderer.controller.graph;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.spriteManager.Sprite;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
-import fr.irit.smac.amasrenderer.model.agent.feature.social.TargetModel;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.Target;
 import fr.irit.smac.amasrenderer.service.graph.GraphService;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class PortController implements Initializable, ISecondaryWindowController {
+public class PortController implements ISecondaryWindowController {
 
     @FXML
     private Button buttonConfirm;
@@ -51,13 +47,17 @@ public class PortController implements Initializable, ISecondaryWindowController
 
     private Sprite sprite;
 
-    private TargetModel targetModel;
+    private Target targetModel;
 
     private Stage stage;
 
     private GraphService graphService = GraphService.getInstance();
 
     @FXML
+    /**
+     * When the confirm button is clicked, the name of the selected sprite is
+     * updated
+     */
     public void clickConfirm() {
 
         String portName = textfieldTool.getText();
@@ -79,6 +79,10 @@ public class PortController implements Initializable, ISecondaryWindowController
 
     }
 
+    /**
+     * When the cancel button is clicked, the name of the selected sprite is not
+     * udpated
+     */
     @FXML
     public void clickCancel() {
 
@@ -92,13 +96,8 @@ public class PortController implements Initializable, ISecondaryWindowController
         sprite = (Sprite) args[0];
         Edge e = (Edge) sprite.getAttachment();
         Node node = e.getSourceNode();
-        
-        targetModel = graphService.getTargetModel(node.getAttribute(Const.GS_UI_LABEL), e.getAttribute(Const.GS_UI_LABEL).toString());
-    }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // Nothing to do
+        targetModel = graphService.getTargetModel(node.getAttribute(Const.GS_UI_LABEL),
+            e.getAttribute(Const.GS_UI_LABEL).toString());
     }
-
 }

@@ -27,6 +27,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.agent.feature.Knowledge;
 
+/**
+ * This model is about the basic knowledge of agent
+ */
 public class KnowledgeBasic extends Knowledge {
 
     String id;

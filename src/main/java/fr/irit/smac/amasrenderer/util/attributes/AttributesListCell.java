@@ -30,10 +30,11 @@ import javafx.util.StringConverter;
 public class AttributesListCell<T> extends TextFieldListCell<T> {
 
     private final AttributesContextMenu contextMenu;
-    private ObservableList<T> list;
-    private ListView<T> listView;
+    private ObservableList<T>           list;
+    private ListView<T>                 listView;
 
-    public AttributesListCell(AttributesContextMenu contextMenu, StringConverter<T> converter, ObservableList<T> list, ListView<T> listView) {
+    public AttributesListCell(AttributesContextMenu contextMenu, StringConverter<T> converter, ObservableList<T> list,
+        ListView<T> listView) {
         super(converter);
         if (contextMenu == null) {
             throw new NullPointerException();
@@ -47,6 +48,12 @@ public class AttributesListCell<T> extends TextFieldListCell<T> {
         });
     }
 
+    /**
+     * Prepares the design of the context menu depending on the node
+     * 
+     * @param item
+     *            the clicked node
+     */
     private void prepareContextMenu(ListView<T> item) {
 
         if (item != null) {
@@ -62,7 +69,7 @@ public class AttributesListCell<T> extends TextFieldListCell<T> {
             });
         }
     }
-    
+
     @Override
     public void updateItem(T item, boolean empty) {
         super.updateItem(item, empty);

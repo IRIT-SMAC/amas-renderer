@@ -26,15 +26,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.graphstream.graph.implementations.AbstractGraph;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import fr.irit.smac.amasrenderer.model.InfrastructureModel;
-import fr.irit.smac.amasrenderer.service.graph.GraphService;
+import fr.irit.smac.amasrenderer.model.Infrastructure;
 
 /**
  * This service is related to the business logic about the loading and the
@@ -46,14 +42,11 @@ public class LoadSaveService {
 
     private static final Logger LOGGER = Logger.getLogger(LoadSaveService.class.getName());
 
+    private InfrastructureService infrastructureService = InfrastructureService.getInstance();
+    
     private LoadSaveService() {
     }
 
-    /**
-     * Gets the single instance of InfrastructureService.
-     *
-     * @return single instance of InfrastructureService
-     */
     public static LoadSaveService getInstance() {
         return instance;
     }
@@ -70,7 +63,7 @@ public class LoadSaveService {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.enable(SerializationFeature.INDENT_OUTPUT);
                 mapper.writeValue(file,
-                    InfrastructureService.getInstance().getInfrastructure());
+                    infrastructureService.getInfrastructure());
             }
             catch (IOException e) {
                 LOGGER.log(Level.SEVERE, "Impossible to save the data.", e);
@@ -91,8 +84,8 @@ public class LoadSaveService {
             ObjectMapper mapper = new ObjectMapper();
             mapper.setSerializationInclusion(Include.NON_NULL);
             try {
-                InfrastructureModel infrastructure = mapper.readValue(file, InfrastructureModel.class);
-                InfrastructureService.getInstance().updateInfrastructureFromFile(infrastructure);
+                Infrastructure infrastructure = mapper.readValue(file, Infrastructure.class);
+                infrastructureService.updateInfrastructure(infrastructure);
             }
             catch (IOException e) {
                 LOGGER.log(Level.SEVERE, "Impossible to read this file.", e);

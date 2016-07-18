@@ -25,7 +25,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
-import fr.irit.smac.amasrenderer.model.tool.ToolModel;
+import fr.irit.smac.amasrenderer.model.tool.Tool;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -70,7 +70,7 @@ public class ToolAdditionController implements Initializable, ISecondaryWindowCo
             
 
             boolean found = false;
-            for (ToolModel item : ToolService.getInstance().getTools()) {
+            for (Tool item : ToolService.getInstance().getTools()) {
                 if (item.getName().equals(toolName)) {
                     found = true;
                 }

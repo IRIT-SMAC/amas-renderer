@@ -75,7 +75,7 @@ public class AttributesService {
 
                 if (!isNotExpanded) {
                     fillAttributes((HashMap<String, Object>) value, item, model);
-                    updateComplexNode(attributesMap, item);
+                    updateValueComplexNode(attributesMap, item);
                 }
             }
             else {
@@ -89,15 +89,21 @@ public class AttributesService {
                 }
 
                 item.setExpanded(true);
-                checkSingleNode(attributesMap, item);
+                updateValueSingleNode(attributesMap, item);
                 parent.getChildren().add(item);
             }
         });
 
-        checkComplexNode(attributesMap, parent);
+        checkAddOrRemoveNode(attributesMap, parent);
     }
 
-    public void checkComplexNode(Map<String, Object> attributesMap, TreeItem<String> parent) {
+    /**
+     * Updates the attributesMap when an item is added or removed
+     * 
+     * @param attributesMap
+     * @param parent
+     */
+    public void checkAddOrRemoveNode(Map<String, Object> attributesMap, TreeItem<String> parent) {
 
         parent.getChildren().addListener((ListChangeListener<? super TreeItem<String>>) c -> {
             c.next();
@@ -108,13 +114,13 @@ public class AttributesService {
                 if (t.getValue().contains(":")) {
                     String[] val = t.getValue().split("\\:");
                     attributesMap.put(val[0].trim(), val[1]);
-                    checkSingleNode(attributesMap, t);
+                    updateValueSingleNode(attributesMap, t);
                 }
                 else {
                     Map<String, Object> map = new HashMap<>();
                     attributesMap.put(t.getValue(), map);
-                    updateComplexNode(attributesMap, t);
-                    checkComplexNode(map, t);
+                    updateValueComplexNode(attributesMap, t);
+                    checkAddOrRemoveNode(map, t);
                 }
 
             }
@@ -134,7 +140,13 @@ public class AttributesService {
         });
     }
 
-    private void updateComplexNode(Map<String, Object> attributesMap, TreeItem<String> item) {
+    /**
+     * Updates the attributesMap when the value of the complex item is updated
+     * 
+     * @param attributesMap
+     * @param item
+     */
+    private void updateValueComplexNode(Map<String, Object> attributesMap, TreeItem<String> item) {
 
         item.valueProperty().addListener((c, oldValue, newValue) -> {
             @SuppressWarnings("unchecked")
@@ -145,7 +157,13 @@ public class AttributesService {
 
     }
 
-    private void checkSingleNode(Map<String, Object> attributesMap, TreeItem<String> item) {
+    /**
+     * Updates the attributesMap when the value of the item is updated
+     * 
+     * @param attributesMap
+     * @param item
+     */
+    private void updateValueSingleNode(Map<String, Object> attributesMap, TreeItem<String> item) {
 
         item.valueProperty().addListener((c, oldValue, newValue) -> {
             String[] newValueSplit = newValue.split("\\:");

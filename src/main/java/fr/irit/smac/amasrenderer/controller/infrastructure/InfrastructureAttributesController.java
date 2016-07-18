@@ -25,7 +25,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
-import fr.irit.smac.amasrenderer.model.InfrastructureModel;
+import fr.irit.smac.amasrenderer.model.Infrastructure;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;
@@ -50,7 +50,7 @@ public class InfrastructureAttributesController implements Initializable, ISecon
 
     private Stage stage;
 
-    private InfrastructureModel infra;
+    private Infrastructure infra;
 
     private AttributesService attributesService = AttributesService.getInstance();
 
@@ -76,7 +76,7 @@ public class InfrastructureAttributesController implements Initializable, ISecon
     @Override
     public void init(Stage stage, Object... args) {
 
-        InfrastructureModel infrastructure = (InfrastructureModel) args[0];
+        Infrastructure infrastructure = (Infrastructure) args[0];
         infra = infrastructure;
         this.stage = stage;
         TreeItem<String> root = new TreeItem<>(infrastructure.getName());

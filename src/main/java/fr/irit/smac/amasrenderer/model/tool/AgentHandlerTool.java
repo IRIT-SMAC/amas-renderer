@@ -19,24 +19,26 @@
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
  * #L%
  */
-package fr.irit.smac.amasrenderer.util.attributes;
+package fr.irit.smac.amasrenderer.model.tool;
 
-import fr.irit.smac.amasrenderer.model.agent.feature.AbstractFeature;
-import javafx.util.StringConverter;
+import java.util.Map;
 
-public class FeatureModelConverter extends StringConverter<AbstractFeature> {
-    
-    private AbstractFeature featureModel;
-    
-    @Override
-    public String toString(AbstractFeature value) {
-        featureModel = value;
-        return (value != null) ? value.getName() : "";
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import fr.irit.smac.amasrenderer.model.agent.Agent;
+
+/**
+ * This model is about the tool containing the agentMap
+ */
+public class AgentHandlerTool extends Tool {
+
+    @JsonProperty
+    private Map<String, Agent> agentMap;
+
+    public AgentHandlerTool() {
     }
 
-    @Override
-    public AbstractFeature fromString(String value) {
-        featureModel.setName(value);
-        return featureModel;
+    public Map<String, Agent> getAgentMap() {
+        return agentMap;
     }
 }

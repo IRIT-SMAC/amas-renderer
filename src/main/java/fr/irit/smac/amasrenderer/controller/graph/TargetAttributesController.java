@@ -27,7 +27,7 @@ import org.graphstream.ui.spriteManager.Sprite;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
-import fr.irit.smac.amasrenderer.model.agent.feature.social.TargetModel;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.Target;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.graph.GraphService;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
@@ -51,10 +51,13 @@ public class TargetAttributesController implements ISecondaryWindowController {
 
     private GraphService graphService = GraphService.getInstance();
 
-    private TargetModel targetModel;
+    private Target targetModel;
 
     private AttributesService attributesService = AttributesService.getInstance();
 
+    /**
+     * When the confirm button is clicked, the window is closed
+     */
     @FXML
     public void confirmButton() {
 

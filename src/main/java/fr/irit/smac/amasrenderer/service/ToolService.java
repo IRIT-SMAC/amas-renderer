@@ -27,8 +27,8 @@ import java.io.IOException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.tool.ToolModel;
-import fr.irit.smac.amasrenderer.model.tool.ToolsModel;
+import fr.irit.smac.amasrenderer.model.tool.Tool;
+import fr.irit.smac.amasrenderer.model.tool.Tools;
 import fr.irit.smac.amasrenderer.service.graph.GraphService;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
@@ -40,9 +40,9 @@ import javafx.collections.ObservableList;
  */
 public class ToolService {
 
-    private ObservableList<ToolModel> tools;
+    private ObservableList<Tool> tools;
 
-    private ToolsModel toolMap;
+    private Tools toolsModel;
 
     private static ToolService instance = new ToolService();
 
@@ -51,118 +51,103 @@ public class ToolService {
         this.setTools(FXCollections.observableArrayList(actionStep -> new Observable[] { actionStep.nameProperty() }));
     }
 
-    /**
-     * Gets the single instance of ToolService.
-     *
-     * @return single instance of ToolService
-     */
     public static ToolService getInstance() {
         return instance;
     }
 
-    /**
-     * Gets the tools
-     *
-     * @return the tools
-     */
-    public ObservableList<ToolModel> getTools() {
+    public ObservableList<Tool> getTools() {
         return this.tools;
     }
 
-    /**
-     * Sets the tools
-     *
-     * @param items
-     *            the new tools
-     */
-    public void setTools(ObservableList<ToolModel> tools) {
+    public void setTools(ObservableList<Tool> tools) {
         this.tools = tools;
     }
 
     /**
-     * Adds a tool
+     * Adds a tool to the list of tools
      * 
      * @param tool
      *            the tool
      */
-    public void addToolToTools(ToolModel tool) {
+    public void addToolToTools(Tool tool) {
 
         this.tools.add(tool);
-        this.toolMap.getServices().put(tool.getName(), tool);
+        this.toolsModel.getServices().put(tool.getName(), tool);
         handleToolModelChange(tool);
     }
 
-    private void handleToolModelChange(ToolModel tool) {
-        
+    /**
+     * Updates the map of tools when the name of a tool is updated
+     * 
+     * @param tool
+     */
+    private void handleToolModelChange(Tool tool) {
+
         tool.nameProperty()
-        .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            toolMap.getServices().remove(oldValue);
-            toolMap.getServices().put(newValue,
-                tool);
-        });
+            .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+                toolsModel.getServices().remove(oldValue);
+                toolsModel.getServices().put(newValue,
+                    tool);
+            });
     }
-    
+
     /**
      * Creates the tools from a tool map.
      *
-     * @param toolMap
+     * @param toolsModel
      *            the map
      */
-    public void createToolsFromMap() {
+    public void createToolsFromTools() {
 
         this.getTools().clear();
 
-        this.toolMap.getServices().forEach((k, v) -> {
+        this.toolsModel.getServices().forEach((k, v) -> {
             v.setName(k);
             v.getAttributesMap().put(Const.CLASSNAME, v.getClassName());
             this.addToolToTools(v);
         });
 
-        this.toolMap.getAgentHandlerToolModel().setName(Const.AGENT_HANDLER_SERVICE);
-        this.tools.add(toolMap.getAgentHandlerToolModel());
-        handleToolModelChange(toolMap.getAgentHandlerToolModel());
+        this.toolsModel.getAgentHandlerToolModel().setName(Const.AGENT_HANDLER_SERVICE);
+        this.tools.add(toolsModel.getAgentHandlerToolModel());
+        handleToolModelChange(toolsModel.getAgentHandlerToolModel());
     }
 
-    /**
-     * Remove a tool from the list of tools
-     * 
-     * @param tool
-     *            the tool to remove
-     */
-    public void removeTool(ToolModel tool) {
+    public void removeTool(Tool tool) {
         this.getTools().remove(tool);
     }
 
-    /**
-     * Remove all the tools
-     */
     public void removeTools() {
         this.getTools().clear();
     }
 
-    public ToolsModel getToolMap() {
-        return this.toolMap;
+    public Tools getToolsModel() {
+        return this.toolsModel;
     }
 
-    public void setToolsModel(ToolsModel toolMap) {
-        this.toolMap = toolMap;
+    public void setToolMap(Tools toolsModel) {
+        this.toolsModel = toolsModel;
     }
 
-    public void updateToolFromFile(ToolsModel tools) {
+    public void updateToolFromFile(Tools tools) {
 
-        this.setToolsModel(tools);
-        this.createToolsFromMap();
+        this.setToolMap(tools);
+        this.createToolsFromTools();
 
-        GraphService.getInstance().updateGraphFromFile(tools.getAgentHandlerToolModel().getAgentMap());
+        GraphService.getInstance().updateGraphFromAgentMap(tools.getAgentHandlerToolModel().getAgentMap());
     }
-    
+
+    /**
+     * Adds a tool. The tool to instantiate is defined in a json file
+     * 
+     * @param id
+     */
     public void addTool(String id) {
-        
+
         File file = new File(getClass().getResource("../json/initial_tool.json").getFile());
         final ObjectMapper mapper = new ObjectMapper();
-        ToolModel tool = null;
+        Tool tool = null;
         try {
-            tool = mapper.readValue(file, ToolModel.class);
+            tool = mapper.readValue(file, Tool.class);
             tool.setName(tool.getNewName(id));
             addToolToTools(tool);
         }

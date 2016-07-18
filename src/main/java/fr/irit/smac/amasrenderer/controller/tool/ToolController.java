@@ -26,7 +26,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
-import fr.irit.smac.amasrenderer.model.tool.ToolModel;
+import fr.irit.smac.amasrenderer.model.tool.Tool;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,9 +42,9 @@ public class ToolController extends LoadSecondaryWindowController implements Ini
     private Button buttonAddService;
 
     @FXML
-    private ListView<ToolModel> listTool;
+    private ListView<Tool> listTool;
 
-    private ToolModel selectedLabel;
+    private Tool selectedLabel;
 
     private ToolService toolService = ToolService.getInstance();
 

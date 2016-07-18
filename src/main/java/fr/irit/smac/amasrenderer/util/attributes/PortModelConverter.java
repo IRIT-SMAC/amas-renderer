@@ -21,21 +21,21 @@
  */
 package fr.irit.smac.amasrenderer.util.attributes;
 
-import fr.irit.smac.amasrenderer.model.agent.feature.social.PortModel;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.Port;
 import javafx.util.StringConverter;
 
-public class PortModelConverter extends StringConverter<PortModel> {
+public class PortModelConverter extends StringConverter<Port> {
     
-    private PortModel portModel;
+    private Port portModel;
     
     @Override
-    public String toString(PortModel value) {
+    public String toString(Port value) {
         portModel = value;
         return (value != null) ? value.getName() : "";
     }
 
     @Override
-    public PortModel fromString(String value) {
+    public Port fromString(String value) {
         portModel.setName(value);
         portModel.setId(value);
         return portModel;

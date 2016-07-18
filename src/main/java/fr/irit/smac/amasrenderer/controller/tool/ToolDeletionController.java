@@ -23,7 +23,7 @@ package fr.irit.smac.amasrenderer.controller.tool;
 
 import fr.irit.smac.amasrenderer.controller.IParentWindowModal;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
-import fr.irit.smac.amasrenderer.model.tool.ToolModel;
+import fr.irit.smac.amasrenderer.model.tool.Tool;
 import fr.irit.smac.amasrenderer.service.InfrastructureService;
 import fr.irit.smac.amasrenderer.service.ToolService;
 import javafx.fxml.FXML;
@@ -43,7 +43,7 @@ public class ToolDeletionController implements ISecondaryWindowController {
 
     private String toolName;
 
-    private ToolModel tool;
+    private Tool tool;
 
     private Stage stage;
 
@@ -86,7 +86,7 @@ public class ToolDeletionController implements ISecondaryWindowController {
 
         stage = stageSecondaryWindow;
         parentWindowModal = (IParentWindowModal) args[0];
-        tool = (ToolModel) args[1];
+        tool = (Tool) args[1];
         toolName = tool.getName();
     }
 

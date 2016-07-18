@@ -23,6 +23,9 @@ package fr.irit.smac.amasrenderer.model.agent.feature;
 
 import fr.irit.smac.amasrenderer.model.ModelWithAttributesMap;
 
+/**
+ * This model is about the knowledge of a feature
+ */
 public class Knowledge extends ModelWithAttributesMap {
 
     public Knowledge() {

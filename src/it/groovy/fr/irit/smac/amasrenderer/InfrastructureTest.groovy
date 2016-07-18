@@ -6,7 +6,7 @@ import javafx.scene.layout.BorderPane
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
-import fr.irit.smac.amasrenderer.model.InfrastructureModel
+import fr.irit.smac.amasrenderer.model.Infrastructure
 import fr.irit.smac.amasrenderer.service.InfrastructureService
 
 @IgnoreIf({
@@ -54,7 +54,7 @@ class InfrastructureTest extends GuiSpecification{
                         .clickOn("#confButton")
 
         then:
-        InfrastructureModel infrastructure = infrastructureService.getInfrastructure()
+        Infrastructure infrastructure = infrastructureService.getInfrastructure()
         infrastructure.getAttributesMap().get(Const.CLASSNAME).contains("Hello")
     }
 }

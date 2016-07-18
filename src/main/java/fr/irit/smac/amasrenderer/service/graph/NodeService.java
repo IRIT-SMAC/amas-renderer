@@ -23,11 +23,9 @@ package fr.irit.smac.amasrenderer.service.graph;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.graph.implementations.MultiNode;
@@ -35,23 +33,26 @@ import org.graphstream.graph.implementations.MultiNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.agent.AgentModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.social.TargetModel;
+import fr.irit.smac.amasrenderer.model.agent.Agent;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.Target;
 import javafx.beans.value.ObservableValue;
 
+/**
+ * This service is related to the business logic about the nodes of the graph of
+ * agents
+ */
 public class NodeService {
 
-    private static NodeService instance = new NodeService();
+    private Map<String, Agent> agentMap;
+    private MultiGraph              graph;
+    private AtomicInteger           idCount;
+    private IGraphNodeService       graphNodeService;
+    private static NodeService      instance = new NodeService();
 
     public static NodeService getInstance() {
 
         return instance;
     }
-
-    private Map<String, AgentModel> agentMap;
-    private MultiGraph              graph;
-    private AtomicInteger                 idCount;
-    private IGraphNodeService            graphNodeService;
 
     public void init(MultiGraph graph, AtomicInteger idCount, IGraphNodeService graphNodeService) {
 
@@ -60,12 +61,13 @@ public class NodeService {
         this.graphNodeService = graphNodeService;
     }
 
-    public void setAgentMap(Map<String, AgentModel> agentMap) {
+    public void setAgentMap(Map<String, Agent> agentMap) {
         this.agentMap = agentMap;
     }
 
     /**
-     * Adds a node.
+     * Adds a node. The coordinates are given. This method is called when the
+     * user clicks on the graph of agents
      *
      * @param x
      *            the x location of the node
@@ -76,11 +78,12 @@ public class NodeService {
 
         File file = new File(getClass().getResource("../../json/initial_agent.json").getFile());
         final ObjectMapper mapper = new ObjectMapper();
-        AgentModel agent = null;
+        Agent agent = null;
         try {
             String id = idCount.toString();
-            addNodeGraph(id);
-            agent = mapper.readValue(file, AgentModel.class);
+            Node node = addNodeGraph(id);
+            node.setAttribute(Const.NODE_XY, x, y);
+            agent = mapper.readValue(file, Agent.class);
             agent.setIdGraph(id);
             agent.setName(id);
             agent.getCommonFeaturesModel().getFeatureBasic().getKnowledge().setId(id);
@@ -96,14 +99,13 @@ public class NodeService {
     }
 
     /**
-     * Adds a node with an existing attributes map.
-     *
+     * Adds a node. The existing model of the agent is given. This method is
+     * called when the graph of agents is generated with a json file
+     * 
      * @param id
-     *            the id of the node
-     * @param attributesMap
-     *            the attributes
+     * @param agent
      */
-    public void addNode(String id, AgentModel agent) {
+    public void addNode(String id, Agent agent) {
 
         addNodeGraph(id);
         agent.setIdGraph(idCount.toString());
@@ -114,6 +116,12 @@ public class NodeService {
 
     }
 
+    /**
+     * Adds a node on the graph of agents
+     * 
+     * @param id
+     * @return the created node
+     */
     public Node addNodeGraph(String id) {
 
         String idGraph = idCount.toString();
@@ -124,7 +132,12 @@ public class NodeService {
         return node;
     }
 
-    public void handleNodeNameChange(AgentModel agentModel) {
+    /**
+     * Updates the models when the name of the agent is updated
+     * 
+     * @param agentModel
+     */
+    public void handleNodeNameChange(Agent agentModel) {
 
         agentModel.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
@@ -136,7 +149,7 @@ public class NodeService {
                 agentMap.forEach((k, v) -> {
 
                     if (!v.getName().equals(newValue)) {
-                        Map<String, TargetModel> targets = v.getCommonFeaturesModel().getFeatureSocial().getKnowledge()
+                        Map<String, Target> targets = v.getCommonFeaturesModel().getFeatureSocial().getKnowledge()
                             .getTargetMap();
                         targets.forEach((k2, v2) -> {
                             if (v2.getAgentTarget().equals(oldValue)) {
@@ -149,20 +162,16 @@ public class NodeService {
     }
 
     /**
-     * Removes a node.
-     *
-     * @param n
-     *            the node
-     * @return
+     * Removes a node
+     * 
+     * @param id
      */
-    public Collection<Edge> removeNode(String id) {
+    public void removeNode(String id) {
 
         MultiNode node = graph.getNode(id);
         node.getEachEdge().forEach(edge -> graphNodeService.removeEdge(edge.getId()));
         graph.removeNode(node);
         agentMap.remove(id);
-
-        return node.getEdgeSet();
     }
 
     public interface IGraphNodeService {

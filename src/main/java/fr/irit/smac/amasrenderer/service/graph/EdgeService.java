@@ -34,24 +34,27 @@ import org.graphstream.ui.spriteManager.SpriteManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.agent.AgentModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.social.TargetModel;
+import fr.irit.smac.amasrenderer.model.agent.Agent;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.Target;
 import javafx.beans.value.ObservableValue;
 
+/**
+ * This service is related to the business logic about the edges of the graph of
+ * agents
+ */
 public class EdgeService {
 
-    private static EdgeService instance = new EdgeService();
+    private Map<String, Agent> agentMap;
+    private MultiGraph              graph;
+    private AtomicInteger           idCount;
+    private SpriteManager           spriteManager;
+    private IGraphEdgeService       graphEdgeService;
+    private static EdgeService      instance = new EdgeService();
 
     public static EdgeService getInstance() {
 
         return instance;
     }
-
-    private Map<String, AgentModel> agentMap;
-    private MultiGraph              graph;
-    private AtomicInteger           idCount;
-    private SpriteManager           spriteManager;
-    private IGraphEdgeService       graphEdgeService;
 
     public void init(MultiGraph graph, AtomicInteger idCount,
         SpriteManager spriteManager, IGraphEdgeService graphEdgeService) {
@@ -62,36 +65,35 @@ public class EdgeService {
         this.graphEdgeService = graphEdgeService;
     }
 
-    public void setAgentMap(Map<String, AgentModel> agentMap) {
+    public void setAgentMap(Map<String, Agent> agentMap) {
         this.agentMap = agentMap;
     }
 
     /**
-     * Adds a directed edge from the source to the target
+     * Adds a directed edge from the source to the target. The edge to
+     * instantiate is defined in json file. This method is called when the user
+     * adds the edge by clicking on the graph of agents
      * 
      * @param idNodeSource
      *            the id of the source node
      * @param idNodeTarget
      *            the id of the target node
-     * @param c
-     * @param b
      */
     public void addEdge(String idNodeSource, String idNodeTarget) {
 
         File file = new File(getClass().getResource("../../json/initial_target.json").getFile());
         final ObjectMapper mapper = new ObjectMapper();
-        TargetModel targetModel = null;
+        Target targetModel = null;
         try {
             String id = idNodeSource.concat(idNodeTarget);
             Edge edge = addEdgeGraph(agentMap.get(idNodeSource).getIdGraph(), agentMap.get(idNodeTarget).getIdGraph(),
                 id);
             Sprite mainSprite = addSpriteEdgeGraph(id, null, null);
-            targetModel = mapper.readValue(file, TargetModel.class);
+            targetModel = mapper.readValue(file, Target.class);
             targetModel.setAgentTarget(graph.getNode(idNodeTarget).getAttribute(Const.GS_UI_LABEL));
             targetModel.setAgentId(idNodeSource);
             targetModel.setName(id);
-            agentMap.get(idNodeSource).getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap().put(id,
-                targetModel);
+                agentMap.get(idNodeSource).addTarget(targetModel, id);
             handleTargetModelChange(targetModel, edge, mainSprite, agentMap.get(targetModel.getAgentId()));
         }
         catch (IOException e) {
@@ -100,43 +102,67 @@ public class EdgeService {
         }
     }
 
-    public void addEdge(String k, TargetModel v, AgentModel agent) {
+    /**
+     * Adds an edge. The existing model of the edge is given. This method is
+     * called when the graph of agents is generated with a json file
+     * 
+     * @param id
+     * @param target
+     * @param agent
+     */
+    public void addEdge(String id, Target target, Agent agent) {
 
-        String targetIdGraph = agentMap.get(v.getAgentTarget()).getIdGraph();
-        Edge edge = addEdgeGraph(agent.getIdGraph(), targetIdGraph, k);
-        Sprite mainSprite = addSpriteEdgeGraph(k, v.getPortSource(), v.getPortTarget());
-        handleTargetModelChange(v, edge, mainSprite, agent);
+        String targetIdGraph = agentMap.get(target.getAgentTarget()).getIdGraph();
+        Edge edge = addEdgeGraph(agent.getIdGraph(), targetIdGraph, id);
+        Sprite mainSprite = addSpriteEdgeGraph(id, target.getPortSource(), target.getPortTarget());
+        handleTargetModelChange(target, edge, mainSprite, agent);
     }
 
-    private void handleTargetModelChange(TargetModel targetModel, Edge edge, Sprite mainSprite, AgentModel agentModel) {
+    /**
+     * Updates the models when the name of the edge is updated
+     * 
+     * @param target
+     * @param edge
+     * @param mainSprite
+     * @param agentModel
+     */
+    private void handleTargetModelChange(Target target, Edge edge, Sprite mainSprite, Agent agentModel) {
 
-        targetModel.nameProperty()
+        target.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
 
                 edge.setAttribute(Const.GS_UI_LABEL, newValue);
                 mainSprite.setAttribute(Const.GS_UI_LABEL, newValue);
                 agentModel.removeTarget(oldValue);
-                agentModel.addTarget(targetModel, newValue);
+                agentModel.addTarget(target, newValue);
             });
     }
 
     /**
-     * Adds an existing directed edge from the source to the target
+     * Adds a directed edge from the source to the target on the graph of agents
      * 
-     * @param source
-     *            the id of the source node
-     * @param target
-     *            the id of the target node
+     * @param idNodeSource
+     * @param idNodeTarget
      */
-    public Edge addEdgeGraph(String source, String target, String id) {
+    public Edge addEdgeGraph(String idNodeSource, String idNodeTarget, String id) {
 
         String idGraph = idCount.toString();
-        Edge edge = graph.addEdge(idGraph, source, target, true);
+        Edge edge = graph.addEdge(idGraph, idNodeSource, idNodeTarget, true);
         edge.addAttribute(Const.GS_UI_LABEL, id);
 
         return edge;
     }
 
+    /**
+     * Adds three sprites on the edge. The main sprite allows to access to the
+     * attributes of the target. The two others represents the ports of the
+     * target.
+     * 
+     * @param label
+     * @param portSource
+     * @param portTarget
+     * @return the main sprite
+     */
     private Sprite addSpriteEdgeGraph(String label, String portSource, String portTarget) {
 
         String idGraph = idCount.toString();
@@ -162,6 +188,16 @@ public class EdgeService {
         return mainSprite;
     }
 
+    /**
+     * Creates a sprite which represents a port of an edge
+     * 
+     * @param id
+     * @param label
+     * @param subType
+     * @param port
+     * @param position
+     * @param portSpriteVisible
+     */
     private void createPortSourceToEdge(String id, String label, String subType, String port, double position,
         boolean portSpriteVisible) {
 
@@ -181,7 +217,6 @@ public class EdgeService {
      * Removes an edge
      * 
      * @param edge
-     *            the edge to remove
      */
     public void removeEdge(String id) {
 

@@ -21,46 +21,39 @@
  */
 package fr.irit.smac.amasrenderer.model.agent.feature.social;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.agent.feature.Knowledge;
+import fr.irit.smac.amasrenderer.model.agent.feature.AbstractFeature;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
- * This model is about the social knowledge of an agent
+ * This model is about the social feature of an agent
  */
-public class KnowledgeSocial extends Knowledge {
+public class FeatureSocial extends AbstractFeature {
 
-    private Map<String, Target> targetMap = new HashMap<>();
+    private static final String[] NOT_EXPANDED = { Const.PORT_MAP, Const.TARGET_MAP };
 
-    private Map<String, Port> portMap = new HashMap<>();
+    private KnowledgeSocial knowledge;
 
-    public KnowledgeSocial() {
+    public FeatureSocial() {
+        name = new SimpleStringProperty(Const.FEATURE_SOCIAL);
     }
 
     @JsonIgnore
-    public Map<String, Target> getTargetMap() {
-        return targetMap;
+    public KnowledgeSocial getKnowledge() {
+        return knowledge;
     }
-
-    @JsonIgnore
-    public Map<String, Port> getPortMap() {
-        return portMap;
-    }
-
+    
     @JsonProperty
-    public void setPortMap(Map<String, Port> portMap) {
-        this.portMap = portMap;
-        attributesMap.put(Const.PORT_MAP, portMap);
+    public void setKnowledge(KnowledgeSocial knowledge) {
+        this.knowledge = knowledge;
+        attributesMap.put(Const.KNOWLEDGE, knowledge.getAttributesMap());
     }
-
-    @JsonProperty
-    public void setTargetMap(Map<String, Target> targetMap) {
-        this.targetMap = targetMap;
-        attributesMap.put(Const.TARGET_MAP, targetMap);
+    
+    @Override
+    public String[] getNotExpanded() {
+        return NOT_EXPANDED;
     }
 }

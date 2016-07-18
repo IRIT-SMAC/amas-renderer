@@ -19,24 +19,35 @@
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
  * #L%
  */
-package fr.irit.smac.amasrenderer.util.attributes;
+package fr.irit.smac.amasrenderer.model.agent.feature;
 
-import fr.irit.smac.amasrenderer.model.agent.feature.AbstractFeature;
-import javafx.util.StringConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class FeatureModelConverter extends StringConverter<AbstractFeature> {
-    
-    private AbstractFeature featureModel;
-    
-    @Override
-    public String toString(AbstractFeature value) {
-        featureModel = value;
-        return (value != null) ? value.getName() : "";
+/**
+ * This model is about the feature of an agent
+ */
+public class Feature extends AbstractFeature {
+
+    private Knowledge knowledge;
+
+    public Feature() {
     }
 
-    @Override
-    public AbstractFeature fromString(String value) {
-        featureModel.setName(value);
-        return featureModel;
+    @JsonProperty
+    public void setKnowledge(Knowledge knowledge) {
+        this.knowledge = knowledge;
+        attributesMap.put("knowledge", knowledge.getAttributesMap());
+    }
+
+    @JsonProperty
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+        attributesMap.put("skill", skill.getAttributesMap());
+    }
+
+    @JsonIgnore
+    public Knowledge getKnowledge() {
+        return knowledge;
     }
 }

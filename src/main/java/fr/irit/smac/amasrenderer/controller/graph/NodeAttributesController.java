@@ -29,10 +29,10 @@ import org.graphstream.graph.Node;
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.IModel;
-import fr.irit.smac.amasrenderer.model.agent.AgentModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.AbstractFeatureModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.FeatureModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.social.PortModel;
+import fr.irit.smac.amasrenderer.model.agent.Agent;
+import fr.irit.smac.amasrenderer.model.agent.feature.AbstractFeature;
+import fr.irit.smac.amasrenderer.model.agent.feature.Feature;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.Port;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.graph.GraphService;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
@@ -73,10 +73,10 @@ public class NodeAttributesController implements ISecondaryWindowController {
     private TreeView<String> treeOtherAttributes;
 
     @FXML
-    private ListView<PortModel> listPort;
+    private ListView<Port> listPort;
 
     @FXML
-    private ListView<AbstractFeatureModel> listFeatures;
+    private ListView<AbstractFeature> listFeatures;
 
     @FXML
     private Button addPort;
@@ -86,46 +86,57 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
     @FXML
     private TextField textFieldId;
-    
+
     private Stage stage;
 
-    private AgentModel agent;
+    private Agent agent;
 
     private AttributesService attributesService = AttributesService.getInstance();
 
     private GraphService graphService = GraphService.getInstance();
 
-    private ObservableList<PortModel> ports;
+    private ObservableList<Port> ports;
 
-    private ObservableList<AbstractFeatureModel> features;
+    private ObservableList<AbstractFeature> features;
 
     /**
-     * When the confirm button is clicked, the attributes are updated depending
-     * on the tree
+     * When the confirm button is clicked, the window is closed
      */
     @FXML
     public void confirmButton() {
         stage.close();
     }
 
+    /**
+     * When the button addPort is clicked, a port is added to the portMap of the
+     * agent
+     */
     @FXML
     public void addPort() {
-        PortModel port = graphService.addPort(agent);
+        Port port = graphService.addPort(agent);
         ports.add(port);
     }
 
+    /**
+     * When the button addFeature isClicked, a common feature is added to the
+     * list of common features of the agent
+     */
     @FXML
     public void addFeature() {
 
-        FeatureModel feature = graphService.addFeature(agent);
+        Feature feature = graphService.addFeature(agent);
         features.add(feature);
 
     }
 
+    /**
+     * When a common feature is selected in the list, the attributes of this
+     * feature are displayed in the tree
+     */
     @FXML
     public void clickOnFeatureList() {
 
-        AbstractFeatureModel selectedLabel = listFeatures.getSelectionModel().getSelectedItem();
+        AbstractFeature selectedLabel = listFeatures.getSelectionModel().getSelectedItem();
         if (selectedLabel != null) {
             TreeItem<String> root = new TreeItem<>(selectedLabel.getName());
             treeCommonFeatures.setRoot(root);
@@ -138,7 +149,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
                 agent.getCommonFeaturesModel().getFeatures().put(newvalue, selectedLabel);
             });
 
-            features.addListener((ListChangeListener<? super AbstractFeatureModel>) c -> {
+            features.addListener((ListChangeListener<? super AbstractFeature>) c -> {
                 c.next();
                 if (c.wasRemoved() && !c.wasUpdated() && !c.wasPermutated() && !c.wasReplaced()) {
                     treeCommonFeatures.setRoot(null);
@@ -154,18 +165,20 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
     }
 
+    /**
+     * When a port is selected in the list, the attributes of this port are
+     * displayed in the tree
+     */
     @FXML
     public void clickOnPortList() {
 
-        PortModel selectedLabel = listPort.getSelectionModel().getSelectedItem();
+        Port selectedLabel = listPort.getSelectionModel().getSelectedItem();
         if (selectedLabel != null) {
             TreeItem<String> root = new TreeItem<>(selectedLabel.getName());
             treePortMap.setRoot(root);
-            treePortMap.setEditable(true);
             attributesService.fillAttributes(selectedLabel.getAttributesMap(), root, (IModel) selectedLabel);
             root.setExpanded(true);
-
-            ports.addListener((ListChangeListener<? super PortModel>) c -> {
+            ports.addListener((ListChangeListener<? super Port>) c -> {
                 c.next();
                 if (c.wasRemoved() && !c.wasUpdated() && !c.wasPermutated() && !c.wasReplaced()) {
                     treePortMap.setRoot(null);
@@ -198,12 +211,15 @@ public class NodeAttributesController implements ISecondaryWindowController {
         initTextFields();
         initPortMap();
         initPrimaryFeature();
-        initCommonsFeatures();
-        initOtherAttributes();
+        initCommonFeatures();
+        initOthersAttributes();
     }
 
+    /**
+     * Initialises the textFields of the window
+     */
     private void initTextFields() {
-        
+
         textFieldClassName.textProperty()
             .addListener(c -> agent.getCommonFeaturesModel().setClassName(textFieldClassName.getText()));
         textFieldClassName.setText(agent.getCommonFeaturesModel().getClassName());
@@ -217,7 +233,10 @@ public class NodeAttributesController implements ISecondaryWindowController {
             });
     }
 
-    private void initOtherAttributes() {
+    /**
+     * Initialises the tree of the other attributes of the agent
+     */
+    private void initOthersAttributes() {
 
         TreeItem<String> root = new TreeItem<>(agent.getName());
         treeOtherAttributes.setRoot(root);
@@ -230,32 +249,42 @@ public class NodeAttributesController implements ISecondaryWindowController {
         });
     }
 
-    private void initCommonsFeatures() {
+    /**
+     * Initialises the list and the tree of the common features
+     */
+    private void initCommonFeatures() {
 
-        List<AbstractFeatureModel> fList = new ArrayList<>(agent.getCommonFeaturesModel().getFeatures().values());
+        List<AbstractFeature> fList = new ArrayList<>(agent.getCommonFeaturesModel().getFeatures().values());
         features = FXCollections.observableList(fList);
         listFeatures.setItems(features);
         listFeatures.setEditable(true);
         listFeatures
-            .setCellFactory(p -> new AttributesListCell<AbstractFeatureModel>(new AttributesContextMenu(true),
+            .setCellFactory(p -> new AttributesListCell<AbstractFeature>(new AttributesContextMenu(true),
                 new FeatureModelConverter(), features, listFeatures));
 
-        treePrimaryFeature.getRoot().setExpanded(true);
         treePrimaryFeature.setEditable(true);
     }
 
+    /**
+     * Initialises the list and the tree of the port map
+     */
     private void initPortMap() {
 
-        List<PortModel> pList = new ArrayList<>(
+        List<Port> pList = new ArrayList<>(
             agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().values());
         ports = FXCollections.observableList(pList);
         listPort.setItems(ports);
         listPort.setEditable(true);
         listPort
-            .setCellFactory(p -> new AttributesListCell<PortModel>(new AttributesContextMenu(true),
+            .setCellFactory(p -> new AttributesListCell<Port>(new AttributesContextMenu(true),
                 new PortModelConverter(), ports, listPort));
+
+        treePortMap.setEditable(true);
     }
 
+    /**
+     * Initialises the tree of the primary feature
+     */
     private void initPrimaryFeature() {
 
         TreeItem<String> root = new TreeItem<>(Const.PRIMARY_FEATURE);

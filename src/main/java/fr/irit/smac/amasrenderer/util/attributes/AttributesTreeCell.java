@@ -39,7 +39,6 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
     private final AttributesContextMenu contextMenu;
 
     private boolean isProtected;
-    private boolean isParentSingleNode;
 
     private IModel model;
 
@@ -69,81 +68,87 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
 
         if (item != null) {
 
-            AttributesContextMenu menu = contextMenu;
-            MenuItem delete = menu.getDelete();
-            MenuItem rename = menu.getRename();
-            MenuItem add = menu.getAdd();
-            MenuItem addSingle = menu.getAddSingle();
-            boolean root = item.getParent() == null;
-
             checkConstraintsNode(item);
-
-            if (!root) {
-                delete.setOnAction(evt -> {
-                    item.getParent().getChildren().remove(item);
-                    menu.freeActionListeners();
-                });
-            }
-
-            addSingle.setOnAction(evt -> {
-                TreeItem<String> item2 = new TreeItem<>("item : null");
-                item.getChildren().add(item2);
-                item.setExpanded(true);
-                menu.freeActionListeners();
-            });
-
-            add.setOnAction(evt -> {
-                TreeItem<String> item2 = new TreeItem<>("item");
-                item.getChildren().add(item2);
-                item.setExpanded(true);
-                menu.freeActionListeners();
-            });
-
-            rename.setOnAction(evt -> startEdit());
-
-            if (!isProtected) {
-                if (isParentSingleNode) {
-                    delete.setDisable(true);
-                    add.setDisable(true);
-                    rename.setDisable(false);
-                }
-                else if (item.getParent() == null) {
-                    delete.setDisable(true);
-                    add.setDisable(false);
-                    rename.setDisable(false);
-                }
-                else {
-                    delete.setDisable(false);
-                    add.setDisable(false);
-                    rename.setDisable(false);
-                }
-            }
-            else {
-                rename.setDisable(true);
-                delete.setDisable(true);
-            }
-
-            if (item.getValue().contains(":")) {
-                addSingle.setDisable(true);
-                add.setDisable(true);
-            }
-
-            if (isNotExpanded) {
-                delete.setDisable(true);
-                add.setDisable(true);
-                addSingle.setDisable(true);
-                rename.setDisable(true);
-            }
+            setMenuAction(item);
+            displayMenuItem(item);
         }
+
     }
 
-    @Override
-    public void updateItem(String item, boolean empty) {
-        super.updateItem(item, empty);
+    /**
+     * Sets the action to each menu item
+     * 
+     * @param item
+     */
+    private void setMenuAction(TreeItem<String> item) {
 
-        if (!empty) {
-            setContextMenu("nocontext".equals(item) ? null : contextMenu.getContextMenu());
-            setEditable(!"noedit".equals(item));
+        AttributesContextMenu menu = contextMenu;
+        MenuItem delete = menu.getDelete();
+        MenuItem rename = menu.getRename();
+        MenuItem add = menu.getAdd();
+        MenuItem addSingle = menu.getAddSingle();
+        boolean root = item.getParent() == null;
+
+        if (!root) {
+            delete.setOnAction(evt -> {
+                item.getParent().getChildren().remove(item);
+                menu.freeActionListeners();
+            });
+        }
+
+        addSingle.setOnAction(evt -> {
+            TreeItem<String> itemAdded = new TreeItem<>("item : null");
+            item.getChildren().add(itemAdded);
+            item.setExpanded(true);
+            menu.freeActionListeners();
+        });
+
+        add.setOnAction(evt -> {
+            TreeItem<String> itemAdded = new TreeItem<>("item");
+            item.getChildren().add(itemAdded);
+            item.setExpanded(true);
+            menu.freeActionListeners();
+        });
+
+        rename.setOnAction(evt -> startEdit());
+    }
+
+    /**
+     * Enables or disables the items of the menu depending on the selected item
+     * 
+     * @param item
+     */
+    private void displayMenuItem(TreeItem<String> item) {
+
+        AttributesContextMenu menu = contextMenu;
+        MenuItem delete = menu.getDelete();
+        MenuItem rename = menu.getRename();
+        MenuItem add = menu.getAdd();
+        MenuItem addSingle = menu.getAddSingle();
+
+        if (isProtected) {
+            rename.setDisable(true);
+            delete.setDisable(true);
+        }
+        else if (isNotExpanded) {
+            delete.setDisable(true);
+            add.setDisable(true);
+            addSingle.setDisable(true);
+            rename.setDisable(true);
+        }
+        else if (item.getParent() == null) {
+            delete.setDisable(true);
+            add.setDisable(false);
+            rename.setDisable(false);
+        }
+        else if (item.getValue().contains(":")) {
+            addSingle.setDisable(true);
+            add.setDisable(true);
+        }
+        else {
+            delete.setDisable(false);
+            add.setDisable(false);
+            rename.setDisable(false);
         }
     }
 
@@ -157,16 +162,25 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
 
         IModel currentModel = model;
         isProtected = false;
-        isParentSingleNode = false;
         isNotExpanded = false;
 
         if (currentModel.getNotExpanded() != null) {
             isNotExpanded = Stream.of(currentModel.getNotExpanded()).anyMatch(s -> item.getValue().endsWith(s));
         }
-        
+
         TreeItem<String> parent = item.getParent();
         if (parent != null && currentModel.getProtectedValue() != null) {
             isProtected = Stream.of(currentModel.getProtectedValue()).anyMatch(s -> item.getValue().contains(s));
+        }
+    }
+    
+    @Override
+    public void updateItem(String item, boolean empty) {
+        super.updateItem(item, empty);
+
+        if (!empty) {
+            setContextMenu("nocontext".equals(item) ? null : contextMenu.getContextMenu());
+            setEditable(!"noedit".equals(item));
         }
     }
 
@@ -206,7 +220,6 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         if (notEmpty && notProtectedValue && notExpanded && correctSyntaxAttribute) {
 
             if (getTreeItem().getParent() == null) {
-
                 currentModel.setName(currentModel.getNewName(value));
                 super.commitEdit(currentModel.getNewName(value));
             }

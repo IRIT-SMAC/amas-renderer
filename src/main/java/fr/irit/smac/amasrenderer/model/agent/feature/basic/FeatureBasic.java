@@ -19,48 +19,41 @@
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
  * #L%
  */
-package fr.irit.smac.amasrenderer.model.agent.feature.social;
-
-import java.util.HashMap;
-import java.util.Map;
+package fr.irit.smac.amasrenderer.model.agent.feature.basic;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.agent.feature.Knowledge;
+import fr.irit.smac.amasrenderer.model.agent.feature.AbstractFeature;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
- * This model is about the social knowledge of an agent
+ * This model is about the basic feature of an agent
  */
-public class KnowledgeSocial extends Knowledge {
+public class FeatureBasic extends AbstractFeature {
 
-    private Map<String, Target> targetMap = new HashMap<>();
+    private static final String[] PROTECTED_VALUE = { Const.ID, Const.SKILL, Const.KNOWLEDGE };
 
-    private Map<String, Port> portMap = new HashMap<>();
+    private KnowledgeBasic knowledge;
 
-    public KnowledgeSocial() {
+    public FeatureBasic() {
+        name = new SimpleStringProperty(Const.FEATURE_BASIC);
     }
 
     @JsonIgnore
-    public Map<String, Target> getTargetMap() {
-        return targetMap;
-    }
-
-    @JsonIgnore
-    public Map<String, Port> getPortMap() {
-        return portMap;
+    public KnowledgeBasic getKnowledge() {
+        return knowledge;
     }
 
     @JsonProperty
-    public void setPortMap(Map<String, Port> portMap) {
-        this.portMap = portMap;
-        attributesMap.put(Const.PORT_MAP, portMap);
+    public void setKnowledge(KnowledgeBasic knowledge) {
+        this.knowledge = knowledge;
+        attributesMap.put(Const.KNOWLEDGE, knowledge.getAttributesMap());
     }
 
-    @JsonProperty
-    public void setTargetMap(Map<String, Target> targetMap) {
-        this.targetMap = targetMap;
-        attributesMap.put(Const.TARGET_MAP, targetMap);
+    @Override
+    public String[] getProtectedValue() {
+        return PROTECTED_VALUE;
     }
 }

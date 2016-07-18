@@ -24,24 +24,13 @@ package fr.irit.smac.amasrenderer.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Used by each model of the program
+ * Used by each model whose attributes are displayed in a tree
  */
 public interface IModel {
 
-    /**
-     * Sets the name of the model
-     * 
-     * @param name
-     *            the name
-     */
     @JsonIgnore
     public void setName(String name);
 
-    /**
-     * Gets the name of the model
-     * 
-     * @return the name
-     */
     @JsonIgnore
     public String getName();
 
@@ -53,7 +42,7 @@ public interface IModel {
      */
     @JsonIgnore
     public String getNewName(String name);
-    
+
     /**
      * Gets all the value the user don't have to update
      * 

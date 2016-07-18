@@ -6,7 +6,7 @@ import javafx.scene.layout.BorderPane
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Stepwise
-import fr.irit.smac.amasrenderer.model.tool.ToolModel
+import fr.irit.smac.amasrenderer.model.tool.Tool
 import fr.irit.smac.amasrenderer.service.ToolService
 
 @Stepwise
@@ -46,7 +46,7 @@ class ToolAttributeTest extends GuiSpecification{
             Map<String,Object> complexNodeMap = new HashMap<>()
             complexNodeMap.put("node1", "value1")
             toolService.addTool(service)
-            toolService.getToolMap().getServices().get(service).getAttributesMap().put(itemId, complexNodeMap)
+            toolService.getToolsModel().getServices().get(service).getAttributesMap().put(itemId, complexNodeMap)
 
             return rootLayout
         }

@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 import fr.irit.smac.amasrenderer.controller.IParentWindowModal;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
-import fr.irit.smac.amasrenderer.model.tool.ToolModel;
+import fr.irit.smac.amasrenderer.model.tool.Tool;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;
@@ -58,7 +58,7 @@ public class ToolAttributesController extends LoadSecondaryWindowController
 
     private Stage stage;
 
-    private ToolModel tool;
+    private Tool tool;
 
     private AttributesService attributesService = AttributesService.getInstance();
 
@@ -98,7 +98,7 @@ public class ToolAttributesController extends LoadSecondaryWindowController
     @Override
     public void init(Stage stage, Object... args) {
 
-        ToolModel currentTool = (ToolModel) args[0];
+        Tool currentTool = (Tool) args[0];
         tool = currentTool;
         this.stage = stage;
         TreeItem<String> root = new TreeItem<>(currentTool.getName());

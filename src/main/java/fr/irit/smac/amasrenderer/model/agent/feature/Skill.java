@@ -23,9 +23,12 @@ package fr.irit.smac.amasrenderer.model.agent.feature;
 
 import fr.irit.smac.amasrenderer.model.ModelWithAttributesMap;
 
+/**
+ * This model is about the skill of a feature
+ */
 public class Skill extends ModelWithAttributesMap {
 
     public Skill() {
     }
-    
+
 }

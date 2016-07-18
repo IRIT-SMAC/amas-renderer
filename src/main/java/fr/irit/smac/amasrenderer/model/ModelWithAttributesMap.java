@@ -31,29 +31,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.irit.smac.amasrenderer.Const;
 
+/**
+ * This abstract model is used by model owning an attributesMap and a className
+ */
 public abstract class ModelWithAttributesMap {
 
     private String className;
 
     @JsonIgnore
-    protected Map<String,Object> attributesMap = new HashMap<>();
-    
+    protected Map<String, Object> attributesMap = new HashMap<>();
+
     @JsonIgnore
     public String getClassName() {
         return className;
     }
-    
+
     @JsonProperty
     public void setClassName(String className) {
         this.className = className;
         attributesMap.put(Const.CLASSNAME, className);
     }
-    
+
     @JsonAnyGetter
     public Map<String, Object> getAttributesMap() {
         return attributesMap;
     }
-    
+
     @JsonAnySetter
     public void setAttributesMap(String name, Object value) {
         attributesMap.put(name, value);

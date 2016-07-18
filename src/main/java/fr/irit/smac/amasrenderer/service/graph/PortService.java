@@ -27,9 +27,13 @@ import java.io.IOException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.agent.AgentModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.social.PortModel;
+import fr.irit.smac.amasrenderer.model.agent.Agent;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.Port;
 
+/**
+ * This service is related to the business logic about the ports of the graph of
+ * agents
+ */
 public class PortService {
 
     private static PortService instance = new PortService();
@@ -38,14 +42,21 @@ public class PortService {
 
         return instance;
     }
-    
-    public PortModel addPort(AgentModel agent) {
+
+    /**
+     * Adds a port to the port map of an agent. The port is instantiated with a
+     * json file
+     * 
+     * @param agent
+     * @return the port
+     */
+    public Port addPort(Agent agent) {
 
         File file = new File(getClass().getResource("../../json/initial_port.json").getFile());
         final ObjectMapper mapper = new ObjectMapper();
-        PortModel port = null;
+        Port port = null;
         try {
-            port = mapper.readValue(file, PortModel.class);
+            port = mapper.readValue(file, Port.class);
             port.setName(Const.PORT);
             agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().put(Const.PORT, port);
         }

@@ -27,9 +27,13 @@ import java.io.IOException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.irit.smac.amasrenderer.Const;
-import fr.irit.smac.amasrenderer.model.agent.AgentModel;
-import fr.irit.smac.amasrenderer.model.agent.feature.FeatureModel;
+import fr.irit.smac.amasrenderer.model.agent.Agent;
+import fr.irit.smac.amasrenderer.model.agent.feature.Feature;
 
+/**
+ * This service is related to the business logic about the features of the graph
+ * of the agents
+ */
 public class FeatureService {
 
     private static FeatureService instance = new FeatureService();
@@ -38,14 +42,21 @@ public class FeatureService {
 
         return instance;
     }
-    
-    public FeatureModel addFeature(AgentModel agent) {
+
+    /**
+     * Adds a feature to the common features of an agent. The feature is
+     * instantiated with a json file
+     * 
+     * @param agent
+     * @return the feature
+     */
+    public Feature addFeature(Agent agent) {
 
         File file = new File(getClass().getResource("../../json/initial_feature.json").getFile());
         final ObjectMapper mapper = new ObjectMapper();
-        FeatureModel feature = null;
+        Feature feature = null;
         try {
-            feature = mapper.readValue(file, FeatureModel.class);
+            feature = mapper.readValue(file, Feature.class);
             feature.setName(Const.FEATURE);
             agent.getCommonFeaturesModel().getFeatures().put(Const.FEATURE, feature);
         }

@@ -29,6 +29,10 @@ import org.graphstream.ui.spriteManager.SpriteManager;
 
 import fr.irit.smac.amasrenderer.Const;
 
+/**
+ * This service is related to the business logic about the display of the ports
+ * of the graph of agents
+ */
 public class PortDisplayService {
 
     private MultiGraph                graph;
@@ -66,7 +70,7 @@ public class PortDisplayService {
         });
     }
 
-    public void displaySpriteEdge(boolean displayNode, Node foregroundNode, String type, String styleClass) {
+    public void displaySpritesEdge(boolean displayNode, Node foregroundNode, String type, String styleClass) {
 
         if (displayNode) {
             spriteManager.forEach(s -> {
@@ -88,6 +92,11 @@ public class PortDisplayService {
 
     }
 
+    /**
+     * Displays a selected node. The others are in the background
+     * 
+     * @param foregroundNode
+     */
     public void displayForegroundNode(Node foregroundNode) {
 
         String id = foregroundNode.getId();
@@ -109,6 +118,11 @@ public class PortDisplayService {
         });
     }
 
+    /**
+     * Displays an unselected node. It is in the background
+     * 
+     * @param backgroundNode
+     */
     public void displayBackgroundNode(Node backgroundNode) {
 
         String id = backgroundNode.getId();
@@ -126,7 +140,10 @@ public class PortDisplayService {
         });
     }
 
-    public void displayAllNodes() {
+    /**
+     * Displays all nodes normally. No nodes are in the background.
+     */
+    public void displayAllNodesNormally() {
 
         graph.getEachNode().forEach(node -> {
             node.removeAttribute(Const.GS_UI_CLASS);
