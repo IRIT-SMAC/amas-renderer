@@ -35,7 +35,8 @@ import fr.irit.smac.amasrenderer.model.agent.feature.Feature;
 import fr.irit.smac.amasrenderer.model.agent.feature.social.Port;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.graph.GraphService;
-import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
+import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenuList;
+import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenuTree;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesListCell;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;
 import fr.irit.smac.amasrenderer.util.attributes.FeatureModelConverter;
@@ -143,10 +144,10 @@ public class NodeAttributesController implements ISecondaryWindowController {
             root.setExpanded(true);
             attributesService.fillAttributes(selectedLabel.getAttributesMap(), root, (IModel) selectedLabel);
 
-            selectedLabel.nameProperty().addListener((observable, oldvalue, newvalue) -> {
+            selectedLabel.nameProperty().addListener((observable, oldValue, newValue) -> {
                 root.setValue(selectedLabel.getName());
-                agent.getCommonFeaturesModel().getFeatures().remove(oldvalue);
-                agent.getCommonFeaturesModel().getFeatures().put(newvalue, selectedLabel);
+                agent.getCommonFeaturesModel().getFeatures().remove(oldValue);
+                agent.getCommonFeaturesModel().getFeatures().put(newValue, selectedLabel);
             });
 
             features.addListener((ListChangeListener<? super AbstractFeature>) c -> {
@@ -158,7 +159,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
             });
 
             treeCommonFeatures.setCellFactory(c -> {
-                return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(),
+                return new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(),
                     selectedLabel);
             });
         }
@@ -187,14 +188,15 @@ public class NodeAttributesController implements ISecondaryWindowController {
                 }
             });
 
-            selectedLabel.idProperty().addListener((observable, oldvalue, newvalue) -> {
+            selectedLabel.idProperty().addListener((observable, oldValue, newValue) -> {
                 root.setValue(selectedLabel.getName());
-                agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().put(newvalue,
+                agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().remove(oldValue);
+                agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().put(newValue,
                     selectedLabel);
             });
 
             treePortMap.setCellFactory(c -> {
-                return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(),
+                return new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(),
                     selectedLabel);
             });
         }
@@ -245,7 +247,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
         root.setExpanded(true);
 
         treeOtherAttributes.setCellFactory(c -> {
-            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), agent);
+            return new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(), agent);
         });
     }
 
@@ -259,7 +261,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
         listFeatures.setItems(features);
         listFeatures.setEditable(true);
         listFeatures
-            .setCellFactory(p -> new AttributesListCell<AbstractFeature>(new AttributesContextMenu(true),
+            .setCellFactory(p -> new AttributesListCell<AbstractFeature>(new AttributesContextMenuList(),
                 new FeatureModelConverter(), features, listFeatures));
 
         treePrimaryFeature.setEditable(true);
@@ -276,7 +278,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
         listPort.setItems(ports);
         listPort.setEditable(true);
         listPort
-            .setCellFactory(p -> new AttributesListCell<Port>(new AttributesContextMenu(true),
+            .setCellFactory(p -> new AttributesListCell<Port>(new AttributesContextMenuList(),
                 new PortModelConverter(), ports, listPort));
 
         treePortMap.setEditable(true);
@@ -293,7 +295,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
             (IModel) agent.getPrimaryFeature());
 
         treePrimaryFeature.setCellFactory(c -> {
-            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(),
+            return new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(),
                 agent.getPrimaryFeature());
         });
     }

@@ -30,7 +30,7 @@ import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.agent.feature.social.Target;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.graph.GraphService;
-import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
+import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenuTree;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -83,7 +83,7 @@ public class TargetAttributesController implements ISecondaryWindowController {
         root.setExpanded(true);
 
         tree.setCellFactory(c -> {
-            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), targetModel);
+            return new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(), targetModel);
         });
 
     }

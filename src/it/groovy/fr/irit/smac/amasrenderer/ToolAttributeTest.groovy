@@ -22,7 +22,7 @@ class ToolAttributeTest extends GuiSpecification{
     String service = "myService"
 
     @Shared
-    String addItem = "#addAttributeItem"
+    String addItem = "#addSingleAttributeItem"
 
     @Shared
     String renameItem = "#renameAttributeItem"

@@ -36,7 +36,7 @@ import javafx.util.StringConverter;
  */
 public class AttributesTreeCell extends TextFieldTreeCell<String> {
 
-    private final AttributesContextMenu contextMenu;
+    private final AttributesContextMenuTree contextMenu;
 
     private boolean isProtected;
 
@@ -44,7 +44,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
 
     private boolean isNotExpanded;
 
-    public AttributesTreeCell(AttributesContextMenu contextMenu, StringConverter<String> converter,
+    public AttributesTreeCell(AttributesContextMenuTree contextMenu, StringConverter<String> converter,
         IModel model) {
         super(converter);
         this.model = model;
@@ -82,10 +82,10 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
      */
     private void setMenuAction(TreeItem<String> item) {
 
-        AttributesContextMenu menu = contextMenu;
+        AttributesContextMenuTree menu = contextMenu;
         MenuItem delete = menu.getDelete();
         MenuItem rename = menu.getRename();
-        MenuItem add = menu.getAdd();
+        MenuItem addComplex = menu.getAddComplex();
         MenuItem addSingle = menu.getAddSingle();
         boolean root = item.getParent() == null;
 
@@ -103,7 +103,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
             menu.freeActionListeners();
         });
 
-        add.setOnAction(evt -> {
+        addComplex.setOnAction(evt -> {
             TreeItem<String> itemAdded = new TreeItem<>("item");
             item.getChildren().add(itemAdded);
             item.setExpanded(true);
@@ -120,10 +120,10 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
      */
     private void displayMenuItem(TreeItem<String> item) {
 
-        AttributesContextMenu menu = contextMenu;
+        AttributesContextMenuTree menu = contextMenu;
         MenuItem delete = menu.getDelete();
         MenuItem rename = menu.getRename();
-        MenuItem add = menu.getAdd();
+        MenuItem addComplex = menu.getAddComplex();
         MenuItem addSingle = menu.getAddSingle();
 
         if (isProtected) {
@@ -132,22 +132,22 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
         }
         else if (isNotExpanded) {
             delete.setDisable(true);
-            add.setDisable(true);
+            addComplex.setDisable(true);
             addSingle.setDisable(true);
             rename.setDisable(true);
         }
         else if (item.getParent() == null) {
             delete.setDisable(true);
-            add.setDisable(false);
+            addComplex.setDisable(false);
             rename.setDisable(false);
         }
         else if (item.getValue().contains(":")) {
             addSingle.setDisable(true);
-            add.setDisable(true);
+            addComplex.setDisable(true);
         }
         else {
             delete.setDisable(false);
-            add.setDisable(false);
+            addComplex.setDisable(false);
             rename.setDisable(false);
         }
     }

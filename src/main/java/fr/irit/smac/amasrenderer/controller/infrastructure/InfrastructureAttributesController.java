@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.Infrastructure;
 import fr.irit.smac.amasrenderer.service.AttributesService;
-import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenu;
+import fr.irit.smac.amasrenderer.util.attributes.AttributesContextMenuTree;
 import fr.irit.smac.amasrenderer.util.attributes.AttributesTreeCell;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -69,7 +69,7 @@ public class InfrastructureAttributesController implements Initializable, ISecon
 
         tree.setEditable(true);
         tree.setCellFactory(c -> {
-            return new AttributesTreeCell(new AttributesContextMenu(false), new DefaultStringConverter(), infra);
+            return new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(), infra);
         });
     }
 

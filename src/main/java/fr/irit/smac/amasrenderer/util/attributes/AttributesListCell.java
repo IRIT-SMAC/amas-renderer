@@ -29,11 +29,12 @@ import javafx.util.StringConverter;
 
 public class AttributesListCell<T> extends TextFieldListCell<T> {
 
-    private final AttributesContextMenu contextMenu;
-    private ObservableList<T>           list;
-    private ListView<T>                 listView;
+    private final AttributesContextMenuList contextMenu;
+    private ObservableList<T>               list;
+    private ListView<T>                     listView;
 
-    public AttributesListCell(AttributesContextMenu contextMenu, StringConverter<T> converter, ObservableList<T> list,
+    public AttributesListCell(AttributesContextMenuList contextMenu, StringConverter<T> converter,
+        ObservableList<T> list,
         ListView<T> listView) {
         super(converter);
         if (contextMenu == null) {
@@ -58,7 +59,7 @@ public class AttributesListCell<T> extends TextFieldListCell<T> {
 
         if (item != null) {
 
-            AttributesContextMenu menu = contextMenu;
+            AttributesContextMenuList menu = contextMenu;
             MenuItem delete = menu.getDelete();
             MenuItem rename = menu.getRename();
 
