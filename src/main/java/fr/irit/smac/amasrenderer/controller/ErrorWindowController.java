@@ -27,28 +27,34 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class ErrorWindowController implements ISecondaryWindowController{
+/**
+ * This controller is related to the display of an error
+ */
+public class ErrorWindowController implements ISecondaryWindowController {
 
     @FXML
     Label titleError;
-    
+
     @FXML
     Text infoError;
-    
+
     @FXML
     Button confButton;
 
     private Stage stage;
-    
+
+    /**
+     * When the confButton is clicked, the window is closed
+     */
     @FXML
     public void clickClose() {
-        
+
         stage.close();
     }
-    
+
     @Override
     public void init(Stage stage, Object... args) {
-    
+
         this.stage = stage;
         titleError.setText((String) args[0]);
         infoError.setText((String) args[1]);

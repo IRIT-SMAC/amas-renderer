@@ -25,8 +25,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -54,15 +52,11 @@ public class DocumentationController implements Initializable, ISecondaryWindowC
 
         progressBar.progressProperty().bind(engine.getLoadWorker().progressProperty());
 
-        engine.getLoadWorker().stateProperty().addListener(
-            new ChangeListener<State>() {
-                @Override
-                public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, State oldState, State newState) {
-                    if (newState == State.SUCCEEDED) {
-                        progressBar.setVisible(false);
-                    }
-                }
-            });
+        engine.getLoadWorker().stateProperty().addListener((o, oldState, newState) -> {
+            if (newState == State.SUCCEEDED) {
+                progressBar.setVisible(false);
+            }
+        });
     }
 
     @Override

@@ -52,7 +52,7 @@ public class InfrastructureService {
      */
     public void updateInfrastructure(Infrastructure infrastructure) {
 
-        String[] infrastructureName = infrastructure.getClassName().toString()
+        String[] infrastructureName = infrastructure.getClassName()
             .split("\\.");
         infrastructure
             .setName(infrastructureName[infrastructureName.length - 1]);

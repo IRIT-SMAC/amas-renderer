@@ -44,7 +44,8 @@ import fr.irit.smac.amasrenderer.service.graph.NodeService.IGraphNodeService;
  * uses subservices EdgeService, FeatureService, NodeService, PortDisplayService
  * and PortService
  */
-public class GraphService implements IGraphEdgeService, IGraphNodeService {
+public class GraphService implements IGraphEdgeService, IGraphNodeService, INodeService, IEdgeService, IFeatureService,
+    IPortService, IPortDisplayService {
 
     private MultiGraph graph;
 
@@ -112,9 +113,7 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
 
     public void fillAgentGraphFromAgentMap() {
 
-        agentMap.forEach((agentId, agent) -> {
-            nodeService.addNode(agentId, agent);
-        });
+        agentMap.forEach((agentId, agent) -> nodeService.addNode(agentId, agent));
 
         agentMap.forEach((agentId, agent) -> {
 
@@ -122,9 +121,7 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
                 .getTargetMap();
 
             targets.forEach(
-                (k, v) -> {
-                edgeService.addEdge(k, v, agent);
-            });
+                (k, v) -> edgeService.addEdge(k, v, agent));
         });
     }
 
@@ -164,16 +161,19 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
         setQualityGraph();
     }
 
+    @Override
     public void addNode(double x, double y) {
 
         nodeService.addNode(x, y);
     }
 
+    @Override
     public void removeNode(String id) {
 
         nodeService.removeNode(id);
     }
 
+    @Override
     public void addEdge(String idNodeSource, String idNodeTarget) {
 
         edgeService.addEdge(idNodeSource, idNodeTarget);
@@ -185,39 +185,48 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService {
         edgeService.removeEdge(id);
     }
 
+    @Override
     public Feature addFeature(Agent agent) {
         return featureService.addFeature(agent);
     }
 
+    @Override
     public Port addPort(Agent agent) {
         return portService.addPort(agent);
     }
 
-    public void displaySpriteEdge(boolean displayNode, Node foregroundNode, String type, String styleClass) {
+    @Override
+    public void displaySpritesEdge(boolean displayNode, Node foregroundNode, String type, String styleClass) {
         portDisplayService.displaySpritesEdge(displayNode, foregroundNode, type, styleClass);
     }
 
+    @Override
     public void setDisplayPort(boolean visible) {
         portDisplayService.setDisplayPort(visible);
     }
 
+    @Override
     public void setDisplayMain(boolean visible) {
         portDisplayService.setDisplayMain(visible);
     }
 
+    @Override
     public void hideSpriteEdge(String type) {
         portDisplayService.hideSpriteEdge(type);
     }
 
+    @Override
     public void displayForegroundNode(Node foregroundNode) {
         portDisplayService.displayForegroundNode(foregroundNode);
     }
 
+    @Override
     public void displayBackgroundNode(Node backgroundNode) {
         portDisplayService.displayBackgroundNode(backgroundNode);
     }
 
-    public void displayAllNodes() {
+    @Override
+    public void displayAllNodesNormally() {
         portDisplayService.displayAllNodesNormally();
     }
 

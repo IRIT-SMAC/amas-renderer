@@ -36,6 +36,7 @@ public class AgentHandlerTool extends Tool {
     private Map<String, Agent> agentMap;
 
     public AgentHandlerTool() {
+        // Needed by Jackson
     }
 
     public Map<String, Agent> getAgentMap() {

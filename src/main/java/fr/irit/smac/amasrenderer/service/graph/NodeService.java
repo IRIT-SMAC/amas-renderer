@@ -25,6 +25,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
@@ -41,13 +43,14 @@ import javafx.beans.value.ObservableValue;
  * This service is related to the business logic about the nodes of the graph of
  * agents
  */
-public class NodeService {
+public class NodeService implements INodeService {
 
-    private Map<String, Agent> agentMap;
-    private MultiGraph              graph;
-    private AtomicInteger           idCount;
-    private IGraphNodeService       graphNodeService;
-    private static NodeService      instance = new NodeService();
+    private Map<String, Agent>  agentMap;
+    private MultiGraph          graph;
+    private AtomicInteger       idCount;
+    private IGraphNodeService   graphNodeService;
+    private static NodeService  instance = new NodeService();
+    private static final Logger LOGGER   = Logger.getLogger(NodeService.class.getName());
 
     public static NodeService getInstance() {
 
@@ -65,15 +68,7 @@ public class NodeService {
         this.agentMap = agentMap;
     }
 
-    /**
-     * Adds a node. The coordinates are given. This method is called when the
-     * user clicks on the graph of agents
-     *
-     * @param x
-     *            the x location of the node
-     * @param y
-     *            the y location of the node
-     */
+    @Override
     public void addNode(double x, double y) {
 
         File file = new File(getClass().getResource("../../json/initial_agent.json").getFile());
@@ -92,8 +87,7 @@ public class NodeService {
             idCount.incrementAndGet();
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "An error occured during the loading of a json file agent", e);
         }
 
     }
@@ -161,11 +155,7 @@ public class NodeService {
             });
     }
 
-    /**
-     * Removes a node
-     * 
-     * @param id
-     */
+    @Override
     public void removeNode(String id) {
 
         MultiNode node = graph.getNode(id);
@@ -174,8 +164,14 @@ public class NodeService {
         agentMap.remove(id);
     }
 
+    /**
+     * This interface allows to the service to access to some methods of
+     * GraphService
+     */
+    @FunctionalInterface
     public interface IGraphNodeService {
 
         public void removeEdge(String id);
+
     }
 }

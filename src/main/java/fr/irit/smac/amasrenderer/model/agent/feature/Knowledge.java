@@ -29,5 +29,6 @@ import fr.irit.smac.amasrenderer.model.ModelWithAttributesMap;
 public class Knowledge extends ModelWithAttributesMap {
 
     public Knowledge() {
+        // Needed by Jackson
     }
 }

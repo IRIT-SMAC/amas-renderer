@@ -158,10 +158,9 @@ public class NodeAttributesController implements ISecondaryWindowController {
                 }
             });
 
-            treeCommonFeatures.setCellFactory(c -> {
-                return new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(),
-                    selectedLabel);
-            });
+            treeCommonFeatures.setCellFactory(
+                c -> new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(),
+                    selectedLabel));
         }
 
     }
@@ -195,10 +194,9 @@ public class NodeAttributesController implements ISecondaryWindowController {
                     selectedLabel);
             });
 
-            treePortMap.setCellFactory(c -> {
-                return new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(),
-                    selectedLabel);
-            });
+            treePortMap.setCellFactory(
+                c -> new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(),
+                    selectedLabel));
         }
 
     }
@@ -226,13 +224,12 @@ public class NodeAttributesController implements ISecondaryWindowController {
             .addListener(c -> agent.getCommonFeaturesModel().setClassName(textFieldClassName.getText()));
         textFieldClassName.setText(agent.getCommonFeaturesModel().getClassName());
         textFieldId.setText(agent.getCommonFeaturesModel().getFeatureBasic().getKnowledge().getId());
-        textFieldId.textProperty().addListener(
-            c -> {
-                String id = textFieldId.getText();
-                agent.setName(id);
-                agent.getCommonFeaturesModel().getFeatureBasic().getKnowledge().setId(id);
-                treeOtherAttributes.getRoot().setValue(id);
-            });
+        textFieldId.textProperty().addListener(c -> {
+            String id = textFieldId.getText();
+            agent.setName(id);
+            agent.getCommonFeaturesModel().getFeatureBasic().getKnowledge().setId(id);
+            treeOtherAttributes.getRoot().setValue(id);
+        });
     }
 
     /**
@@ -246,9 +243,8 @@ public class NodeAttributesController implements ISecondaryWindowController {
         treeOtherAttributes.setEditable(true);
         root.setExpanded(true);
 
-        treeOtherAttributes.setCellFactory(c -> {
-            return new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(), agent);
-        });
+        treeOtherAttributes.setCellFactory(
+            c -> new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(), agent));
     }
 
     /**
@@ -294,10 +290,9 @@ public class NodeAttributesController implements ISecondaryWindowController {
         attributesService.fillAttributes(agent.getPrimaryFeature().getAttributesMap(), root,
             (IModel) agent.getPrimaryFeature());
 
-        treePrimaryFeature.setCellFactory(c -> {
-            return new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(),
-                agent.getPrimaryFeature());
-        });
+        treePrimaryFeature
+            .setCellFactory(c -> new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(),
+                agent.getPrimaryFeature()));
     }
 
 }

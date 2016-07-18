@@ -35,6 +35,7 @@ public class KnowledgeBasic extends Knowledge {
     String id;
 
     public KnowledgeBasic() {
+        // Needed by Jackson
     }
 
     @JsonProperty

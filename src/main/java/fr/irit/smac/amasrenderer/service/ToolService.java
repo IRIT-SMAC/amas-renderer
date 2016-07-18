@@ -23,6 +23,8 @@ package fr.irit.smac.amasrenderer.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -45,6 +47,8 @@ public class ToolService {
     private Tools toolsModel;
 
     private static ToolService instance = new ToolService();
+
+    private static final Logger LOGGER   = Logger.getLogger(ToolService.class.getName());
 
     private ToolService() {
 
@@ -152,8 +156,7 @@ public class ToolService {
             addToolToTools(tool);
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "An error occured during the loading of a json file tool", e);
         }
     }
 }

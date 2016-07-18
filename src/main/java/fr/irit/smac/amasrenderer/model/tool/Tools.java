@@ -44,7 +44,7 @@ public class Tools {
     private Map<String, Tool> services = new HashMap<>();
 
     public Tools() {
-
+        // Needed by Jackson
     }
 
     public String getClassName() {

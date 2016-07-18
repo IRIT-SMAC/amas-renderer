@@ -43,7 +43,7 @@ public class LoadSaveService {
     private static final Logger LOGGER = Logger.getLogger(LoadSaveService.class.getName());
 
     private InfrastructureService infrastructureService = InfrastructureService.getInstance();
-    
+
     private LoadSaveService() {
     }
 
@@ -79,7 +79,6 @@ public class LoadSaveService {
      */
     public void load(File file) {
 
-        
         if (file != null) {
             ObjectMapper mapper = new ObjectMapper();
             mapper.setSerializationInclusion(Include.NON_NULL);
@@ -88,7 +87,7 @@ public class LoadSaveService {
                 infrastructureService.updateInfrastructure(infrastructure);
             }
             catch (IOException e) {
-                LOGGER.log(Level.SEVERE, "Impossible to read this file.", e);
+                LOGGER.log(Level.SEVERE, "An error occured during the loading of a json file infrastructure", e);
             }
         }
     }

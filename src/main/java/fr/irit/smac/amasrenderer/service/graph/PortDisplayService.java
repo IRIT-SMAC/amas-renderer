@@ -33,7 +33,7 @@ import fr.irit.smac.amasrenderer.Const;
  * This service is related to the business logic about the display of the ports
  * of the graph of agents
  */
-public class PortDisplayService {
+public class PortDisplayService implements IPortDisplayService {
 
     private MultiGraph                graph;
     private boolean                   displayPort;
@@ -52,6 +52,7 @@ public class PortDisplayService {
         this.spriteManager = spriteManager;
     }
 
+    @Override
     public void displaySprite(Sprite sprite, boolean visible, String classNormal, String classBackground) {
         if (visible) {
             sprite.addAttribute(Const.GS_UI_CLASS, classNormal);
@@ -61,6 +62,7 @@ public class PortDisplayService {
         }
     }
 
+    @Override
     public void hideSpriteEdge(String type) {
 
         spriteManager.forEach(s -> {
@@ -70,6 +72,7 @@ public class PortDisplayService {
         });
     }
 
+    @Override
     public void displaySpritesEdge(boolean displayNode, Node foregroundNode, String type, String styleClass) {
 
         if (displayNode) {
@@ -92,11 +95,7 @@ public class PortDisplayService {
 
     }
 
-    /**
-     * Displays a selected node. The others are in the background
-     * 
-     * @param foregroundNode
-     */
+    @Override
     public void displayForegroundNode(Node foregroundNode) {
 
         String id = foregroundNode.getId();
@@ -118,11 +117,7 @@ public class PortDisplayService {
         });
     }
 
-    /**
-     * Displays an unselected node. It is in the background
-     * 
-     * @param backgroundNode
-     */
+    @Override
     public void displayBackgroundNode(Node backgroundNode) {
 
         String id = backgroundNode.getId();
@@ -140,15 +135,11 @@ public class PortDisplayService {
         });
     }
 
-    /**
-     * Displays all nodes normally. No nodes are in the background.
-     */
+    @Override
     public void displayAllNodesNormally() {
 
-        graph.getEachNode().forEach(node -> {
-            node.removeAttribute(Const.GS_UI_CLASS);
-        });
-
+        
+        graph.getEachNode().forEach(n -> n.removeAttribute(Const.GS_UI_CLASS));
         graph.getEachEdge().forEach(edge -> {
             edge.removeAttribute(Const.GS_UI_CLASS);
             displaySprite(getDisplayMain(), getDisplayPort(), edge);
@@ -173,10 +164,12 @@ public class PortDisplayService {
         }
     }
 
+    @Override
     public void setDisplayPort(boolean displayPort) {
         this.displayPort = displayPort;
     }
 
+    @Override
     public void setDisplayMain(boolean displayMain) {
         this.displayMain = displayMain;
     }

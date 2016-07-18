@@ -52,14 +52,17 @@ public abstract class AbstractFeature extends ModelWithAttributesMap implements 
         return name;
     }
 
+    @Override
     public String getName() {
         return name.get();
     }
 
+    @Override
     public void setName(String name) {
         this.name.set(name);
     }
-
+    
+    @Override
     public Map<String, Object> getAttributesMap() {
         return attributesMap;
     }

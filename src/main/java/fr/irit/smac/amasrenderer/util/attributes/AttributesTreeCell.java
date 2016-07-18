@@ -141,14 +141,15 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
             addComplex.setDisable(false);
             rename.setDisable(false);
         }
-        else if (item.getValue().contains(":")) {
-            addSingle.setDisable(true);
-            addComplex.setDisable(true);
-        }
         else {
             delete.setDisable(false);
             addComplex.setDisable(false);
             rename.setDisable(false);
+        }
+
+        if (item.getValue().contains(":")) {
+            addSingle.setDisable(true);
+            addComplex.setDisable(true);
         }
     }
 
@@ -173,7 +174,7 @@ public class AttributesTreeCell extends TextFieldTreeCell<String> {
             isProtected = Stream.of(currentModel.getProtectedValue()).anyMatch(s -> item.getValue().contains(s));
         }
     }
-    
+
     @Override
     public void updateItem(String item, boolean empty) {
         super.updateItem(item, empty);

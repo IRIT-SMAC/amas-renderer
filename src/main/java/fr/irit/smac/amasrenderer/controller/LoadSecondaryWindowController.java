@@ -86,9 +86,7 @@ public abstract class LoadSecondaryWindowController {
      * Load an independent window, such as the documentation window
      * 
      * @param resourcePath
-     *            the path of the fxml
-     * @param isResizable
-     *            true if the window can be resized, false otherwise
+     * @param argsInit
      */
     public void loadFxmlIndependent(String resourcePath, Object... argsInit) {
 
@@ -98,14 +96,14 @@ public abstract class LoadSecondaryWindowController {
         Pane root = null;
 
         try {
-            
+
             root = loaderWindowModal.load();
             Stage stageWindowModal = new Stage();
             stageWindowModal.initModality(Modality.WINDOW_MODAL);
             Scene scene = new Scene(root);
             stageWindowModal.setScene(scene);
             scene.setFill(Color.BLACK);
-            
+
             ISecondaryWindowController controller = loaderWindowModal.getController();
             if (controller != null) {
                 controller.init(stageWindowModal, argsInit);

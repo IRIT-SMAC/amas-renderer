@@ -85,9 +85,8 @@ public class ToolAttributesController extends LoadSecondaryWindowController
     public void initialize(URL location, ResourceBundle resources) {
 
         tree.setEditable(true);
-        tree.setCellFactory(c -> {
-            return new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(), tool);
-        });
+        tree.setCellFactory(
+            c -> new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(), tool));
     }
 
     @Override

@@ -23,6 +23,8 @@ package fr.irit.smac.amasrenderer.service.graph;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,22 +36,17 @@ import fr.irit.smac.amasrenderer.model.agent.feature.social.Port;
  * This service is related to the business logic about the ports of the graph of
  * agents
  */
-public class PortService {
+public class PortService implements IPortService {
 
-    private static PortService instance = new PortService();
+    private static PortService  instance = new PortService();
+    private static final Logger LOGGER   = Logger.getLogger(PortService.class.getName());
 
     public static PortService getInstance() {
 
         return instance;
     }
 
-    /**
-     * Adds a port to the port map of an agent. The port is instantiated with a
-     * json file
-     * 
-     * @param agent
-     * @return the port
-     */
+    @Override
     public Port addPort(Agent agent) {
 
         File file = new File(getClass().getResource("../../json/initial_port.json").getFile());
@@ -61,8 +58,7 @@ public class PortService {
             agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().put(Const.PORT, port);
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "An error occured during the loading of a json file port", e);
         }
 
         return port;

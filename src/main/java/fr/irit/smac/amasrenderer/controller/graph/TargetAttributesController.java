@@ -39,6 +39,9 @@ import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
 import javafx.util.converter.DefaultStringConverter;
 
+/**
+ * This controller is related to the attributes of a target of an agent
+ */
 public class TargetAttributesController implements ISecondaryWindowController {
 
     @FXML
@@ -82,9 +85,8 @@ public class TargetAttributesController implements ISecondaryWindowController {
         tree.setEditable(true);
         root.setExpanded(true);
 
-        tree.setCellFactory(c -> {
-            return new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(), targetModel);
-        });
+        tree.setCellFactory(
+            c -> new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(), targetModel));
 
     }
 

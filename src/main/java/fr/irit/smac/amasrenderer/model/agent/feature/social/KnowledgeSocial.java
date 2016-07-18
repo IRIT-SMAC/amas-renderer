@@ -40,6 +40,7 @@ public class KnowledgeSocial extends Knowledge {
     private Map<String, Port> portMap = new HashMap<>();
 
     public KnowledgeSocial() {
+        // Needed by Jackson
     }
 
     @JsonIgnore

@@ -64,37 +64,64 @@ public class AttributesService {
             Object value = v;
 
             if (value instanceof HashMap<?, ?>) {
-
-                TreeItem<String> item = new TreeItem<>();
-                item.setValue(name);
-
-                boolean isNotExpanded = Stream.of(model.getNotExpanded())
-                    .anyMatch(s -> name.endsWith(s));
-
-                parent.getChildren().add(item);
-
-                if (!isNotExpanded) {
-                    fillAttributes((HashMap<String, Object>) value, item, model);
-                    updateValueComplexNode(attributesMap, item);
-                }
+                fillAttributesParent(attributesMap, parent, model, (Map<String, Object>) value, name);
             }
             else {
-                TreeItem<String> item = new TreeItem<>();
-
-                if (value != null) {
-                    item.setValue(name + " : " + value.toString());
-                }
-                else if (!name.contains(Const.NULL_STRING)) {
-                    item.setValue(name + " : " + Const.NULL_STRING);
-                }
-
-                item.setExpanded(true);
-                updateValueSingleNode(attributesMap, item);
-                parent.getChildren().add(item);
+                fillAttributesSingle(attributesMap, parent, (String) value, name);
             }
         });
 
         checkAddOrRemoveNode(attributesMap, parent);
+    }
+
+    /**
+     * Adds to the given tree a single node
+     * 
+     * @param attributesMap
+     * @param parent
+     * @param value
+     * @param name
+     */
+    private void fillAttributesSingle(Map<String, Object> attributesMap, TreeItem<String> parent, String value,
+        String name) {
+
+        TreeItem<String> item = new TreeItem<>();
+
+        if (value != null) {
+            item.setValue(name + " : " + value);
+        }
+        else if (!name.contains(Const.NULL_STRING)) {
+            item.setValue(name + " : " + Const.NULL_STRING);
+        }
+
+        item.setExpanded(true);
+        updateValueSingleNode(attributesMap, item);
+        parent.getChildren().add(item);
+    }
+
+    /**
+     * Adds to the given tree a complex node
+     * 
+     * @param attributesMap
+     * @param parent
+     * @param model
+     * @param name
+     */
+    private void fillAttributesParent(Map<String, Object> attributesMap, TreeItem<String> parent, IModel model,
+        Map<String, Object> value, String name) {
+
+        TreeItem<String> item = new TreeItem<>();
+        item.setValue(name);
+
+        boolean isNotExpanded = Stream.of(model.getNotExpanded())
+            .anyMatch(s -> name.endsWith(s));
+
+        parent.getChildren().add(item);
+
+        if (!isNotExpanded) {
+            fillAttributes(value, item, model);
+            updateValueComplexNode(attributesMap, item);
+        }
     }
 
     /**
@@ -108,36 +135,51 @@ public class AttributesService {
         parent.getChildren().addListener((ListChangeListener<? super TreeItem<String>>) c -> {
             c.next();
             if (c.wasAdded()) {
-
-                TreeItem<String> t = (TreeItem<String>) c.getAddedSubList().get(0);
-
-                if (t.getValue().contains(":")) {
-                    String[] val = t.getValue().split("\\:");
-                    attributesMap.put(val[0].trim(), val[1]);
-                    updateValueSingleNode(attributesMap, t);
-                }
-                else {
-                    Map<String, Object> map = new HashMap<>();
-                    attributesMap.put(t.getValue(), map);
-                    updateValueComplexNode(attributesMap, t);
-                    checkAddOrRemoveNode(map, t);
-                }
-
+                checkAddNode(attributesMap, (TreeItem<String>) c.getAddedSubList().get(0));
             }
             else if (c.wasRemoved()) {
-
-                TreeItem<String> t = (TreeItem<String>) c.getRemoved().get(0);
-
-                if (t.getValue().contains(":")) {
-                    String[] val = t.getValue().split("\\:");
-                    attributesMap.remove(val[0].trim());
-                }
-                else {
-                    attributesMap.remove(t.getValue());
-                }
+                checkRemoveNode(attributesMap, (TreeItem<String>) c.getRemoved().get(0));
             }
 
         });
+    }
+
+    /**
+     * Updates the attributesMap when an item is removed
+     * 
+     * @param attributesMap
+     * @param item
+     */
+    private void checkRemoveNode(Map<String, Object> attributesMap, TreeItem<String> item) {
+
+        if (item.getValue().contains(":")) {
+            String[] val = item.getValue().split("\\:");
+            attributesMap.remove(val[0].trim());
+        }
+        else {
+            attributesMap.remove(item.getValue());
+        }
+    }
+
+    /**
+     * Updates the attributesMap when an item is added
+     * 
+     * @param attributesMap
+     * @param item
+     */
+    private void checkAddNode(Map<String, Object> attributesMap, TreeItem<String> item) {
+
+        if (item.getValue().contains(":")) {
+            String[] val = item.getValue().split("\\:");
+            attributesMap.put(val[0].trim(), val[1]);
+            updateValueSingleNode(attributesMap, item);
+        }
+        else {
+            Map<String, Object> map = new HashMap<>();
+            attributesMap.put(item.getValue(), map);
+            updateValueComplexNode(attributesMap, item);
+            checkAddOrRemoveNode(map, item);
+        }
     }
 
     /**

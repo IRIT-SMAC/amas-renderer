@@ -68,9 +68,8 @@ public class InfrastructureAttributesController implements Initializable, ISecon
     public void initialize(URL location, ResourceBundle resources) {
 
         tree.setEditable(true);
-        tree.setCellFactory(c -> {
-            return new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(), infra);
-        });
+        tree.setCellFactory(
+            c -> new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(), infra));
     }
 
     @Override

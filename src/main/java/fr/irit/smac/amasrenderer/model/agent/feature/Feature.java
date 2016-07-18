@@ -32,6 +32,7 @@ public class Feature extends AbstractFeature {
     private Knowledge knowledge;
 
     public Feature() {
+        // Needed by Jackson        
     }
 
     @JsonProperty
@@ -41,6 +42,7 @@ public class Feature extends AbstractFeature {
     }
 
     @JsonProperty
+    @Override
     public void setSkill(Skill skill) {
         this.skill = skill;
         attributesMap.put("skill", skill.getAttributesMap());

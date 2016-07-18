@@ -34,6 +34,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * This controller is related to the update of the name of the port of an agent
+ */
 public class PortController implements ISecondaryWindowController {
 
     @FXML
@@ -53,11 +56,11 @@ public class PortController implements ISecondaryWindowController {
 
     private GraphService graphService = GraphService.getInstance();
 
-    @FXML
     /**
      * When the confirm button is clicked, the name of the selected sprite is
      * updated
      */
+    @FXML
     public void clickConfirm() {
 
         String portName = textfieldTool.getText();

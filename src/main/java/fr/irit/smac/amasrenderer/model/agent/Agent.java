@@ -57,15 +57,6 @@ public class Agent extends ModelWithAttributesMap implements IModel {
         name = new SimpleStringProperty();
     }
 
-    public void addTarget(Target targetModel, String id) {
-        getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap().put(id,
-            targetModel);
-    }
-
-    public void removeTarget(String id) {
-        getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap().remove(id);
-    }
-
     @Override
     public String[] getProtectedValue() {
         return PROTECTED_VALUE;
@@ -90,6 +81,7 @@ public class Agent extends ModelWithAttributesMap implements IModel {
         return name;
     }
 
+    @Override
     public String getNewName(String name) {
         return name;
     }

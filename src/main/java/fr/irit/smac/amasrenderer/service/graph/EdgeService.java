@@ -25,6 +25,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.implementations.MultiGraph;
@@ -42,14 +44,16 @@ import javafx.beans.value.ObservableValue;
  * This service is related to the business logic about the edges of the graph of
  * agents
  */
-public class EdgeService {
+public class EdgeService implements IEdgeService {
 
     private Map<String, Agent> agentMap;
-    private MultiGraph              graph;
-    private AtomicInteger           idCount;
-    private SpriteManager           spriteManager;
-    private IGraphEdgeService       graphEdgeService;
-    private static EdgeService      instance = new EdgeService();
+    private MultiGraph         graph;
+    private AtomicInteger      idCount;
+    private SpriteManager      spriteManager;
+    private IGraphEdgeService  graphEdgeService;
+    private static EdgeService instance = new EdgeService();
+
+    private static final Logger LOGGER = Logger.getLogger(EdgeService.class.getName());
 
     public static EdgeService getInstance() {
 
@@ -69,16 +73,7 @@ public class EdgeService {
         this.agentMap = agentMap;
     }
 
-    /**
-     * Adds a directed edge from the source to the target. The edge to
-     * instantiate is defined in json file. This method is called when the user
-     * adds the edge by clicking on the graph of agents
-     * 
-     * @param idNodeSource
-     *            the id of the source node
-     * @param idNodeTarget
-     *            the id of the target node
-     */
+    @Override
     public void addEdge(String idNodeSource, String idNodeTarget) {
 
         File file = new File(getClass().getResource("../../json/initial_target.json").getFile());
@@ -93,12 +88,12 @@ public class EdgeService {
             targetModel.setAgentTarget(graph.getNode(idNodeTarget).getAttribute(Const.GS_UI_LABEL));
             targetModel.setAgentId(idNodeSource);
             targetModel.setName(id);
-                agentMap.get(idNodeSource).addTarget(targetModel, id);
+            agentMap.get(idNodeSource).getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap().put(id,
+                targetModel);
             handleTargetModelChange(targetModel, edge, mainSprite, agentMap.get(targetModel.getAgentId()));
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "An error occured during the loading of the json file target", e);
         }
     }
 
@@ -133,8 +128,10 @@ public class EdgeService {
 
                 edge.setAttribute(Const.GS_UI_LABEL, newValue);
                 mainSprite.setAttribute(Const.GS_UI_LABEL, newValue);
-                agentModel.removeTarget(oldValue);
-                agentModel.addTarget(target, newValue);
+                Map<String, Target> targetMap = agentModel.getCommonFeaturesModel().getFeatureSocial().getKnowledge()
+                    .getTargetMap();
+                targetMap.remove(oldValue);
+                targetMap.put(newValue, target);
             });
     }
 
@@ -143,6 +140,8 @@ public class EdgeService {
      * 
      * @param idNodeSource
      * @param idNodeTarget
+     * @param id
+     * @return the edge
      */
     public Edge addEdgeGraph(String idNodeSource, String idNodeTarget, String id) {
 
@@ -213,11 +212,6 @@ public class EdgeService {
 
     }
 
-    /**
-     * Removes an edge
-     * 
-     * @param edge
-     */
     public void removeEdge(String id) {
 
         if (graph.getEdge(id) != null) {
@@ -231,6 +225,10 @@ public class EdgeService {
         }
     }
 
+    /**
+     * This interface allows to the service to access to some methods of
+     * GraphService
+     */
     public interface IGraphEdgeService {
 
         public boolean getDisplayPort();

@@ -321,7 +321,7 @@ public class GraphController extends LoadSecondaryWindowController
                 graphService.setDisplayPort(false);
                 break;
             case DISPLAY_PORT:
-                graphService.displaySpriteEdge(displayNodeState == EDisplayNodeState.ACTIVE,
+                graphService.displaySpritesEdge(displayNodeState == EDisplayNodeState.ACTIVE,
                     foregroundNode, Const.PORT, Const.PORT_SPRITE_CLASS);
                 graphService.setDisplayPort(true);
                 break;
@@ -330,7 +330,7 @@ public class GraphController extends LoadSecondaryWindowController
                 graphService.setDisplayMain(false);
                 break;
             case DISPLAY_MAIN_SPRITE:
-                graphService.displaySpriteEdge(displayNodeState == EDisplayNodeState.ACTIVE,
+                graphService.displaySpritesEdge(displayNodeState == EDisplayNodeState.ACTIVE,
                     foregroundNode, Const.MAIN_SPRITE_EDGE, Const.MAIN_SPRITE_CLASS);
                 graphService.setDisplayMain(true);
                 break;
@@ -502,7 +502,7 @@ public class GraphController extends LoadSecondaryWindowController
 
         if (displayNodeState == EDisplayNodeState.ACTIVE) {
             displayNodeState = EDisplayNodeState.AT_EASE;
-            graphService.displayAllNodes();
+            graphService.displayAllNodesNormally();
         }
     }
 

@@ -23,6 +23,8 @@ package fr.irit.smac.amasrenderer.service.graph;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,22 +36,18 @@ import fr.irit.smac.amasrenderer.model.agent.feature.Feature;
  * This service is related to the business logic about the features of the graph
  * of the agents
  */
-public class FeatureService {
+public class FeatureService implements IFeatureService{
 
     private static FeatureService instance = new FeatureService();
+
+    private static final Logger LOGGER = Logger.getLogger(FeatureService.class.getName());
 
     public static FeatureService getInstance() {
 
         return instance;
     }
 
-    /**
-     * Adds a feature to the common features of an agent. The feature is
-     * instantiated with a json file
-     * 
-     * @param agent
-     * @return the feature
-     */
+    @Override
     public Feature addFeature(Agent agent) {
 
         File file = new File(getClass().getResource("../../json/initial_feature.json").getFile());
@@ -61,8 +59,7 @@ public class FeatureService {
             agent.getCommonFeaturesModel().getFeatures().put(Const.FEATURE, feature);
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "An error occured during the loading of the json file feature", e);
         }
 
         return feature;
