@@ -42,15 +42,6 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="PrimaryFeature">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TreeView fx:id="treePrimaryFeature" layoutY="9.0" prefHeight="408.0" prefWidth="972.0" styleClass="tree" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
             <Tab text="FeatureCommons">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="451.0" prefWidth="984.0">

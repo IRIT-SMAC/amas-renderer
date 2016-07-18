@@ -65,9 +65,6 @@ public class NodeAttributesController implements ISecondaryWindowController {
     private TreeView<String> treeCommonFeatures;
 
     @FXML
-    private TreeView<String> treePrimaryFeature;
-
-    @FXML
     private TreeView<String> treePortMap;
 
     @FXML
@@ -210,7 +207,6 @@ public class NodeAttributesController implements ISecondaryWindowController {
 
         initTextFields();
         initPortMap();
-        initPrimaryFeature();
         initCommonFeatures();
         initOthersAttributes();
     }
@@ -259,8 +255,6 @@ public class NodeAttributesController implements ISecondaryWindowController {
         listFeatures
             .setCellFactory(p -> new AttributesListCell<AbstractFeature>(new AttributesContextMenuList(),
                 new FeatureModelConverter(), features, listFeatures));
-
-        treePrimaryFeature.setEditable(true);
     }
 
     /**
@@ -278,21 +272,6 @@ public class NodeAttributesController implements ISecondaryWindowController {
                 new PortModelConverter(), ports, listPort));
 
         treePortMap.setEditable(true);
-    }
-
-    /**
-     * Initialises the tree of the primary feature
-     */
-    private void initPrimaryFeature() {
-
-        TreeItem<String> root = new TreeItem<>(Const.PRIMARY_FEATURE);
-        treePrimaryFeature.setRoot(root);
-        attributesService.fillAttributes(agent.getPrimaryFeature().getAttributesMap(), root,
-            (IModel) agent.getPrimaryFeature());
-
-        treePrimaryFeature
-            .setCellFactory(c -> new AttributesTreeCell(new AttributesContextMenuTree(), new DefaultStringConverter(),
-                agent.getPrimaryFeature()));
     }
 
 }

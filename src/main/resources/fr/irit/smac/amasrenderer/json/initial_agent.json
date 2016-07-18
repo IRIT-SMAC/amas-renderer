@@ -1,14 +1,10 @@
 {
 	"className":"package.implementationclass",
-	"primaryFeature":{
-		"skill":{
-			"className":"package.implementationclass"
-		},
-		"className":"package.implementationclass",
-		"knowledge":{
-			"className":"package.implementationclass"
-		}
-		
+	"skill":{
+		"className":"package.implementationclass"
+	},
+	"knowledge":{
+		"className":"package.implementationclass"
 	},
 	"commonFeatures":{
 		"featureBasic":{

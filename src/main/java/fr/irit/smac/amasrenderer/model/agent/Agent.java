@@ -28,8 +28,8 @@ import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.IModel;
 import fr.irit.smac.amasrenderer.model.ModelWithAttributesMap;
 import fr.irit.smac.amasrenderer.model.agent.feature.CommonFeatures;
-import fr.irit.smac.amasrenderer.model.agent.feature.Feature;
-import fr.irit.smac.amasrenderer.model.agent.feature.social.Target;
+import fr.irit.smac.amasrenderer.model.agent.feature.Knowledge;
+import fr.irit.smac.amasrenderer.model.agent.feature.Skill;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -40,8 +40,9 @@ public class Agent extends ModelWithAttributesMap implements IModel {
 
     private StringProperty name;
 
-    @JsonProperty
-    private Feature primaryFeature;
+    private Knowledge knowledge;
+
+    private Skill skill;
 
     @JsonProperty
     private CommonFeatures commonFeatures;
@@ -49,7 +50,7 @@ public class Agent extends ModelWithAttributesMap implements IModel {
     @JsonIgnore
     private String idGraph;
 
-    private static final String[] PROTECTED_VALUE = {};
+    private static final String[] PROTECTED_VALUE = { Const.SKILL, Const.KNOWLEDGE };
     private static final String[] NOT_EXPANDED    = { Const.TARGET_MAP };
 
     public Agent() {
@@ -105,8 +106,26 @@ public class Agent extends ModelWithAttributesMap implements IModel {
         return commonFeatures;
     }
 
-    public Feature getPrimaryFeature() {
-        return primaryFeature;
+    @JsonIgnore
+    public Knowledge getKnowledge() {
+        return knowledge;
+    }
+
+    @JsonIgnore
+    public Skill getSkill() {
+        return skill;
+    }
+
+    @JsonProperty
+    public void setKnowledge(Knowledge knowledge) {
+        this.knowledge = knowledge;
+        this.attributesMap.put(Const.KNOWLEDGE, knowledge.getAttributesMap());
+    }
+
+    @JsonProperty
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+        this.attributesMap.put(Const.SKILL, skill.getAttributesMap());
     }
 
 }
