@@ -23,11 +23,13 @@ package fr.irit.smac.amasrenderer.service.graph;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.graph.implementations.MultiNode;
@@ -158,8 +160,8 @@ public class NodeService implements INodeService {
     @Override
     public void removeNode(String id) {
 
-        MultiNode node = graph.getNode(id);
-        node.getEachEdge().forEach(edge -> graphNodeService.removeEdge(edge.getId()));
+        MultiNode node = graph.getNode(agentMap.get(id).getIdGraph());
+        graphNodeService.removeEdges(node.getEdgeSet());
         graph.removeNode(node);
         agentMap.remove(id);
     }
@@ -171,7 +173,7 @@ public class NodeService implements INodeService {
     @FunctionalInterface
     public interface IGraphNodeService {
 
-        public void removeEdge(String id);
+        public void removeEdges(Collection<Edge> edges);
 
     }
 }

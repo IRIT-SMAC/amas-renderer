@@ -28,7 +28,6 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.agent.Agent;
 import fr.irit.smac.amasrenderer.model.agent.feature.Feature;
 
@@ -48,15 +47,15 @@ public class FeatureService implements IFeatureService{
     }
 
     @Override
-    public Feature addFeature(Agent agent) {
+    public Feature addFeature(Agent agent, String name) {
 
         File file = new File(getClass().getResource("../../json/initial_feature.json").getFile());
         final ObjectMapper mapper = new ObjectMapper();
         Feature feature = null;
         try {
             feature = mapper.readValue(file, Feature.class);
-            feature.setName(Const.FEATURE);
-            agent.getCommonFeaturesModel().getFeatures().put(Const.FEATURE, feature);
+            feature.setName(name);
+            agent.getCommonFeaturesModel().getFeatures().put(name, feature);
         }
         catch (IOException e) {
             LOGGER.log(Level.SEVERE, "An error occured during the loading of the json file feature", e);

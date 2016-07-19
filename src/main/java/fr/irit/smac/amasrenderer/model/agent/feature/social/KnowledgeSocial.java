@@ -35,12 +35,15 @@ import fr.irit.smac.amasrenderer.model.agent.feature.Knowledge;
  */
 public class KnowledgeSocial extends Knowledge {
 
-    private Map<String, Target> targetMap = new HashMap<>();
+    private Map<String, Target> targetMap;
 
-    private Map<String, Port> portMap = new HashMap<>();
+    private Map<String, Port> portMap;
 
     public KnowledgeSocial() {
-        // Needed by Jackson
+        targetMap = new HashMap<>();
+        attributesMap.put(Const.TARGET_MAP, targetMap);
+        portMap = new HashMap<>();
+        attributesMap.put(Const.PORT_MAP, portMap);
     }
 
     @JsonIgnore

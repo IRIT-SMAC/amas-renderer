@@ -17,5 +17,5 @@ public interface IPortService {
      * @param agent
      * @return the port
      */
-    public Port addPort(Agent agent);
+    public Port addPort(Agent agent, String name);
 }

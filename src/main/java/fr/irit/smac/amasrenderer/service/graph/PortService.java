@@ -28,7 +28,6 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.model.agent.Agent;
 import fr.irit.smac.amasrenderer.model.agent.feature.social.Port;
 
@@ -47,15 +46,16 @@ public class PortService implements IPortService {
     }
 
     @Override
-    public Port addPort(Agent agent) {
+    public Port addPort(Agent agent, String name) {
 
         File file = new File(getClass().getResource("../../json/initial_port.json").getFile());
         final ObjectMapper mapper = new ObjectMapper();
         Port port = null;
         try {
             port = mapper.readValue(file, Port.class);
-            port.setName(Const.PORT);
-            agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().put(Const.PORT, port);
+            port.setName(name);
+            port.setId(name);
+            agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().put(name, port);
         }
         catch (IOException e) {
             LOGGER.log(Level.SEVERE, "An error occured during the loading of a json file port", e);

@@ -35,7 +35,7 @@ import javafx.beans.property.StringProperty;
 /**
  * This abstract model is used by the feature models
  */
-public abstract class AbstractFeature extends ModelWithAttributesMap implements IModel {
+public class AbstractFeature extends ModelWithAttributesMap implements IModel {
 
     protected StringProperty name;
 

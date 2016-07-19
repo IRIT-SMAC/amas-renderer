@@ -23,6 +23,9 @@ package fr.irit.smac.amasrenderer.service.graph;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -78,19 +81,20 @@ public class EdgeService implements IEdgeService {
 
         File file = new File(getClass().getResource("../../json/initial_target.json").getFile());
         final ObjectMapper mapper = new ObjectMapper();
-        Target targetModel = null;
+        Target target = null;
         try {
             String id = idNodeSource.concat(idNodeTarget);
             Edge edge = addEdgeGraph(agentMap.get(idNodeSource).getIdGraph(), agentMap.get(idNodeTarget).getIdGraph(),
                 id);
             Sprite mainSprite = addSpriteEdgeGraph(id, null, null);
-            targetModel = mapper.readValue(file, Target.class);
-            targetModel.setAgentTarget(graph.getNode(idNodeTarget).getAttribute(Const.GS_UI_LABEL));
-            targetModel.setAgentId(idNodeSource);
-            targetModel.setName(id);
+            target = mapper.readValue(file, Target.class);
+            Agent agent = agentMap.get(idNodeTarget);
+            target.setAgentTarget(graph.getNode(agent.getIdGraph()).getAttribute(Const.GS_UI_LABEL));
+            target.setAgentId(idNodeSource);
+            target.setName(id);
             agentMap.get(idNodeSource).getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap().put(id,
-                targetModel);
-            handleTargetModelChange(targetModel, edge, mainSprite, agentMap.get(targetModel.getAgentId()));
+                target);
+            handleTargetModelChange(target, edge, mainSprite, agentMap.get(target.getAgentId()));
         }
         catch (IOException e) {
             LOGGER.log(Level.SEVERE, "An error occured during the loading of the json file target", e);
@@ -119,16 +123,16 @@ public class EdgeService implements IEdgeService {
      * @param target
      * @param edge
      * @param mainSprite
-     * @param agentModel
+     * @param agent
      */
-    private void handleTargetModelChange(Target target, Edge edge, Sprite mainSprite, Agent agentModel) {
+    private void handleTargetModelChange(Target target, Edge edge, Sprite mainSprite, Agent agent) {
 
         target.nameProperty()
             .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
 
                 edge.setAttribute(Const.GS_UI_LABEL, newValue);
                 mainSprite.setAttribute(Const.GS_UI_LABEL, newValue);
-                Map<String, Target> targetMap = agentModel.getCommonFeaturesModel().getFeatureSocial().getKnowledge()
+                Map<String, Target> targetMap = agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge()
                     .getTargetMap();
                 targetMap.remove(oldValue);
                 targetMap.put(newValue, target);
@@ -212,17 +216,35 @@ public class EdgeService implements IEdgeService {
 
     }
 
+    @Override
     public void removeEdge(String id) {
 
-        if (graph.getEdge(id) != null) {
-            String sourceNodeIdModel = graph.getEdge(id).getSourceNode().getAttribute(Const.GS_UI_LABEL);
-            agentMap.get(sourceNodeIdModel).getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap()
-                .remove(graph.getEdge(id).getAttribute(Const.GS_UI_LABEL));
-            spriteManager.removeSprite(id.concat(Const.TARGET_PORT_SPRITE));
-            spriteManager.removeSprite(id.concat(Const.SOURCE_PORT_SPRITE));
-            spriteManager.removeSprite(id.concat(Const.MAIN_SPRITE));
-            graph.removeEdge(id);
-        }
+        String sourceNodeIdModel = graph.getEdge(id).getSourceNode().getAttribute(Const.GS_UI_LABEL);
+        agentMap.get(sourceNodeIdModel).getCommonFeaturesModel().getFeatureSocial().getKnowledge().getTargetMap()
+            .remove(graph.getEdge(id).getAttribute(Const.GS_UI_LABEL));
+        spriteManager.removeSprite(id.concat(Const.TARGET_PORT_SPRITE));
+        spriteManager.removeSprite(id.concat(Const.SOURCE_PORT_SPRITE));
+        spriteManager.removeSprite(id.concat(Const.MAIN_SPRITE));
+        graph.removeEdge(id);
+    }
+
+    public void removeEdges(Collection<Edge> edges) {
+
+        List<Edge> edgesToRemove = new ArrayList<>();
+        edges.forEach(edge -> {
+            if (edge != null) {
+                String id = edge.getId();
+                String sourceNodeIdModel = graph.getEdge(id).getSourceNode().getAttribute(Const.GS_UI_LABEL);
+                agentMap.get(sourceNodeIdModel).getCommonFeaturesModel().getFeatureSocial().getKnowledge()
+                    .getTargetMap()
+                    .remove(graph.getEdge(id).getAttribute(Const.GS_UI_LABEL));
+                spriteManager.removeSprite(id.concat(Const.TARGET_PORT_SPRITE));
+                spriteManager.removeSprite(id.concat(Const.SOURCE_PORT_SPRITE));
+                spriteManager.removeSprite(id.concat(Const.MAIN_SPRITE));
+                edgesToRemove.add(edge);
+            }
+        });
+        edges.removeAll(edgesToRemove);
     }
 
     /**

@@ -1,5 +1,4 @@
 {
 	"id":"port",
-	"type":null,
 	"className":"fr.irit.smac.amasfactory.agent.features.social.impl.Port"
 }

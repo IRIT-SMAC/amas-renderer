@@ -23,6 +23,7 @@ package fr.irit.smac.amasrenderer.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import fr.irit.smac.amasrenderer.Const;
@@ -67,7 +68,7 @@ public class AttributesService {
                 fillAttributesParent(attributesMap, parent, model, (Map<String, Object>) value, name);
             }
             else {
-                fillAttributesSingle(attributesMap, parent, (String) value, name);
+                fillAttributesSingle(attributesMap, parent, (Object) value, name);
             }
         });
 
@@ -82,20 +83,21 @@ public class AttributesService {
      * @param value
      * @param name
      */
-    private void fillAttributesSingle(Map<String, Object> attributesMap, TreeItem<String> parent, String value,
+    private void fillAttributesSingle(Map<String, Object> attributesMap, TreeItem<String> parent, Object value,
         String name) {
 
         TreeItem<String> item = new TreeItem<>();
 
         if (value != null) {
-            item.setValue(name + " : " + value);
+            item.setValue(name + " : " + value.toString());
         }
         else if (!name.contains(Const.NULL_STRING)) {
             item.setValue(name + " : " + Const.NULL_STRING);
+            value = Const.NULL_STRING;
         }
 
         item.setExpanded(true);
-        updateValueSingleNode(attributesMap, item);
+        updateValueSingleNode(attributesMap, item, value.toString());
         parent.getChildren().add(item);
     }
 
@@ -170,9 +172,10 @@ public class AttributesService {
     private void checkAddNode(Map<String, Object> attributesMap, TreeItem<String> item) {
 
         if (item.getValue().contains(":")) {
+
             String[] val = item.getValue().split("\\:");
             attributesMap.put(val[0].trim(), val[1]);
-            updateValueSingleNode(attributesMap, item);
+            updateValueSingleNode(attributesMap, item, val[1]);
         }
         else {
             Map<String, Object> map = new HashMap<>();
@@ -205,13 +208,29 @@ public class AttributesService {
      * @param attributesMap
      * @param item
      */
-    private void updateValueSingleNode(Map<String, Object> attributesMap, TreeItem<String> item) {
+    private void updateValueSingleNode(Map<String, Object> attributesMap, TreeItem<String> item, String value) {
 
         item.valueProperty().addListener((c, oldValue, newValue) -> {
             String[] newValueSplit = newValue.split("\\:");
             String[] oldValueSplit = oldValue.split("\\:");
             attributesMap.remove(oldValueSplit[0].trim());
-            attributesMap.put(newValueSplit[0].trim(), newValueSplit[1]);
+
+            String decimalPattern = "([0-9]*)\\.([0-9]*)";
+            String valueTrim = newValueSplit[1].trim();
+            boolean match = Pattern.matches(decimalPattern, valueTrim);
+            if (match) {
+                attributesMap.put(newValueSplit[0].trim(), Double.parseDouble(valueTrim));
+            }
+            else if (Pattern.matches("([0-9]*)", valueTrim)) {
+                attributesMap.put(newValueSplit[0].trim(), Integer.parseInt(valueTrim));
+            }
+            else if ("true".equals(valueTrim) || "false".equals(valueTrim)) {
+                attributesMap.put(newValueSplit[0].trim(), Boolean.parseBoolean(valueTrim));
+            }
+            else {
+                attributesMap.put(newValueSplit[0].trim(), valueTrim);
+            }
         });
+
     }
 }

@@ -17,5 +17,5 @@ public interface IFeatureService {
      * @param agent
      * @return the feature
      */
-    public Feature addFeature(Agent agent);
+    public Feature addFeature(Agent agent, String name);
 }

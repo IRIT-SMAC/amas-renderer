@@ -4,7 +4,6 @@ package fr.irit.smac.amasrenderer.service.graph;
  * This interface defines the methods implemented by GraphService and
  * EdgeService
  */
-@FunctionalInterface
 public interface IEdgeService {
 
     /**
@@ -18,4 +17,13 @@ public interface IEdgeService {
      *            the id of the target node
      */
     public void addEdge(String idNodeSource, String idNodeTarget);
+
+    /**
+     * Removes an edge
+     * 
+     * @param id
+     *            the id of the edge
+     */
+    public void removeEdge(String id);
+
 }

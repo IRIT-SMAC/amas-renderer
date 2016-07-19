@@ -28,10 +28,10 @@ import org.graphstream.graph.Node;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
+import fr.irit.smac.amasrenderer.controller.LoadSecondaryWindowController;
 import fr.irit.smac.amasrenderer.model.IModel;
 import fr.irit.smac.amasrenderer.model.agent.Agent;
 import fr.irit.smac.amasrenderer.model.agent.feature.AbstractFeature;
-import fr.irit.smac.amasrenderer.model.agent.feature.Feature;
 import fr.irit.smac.amasrenderer.model.agent.feature.social.Port;
 import fr.irit.smac.amasrenderer.service.AttributesService;
 import fr.irit.smac.amasrenderer.service.graph.GraphService;
@@ -56,7 +56,7 @@ import javafx.util.converter.DefaultStringConverter;
 /**
  * This controller is related to the attributes of an agent
  */
-public class NodeAttributesController implements ISecondaryWindowController {
+public class NodeAttributesController extends LoadSecondaryWindowController implements ISecondaryWindowController {
 
     @FXML
     private Button confButton;
@@ -111,8 +111,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
      */
     @FXML
     public void addPort() {
-        Port port = graphService.addPort(agent);
-        ports.add(port);
+        loadFxml(window, "view/graph/ListAttributeAddition.fxml", false, Const.PORT, ports, agent);
     }
 
     /**
@@ -122,9 +121,7 @@ public class NodeAttributesController implements ISecondaryWindowController {
     @FXML
     public void addFeature() {
 
-        Feature feature = graphService.addFeature(agent);
-        features.add(feature);
-
+        loadFxml(window, "view/graph/ListAttributeAddition.fxml", false, Const.FEATURE, features, agent);
     }
 
     /**

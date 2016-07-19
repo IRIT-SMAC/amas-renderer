@@ -19,14 +19,18 @@
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
  * #L%
  */
-package fr.irit.smac.amasrenderer.controller.tool;
+package fr.irit.smac.amasrenderer.controller.graph;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import fr.irit.smac.amasrenderer.Const;
 import fr.irit.smac.amasrenderer.controller.ISecondaryWindowController;
-import fr.irit.smac.amasrenderer.service.ToolService;
+import fr.irit.smac.amasrenderer.model.agent.Agent;
+import fr.irit.smac.amasrenderer.model.agent.feature.AbstractFeature;
+import fr.irit.smac.amasrenderer.model.agent.feature.social.Port;
+import fr.irit.smac.amasrenderer.service.graph.GraphService;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -37,7 +41,7 @@ import javafx.stage.Stage;
 /**
  * This controller is related to the addition of a tool
  */
-public class ToolAdditionController implements Initializable, ISecondaryWindowController {
+public class ListAttributeAdditionController<T> implements Initializable, ISecondaryWindowController {
 
     @FXML
     private Button buttonConfirm;
@@ -46,31 +50,44 @@ public class ToolAdditionController implements Initializable, ISecondaryWindowCo
     private Button buttonCancel;
 
     @FXML
-    private TextField textfieldTool;
+    private TextField textfieldName;
 
     @FXML
     private Text invalidField;
 
     private Stage stage;
 
-    private ToolService toolService = ToolService.getInstance();
+    private GraphService graphService = GraphService.getInstance();
+
+    private ObservableList<T> list;
+
+    private String type;
+
+    private Agent agent;
 
     /**
-     * When the button confirm is clicked, the tool is added if the name is
+     * When the button confirm is clicked, the attribute is added if the name is
      * correct
      */
+    @SuppressWarnings("unchecked")
     @FXML
     public void clickConfirm() {
 
-        String toolName = textfieldTool.getText();
-        if (toolName != null
-            && !toolName.trim().isEmpty()
-            && !toolName.trim().contains(" ")) {
+        String name = textfieldName.getText();
+        if (name != null
+            && !name.trim().isEmpty()
+            && !name.trim().contains(" ")) {
 
-            String newName = toolName.endsWith(Const.TOOL) ? toolName : toolName.concat(Const.TOOL);
+            if (type.equals(Const.PORT)
+                && !agent.getCommonFeaturesModel().getFeatureSocial().getKnowledge().getPortMap().containsKey(name)) {
 
-            if (!toolService.getTools().stream().anyMatch(tool -> tool.getName().equals(newName))) {
-                toolService.addTool(toolName);
+                Port port = graphService.addPort(agent, name);
+                list.add((T) port);
+                stage.close();
+            }
+            else if (type.equals(Const.FEATURE) && !agent.getCommonFeaturesModel().getFeatures().containsKey(name)) {
+                AbstractFeature feature = graphService.addFeature(agent, name);
+                list.add((T) feature);
                 stage.close();
             }
             else {
@@ -84,8 +101,8 @@ public class ToolAdditionController implements Initializable, ISecondaryWindowCo
     }
 
     /**
-     * When the cancel button is clicked, no tool is added and the modal window
-     * is closed
+     * When the cancel button is clicked, no attribute is added and the modal
+     * window is closed
      */
     @FXML
     public void clickCancel() {
@@ -97,8 +114,13 @@ public class ToolAdditionController implements Initializable, ISecondaryWindowCo
         invalidField.setVisible(false);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void init(Stage stage, Object... args) {
         this.stage = stage;
+        type = (String) args[0];
+        list = (ObservableList<T>) args[1];
+        agent = (Agent) args[2];
+
     }
 }

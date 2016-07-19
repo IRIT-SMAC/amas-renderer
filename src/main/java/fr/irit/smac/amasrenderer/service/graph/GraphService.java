@@ -22,10 +22,12 @@
 package fr.irit.smac.amasrenderer.service.graph;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.spriteManager.Sprite;
@@ -184,15 +186,21 @@ public class GraphService implements IGraphEdgeService, IGraphNodeService, INode
 
         edgeService.removeEdge(id);
     }
-
+    
     @Override
-    public Feature addFeature(Agent agent) {
-        return featureService.addFeature(agent);
+    public void removeEdges(Collection<Edge> edges) {
+
+        edgeService.removeEdges(edges);
     }
 
     @Override
-    public Port addPort(Agent agent) {
-        return portService.addPort(agent);
+    public Feature addFeature(Agent agent, String name) {
+        return featureService.addFeature(agent, name);
+    }
+
+    @Override
+    public Port addPort(Agent agent, String name) {
+        return portService.addPort(agent, name);
     }
 
     @Override
