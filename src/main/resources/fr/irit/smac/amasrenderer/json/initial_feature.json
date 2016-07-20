@@ -2,7 +2,7 @@
 	"skill":{
 		"className":"package.implementationclass"
 	},
-	"className":"package.implementationclass",
+	"className":"fr.irit.smac.amasfactory.agent.features.impl.Feature",
 	"knowledge":{
 		"className":"package.implementationclass"
 	}

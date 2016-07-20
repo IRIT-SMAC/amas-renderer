@@ -19,7 +19,7 @@ class InfrastructureTest extends GuiSpecification{
     InfrastructureService infrastructureService
 
     @Shared
-    String itemId = "className : fr.irit.smac.amasfactory.impl.BasicInfrastructure"
+    String itemId = "className : fr.irit.smac.amasfactory.infrastructure.impl.Infrastructure"
 
     def setup() {
         setupStage { stage ->

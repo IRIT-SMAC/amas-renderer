@@ -41,7 +41,7 @@ public class LoadSaveServiceTest extends Specification{
 
         then:
         graphService.getGraph().getNodeCount() == 12
-        infrastructureService.getInfrastructure().getName() == "BasicInfrastructure"
+        infrastructureService.getInfrastructure().getName() == "Infrastructure"
         toolService.getTools().size() == 5
     }
 
@@ -64,7 +64,7 @@ public class LoadSaveServiceTest extends Specification{
 
         then:
         graphService.getGraph().getNodeCount() == 4
-        infrastructureService.getInfrastructure().getName() == "BasicInfrastructure"
+        infrastructureService.getInfrastructure().getName() == "Infrastructure"
         toolService.getTools().size() == 6
         Files.delete(Paths.get(file.getPath()))
     }

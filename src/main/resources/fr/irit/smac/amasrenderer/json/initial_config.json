@@ -1,5 +1,5 @@
 {
-	"className":"fr.irit.smac.amasfactory.impl.BasicInfrastructure",
+	"className":"fr.irit.smac.amasfactory.infrastructure.impl.Infrastructure",
 	"services":{
 		"className":"fr.irit.smac.amasfactory.service.impl.Services",
 		"agentHandlerService":{
@@ -9,8 +9,7 @@
 			
 		},
 		"messagingService":{
-			"className":"fr.irit.smac.amasfactory.service.messaging.impl.MessagingService",
-			"messageClass":"fr.irit.smac.amasfactory.factoryclientdemo.DemoMessage"
+			"className":"fr.irit.smac.amasfactory.service.messaging.impl.MessagingService"
 		},
 		"executionService":{
 			"className":"fr.irit.smac.amasfactory.service.execution.impl.TwoStepAgExecutionService"

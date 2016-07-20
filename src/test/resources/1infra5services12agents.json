@@ -1,5 +1,5 @@
 {
-	"className":"fr.irit.smac.amasfactory.impl.BasicInfrastructure",
+	"className":"fr.irit.smac.amasfactory.infrastructure.impl.Infrastructure",
 	"services":{
 		"executionService":{
 			"className":"fr.irit.smac.amasfactory.service.execution.impl.TwoStepAgExecutionService"
@@ -15,6 +15,7 @@
 						"knowledge":{
 							"className":"package.implementationclass"
 						}
+						
 					},
 					"commonFeatures":{
 						"featureBasic":{
@@ -26,6 +27,7 @@
 								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
 								"id":"11"
 							}
+							
 						},
 						"className":"package.implementationclass",
 						"featureSocial":{
@@ -60,10 +62,15 @@
 										"portTarget":null,
 										"agentTarget":"9"
 									}
+									
 								}
+								
 							}
+							
 						}
+						
 					}
+					
 				},
 				"1":{
 					"primaryFeature":{
@@ -74,6 +81,7 @@
 						"knowledge":{
 							"className":"package.implementationclass"
 						}
+						
 					},
 					"commonFeatures":{
 						"featureBasic":{
@@ -85,6 +93,7 @@
 								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
 								"id":"1"
 							}
+							
 						},
 						"className":"package.implementationclass",
 						"featureSocial":{
@@ -119,10 +128,15 @@
 										"portTarget":null,
 										"agentTarget":"3"
 									}
+									
 								}
+								
 							}
+							
 						}
+						
 					}
+					
 				},
 				"12":{
 					"primaryFeature":{
@@ -133,6 +147,7 @@
 						"knowledge":{
 							"className":"package.implementationclass"
 						}
+						
 					},
 					"commonFeatures":{
 						"featureBasic":{
@@ -144,6 +159,7 @@
 								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
 								"id":"12"
 							}
+							
 						},
 						"className":"package.implementationclass",
 						"featureSocial":{
@@ -178,10 +194,15 @@
 										"portTarget":null,
 										"agentTarget":"12"
 									}
+									
 								}
+								
 							}
+							
 						}
+						
 					}
+					
 				},
 				"2":{
 					"primaryFeature":{
@@ -192,6 +213,7 @@
 						"knowledge":{
 							"className":"package.implementationclass"
 						}
+						
 					},
 					"commonFeatures":{
 						"featureBasic":{
@@ -203,6 +225,7 @@
 								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
 								"id":"2"
 							}
+							
 						},
 						"className":"package.implementationclass",
 						"featureSocial":{
@@ -237,10 +260,15 @@
 										"portTarget":null,
 										"agentTarget":"1"
 									}
+									
 								}
+								
 							}
+							
 						}
+						
 					}
+					
 				},
 				"3":{
 					"primaryFeature":{
@@ -251,6 +279,7 @@
 						"knowledge":{
 							"className":"package.implementationclass"
 						}
+						
 					},
 					"commonFeatures":{
 						"featureBasic":{
@@ -262,6 +291,7 @@
 								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
 								"id":"3"
 							}
+							
 						},
 						"className":"package.implementationclass",
 						"featureSocial":{
@@ -296,10 +326,15 @@
 										"portTarget":null,
 										"agentTarget":"3"
 									}
+									
 								}
+								
 							}
+							
 						}
+						
 					}
+					
 				},
 				"4":{
 					"primaryFeature":{
@@ -310,6 +345,7 @@
 						"knowledge":{
 							"className":"package.implementationclass"
 						}
+						
 					},
 					"commonFeatures":{
 						"featureBasic":{
@@ -321,6 +357,7 @@
 								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
 								"id":"4"
 							}
+							
 						},
 						"className":"package.implementationclass",
 						"featureSocial":{
@@ -355,10 +392,15 @@
 										"portTarget":null,
 										"agentTarget":"4"
 									}
+									
 								}
+								
 							}
+							
 						}
+						
 					}
+					
 				},
 				"5":{
 					"primaryFeature":{
@@ -369,6 +411,7 @@
 						"knowledge":{
 							"className":"package.implementationclass"
 						}
+						
 					},
 					"commonFeatures":{
 						"featureBasic":{
@@ -380,6 +423,7 @@
 								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
 								"id":"5"
 							}
+							
 						},
 						"className":"package.implementationclass",
 						"featureSocial":{
@@ -414,10 +458,15 @@
 										"portTarget":null,
 										"agentTarget":"7"
 									}
+									
 								}
+								
 							}
+							
 						}
+						
 					}
+					
 				},
 				"6":{
 					"primaryFeature":{
@@ -428,6 +477,7 @@
 						"knowledge":{
 							"className":"package.implementationclass"
 						}
+						
 					},
 					"commonFeatures":{
 						"featureBasic":{
@@ -439,6 +489,7 @@
 								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
 								"id":"6"
 							}
+							
 						},
 						"className":"package.implementationclass",
 						"featureSocial":{
@@ -473,10 +524,15 @@
 										"portTarget":null,
 										"agentTarget":"2"
 									}
+									
 								}
+								
 							}
+							
 						}
+						
 					}
+					
 				},
 				"7":{
 					"primaryFeature":{
@@ -487,6 +543,7 @@
 						"knowledge":{
 							"className":"package.implementationclass"
 						}
+						
 					},
 					"commonFeatures":{
 						"featureBasic":{
@@ -498,6 +555,7 @@
 								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
 								"id":"7"
 							}
+							
 						},
 						"className":"package.implementationclass",
 						"featureSocial":{
@@ -532,10 +590,15 @@
 										"portTarget":null,
 										"agentTarget":"5"
 									}
+									
 								}
+								
 							}
+							
 						}
+						
 					}
+					
 				},
 				"8":{
 					"primaryFeature":{
@@ -546,6 +609,7 @@
 						"knowledge":{
 							"className":"package.implementationclass"
 						}
+						
 					},
 					"commonFeatures":{
 						"featureBasic":{
@@ -557,6 +621,7 @@
 								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
 								"id":"8"
 							}
+							
 						},
 						"className":"package.implementationclass",
 						"featureSocial":{
@@ -591,10 +656,15 @@
 										"portTarget":null,
 										"agentTarget":"12"
 									}
+									
 								}
+								
 							}
+							
 						}
+						
 					}
+					
 				},
 				"9":{
 					"primaryFeature":{
@@ -605,6 +675,7 @@
 						"knowledge":{
 							"className":"package.implementationclass"
 						}
+						
 					},
 					"commonFeatures":{
 						"featureBasic":{
@@ -616,6 +687,7 @@
 								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
 								"id":"9"
 							}
+							
 						},
 						"className":"package.implementationclass",
 						"featureSocial":{
@@ -650,10 +722,15 @@
 										"portTarget":null,
 										"agentTarget":"9"
 									}
+									
 								}
+								
 							}
+							
 						}
+						
 					}
+					
 				},
 				"10":{
 					"primaryFeature":{
@@ -664,6 +741,7 @@
 						"knowledge":{
 							"className":"package.implementationclass"
 						}
+						
 					},
 					"commonFeatures":{
 						"featureBasic":{
@@ -675,6 +753,7 @@
 								"className":"fr.irit.smac.amasfactory.agent.features.basic.impl.KnowledgeBasic",
 								"id":"10"
 							}
+							
 						},
 						"className":"package.implementationclass",
 						"featureSocial":{
@@ -709,11 +788,17 @@
 										"portTarget":null,
 										"agentTarget":"1"
 									}
+									
 								}
+								
 							}
+							
 						}
+						
 					}
+					
 				}
+				
 			},
 			"className":"fr.irit.smac.amasfactory.service.agenthandler.impl.BasicAgentHandler"
 		},
@@ -727,5 +812,6 @@
 		"hazelcastService":{
 			"className":"fr.irit.smac.amasfactory.service.datasharing.impl.HazelcastSharingService"
 		}
+		
 	}
 }
